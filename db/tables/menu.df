@@ -1,0 +1,124 @@
+/*
+DEF TEMP-TABLE menu NO-UNDO
+        FIELD id                AS INT64
+        FIELD version           AS INT64
+        FIELD state             AS INT64
+        FIELD modify_date       AS DATETIME
+        FIELD create_date       AS DATETIME
+        FIELD modify_user       AS CHAR
+        FIELD create_user       AS CHAR
+
+        FIELD position          AS INT
+        FIELD functionName      AS CHAR
+        FIELD procedureName     AS CHAR
+        FIELD slug              AS CHAR
+        FIELD description       AS CHAR
+        
+        INDEX id id
+        INDEX version version
+        INDEX state state
+        INDEX account_id account_id
+        INDEX name name 
+        INDEX modify_date modify_date
+        INDEX is_active is_active
+    .
+*/
+
+ADD TABLE "menu"
+    AREA "System Data"
+    DESCRIPTION "ABS System data tables"
+
+ADD FIELD "id" OF "menu" AS INT64
+    FORMAT ">>>>>>>>>>>9"
+    INITIAL "0"
+    POSITION 2
+    MAX-WIDTH 4
+    ORDER 10
+
+ADD FIELD "version" OF "menu" AS INT64
+    FORMAT ">>>>>>>>>>>9"
+    INITIAL "0"
+    POSITION 3
+    MAX-WIDTH 4
+    ORDER 20
+
+ADD FIELD "state" OF "menu" AS INT64
+    FORMAT ">>>9"
+    INITIAL "0"
+    POSITION 4
+    MAX-WIDTH 4
+    ORDER 30
+
+ADD FIELD "modify_date" OF "menu" AS DATETIME
+    FORMAT "99.99.99 hh:mm:ss"
+    INITIAL "now"
+    POSITION 5
+    MAX-WIDTH 4
+    ORDER 40
+
+ADD FIELD "modify_user" OF "menu" AS CHAR
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 6
+    MAX-WIDTH 4
+    ORDER 50
+
+ADD FIELD "create_date" OF "menu" AS DATETIME
+    FORMAT "99.99.99 hh:mm:ss"
+    INITIAL "now"
+    POSITION 7
+    MAX-WIDTH 4
+    ORDER 60
+
+ADD FIELD "create_user" OF "menu" AS CHAR
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 8
+    MAX-WIDTH 4
+    ORDER 70
+
+
+ADD FIELD "position" OF "menu" AS int
+    FORMAT ">>9"
+    INITIAL "1"
+    POSITION 9
+    MAX-WIDTH 4
+    ORDER 80
+
+ADD FIELD "functionName" OF "menu" AS CHAR
+    FORMAT "X(15)"
+    INITIAL ""
+    POSITION 10
+    MAX-WIDTH 4
+    ORDER 90
+
+ADD FIELD "procedureName" OF "menu" AS CHAR
+    FORMAT "X(20)"
+    INITIAL ""
+    POSITION 11
+    MAX-WIDTH 4
+    ORDER 100
+
+ADD FIELD "slug" OF "menu" AS CHAR
+    FORMAT "X(50)"
+    INITIAL ""
+    POSITION 12
+    MAX-WIDTH 4
+    ORDER 110
+
+ADD FIELD "description" OF "menu" AS CHAR
+    FORMAT "X(50)"
+    INITIAL ""
+    POSITION 13
+    MAX-WIDTH 4
+    ORDER 120
+
+
+
+.
+PSC
+cpstream=UTF-8
+.
+0000001662
+
+
