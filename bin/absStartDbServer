@@ -4,6 +4,9 @@
 . ./absGlobal
 . ./absPropath
 
+mkdir $SESSIONS_PATH 2>/dev/null
+chmod a+rwx $SESSIONS_PATH 2>/dev/null
+
 proserve $absDb -clientlog $absLogFile -T /tmp
 
 
