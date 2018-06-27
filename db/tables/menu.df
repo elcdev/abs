@@ -87,7 +87,20 @@ ADD FIELD "description" OF "menu" AS CHAR
     MAX-WIDTH 4
     ORDER 120
 
-
+ADD FIELD "action" OF "menu" AS CHAR
+    FORMAT "X(50)"
+    INITIAL ""
+    POSITION 14
+    MAX-WIDTH 4
+    ORDER 130
+    
+ADD FIELD "parent_id" OF "menu" AS INT64
+    FORMAT ">>>>>>>>>>>9"
+    INITIAL "0"
+    POSITION 15
+    MAX-WIDTH 4
+    ORDER 140
+    
 
 .
 PSC
