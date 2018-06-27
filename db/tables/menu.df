@@ -88,7 +88,7 @@ ADD FIELD "description" OF "menu" AS CHAR
     ORDER 120
 
 ADD FIELD "action" OF "menu" AS CHAR
-    FORMAT "X(50)"
+    FORMAT "X(10)"
     INITIAL ""
     POSITION 14
     MAX-WIDTH 4
