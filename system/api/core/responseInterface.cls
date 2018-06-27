@@ -1,0 +1,5 @@
+INTERFACE responseInterface:
+
+    METHOD PUBLIC LONGCHAR getJson().
+
+END INTERFACE.

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+absRoot=/home/abs
+absRCode=$absRoot/bin/rcode
+absLog=$absRoot/log
+absLogFile=$absRoot/log/abs.log
+absDb=$absRoot/db/data/absdb.db
+SESSIONS_PATH=$absRoot/www/tmp/sessions/
+
+export absRoot SESSIONS_PATH absRCode
+
+

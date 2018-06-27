@@ -1,0 +1,4 @@
+#!/bin/bash
+
+./absEditor menu.p
+

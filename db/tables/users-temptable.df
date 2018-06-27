@@ -1,0 +1,105 @@
+/*
+DEF TEMP-TABLE users NO-UNDO
+        FIELD id                AS INT64
+        FIELD version           AS INT64
+        FIELD state             AS CHAR
+        FIELD modify_date       AS DATETIME
+        FIELD create_date       AS DATETIME
+        FIELD modify_user       AS CHAR
+        FIELD create_user       AS CHAR
+
+        FIELD user              AS CHAR
+        FIELD firstName         AS CHAR
+        FIELD lastName          AS CHAR
+        FIELD roles             AS CHAR
+        
+        INDEX id id
+        INDEX version version
+        INDEX state state
+        INDEX user user
+        INDEX firstName firstName 
+        INDEX modify_date modify_date
+    .
+*/
+
+ADD TABLE "users"
+    AREA "System Data"
+    DESCRIPTION "ABS System data tables"
+
+ADD FIELD "id" OF "users" AS INT64
+    FORMAT ">>>>>>>>>>>9"
+    INITIAL "0"
+    POSITION 2
+    MAX-WIDTH 4
+    ORDER 10
+
+ADD FIELD "version" OF "users" AS INT64
+    FORMAT ">>>>>>>>>>>9"
+    INITIAL "0"
+    POSITION 3
+    MAX-WIDTH 4
+    ORDER 20
+
+ADD FIELD "state" OF "users" AS INT64
+    FORMAT ">>>9"
+    INITIAL "0"
+    POSITION 4
+    MAX-WIDTH 4
+    ORDER 30
+
+ADD FIELD "modify_date" OF "users" AS DATETIME
+    FORMAT "99.99.99 hh:mm:ss"
+    INITIAL "0"
+    POSITION 5
+    MAX-WIDTH 4
+    ORDER 40
+
+ADD FIELD "modify_user" OF "users" AS CHAR
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 6
+    MAX-WIDTH 4
+    ORDER 50
+
+ADD FIELD "create_date" OF "users" AS DATETIME
+    FORMAT "99.99.99 hh:mm:ss"
+    INITIAL "0"
+    POSITION 7
+    MAX-WIDTH 4
+    ORDER 60
+
+ADD FIELD "create_user" OF "users" AS CHAR
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 8
+    MAX-WIDTH 4
+    ORDER 70
+
+ADD FIELD "user" OF "users" AS CHAR
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 9
+    MAX-WIDTH 4
+    ORDER 80
+
+ADD FIELD "firstName" OF "users" AS CHAR
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 10
+    MAX-WIDTH 4
+    ORDER 90
+
+ADD FIELD "lastName" OF "users" AS CHAR
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 11
+    MAX-WIDTH 4
+    ORDER 100
+
+ADD FIELD "roles" OF "users" AS CHAR
+    FORMAT "X(50)"
+    INITIAL ""
+    POSITION 12
+    MAX-WIDTH 4
+    ORDER 110
+

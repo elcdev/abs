@@ -1,0 +1,170 @@
+<html>
+<head>
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+</head>
+<body>
+
+	<div id="dashboardMenu1" dataType="menu" dataSource="/api/menu/getjson"></div>
+	<div id="dashboardMenu2" dataType="singleItem" dataSource="/api/item1/getjson">
+		    <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Panel title</h3>
+                    <span class="pull-right">
+                        <!-- Tabs -->
+                        <ul class="nav panel-tabs">
+                            <li class="active"><a href="#tab1" data-toggle="tab" class="tablink">Tab 1</a></li>
+                        </ul>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active description" id="tab1"></div>
+                    </div>
+                </div>
+            </div>
+	</div>
+	
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	
+	<script>
+		var jsonMenu = 
+			{
+			   menu: 
+				  [
+					 {position: '1', name: 'Croatia', position: '1', link: '0', sub: null},
+					 {position: '2', name: 'England', link: '1', sub: 
+						[
+						   {position: '1-1', name: 'Arsenal',link: '0-0', sub: null},
+						   {position: '1-2', name: 'Liverpool',link: '0-1', sub: null},
+						   {position: '1-3', name: 'Manchester United',link: '0-2', sub: null}
+						]
+					 },
+					 {position: '3', name: 'Spain', link: '2', sub: 
+						[
+						   {position: '3-1', name: 'Barcelona',link: '2-0', sub: null},
+						   {position: '3-2', name: 'Real Madrid',link: '2-1', sub: null}
+						]
+					  },        
+					  {position: '4', name: 'Germany', link: '3',sub: 
+						[
+						   {position: '4-1', name: 'Bayern Munich',link: '3-1', sub: null},
+						   {position: '4-2', name: 'Borrusia Dortmund',link: '3-2', sub: null}
+						]
+					  }
+				  ]
+			};
+
+		var jsonItem = 
+			{
+			   item: 
+				  [
+					 {title: 'title 1', subtitle: 'subtitle 1', description: 'description 1'}
+				  ]
+			};
+		
+		function isset (obj) { return typeof obj !== 'undefined'; }
+		
+		var getListItem = function (itemData) {
+			var item;
+			var position = " ";
+			
+			if(isset(itemData.position)) position = itemData.position + " ";
+			
+			if (itemData.link != "") {
+				item = $("<li>").append(position).append(
+					$("<a>", {
+						href: '#' + itemData.link,
+						html: itemData.name
+				}));
+			}
+			else {
+				item = $("<li>", {html: position + itemData.name});
+			}
+			
+			if (itemData.sub) {
+				var subList = $("<ul>");
+				$.each(itemData.sub, function () {
+					subList.append(getListItem(this));
+				});
+				item.append(subList);
+			}
+			
+			
+			return item;
+		}
+
+		function loadItems(containerName, listItems) {
+			var container = $(containerName);
+			
+			$.each(listItems.menu, function () {
+				container.append(
+					getListItem(this)
+				);
+			});
+		}
+		
+		function loadSingleItem(containerName, itemData) {
+			var container = $(containerName);
+			var item = itemData.item[0];
+			
+			//console.log(itemData);
+			//console.log(item.title);
+			//console.log(item.subtitle);
+			//console.log(item.description);
+			
+			container.find(".panel-title").html(item.title);
+			container.find(".tablink").html(item.subtitle);
+			container.find(".description").html(item.description);
+		}
+		
+		function loadUrlItems(containerName, url, loadItems) {
+			if(url == "/api/menu/getjson") {
+				return loadItems(containerName, jsonMenu);
+			}
+
+			if(url == "/api/item1/getjson") {
+				console.log('json item');
+				console.log(jsonItem);
+				console.log(containerName);
+				return loadItems(containerName, jsonItem);
+			}
+			
+			$.getJSON(url, data, function (data, status) {
+				if (status === 200) {
+					return loadItems(containerName, data);
+				}
+			});
+		}
+		
+		function loadApiData() {
+			function processDataObjects(object) {
+				switch(object.attr('dataType')) {
+					case 'menu':
+						loadUrlItems("#" + object.attr('id'), object.attr('dataSource'), loadItems);
+						break;
+					case 'singleItem':
+						loadUrlItems("#" + object.attr('id'), object.attr('dataSource'), loadSingleItem);
+						break;
+					default:
+						console.log("Undefined dataType in load site data: " + object.attr('dataType'));
+						console.log(object);
+						console.log(object.attr('dataType'));
+						console.log(object.attr('dataSource'));
+						console.log(object.attr('id'));
+						break;
+				}
+			}
+			
+			$("[dataType]").each(function() {
+					processDataObjects($(this));
+				}
+			);
+		}
+		
+		loadApiData();
+
+	</script>
+</body>
+</html>

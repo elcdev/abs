@@ -1,0 +1,1 @@
+In this folder stored empty database with all db structiure

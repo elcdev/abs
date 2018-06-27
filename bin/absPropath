@@ -1,0 +1,12 @@
+#!/bin/bash
+
+cd $absRoot
+
+subfolders=""
+
+for f in `ls -R -D *|grep :|grep -v public|grep -v session|grep -v "/tmp/"|grep -v rcode`
+ do
+  subfolders=$subfolders$absRoot/$f
+done
+
+PROPATH=$PROPATH:$subfolders

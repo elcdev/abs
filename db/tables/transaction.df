@@ -1,0 +1,28 @@
+/*
+DEF TEMP-TABLE transaction NO-UNDO
+        FIELD id                AS INT64
+        FIELD version           AS INT64
+        FIELD state             AS INT64
+        FIELD modify_date       AS DATETIME
+        FIELD create_date       AS DATETIME
+        FIELD modify_user       AS CHAR
+        FIELD create_user       AS CHAR
+        
+        FIELD balance_date      AS DATE
+        FIELD general_ledget    AS CHAR
+        FIELD account           AS CHAR
+        FIELD debit_amount      AS DEC
+        FIELD credit_amount     AS DEC
+        FIELD operation_type    AS CHAR INIT "" /* FEE; CASH; MBO; e.t.c */
+        FIELD tags              AS CHAR INIT "" /* FEE; CASH; MBO; e.t.c */
+        FIELD is_processed      AS INT /* 0-new; */
+        
+        INDEX id id
+        INDEX version version
+        INDEX state state
+        INDEX account_id account_id
+        INDEX name name 
+        INDEX modify_date modify_date
+        INDEX is_active is_active
+    .
+*/

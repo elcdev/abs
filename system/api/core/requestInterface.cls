@@ -1,0 +1,3 @@
+INTERFACE requestInterface:
+
+END INTERFACE.

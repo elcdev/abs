@@ -1,0 +1,16 @@
+#!/bin/bash
+
+TERM=linux
+#alias __H=$(print '\1002') # ^Q = HOME = Home button
+JAVA_HOME=/opt/10.2.B/skyward/dlc/java
+JRE_HOME=/opt/10.2.B/skyward/dlc/java
+JAVA_FONTS=/usr/share/font/truetype
+export JAVA_HOME JRE_HOME JAVA_FONTS
+
+DLC=/opt/10.2.B/skyward/dlc
+PATH=$JAVA_HOME/bin:$DLC/bin:$PATH:/opt/10.2.B/skyward/bin
+PATH=$PATH:$DLC/bin:$projectRoot/bin
+PROTERMCAP=$DLC/protermcap.new
+display_banner=no
+
+export DLC PATH TERM PROTERMCAP display_banner PROPATH 

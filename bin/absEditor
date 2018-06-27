@@ -1,0 +1,19 @@
+#!/bin/bash
+
+. ./absSettings
+. ./absGlobal
+. ./absPropath
+
+if [ "$1" == "" ]
+ then
+    mpro $absDb -clientlog $absLogFile -T /tmp
+ else
+    if [ "$2" == "" ]
+     then
+        mpro $absDb -clientlog $absLogFile -p $1 -T /tmp
+     else
+        mpro $absDb -b -clientlog $absLogFile -p $1 -param $2/$QUERY_STRING -T /tmp
+    fi
+fi
+
+

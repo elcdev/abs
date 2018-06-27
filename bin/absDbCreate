@@ -1,0 +1,10 @@
+#!/bin/bash
+
+. ./absSettings
+. ./absGlobal
+. ./absPropath
+
+cd $absRoot/db/data
+prodb absdb empty/empty8 -clientlog $absLogFile -T /tmp
+
+

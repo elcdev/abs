@@ -1,0 +1,102 @@
+ADD TABLE "users"
+  AREA "System Data"
+  DESCRIPTION "ABS System data tables"
+  DUMP-NAME "users"
+
+ADD FIELD "id" OF "users" AS int64 
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  POSITION 2
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "version" OF "users" AS int64 
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  POSITION 3
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "state" OF "users" AS int64 
+  FORMAT ">>>9"
+  INITIAL "0"
+  POSITION 4
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "modify_date" OF "users" AS datetime 
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  POSITION 5
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "modify_user" OF "users" AS character 
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 6
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "create_date" OF "users" AS datetime 
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  POSITION 7
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "create_user" OF "users" AS character 
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 8
+  MAX-WIDTH 4
+  ORDER 70
+
+ADD FIELD "login" OF "users" AS character 
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 9
+  MAX-WIDTH 4
+  ORDER 80
+
+ADD FIELD "firstName" OF "users" AS character 
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 10
+  MAX-WIDTH 4
+  ORDER 90
+
+ADD FIELD "lastName" OF "users" AS character 
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 11
+  MAX-WIDTH 4
+  ORDER 100
+
+ADD FIELD "roles" OF "users" AS character 
+  FORMAT "X(50)"
+  INITIAL ""
+  POSITION 12
+  MAX-WIDTH 4
+  ORDER 110
+
+ADD FIELD "email" OF "users" AS character 
+  FORMAT "X(50)"
+  INITIAL ""
+  POSITION 13
+  MAX-WIDTH 4
+  ORDER 120
+
+ADD FIELD "password" OF "users" AS character 
+  DESCRIPTION "Password hash value"
+  FORMAT "X(50)"
+  INITIAL ""
+  POSITION 14
+  MAX-WIDTH 4
+  ORDER 130
+
+.
+PSC
+cpstream=UTF-8
+.
+0000001662

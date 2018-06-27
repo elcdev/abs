@@ -1,0 +1,80 @@
+#!/bin/bash
+
+. ./absSettings
+
+compileMode=$1
+
+export tmpCompilePath=$absLog/$$.cpl
+mkdir $tmpCompilePath 2>/dev/null
+
+cd $tmpCompilePath
+rm -f *.r
+
+function compile {
+    filename=$(basename -- "$1")
+    extension="${filename##*.}"
+    filename="${filename%.*}"
+    new_sha1_filename=$(sha1sum $absRoot/$1)
+    cur_sha1_filename=$(cat $absRCode/hash/$filename.sha1 2>/dev/null)
+
+    if [ "$compileMode" != "" ]
+     then
+	echo Analize file: $1
+    fi
+
+    if [ -s "$absRCode/$filename.r" ]
+     then
+        if [ "$new_sha1_filename" = "$cur_sha1_filename" ]
+	 then
+	    echo File $1 skipped sha1 is the same >>$tmpCompilePath/compile.log
+    	    return;
+	fi
+    fi
+
+    export fileToCompile=$1
+    export outputRCode=$tmpCompilePath/$filename.r
+    export outputLogFile=$tmpCompilePath/$(basename $fileToCompile).log
+
+    cd $absRoot/bin
+    echo Compiling: $filename.$extension
+    $absRoot/bin/absEditor compileFile.p -b >>$outputLogFile 2>>$outputLogFile
+    
+    if [ -s "$outputRCode" ]
+     then
+
+	for rfile in `ls $tmpCompilePath/*.r`
+         do
+	    echo Copy file: $rfile to folder: $absRCode
+	    rm -f $absRCode/$rfile
+	    cp -f $rfile $absRCode/
+	    rm -f $rfile $outputLogFile
+         done
+	sha1sum $absRoot/$1 >$absRCode/hash/$filename.sha1
+	chmod a+rw $absRCode/*.r
+     else
+       echo "Error in file " $1
+       cat $outputLogFile
+    fi
+}
+
+
+cd $absRoot
+for file in `find . -type f|grep "[.]p"|grep -v "[.]png"|grep -v "[.]pack"|grep -v ".git"|grep -v ".p."`
+ do
+    compile $file
+ done
+
+cd $absRoot
+for file in `find . -type f|grep "[.]cls"|grep -v "[.]png"|grep -v "[.]pack"|grep -v ".git"|grep -v ".cls."`
+ do
+    compile $file
+ done
+
+##ls -A $tmpCompilePath/ |grep -v compile.log| wc -m
+
+if [ `ls -A $tmpCompilePath/ |grep -v compile.log| wc -m` == "0" ]; then
+    rm -rf $tmpCompilePath
+fi
+
+
+

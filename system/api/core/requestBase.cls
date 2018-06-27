@@ -1,0 +1,4 @@
+CLASS requestBase IMPLEMENTS requestInterface:
+    DEFINE PUBLIC VARIABLE action AS CHARACTER NO-UNDO.
+    
+END CLASS.

@@ -1,0 +1,1 @@
+Folder for temporary files and session files

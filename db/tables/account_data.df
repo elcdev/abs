@@ -1,0 +1,22 @@
+/*
+DEF TEMP-TABLE account_settings NO-UNDO
+        FIELD id            AS INT64
+        FIELD version       AS INT64
+        FIELD state         AS INT64
+        FIELD modify_date   AS DATETIME
+        FIELD create_date   AS DATETIME
+        FIELD modify_user   AS CHAR
+        FIELD create_user   AS CHAR
+        
+        FIELD parent_id     AS INT64
+        FIELD name          AS CHAR
+        FIELD value         AS CHAR
+        
+        INDEX id id
+        INDEX version version
+        INDEX state state
+        INDEX account_id account_id name
+        INDEX name name 
+        INDEX modify_date modify_date
+    .
+*/

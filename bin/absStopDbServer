@@ -1,0 +1,9 @@
+#!/bin/bash
+
+. ./absSettings
+. ./absGlobal
+. ./absPropath
+
+proshut $absDb -clientlog $absLogFile -T /tmp
+
+
