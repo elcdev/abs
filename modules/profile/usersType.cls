@@ -9,7 +9,7 @@ CLASS usersType:
 
 	FIND FIRST users WHERE users.id = iId NO-ERROR.
 	IF NOT AVAILABLE users THEN RETURN "NOT-FOUND-IN-DB".
-    
+
 	ASSIGN	
 	id        = iId
 	login     = users.login
