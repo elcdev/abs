@@ -2,3 +2,4 @@
 /log/*.log
 /db/data/absdb.lg
 /bin/rcode
+/log
