@@ -1,3 +1,4 @@
 /www/tmp/sessions
 /log/*.log
 /db/data/absdb.lg
+/bin/rcode

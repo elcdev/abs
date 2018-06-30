@@ -1,7 +1,8 @@
 #!/bin/bash
 
-. ./absSettings
+. /home/abs/bin/absSettings
 
+cd $absRoot
 compileMode=$1
 
 export tmpCompilePath=$absLog/$$.cpl

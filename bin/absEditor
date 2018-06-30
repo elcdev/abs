@@ -1,11 +1,19 @@
 #!/bin/bash
 
-. ./absSettings
-. ./absGlobal
-. ./absPropath
+TPWD=$(pwd)
+SPWD=$TPWD
+export TPWD SPWD
+
+. /home/abs/bin/absSettings
+. /home/abs/bin/absGlobal
+. /home/abs/bin/absPropath
 
 if [ "$1" == "" ]
  then
+#echo $SPWD
+#exit
+
+    cd $SPWD
     mpro $absDb -clientlog $absLogFile -T /tmp
  else
     if [ "$2" == "" ]
