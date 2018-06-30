@@ -1,2 +1,2 @@
 MESSAGE "Menu under construction".
-MESSAGE " Please WAIT".
+MESSAGE " Please wait for a short time".
