@@ -180,6 +180,11 @@ ADD INDEX "version" ON "account"
 
   
   
+  
+ADD INDEX "gl" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "gl" ASCENDING 
+  
 ADD INDEX "base_account" ON "account" 
   AREA "Accounts Data"
   INDEX-FIELD "base_account" ASCENDING 
@@ -197,6 +202,17 @@ ADD INDEX "overdraft_account" ON "account"
   AREA "Accounts Index"
   INDEX-FIELD "overdraft_account" ASCENDING 
 
+ADD INDEX "account_status" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "account_status" ASCENDING 
+
+ADD INDEX "client_id" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "client_id" ASCENDING 
+
+ADD INDEX "currency" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "currency" ASCENDING 
 
 .
 PSC
