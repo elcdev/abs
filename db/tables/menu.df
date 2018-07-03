@@ -1,111 +1,167 @@
 ADD TABLE "menu"
-    AREA "System Data"
-    DESCRIPTION "ABS System data tables"
+  AREA "System Data"
+  DESCRIPTION "ABS System data tables"
+  DUMP-NAME "menu"
 
-ADD FIELD "id" OF "menu" AS INT64
-    FORMAT ">>>>>>>>>>>9"
-    INITIAL "0"
-    POSITION 2
-    MAX-WIDTH 4
-    ORDER 10
+ADD FIELD "id" OF "menu" AS int64 
+  DESCRIPTION "Record Id"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  POSITION 2
+  MAX-WIDTH 4
+  ORDER 10
 
-ADD FIELD "version" OF "menu" AS INT64
-    FORMAT ">>>>>>>>>>>9"
-    INITIAL "0"
-    POSITION 3
-    MAX-WIDTH 4
-    ORDER 20
+ADD FIELD "version" OF "menu" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  POSITION 3
+  MAX-WIDTH 4
+  ORDER 20
 
-ADD FIELD "state" OF "menu" AS INT64
-    FORMAT ">>>9"
-    INITIAL "0"
-    POSITION 4
-    MAX-WIDTH 4
-    ORDER 30
+ADD FIELD "state" OF "menu" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  POSITION 4
+  MAX-WIDTH 4
+  ORDER 30
 
-ADD FIELD "modify_date" OF "menu" AS DATETIME
-    FORMAT "99.99.99 hh:mm:ss"
-    INITIAL "now"
-    POSITION 5
-    MAX-WIDTH 4
-    ORDER 40
+ADD FIELD "modify_date" OF "menu" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  POSITION 5
+  MAX-WIDTH 4
+  ORDER 40
 
-ADD FIELD "modify_user" OF "menu" AS CHAR
-    FORMAT "X(8)"
-    INITIAL ""
-    POSITION 6
-    MAX-WIDTH 4
-    ORDER 50
+ADD FIELD "modify_user" OF "menu" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 6
+  MAX-WIDTH 4
+  ORDER 50
 
-ADD FIELD "create_date" OF "menu" AS DATETIME
-    FORMAT "99.99.99 hh:mm:ss"
-    INITIAL "now"
-    POSITION 7
-    MAX-WIDTH 4
-    ORDER 60
+ADD FIELD "create_date" OF "menu" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  POSITION 7
+  MAX-WIDTH 4
+  ORDER 60
 
-ADD FIELD "create_user" OF "menu" AS CHAR
-    FORMAT "X(8)"
-    INITIAL ""
-    POSITION 8
-    MAX-WIDTH 4
-    ORDER 70
+ADD FIELD "create_user" OF "menu" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 8
+  MAX-WIDTH 4
+  ORDER 70
 
+ADD FIELD "position" OF "menu" AS integer 
+  DESCRIPTION "Menu position in parent record set"
+  FORMAT ">>9"
+  INITIAL "1"
+  POSITION 9
+  MAX-WIDTH 4
+  ORDER 80
 
-ADD FIELD "position" OF "menu" AS int
-    FORMAT ">>9"
-    INITIAL "1"
-    POSITION 9
-    MAX-WIDTH 4
-    ORDER 80
+ADD FIELD "function_name" OF "menu" AS character 
+  DESCRIPTION "Menu short unique function name"
+  FORMAT "X(15)"
+  INITIAL ""
+  POSITION 10
+  MAX-WIDTH 4
+  ORDER 90
 
-ADD FIELD "functionName" OF "menu" AS CHAR
-    FORMAT "X(15)"
-    INITIAL ""
-    POSITION 10
-    MAX-WIDTH 4
-    ORDER 90
+ADD FIELD "procedure_name" OF "menu" AS character 
+  DESCRIPTION "Menu startup procedure"
+  FORMAT "X(20)"
+  INITIAL ""
+  POSITION 11
+  MAX-WIDTH 4
+  ORDER 100
 
-ADD FIELD "procedureName" OF "menu" AS CHAR
-    FORMAT "X(20)"
-    INITIAL ""
-    POSITION 11
-    MAX-WIDTH 4
-    ORDER 100
+ADD FIELD "slug" OF "menu" AS character 
+  DESCRIPTION "Menu slug for web version"
+  FORMAT "X(50)"
+  INITIAL ""
+  POSITION 12
+  MAX-WIDTH 4
+  ORDER 110
 
-ADD FIELD "slug" OF "menu" AS CHAR
-    FORMAT "X(50)"
-    INITIAL ""
-    POSITION 12
-    MAX-WIDTH 4
-    ORDER 110
+ADD FIELD "description" OF "menu" AS character
+  DESCRIPTION "Menu description"
+  FORMAT "X(50)"
+  INITIAL ""
+  POSITION 13
+  MAX-WIDTH 4
+  ORDER 120
 
-ADD FIELD "description" OF "menu" AS CHAR
-    FORMAT "X(50)"
-    INITIAL ""
-    POSITION 13
-    MAX-WIDTH 4
-    ORDER 120
+ADD FIELD "action" OF "menu" AS character 
+  DESCRIPTION "Action for procedure"
+  FORMAT "X(50)"
+  INITIAL ""
+  POSITION 14
+  MAX-WIDTH 4
+  ORDER 130
 
-ADD FIELD "action" OF "menu" AS CHAR
-    FORMAT "X(10)"
-    INITIAL ""
-    POSITION 14
-    MAX-WIDTH 4
-    ORDER 130
-    
-ADD FIELD "parent_id" OF "menu" AS INT64
-    FORMAT ">>>>>>>>>>>9"
-    INITIAL "0"
-    POSITION 15
-    MAX-WIDTH 4
-    ORDER 140
-    
+ADD FIELD "parent_id" OF "menu" AS int64 
+  DESCRIPTION "Parent id for menu set"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  POSITION 15
+  MAX-WIDTH 4
+  ORDER 140
+
+  
+
+ADD INDEX "id" ON "menu" 
+  AREA "System Index"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "modify_date" ON "menu" 
+  AREA "System Index"
+  INDEX-FIELD "modify_date" ASCENDING 
+
+ADD INDEX "modify_user" ON "menu" 
+  AREA "System Index"
+  INDEX-FIELD "modify_user" ASCENDING 
+
+ADD INDEX "state" ON "menu" 
+  AREA "System Index"
+  INDEX-FIELD "state" ASCENDING 
+
+ADD INDEX "version" ON "menu" 
+  AREA "System Index"
+  INDEX-FIELD "version" ASCENDING 
+
+  
+  
+ADD INDEX "parent_id" ON "menu" 
+  AREA "System Data"
+  INDEX-FIELD "parent_id" ASCENDING 
+
+ADD INDEX "parent_position" ON "menu" 
+  AREA "System Index"
+  INDEX-FIELD "parent_id" ASCENDING 
+  INDEX-FIELD "position" ASCENDING 
+
+ADD INDEX "slug" ON "menu" 
+  AREA "System Index"
+  INDEX-FIELD "slug" ASCENDING 
+
+ADD INDEX "function_name" ON "menu" 
+  AREA "System Index"
+  UNIQUE
+  INDEX-FIELD "version" ASCENDING 
+
 
 .
 PSC
-cpstream=UTF-8
+cpstream=utf-8
 .
-0000001662
-
-
+0000002533
