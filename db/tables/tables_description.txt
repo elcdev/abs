@@ -1,0 +1,147 @@
+1)
+menu
+translates
+
+2) System tables
+	2.1 systemSettings
+		key, val
+	
+		cmp - company
+	2.2 users = ofc
+		2.3 userSettings
+	
+	2.4 sec - accessRights
+
+	2.5 branch = bra
+	
+	2.6 department dept
+		
+3) Data
+	3.1) currency
+	3.2) curRates (history)
+	3.3) curRatesTime
+	3.4) closedDays
+	3.5) gl
+		 glBalance ?????
+	3.6) account + accountSettings
+	3.7) accountBalance
+	3.8) accountGroup (lgr)
+	3.9) accountHolds
+	3.10) balancePerspective
+	3.11) accountCurrencies
+	3.12) cards (id, pan, account, nameOnCard, ccy/crc, )
+	products
+	
+account
+	id 
+	account
+	accountGroup = lgr
+	accountType (aaa, dfb, arp)
+	accountSubType (dfbForClients, dfbForElcoin)
+	baseAccout (mlaaa)
+	overdraftAccount (craccnt)
+	productCode
+	crc
+	cif
+	name
+	state
+	
++acountSettings
+	
+acountBalance
+	totalDebet
+	totalCredit
+	balance
+	
+4) Client data
+	4.1) cif (name, ....)
+	4.2) cifAddress
+	4.3) cifContacts
+	4.4) cifRelations (ofners, rel groups, e.t.c)
+	4.6) cifSettings
+	4.7) cifHozDejateljnostj
+	4.8) cifBankAccounts (acc, bank, swift, ccy, naznachenije)
+
+	
+5) Transactions
+	document
+	documentSettings
+	jh
+	jl
+	
+	documentDeleted
+	jhDeleted
+	jlDeleted
+	
+	documentTemplate
+	jhTemplate
+	jlTemplate
+
+6) Deals 
+	deal
+	rem
+	fexp
+	mmdeal
+	cardTransactions
+
+7)
+	mbo
+	invoice
+	
+8)Interfaces
+	queue: smartvistaData (json)
+	
+	table: smartvistaDataLog
+		id, action, jsonData
+		
+		
+
+class transactionRequest:
+	def public var action
+	def public var jh
+	def public var jdt
+	def public var rem
+	def public var productCode
+	def public var bra
+	def public var docTemplate
+	
+	
+	method char parseJson(jsonData as longchar)
+		parser = new jsonParser.
+		
+		error = parser:parse(jsonData).
+		if error <> "" then return error.
+		
+		jd = parse:getField("properties/header/jdt").
+		
+		return validateData().
+	end.
+	
+	
+	method validateData():
+		if jdt = ? then return "NO-JDT".
+	
+		return "".
+	end.
+end.
+
+
+class transactionApi:
+	
+	method char invoke(request):
+		case request:action:
+			when "make" then jhMakeTransaction(request).
+			when "delete" then jhDelete(request).
+		end.
+	end.
+	
+	
+	method jhMakeTransaction(request):
+		if request:docTemplate = "CARD" then
+			create jl.
+			jl.jdt=request:jdt
+			...
+			
+			
+	end.
+end.
