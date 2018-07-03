@@ -126,43 +126,43 @@ ADD FIELD "client_id" OF "users" AS INT64
     
     
 
-ADD INDEX "id" ON "menu" 
+ADD INDEX "id" ON "users" 
   AREA "System Index"
   UNIQUE
   PRIMARY
   INDEX-FIELD "id" ASCENDING 
 
-ADD INDEX "modify_date" ON "menu" 
+ADD INDEX "modify_date" ON "users" 
   AREA "System Index"
   INDEX-FIELD "modify_date" ASCENDING 
 
-ADD INDEX "modify_user" ON "menu" 
+ADD INDEX "modify_user" ON "users" 
   AREA "System Index"
   INDEX-FIELD "modify_user" ASCENDING 
 
-ADD INDEX "state" ON "menu" 
+ADD INDEX "state" ON "users" 
   AREA "System Index"
   INDEX-FIELD "state" ASCENDING 
 
-ADD INDEX "version" ON "menu" 
+ADD INDEX "version" ON "users" 
   AREA "System Index"
   INDEX-FIELD "version" ASCENDING 
 
 
-ADD INDEX "user" ON "menu" 
+ADD INDEX "user" ON "users" 
   AREA "System Index"
   INDEX-FIELD "user" ASCENDING 
   
-ADD INDEX "email" ON "menu" 
+ADD INDEX "email" ON "users" 
   AREA "System Index"
   UNIQUE
   INDEX-FIELD "email" ASCENDING 
     
-ADD INDEX "registration_number" ON "menu" 
+ADD INDEX "registration_number" ON "users" 
   AREA "System Index"
   INDEX-FIELD "registration_number" ASCENDING 
 
-ADD INDEX "client_id" ON "menu" 
+ADD INDEX "client_id" ON "users" 
   AREA "System Index"
   INDEX-FIELD "client_id" ASCENDING 
 
