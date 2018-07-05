@@ -3,7 +3,8 @@ CLASS responseBase IMPLEMENTS responseInterface:
 
     DEFINE PUBLIC VARIABLE errorDescription AS CHARACTER NO-UNDO.
     DEFINE PUBLIC VARIABLE infoDescription  AS CHARACTER NO-UNDO.
-
+    DEFINE PUBLIC VARIABLE jsonData         AS LONGCHAR  NO-UNDO.
+    
     DEFINE VARIABLE cJsonMaker              AS jsonMaker NO-UNDO.
     
     CONSTRUCTOR responseBase():

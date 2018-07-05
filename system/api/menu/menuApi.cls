@@ -1,11 +1,13 @@
 CLASS menuApi INHERITS apiBase:
 
      METHOD PUBLIC OVERRIDE responseBase invoke(request AS requestBase).
-        DEFINE VARIABLE tResponseBase AS responseBase.
+        CASE request:action:
+            WHEN "getdb"   THEN response:errorDescription = request:getDb().
+            WHEN "putdb"   THEN response:errorDescription = request:putDb().
+            WHEN "getjson" THEN response:jsonData         = request:getJson().
+        END.
         
-        tResponseBase = NEW responseBase().
-        MESSAGE "".
-        RETURN tResponseBase.
+        RETURN response.
      END.
 
 END CLASS.
