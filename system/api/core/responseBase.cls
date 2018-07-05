@@ -1,10 +1,12 @@
 CLASS responseBase IMPLEMENTS responseInterface:
-    DEFINE PUBLIC VARIABLE state            AS CHARACTER NO-UNDO.
+    DEFINE PUBLIC VARIABLE state            AS CHARACTER   NO-UNDO.
 
-    DEFINE PUBLIC VARIABLE errorDescription AS CHARACTER NO-UNDO.
-    DEFINE PUBLIC VARIABLE infoDescription  AS CHARACTER NO-UNDO.
-
-    DEFINE VARIABLE cJsonMaker              AS jsonMaker NO-UNDO.
+    DEFINE PUBLIC VARIABLE errorDescription AS CHARACTER   NO-UNDO.
+    DEFINE PUBLIC VARIABLE infoDescription  AS CHARACTER   NO-UNDO.
+    DEFINE PUBLIC VARIABLE jsonData         AS LONGCHAR    NO-UNDO.
+    DEFINE PUBLIC VARIABLE data             AS requestBase NO-UNDO.
+    
+    DEFINE VARIABLE cJsonMaker              AS jsonMaker   NO-UNDO.
     
     CONSTRUCTOR responseBase():
         cJsonMaker = NEW jsonMaker().

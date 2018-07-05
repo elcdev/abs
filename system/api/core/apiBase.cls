@@ -12,5 +12,4 @@ CLASS apiBase IMPLEMENTS apiInterface:
      METHOD PUBLIC responseBase invoke(request AS requestBase).
         RETURN response.
      END.
-
 END CLASS.
