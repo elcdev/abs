@@ -19,4 +19,6 @@ CLASS systemSettingsApi INHERITS apiBase:
         RETURN response.
      END.
 
-END CLASS.
+    {treeModelMethodsBasedOnCharValues.f &tableName=system_settings}
+     
+ END CLASS.
