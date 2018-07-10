@@ -22,9 +22,11 @@ CLASS responseBase IMPLEMENTS responseInterface:
         json = cJsonMaker:jsonValue("state", state).
         json = json + cJsonMaker:jsonValue("errorDescription", errorDescription).
         json = json + cJsonMaker:jsonValue("infoDescription", errorDescription).
-        json = cJsonMaker:jsonValue("responseBase", json, "object").
+        json = json + cJsonMaker:jsonValue("data", data:getJson(), "object").
+        json = cJsonMaker:jsonValue("response", json, "object").
+        jsonData = cJsonMaker:getResultJson(json).
         
-        RETURN cJsonMaker:getResultJson(json).
+        RETURN jsonData.
     END.
     
 END CLASS.

@@ -12,6 +12,7 @@ CLASS systemSettingsApi INHERITS apiBase:
              DO:
                 response:errorDescription = request:getDb().
                 response:data = request.
+                response:getJson().
              END.
         END.
         

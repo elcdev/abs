@@ -14,8 +14,8 @@ CLASS usersType:
         id        = iId
         login     = users.login
         email     = users.email
-        firstName = users.firstName
-        lastName  = users.lastName
+        firstName = users.first_name
+        lastName  = users.last_name
         .
 
         RETURN "".
