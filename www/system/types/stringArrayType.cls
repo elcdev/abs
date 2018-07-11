@@ -46,6 +46,8 @@ CLASS stringArrayType:
         DEF VAR tName  AS CHAR  NO-UNDO.
         DEF VAR tValue AS CHAR  NO-UNDO.
         
+		IF iString = ? THEN RETURN "".
+		
         DO tIndex = 1 TO NUM-ENTRIES(iString, parameterDelimiter):
             tName = "".
             tValue = "".
@@ -64,7 +66,9 @@ CLASS stringArrayType:
              END.
             
             addItem(tName, tValue).
-        END.    
+        END.
+		
+		RETURN "".
     END.
     
     METHOD PUBLIC CHAR urlDecode (iUrl AS CHAR):

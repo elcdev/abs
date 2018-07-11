@@ -7,8 +7,8 @@ CLASS webSlugType INHERITS webType:
     DEF PUBLIC VAR https  AS CHAR NO-UNDO.
     DEF PUBLIC VAR host   AS CHAR NO-UNDO.
     
-    DEF PUBLIC VAR postData AS CHAR NO-UNDO.
-    DEF PUBLIC VAR getData  AS CHAR NO-UNDO.
+    DEF PUBLIC VAR postData 		AS CHAR NO-UNDO.
+    DEF PUBLIC VAR getData  		AS CHAR NO-UNDO.
 
     DEF PUBLIC VAR url              AS CHAR.
     DEF PUBLIC VAR getParameters    AS stringArrayType.
@@ -23,7 +23,7 @@ CLASS webSlugType INHERITS webType:
         postParameters   = NEW stringArrayType().
         cookieParameters = NEW stringArrayType().
         
-	iUrl = OS-GETENV("REQUEST_URI").
+		iUrl = OS-GETENV("REQUEST_URI").
         parseSlug(iUrl).
     END.
 
@@ -59,7 +59,7 @@ CLASS webSlugType INHERITS webType:
 	    postData = STRING(tItemData).
 
 	    https   = OS-GETENV("REQUEST_SCHEME").
-            host    = OS-GETENV("HTTP_HOST").
+        host    = OS-GETENV("HTTP_HOST").
 	    api     = ENTRY(2, iSlug, "/") NO-ERROR.
 	    name    = ENTRY(3, iSlug, "/") NO-ERROR.
 	    action  = ENTRY(4, iSlug, "/") NO-ERROR.
