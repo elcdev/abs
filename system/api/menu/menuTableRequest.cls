@@ -1,4 +1,4 @@
-CLASS menuItemRequest inherits requestBase IMPLEMENTS dbInterface:
+CLASS menuTableRequest inherits requestBase IMPLEMENTS dbInterface:
     {menuTable.i}
 	
 	METHOD PUBLIC CHARACTER putDb():
