@@ -17,7 +17,7 @@ CLASS menuTableRequest inherits requestBase IMPLEMENTS dbInterface:
         RETURN getDb(id).
     END.
 	
-	METHOD PUBLIC OVERRIDE CHARACTER getDb(iId AS INT):
+	METHOD PUBLIC CHARACTER getDb(iId AS INT):
         {requestItemGetDb.f system_settings}
         
         position      = system_settings.position.
@@ -29,7 +29,7 @@ CLASS menuTableRequest inherits requestBase IMPLEMENTS dbInterface:
         RETURN "".
 	END.
 	
-	METHOD PUBLIC CHARACTER getJson():
+	METHOD PUBLIC OVERRIDE CHARACTER getJson():
 	
 	END.
 	
