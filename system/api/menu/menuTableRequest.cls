@@ -1,7 +1,7 @@
-CLASS menuItemRequest inherits requestBase IMPLEMENTS dbInterface:
+CLASS menuTableRequest inherits requestBase IMPLEMENTS dbInterface:
     {menuTable.i}
 	
-	METHOD PUBLIC CHARACTER putDb():
+	METHOD PUBLIC OVERRIDE CHARACTER putDb():
         {requestItemPutDb.f system_settings}
         
         position      = system_settings.position.
@@ -13,11 +13,11 @@ CLASS menuItemRequest inherits requestBase IMPLEMENTS dbInterface:
         RETURN "".
 	END.
     
-    METHOD PUBLIC CHARACTER getDb():
+    METHOD PUBLIC OVERRIDE CHARACTER getDb():
         RETURN getDb(id).
     END.
 	
-	METHOD PUBLIC CHARACTER getDb(iId AS INT):
+	METHOD PUBLIC OVERRIDE CHARACTER getDb(iId AS INT):
         {requestItemGetDb.f system_settings}
         
         position      = system_settings.position.

@@ -1,3 +1,3 @@
-CLASS menuItemResponse INHERITS responseBase:
+CLASS menuTableResponse INHERITS responseBase:
 
 END CLASS.
