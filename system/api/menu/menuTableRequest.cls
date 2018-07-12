@@ -9,7 +9,7 @@ CLASS menuTableRequest inherits requestBase IMPLEMENTS dbInterface:
         procedureName = menu.procedureName.
         slug          = menu.slug.
         description   = menu.description.
-        
+
         RETURN "".
 	END.
     
@@ -25,7 +25,7 @@ CLASS menuTableRequest inherits requestBase IMPLEMENTS dbInterface:
         procedureName = menu.procedureName.
         slug          = menu.slug.
         description   = menu.description.
-        
+
         RETURN "".
 	END.
 	
