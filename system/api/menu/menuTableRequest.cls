@@ -2,13 +2,13 @@ CLASS menuTableRequest inherits requestBase IMPLEMENTS dbInterface:
     {menuTable.i}
 	
 	METHOD PUBLIC OVERRIDE CHARACTER putDb():
-        {requestItemPutDb.f system_settings}
+        {requestItemPutDb.f menu}
         
-        position      = system_settings.position.
-        functionName  = system_settings.functionName.
-        procedureName = system_settings.procedureName.
-        slug          = system_settings.slug.
-        description   = system_settings.description.
+        position      = menu.position.
+        functionName  = menu.functionName.
+        procedureName = menu.procedureName.
+        slug          = menu.slug.
+        description   = menu.description.
         
         RETURN "".
 	END.
@@ -18,13 +18,13 @@ CLASS menuTableRequest inherits requestBase IMPLEMENTS dbInterface:
     END.
 	
 	METHOD PUBLIC CHARACTER getDb(iId AS INT):
-        {requestItemGetDb.f system_settings}
+        {requestItemGetDb.f menu}
         
-        position      = system_settings.position.
-        functionName  = system_settings.functionName.
-        procedureName = system_settings.procedureName.
-        slug          = system_settings.slug.
-        description   = system_settings.description.
+        position      = menu.position.
+        functionName  = menu.functionName.
+        procedureName = menu.procedureName.
+        slug          = menu.slug.
+        description   = menu.description.
         
         RETURN "".
 	END.
