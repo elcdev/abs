@@ -12,6 +12,10 @@ CLASS menuItemRequest inherits requestBase IMPLEMENTS dbInterface:
         
         RETURN "".
 	END.
+    
+    METHOD PUBLIC CHARACTER getDb():
+        RETURN getDb(id).
+    END.
 	
 	METHOD PUBLIC CHARACTER getDb(iId AS INT):
         {requestItemGetDb.f system_settings}
