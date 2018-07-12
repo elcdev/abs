@@ -5,8 +5,8 @@ CLASS menuTableRequest inherits requestBase IMPLEMENTS dbInterface:
         {requestItemPutDb.f menu}
         
         position      = menu.position.
-        functionName  = menu.functionName.
-        procedureName = menu.procedureName.
+        functionName  = menu.function_name.
+        procedureName = menu.procedure_name.
         slug          = menu.slug.
         description   = menu.description.
 
@@ -20,11 +20,11 @@ CLASS menuTableRequest inherits requestBase IMPLEMENTS dbInterface:
 	METHOD PUBLIC CHARACTER getDb(iId AS INT):
         {requestItemGetDb.f menu}
         
-        position      = menu.position.
-        functionName  = menu.functionName.
-        procedureName = menu.procedureName.
-        slug          = menu.slug.
-        description   = menu.description.
+        menu.position       = position.
+        menu.function_name  = functionName.
+        menu.procedure_name = procedureName.
+        menu.slug           = slug.
+        menu.description    = description.
 
         RETURN "".
 	END.
