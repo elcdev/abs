@@ -67,7 +67,7 @@
         oValue = INT64(getValueChar(iParentId, iKeyName)) NO-ERROR.
         RETURN oValue.
      END.
-     METHOD PUBLIC LOG getValueLog(iParentId AS INT64, iKeyName AS CHARACTER, iFormat AS CHAR):
+     METHOD PUBLIC LOG getValueLog(iParentId AS INT64, iKeyName AS CHARACTER):
         RETURN getValueLog(iParentId, iKeyName, "").
      END.
      METHOD PUBLIC LOG getValueLog(iParentId AS INT64, iKeyName AS CHARACTER, iFormat AS CHAR):
