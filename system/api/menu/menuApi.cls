@@ -1,6 +1,7 @@
 CLASS menuApi INHERITS apiBase:
-
-     METHOD PUBLIC OVERRIDE responseBase invoke(request AS requestBase).
+    {menuTable.i}
+	
+    METHOD PUBLIC OVERRIDE responseBase invoke(request AS requestBase).
         CASE request:action:
             WHEN "getdb"   THEN response:errorDescription = request:getDb().
             WHEN "putdb"   THEN response:errorDescription = request:putDb().
@@ -8,6 +9,11 @@ CLASS menuApi INHERITS apiBase:
         END.
         
         RETURN response.
-     END.
+    END.
 
+	METHOD PUBLIC getData CHAR():
+	 
+	 
+	END.
+	 
 END CLASS.

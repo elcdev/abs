@@ -1,1 +1,1 @@
-DEFINE TEMP-TABLE tmpMenu LIKE menu.
+DEFINE TEMP-TABLE menuTable LIKE menu.
