@@ -19,6 +19,6 @@ FUNCTION deleteObjects CHARACTER():
 END.
 
 /* 20 + 30 + 30 */
-headerForm:showHeaderForm().
+headerForm:showHeader().
 
 deleteObjects().
