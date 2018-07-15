@@ -99,9 +99,9 @@ ADD INDEX "version" ON "closed_days"
   INDEX-FIELD "version" ASCENDING 
 
 
-ADD INDEX "operation_date" ON "closed_days" 
+ADD INDEX "system_date" ON "closed_days" 
   AREA "System Data"
-  INDEX-FIELD "operation_date" ASCENDING   
+  INDEX-FIELD "system_date" ASCENDING   
 
 
   
