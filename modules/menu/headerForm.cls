@@ -19,7 +19,6 @@ DEFINE VARIABLE loginName   AS CHARACTER NO-UNDO.
 /* 20 + 30 + 30 */
 DEFINE FRAME headerFrame
       g-today FORMAT "99.99.9999"
-  " " TIME FORMAT "hh:mm:ss"
   " " companyName FORMAT "X(29)"
   " " loginName FORMAT "X(20)"
   .

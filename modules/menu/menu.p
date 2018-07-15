@@ -21,7 +21,6 @@ END.
 /* 20 + 30 + 30 */
 DEFINE FRAME headerFrame
       Settings:g-today FORMAT "99.99.9999"
-  " " TIME FORMAT "hh:mm:ss"
   " " Settings:companyName FORMAT "X(29)"
   " " Settings:loginName FORMAT "X(20)"
   .
