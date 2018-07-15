@@ -23,7 +23,8 @@ DEFINE FRAME headerFrame
       STRING(Settings:g-today, "dd.mm.yyyy")
   " " STRING(TIME, "hh:mm:ss")
   " " STRING(Settings:companyName, "X(29)")
-  " " STRING(Settings:companyName, "X(30)").
+  " " STRING(Settings:loginName, "X(20)").
+  
 
 
 deleteObjects().

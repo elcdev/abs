@@ -11,6 +11,9 @@ CLASS globalSettings INHERITS systemSettingsApi:
         PUBLIC GET.
         PRIVATE SET.
 
+    DEFINE PUBLIC PROPERTY loginName AS CHAR NO-UNDO
+        PUBLIC GET.
+        PRIVATE SET.
 
     CONSTRUCTOR globalSettings():
         Init().
@@ -24,6 +27,9 @@ CLASS globalSettings INHERITS systemSettingsApi:
         IF g-today      = ?  THEN g-today      = getWorkDay().
         IF companyName  = "" THEN companyName  = getValueChar("Company/Name").
         IF companyRegNr = "" THEN companyRegNr = getValueChar("Company/RegNr").
+        IF loginName    = "" THEN loginName    = OS-GETENV("LOGON").
+        
+        RETURN "".
     END.
 
     METHOD PUBLIC DATE getWorkDay():
