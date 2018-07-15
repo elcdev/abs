@@ -9,8 +9,8 @@ CLASS menuItemRequest inherits requestBase IMPLEMENTS dbInterface:
         {requestItemPutDb.f menu}
 
         position      = menu.position.
-        functionName  = menu.functionName.
-        procedureName = menu.procedureName.
+        functionName  = menu.function_name.
+        procedureName = menu.procedure_name.
         slug          = menu.slug.
         description   = menu.description.
 
@@ -25,8 +25,8 @@ CLASS menuItemRequest inherits requestBase IMPLEMENTS dbInterface:
         {requestItemGetDb.f menu}
 
         position      = menu.position.
-        functionName  = menu.functionName.
-        procedureName = menu.procedureName.
+        functionName  = menu.function_name.
+        procedureName = menu.procedure_name.
         slug          = menu.slug.
         description   = menu.description.
 
