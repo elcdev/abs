@@ -11,8 +11,7 @@ CLASS menuApi INHERITS apiBase:
         RETURN response.
     END.
 
-	METHOD PUBLIC getData CHAR():
-	 
+	METHOD PUBLIC CHARACTER getData():
 	 
 	END.
 	 

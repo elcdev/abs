@@ -5,7 +5,7 @@ CLASS menuItemRequest inherits requestBase IMPLEMENTS dbInterface:
 	DEF VAR slug          AS CHAR NO-UNDO.
 	DEF VAR description   AS CHAR NO-UNDO.
 	
-	METHOD PUBLIC CHARACTER putDb():
+	METHOD PUBLIC OVERRIDE CHARACTER putDb():
         {requestBaseSetFields.f system_settings}
         
         position      = system_settings.position.
