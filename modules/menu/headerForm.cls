@@ -16,7 +16,14 @@ DEFINE VARIABLE g-today     AS DATE NO-UNDO.
 DEFINE VARIABLE companyName AS CHARACTER NO-UNDO.
 DEFINE VARIABLE loginName   AS CHARACTER NO-UNDO.
 
-
+/* 20 + 30 + 30 */
+DEFINE FRAME headerFrame
+      g-today FORMAT "99.99.9999"
+  " " TIME FORMAT "hh:mm:ss"
+  " " companyName FORMAT "X(29)"
+  " " loginName FORMAT "X(20)"
+  .
+  
 CONSTRUCTOR headerForm():
     Settings = NEW globalSettings().
     
@@ -29,14 +36,7 @@ DESTRUCTOR headerForm():
     DELETE OBJECT Settings NO-ERROR.
 END.
 
-/* 20 + 30 + 30 */
-DEFINE FRAME headerFrame
-      STRING(g-today, "dd.mm.yyyy")
-  " " STRING(TIME, "hh:mm:ss")
-  " " STRING(companyName, "X(29)")
-  " " STRING(loginName, "X(20)")
-  .
-  
+
 METHOD PUBLIC CHARACTER showHeaderFrame():
     VIEW FRAME headerFrame. PAUSE 0.
 END.
