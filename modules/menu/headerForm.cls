@@ -36,7 +36,7 @@ DESTRUCTOR headerForm():
 END.
 
 
-METHOD PUBLIC CHARACTER showHeaderFrame():
+METHOD PUBLIC CHARACTER showHeader():
     VIEW FRAME headerFrame. PAUSE 0.
 END.
 
