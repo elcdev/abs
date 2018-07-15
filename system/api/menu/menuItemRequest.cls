@@ -17,7 +17,7 @@ CLASS menuItemRequest inherits requestBase IMPLEMENTS dbInterface:
         RETURN "".
 	END.
 	
-    METHOD PUBLIC CHARACTER getDb():
+    METHOD PUBLIC OVERRIDE CHARACTER getDb():
         RETURN getDb(id).
     END.
     
@@ -33,7 +33,7 @@ CLASS menuItemRequest inherits requestBase IMPLEMENTS dbInterface:
         RETURN "".
 	END.
 	
-	METHOD PUBLIC CHARACTER getJson():
+	METHOD PUBLIC OVERRIDE CHARACTER getJson():
 	
 	END.
 	

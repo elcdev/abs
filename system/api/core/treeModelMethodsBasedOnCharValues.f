@@ -42,7 +42,7 @@
             IF NOT AVAILABLE {&tableName} THEN tCurrentId =  -1. ELSE tCurrentId = {&tableName}.id.
          END.
         
-        IF iRemainingKey = "" THEN RETURN tCurrentId.
+        IF tRemainingKey = "" THEN RETURN tCurrentId.
         RETURN getKeyId(tCurrentId, tRemainingKey, iLevel + 1).
      END.
 
