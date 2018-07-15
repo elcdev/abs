@@ -6,14 +6,14 @@ CLASS menuItemRequest inherits requestBase IMPLEMENTS dbInterface:
 	DEF VAR description   AS CHAR NO-UNDO.
 	
 	METHOD PUBLIC OVERRIDE CHARACTER putDb():
-        {requestItemPutDb.f system_settings}
-        
-        position      = system_settings.position.
-        functionName  = system_settings.functionName.
-        procedureName = system_settings.procedureName.
-        slug          = system_settings.slug.
-        description   = system_settings.description.
-        
+        {requestItemPutDb.f menu}
+
+        position      = menu.position.
+        functionName  = menu.functionName.
+        procedureName = menu.procedureName.
+        slug          = menu.slug.
+        description   = menu.description.
+
         RETURN "".
 	END.
 	
@@ -22,14 +22,14 @@ CLASS menuItemRequest inherits requestBase IMPLEMENTS dbInterface:
     END.
     
 	METHOD PUBLIC CHARACTER getDb(iId AS INT):
-        {requestItemGetDb.f system_settings}
-        
-        position      = system_settings.position.
-        functionName  = system_settings.functionName.
-        procedureName = system_settings.procedureName.
-        slug          = system_settings.slug.
-        description   = system_settings.description.
-        
+        {requestItemGetDb.f menu}
+
+        position      = menu.position.
+        functionName  = menu.functionName.
+        procedureName = menu.procedureName.
+        slug          = menu.slug.
+        description   = menu.description.
+
         RETURN "".
 	END.
 	
