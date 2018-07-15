@@ -34,9 +34,9 @@
          END.
         ELSE
          DO:
-            FIND FIRST {&tableName} NO-LOCK WHERE {&tableName}.parent_id = iParentId 
-                                                AND {&tableName}.field_name = iCurrentKeyName
-                                                NO-ERROR.
+            FIND FIRST {&tableName} NO-LOCK WHERE {&tableName}.parent_id  = iParentId 
+                                              AND {&tableName}.field_name = tCurrentKeyName
+                                         NO-ERROR.
             IF NOT AVAILABLE {&tableName} THEN tCurrentId =  -1. ELSE tCurrentId = {&tableName}.id.
          END.
         
