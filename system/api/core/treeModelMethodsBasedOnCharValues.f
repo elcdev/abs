@@ -106,12 +106,12 @@
      METHOD PUBLIC LOG getValueLog(iKeyName AS CHARACTER):
         RETURN getValueLog(defaultRootKeyId, iKeyName, "").
      END.
-     METHOD PUBLIC LOG getValueLog(iParentId AS INT64, iKeyName AS CHARACTER, iFormat AS CHAR):
+     METHOD PUBLIC LOG getValueLog(iKeyName AS CHARACTER, iFormat AS CHAR):
         RETURN getValueLog(defaultRootKeyId, iKeyName, iFormat).
      END.
      METHOD PUBLIC DATE getValueDate(iKeyName AS CHAR):
         RETURN getValueDate(defaultRootKeyId, iKeyName).
      END.
-     METHOD PUBLIC DATETIME getValueDatetime(iParentId AS INT64, iKeyName AS CHAR):
+     METHOD PUBLIC DATETIME getValueDatetime(iKeyName AS CHAR):
         RETURN getValueDatetime(defaultRootKeyId, iKeyName).
      END.
