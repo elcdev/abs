@@ -74,9 +74,9 @@
      END.
      METHOD PUBLIC LOG getValueLog(iParentId AS INT64, iKeyName AS CHARACTER, iFormat AS CHAR):
         DEFINE VARIABLE oValue AS LOG NO-UNDO.
+        /* TODO!
         IF iFormat = "" THEN
             oValue = LOG(getValueChar(iParentId, iKeyName)) NO-ERROR.
-        /* TODO!
 		ELSE
             oValue = LOG(getValueChar(iParentId, iKeyName), iFormat) NO-ERROR.
 			*/
