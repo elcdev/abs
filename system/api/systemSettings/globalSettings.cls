@@ -15,16 +15,19 @@ CLASS globalSettings INHERITS systemSettingsApi:
         PUBLIC GET.
         PRIVATE SET.
 
+    DEFINE VARIABLE closedDays AS closedDays NO-UNDO.
+        
     CONSTRUCTOR globalSettings():
+        closedDays = NEW closedDays().
         Init().
     END.
     
     DESTRUCTOR globalSettings():
-    
+        DELETE OBJECT closedDays NO-ERROR.
     END.
     
     METHOD PUBLIC CHARACTER Init():
-        IF g-today      = ?  THEN g-today      = getWorkDay().
+        IF g-today      = ?  THEN g-today      = closedDays:getLastWorkDay().
         IF companyName  = "" THEN companyName  = getValueChar("Company/Name").
         IF companyRegNr = "" THEN companyRegNr = getValueChar("Company/RegNr").
         IF loginName    = "" THEN loginName    = OS-GETENV("LOGON").
