@@ -54,7 +54,7 @@ ADD FIELD "create_user" OF "closed_days" AS CHAR
 
 
 ADD FIELD "system_date" OF "closed_days" AS DATE
-    FORMAT "X(8)"
+    FORMAT "99.99.99"
     INITIAL ""
     POSITION 9
     MAX-WIDTH 4
@@ -67,11 +67,11 @@ ADD FIELD "is_friday" OF "closed_days" AS INT
     MAX-WIDTH 4
     ORDER 90
 
-ADD FIELD "closed" OF "closed_days" AS LOG
+ADD FIELD "closed" OF "closed_days" AS LOGICAL
     FORMAT "YES/NO"
-    INITIAL "FALSE"
+    INITIAL FALSE
     POSITION 11
-    MAX-WIDTH 4
+    MAX-WIDTH 5
     ORDER 100
 
 
