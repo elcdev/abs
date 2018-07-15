@@ -20,10 +20,10 @@ END.
 
 /* 20 + 30 + 30 */
 DEFINE FRAME headerFrame
-      STRING(Settings:g-today, "dd.mm.yyyy")
-  " " STRING(TIME, "hh:mm:ss")
-  " " STRING(Settings:companyName, "X(29)")
-  " " STRING(Settings:loginName, "X(20)")
+      Settings:g-today FORMAT "99.99.9999"
+  " " TIME FORMAT "hh:mm:ss"
+  " " Settings:companyName FORMAT "X(29)"
+  " " Settings:loginName FORMAT "X(20)"
   .
   
 
