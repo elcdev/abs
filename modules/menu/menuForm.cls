@@ -9,16 +9,34 @@ POS FUNCTION DESCRIPTION                                                 SUBMENU
 ================================================================================
 Find menu         [************************************************************]
 */
+CLASS menuForm INHERITS headerForm:
 
-DEFINE VARIABLE menuForm AS menuForm.
+{menuTable.i}
 
-menuForm = NEW menuForm().
+DEFINE QUERY menuQuery FOR menuTable.
 
-FUNCTION deleteObjects CHARACTER():
-    DELETE OBJECT menuForm NO-ERROR.
+DEFINE BROWSE menuBrowse QUERY menuQuery
+    position    FORMAT ">9"    LABEL "LN"
+    description FORMAT "X(30)" LABEL "DESCRIPTION"
+    WITH 18 DOWN NO-BOX NO-LABELS
+    .
+    
+DEFINE FRAME menuFrame
+    menuBrowse HELP " "
+  WITH NO-LABELS NO-BOX.
+  
+CONSTRUCTOR headerForm():
+
 END.
 
-/* 20 + 30 + 30 */
-menuForm:showMenu().
+DESTRUCTOR headerForm():
 
-deleteObjects().
+END.
+
+
+METHOD PUBLIC CHARACTER showMenu():
+    SUPER:showHeader().
+    VIEW FRAME headerFrame. PAUSE 0.
+END.
+
+END.
