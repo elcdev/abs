@@ -17,6 +17,7 @@ CLASS globalSettings INHERITS systemSettingsApi:
     END.
     
     DESTRUCTOR globalSettings():
+    
     END.
     
     METHOD PUBLIC CHARACTER Init():
@@ -26,12 +27,12 @@ CLASS globalSettings INHERITS systemSettingsApi:
     END.
 
     METHOD PUBLIC DATE getWorkDay():
-        DEFINE BUFFER closedDays FOR closedDays.
+        DEFINE BUFFER closed_days FOR closed_days.
         
-        FIND FIRST closedDays NO-LOCK WHERE closedDays NO-ERROR.
-        IF NOT AVAILABLE closedDays THEN RETURN ?.
+        FIND LAST closed_days NO-LOCK NO-ERROR.
+        IF NOT AVAILABLE closed_days THEN RETURN ?.
 
-        RETURN closedDays.closedDate.
+        RETURN closed_days.system_date.
     END.
     
 END CLASS.
