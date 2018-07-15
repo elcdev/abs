@@ -76,8 +76,10 @@
         DEFINE VARIABLE oValue AS LOG NO-UNDO.
         IF iFormat = "" THEN
             oValue = LOG(getValueChar(iParentId, iKeyName)) NO-ERROR.
-        ELSE
+        /* TODO!
+		ELSE
             oValue = LOG(getValueChar(iParentId, iKeyName), iFormat) NO-ERROR.
+			*/
         RETURN oValue.
      END.
      METHOD PUBLIC DATE getValueDate(iParentId AS INT64, iKeyName AS CHAR):
