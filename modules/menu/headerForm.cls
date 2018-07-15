@@ -21,7 +21,7 @@ DEFINE FRAME headerFrame
       g-today FORMAT "99.99.9999"
   " " companyName FORMAT "X(29)"
   " " loginName FORMAT "X(20)"
-  WITH NO-LABEL.
+  WITH NO-LABELS NO-BOX.
   
 CONSTRUCTOR headerForm():
     Settings = NEW globalSettings().
