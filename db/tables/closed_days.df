@@ -67,11 +67,11 @@ ADD FIELD "is_friday" OF "closed_days" AS INT
     MAX-WIDTH 4
     ORDER 90
 
-ADD FIELD "closed" OF "closed_days" AS LOG
+ADD FIELD "closed" OF "closed_days" AS LOGICAL
     FORMAT "YES/NO"
-    INITIAL "FALSE"
+    INITIAL FALSE
     POSITION 11
-    MAX-WIDTH 4
+    MAX-WIDTH 5
     ORDER 100
 
 
