@@ -16,8 +16,9 @@ CLASS menuForm INHERITS headerForm:
 DEFINE QUERY menuQuery FOR menuTable.
 
 DEFINE BROWSE menuBrowse QUERY menuQuery
-    position    FORMAT ">9"    LABEL "LN"
-    description FORMAT "X(30)" LABEL "DESCRIPTION"
+    menuTable.position      FORMAT ">9"    LABEL "LN"
+    menuTable.description   FORMAT "X(30)" LABEL "DESCRIPTION"
+    menuTable.function_name FORMAT "X(14)" LABEL "FUNCTION"
     WITH 18 DOWN NO-BOX NO-LABELS
     .
     
