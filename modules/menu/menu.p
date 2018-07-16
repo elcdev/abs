@@ -22,3 +22,5 @@ END.
 menuForm:showMenu().
 
 deleteObjects().
+
+QUIT.
