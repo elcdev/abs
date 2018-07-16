@@ -1,4 +1,4 @@
-CLASS globalSettings INHERITS systemSettingsApi:
+CLASS globalSettingsApi INHERITS systemSettingsApi:
     DEFINE PUBLIC PROPERTY g-today AS DATE NO-UNDO
         PUBLIC GET.
         PRIVATE SET.
@@ -15,19 +15,19 @@ CLASS globalSettings INHERITS systemSettingsApi:
         PUBLIC GET.
         PRIVATE SET.
 
-    DEFINE VARIABLE closedDays AS closedDays NO-UNDO.
+    DEFINE VARIABLE closedDaysApi AS closedDaysApi NO-UNDO.
         
-    CONSTRUCTOR globalSettings():
-        closedDays = NEW closedDays().
+    CONSTRUCTOR globalSettingsApi():
+        closedDaysApi = NEW closedDaysApi().
         Init().
     END.
     
-    DESTRUCTOR globalSettings():
-        DELETE OBJECT closedDays NO-ERROR.
+    DESTRUCTOR globalSettingsApi():
+        DELETE OBJECT closedDaysApi NO-ERROR.
     END.
     
     METHOD PUBLIC CHARACTER Init():
-        IF g-today      = ?  THEN g-today      = closedDays:getLastWorkDay().
+        IF g-today      = ?  THEN g-today      = closedDaysApi:getLastWorkDay().
         IF companyName  = "" THEN companyName  = getValueChar("Company/Name").
         IF companyRegNr = "" THEN companyRegNr = getValueChar("Company/RegNr").
         IF loginName    = "" THEN loginName    = OS-GETENV("LOGON").
@@ -35,13 +35,5 @@ CLASS globalSettings INHERITS systemSettingsApi:
         RETURN "".
     END.
 
-    METHOD PUBLIC DATE getWorkDay():
-        DEFINE BUFFER closed_days FOR closed_days.
-        
-        FIND LAST closed_days NO-LOCK NO-ERROR.
-        IF NOT AVAILABLE closed_days THEN RETURN ?.
 
-        RETURN closed_days.system_date.
-    END.
-    
 END CLASS.

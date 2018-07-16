@@ -1,9 +1,9 @@
-CLASS closedDays:
-    CONSTRUCTOR closedDays():
+CLASS closedDaysApi:
+    CONSTRUCTOR closedDaysApi():
         Init().
     END.
     
-    DESTRUCTOR closedDays():
+    DESTRUCTOR closedDaysApi():
     
     END.
     

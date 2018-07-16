@@ -10,7 +10,7 @@ POS FUNCTION DESCRIPTION                                                 SUBMENU
 Find menu         [************************************************************]
 */
 CLASS headerForm:
-DEFINE VARIABLE Settings    AS globalSettings.
+DEFINE VARIABLE Settings    AS globalSettingsApi.
 
 DEFINE VARIABLE g-today     AS DATE NO-UNDO.
 DEFINE VARIABLE companyName AS CHARACTER NO-UNDO.
@@ -24,7 +24,7 @@ DEFINE FRAME headerFrame
   WITH NO-LABELS NO-BOX.
   
 CONSTRUCTOR headerForm():
-    Settings = NEW globalSettings().
+    Settings = NEW globalSettingsApi().
     
     g-today     = Settings:g-today.
     companyName = Settings:companyName.
