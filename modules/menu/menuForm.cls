@@ -25,11 +25,11 @@ DEFINE FRAME menuFrame
     menuBrowse HELP " "
   WITH NO-LABELS NO-BOX.
   
-CONSTRUCTOR headerForm():
+CONSTRUCTOR menuForm():
 
 END.
 
-DESTRUCTOR headerForm():
+DESTRUCTOR menuForm():
 
 END.
 
