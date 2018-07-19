@@ -10,34 +10,45 @@ POS FUNCTION DESCRIPTION                                                 SUBMENU
 Find menu         [************************************************************]
 */
 CLASS menuForm INHERITS headerForm:
+DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
+    {menuTable.i}
 
-{menuTable.i}
+    DEFINE QUERY menuQuery FOR menuTable.
 
-DEFINE QUERY menuQuery FOR menuTable.
+    DEFINE BROWSE menuBrowse QUERY menuQuery DISPLAY
+        menuTable.position      FORMAT ">9"    LABEL "LN"
+        menuTable.description   FORMAT "X(30)" LABEL "DESCRIPTION"
+        menuTable.function_name FORMAT "X(14)" LABEL "FUNCTION"
+        WITH 18 DOWN NO-BOX NO-LABELS
+        .
+        
+    DEFINE FRAME menuFrame
+        menuBrowse HELP " "
+      WITH NO-LABELS NO-BOX.
+      
+    CONSTRUCTOR menuForm():
+        cMenuApi = NEW menuApi().
+    END.
 
-DEFINE BROWSE menuBrowse QUERY menuQuery DISPLAY
-    menuTable.position      FORMAT ">9"    LABEL "LN"
-    menuTable.description   FORMAT "X(30)" LABEL "DESCRIPTION"
-    menuTable.function_name FORMAT "X(14)" LABEL "FUNCTION"
-    WITH 18 DOWN NO-BOX NO-LABELS
-    .
+    DESTRUCTOR menuForm():
+        DELETE OBJECT cMenuApi NO-ERROR.
+    END.
+
+    METHOD PUBLIC CHARACTER showMenu():
+        SUPER:showHeader().
+        VIEW FRAME headerFrame. PAUSE 0.
+    END.
+
+    METHOD PUBLIC CHARACTER recordset():
+        RETURN cMenuApi:getData(0, 0, TEMP-TABLE menuTable BIND).
+    END.
+
+    ON RETURN OF menuFrame
+     DO:
+        IF NOT AVAILABLE menuTable THEN RETURN.
+        
+        RETURN cMenuApi:getData(menuTable.id, 0, TEMP-TABLE menuTable BIND).
+     END.
+     
     
-DEFINE FRAME menuFrame
-    menuBrowse HELP " "
-  WITH NO-LABELS NO-BOX.
-  
-CONSTRUCTOR menuForm():
-
-END.
-
-DESTRUCTOR menuForm():
-
-END.
-
-
-METHOD PUBLIC CHARACTER showMenu():
-    SUPER:showHeader().
-    VIEW FRAME headerFrame. PAUSE 0.
-END.
-
 END.

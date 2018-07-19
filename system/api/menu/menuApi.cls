@@ -11,8 +11,6 @@ CLASS menuApi INHERITS apiBase:
         RETURN response.
     END.
 */
-
-<<<<<<< HEAD
 /*    
 	METHOD PUBLIC CHARACTER getData (filter AS menuFilterModel, TEMP-TABLE menuTable BIND):
         RETURN getData(filter:parent_id, TEMP-TABLE menuTable BIND).
@@ -28,12 +26,31 @@ CLASS menuApi INHERITS apiBase:
         END.
         
         RETURN "".
-=======
-	METHOD PUBLIC CHARACTER getData():
-	 
->>>>>>> d6f1b9819a373ef908df8d2637da0e6583a5857f
-	END.
+    END.
 
+    METHOD PUBLIC CHARACTER getData (searchString AS CHAR, iTop AS INT64, TEMP-TABLE menuTable BIND):
+        DEFINE BUFFER menu FOR menu.
+        DEFINE VARIABLE i AS INT64 NO-UNDO INITIAL 0.
+        
+        EMPTY TEMP-TABLE menuTable.
+        
+        FOR EACH menu NO-LOCK WHERE menu.function_name MATCHES "*" + searchString + "*":
+            CREATE menuTable.
+            BUFFER-COPY menu TO menuTable.
+            i = i + 1.
+            IF i > iTop AND iTop > 0 THEN LEAVE.
+        END.
+
+        FOR EACH menu NO-LOCK WHERE menu.description MATCHES "*" + searchString + "*":
+            CREATE menuTable.
+            BUFFER-COPY menu TO menuTable.
+            i = i + 1.
+            IF i > iTop AND iTop > 0 THEN LEAVE.
+        END.
+        
+        RETURN "".
+    END.
+    
     METHOD PUBLIC LOG existsMenuItem(iId AS INT64):
         DEFINE BUFFER menu FOR menu.
 
