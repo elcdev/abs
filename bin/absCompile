@@ -3,6 +3,9 @@
 . /home/abs/bin/absSettings
 
 cd $absRoot
+
+git pull
+
 compileMode=$1
 
 export tmpCompilePath=$absLog/$$.cpl

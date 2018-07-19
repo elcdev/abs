@@ -13,7 +13,7 @@
         DEFINE VARIABLE tRemainingKey   AS CHARACTER NO-UNDO.
         DEFINE VARIABLE tCurrentId      AS INT64     NO-UNDO.
 
-        IF iLevel = 0 THEN iKeyName = REPLACE(iKeyName, "\", "/"). 
+        IF iLevel = 0 THEN iKeyName = REPLACE(iKeyName, "\\", "/"). 
         
         tSlashPosition = INDEX(iKeyName, "/").
         
@@ -34,13 +34,15 @@
          END.
         ELSE
          DO:
-            FIND FIRST {&tableName} NO-LOCK WHERE {&tableName}.parent_id = iParentId 
-                                                AND {&tableName}.field_name = iCurrentKeyName
-                                                NO-ERROR.
+			/*
+            FIND FIRST {&tableName} NO-LOCK WHERE {&tableName}.parent_id  = iParentId 
+                                              /*AND {&tableName}.field_name = tCurrentKeyName*/
+                                         NO-ERROR.
+										 */
             IF NOT AVAILABLE {&tableName} THEN tCurrentId =  -1. ELSE tCurrentId = {&tableName}.id.
          END.
         
-        IF iRemainingKey = "" THEN RETURN tCurrentId.
+        IF tRemainingKey = "" THEN RETURN tCurrentId.
         RETURN getKeyId(tCurrentId, tRemainingKey, iLevel + 1).
      END.
 
@@ -72,10 +74,12 @@
      END.
      METHOD PUBLIC LOG getValueLog(iParentId AS INT64, iKeyName AS CHARACTER, iFormat AS CHAR):
         DEFINE VARIABLE oValue AS LOG NO-UNDO.
+        /* TODO!
         IF iFormat = "" THEN
             oValue = LOG(getValueChar(iParentId, iKeyName)) NO-ERROR.
-        ELSE
+		ELSE
             oValue = LOG(getValueChar(iParentId, iKeyName), iFormat) NO-ERROR.
+			*/
         RETURN oValue.
      END.
      METHOD PUBLIC DATE getValueDate(iParentId AS INT64, iKeyName AS CHAR):
@@ -106,12 +110,12 @@
      METHOD PUBLIC LOG getValueLog(iKeyName AS CHARACTER):
         RETURN getValueLog(defaultRootKeyId, iKeyName, "").
      END.
-     METHOD PUBLIC LOG getValueLog(iParentId AS INT64, iKeyName AS CHARACTER, iFormat AS CHAR):
+     METHOD PUBLIC LOG getValueLog(iKeyName AS CHARACTER, iFormat AS CHAR):
         RETURN getValueLog(defaultRootKeyId, iKeyName, iFormat).
      END.
      METHOD PUBLIC DATE getValueDate(iKeyName AS CHAR):
         RETURN getValueDate(defaultRootKeyId, iKeyName).
      END.
-     METHOD PUBLIC DATETIME getValueDatetime(iParentId AS INT64, iKeyName AS CHAR):
+     METHOD PUBLIC DATETIME getValueDatetime(iKeyName AS CHAR):
         RETURN getValueDatetime(defaultRootKeyId, iKeyName).
      END.

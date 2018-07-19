@@ -10,36 +10,17 @@ POS FUNCTION DESCRIPTION                                                 SUBMENU
 Find menu         [************************************************************]
 */
 
-DEFINE VARIABLE Settings AS globalSettings.
+DEFINE VARIABLE menuForm AS menuForm.
 
-Settings = NEW globalSettings().
+menuForm = NEW menuForm().
 
 FUNCTION deleteObjects CHARACTER():
-    DELETE OBJECT Settings NO-ERROR.
+    DELETE OBJECT menuForm NO-ERROR.
 END.
 
 /* 20 + 30 + 30 */
-DEFINE FRAME headerFrame
-      STRING(Settings:g-today, "dd.mm.yyyy")
-  " " STRING(TIME, "hh:mm:ss")
-  " " STRING(Settings:companyName, "X(29)")
-  " " STRING(Settings:companyName, "X(30)").
-
-FUNCTION showHeaderFrame VOID():
-	VIEW FRAME headFrame. PAUSE 0.
-END.
-
-{menuTable.i}
-
-DEFINE BROWSE bf 
-	tmpMenu.
-
-DEFINE FRAME dataFrame
-	bf HELP ""
-	.
-
-FUNCTION dataRecordset VOID():
-
-END.
+menuForm:showMenu().
 
 deleteObjects().
+
+QUIT.

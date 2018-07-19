@@ -12,6 +12,7 @@ CLASS menuApi INHERITS apiBase:
     END.
 */
 
+<<<<<<< HEAD
 /*    
 	METHOD PUBLIC CHARACTER getData (filter AS menuFilterModel, TEMP-TABLE menuTable BIND):
         RETURN getData(filter:parent_id, TEMP-TABLE menuTable BIND).
@@ -27,6 +28,10 @@ CLASS menuApi INHERITS apiBase:
         END.
         
         RETURN "".
+=======
+	METHOD PUBLIC CHARACTER getData():
+	 
+>>>>>>> d6f1b9819a373ef908df8d2637da0e6583a5857f
 	END.
 
     METHOD PUBLIC LOG existsMenuItem(iId AS INT64):
