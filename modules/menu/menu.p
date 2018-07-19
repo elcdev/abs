@@ -25,5 +25,21 @@ DEFINE FRAME headerFrame
   " " STRING(Settings:companyName, "X(29)")
   " " STRING(Settings:companyName, "X(30)").
 
+FUNCTION showHeaderFrame VOID():
+	VIEW FRAME headFrame. PAUSE 0.
+END.
+
+{menuTable.i}
+
+DEFINE BROWSE bf 
+	tmpMenu.
+
+DEFINE FRAME dataFrame
+	bf HELP ""
+	.
+
+FUNCTION dataRecordset VOID():
+
+END.
 
 deleteObjects().
