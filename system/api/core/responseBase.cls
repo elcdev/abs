@@ -1,10 +1,12 @@
 CLASS responseBase IMPLEMENTS responseInterface:
-    DEFINE PUBLIC VARIABLE state            AS CHARACTER NO-UNDO.
+    DEFINE PUBLIC VARIABLE state            AS CHARACTER   NO-UNDO.
 
-    DEFINE PUBLIC VARIABLE errorDescription AS CHARACTER NO-UNDO.
-    DEFINE PUBLIC VARIABLE infoDescription  AS CHARACTER NO-UNDO.
-
-    DEFINE VARIABLE cJsonMaker              AS jsonMaker NO-UNDO.
+    DEFINE PUBLIC VARIABLE errorDescription AS CHARACTER   NO-UNDO.
+    DEFINE PUBLIC VARIABLE infoDescription  AS CHARACTER   NO-UNDO.
+    DEFINE PUBLIC VARIABLE jsonData         AS LONGCHAR    NO-UNDO.
+    DEFINE PUBLIC VARIABLE data             AS requestBase NO-UNDO.
+    
+    DEFINE VARIABLE cJsonMaker              AS jsonMaker   NO-UNDO.
     
     CONSTRUCTOR responseBase():
         cJsonMaker = NEW jsonMaker().
@@ -20,9 +22,11 @@ CLASS responseBase IMPLEMENTS responseInterface:
         json = cJsonMaker:jsonValue("state", state).
         json = json + cJsonMaker:jsonValue("errorDescription", errorDescription).
         json = json + cJsonMaker:jsonValue("infoDescription", errorDescription).
-        json = cJsonMaker:jsonValue("responseBase", json, "object").
+        json = json + cJsonMaker:jsonValue("data", data:getJson(), "object").
+        json = cJsonMaker:jsonValue("response", json, "object").
+        jsonData = cJsonMaker:getResultJson(json).
         
-        RETURN cJsonMaker:getResultJson(json).
+        RETURN jsonData.
     END.
     
 END CLASS.

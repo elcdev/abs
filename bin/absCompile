@@ -1,6 +1,10 @@
 #!/bin/bash
 
-. ./absSettings
+. /home/abs/bin/absSettings
+
+cd $absRoot
+
+git pull
 
 compileMode=$1
 

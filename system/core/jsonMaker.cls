@@ -51,13 +51,13 @@ CLASS jsonMaker:
         RETURN ch.
     END.
     
-    METHOD PUBLIC CHARACTER jsonSpecialChars(iValue AS CHARACTER):
+    METHOD CHARACTER jsonSpecialChars(iValue AS CHARACTER):
         DEFINE VARIABLE tValue  AS LONGCHAR  NO-UNDO.
         tValue = iValue.
         RETURN STRING(jsonSpecialChars(tValue)).
     END.
     
-    METHOD PUBLIC LONGCHAR jsonSpecialChars(iValue AS LONGCHAR):
+    METHOD LONGCHAR jsonSpecialChars(iValue AS LONGCHAR):
         DEFINE VARIABLE i       AS INTEGER   NO-UNDO.
         DEFINE VARIABLE c       AS CHARACTER NO-UNDO.
         DEFINE VARIABLE oValue  AS LONGCHAR  NO-UNDO.

@@ -1,3 +1,3 @@
-git commit -m "Update database"
+git commit -m "Windows to unix update scripts"
 
 #git config core.autocrlf true

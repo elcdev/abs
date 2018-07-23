@@ -1,0 +1,25 @@
+/*
+DEF TEMP-TABLE account NO-UNDO
+        FIELD id                AS INT64
+        FIELD version           AS INT64
+        FIELD state             AS INT64
+        FIELD modify_date       AS DATETIME
+        FIELD create_date       AS DATETIME
+        FIELD modify_user       AS CHAR
+        FIELD create_user       AS CHAR
+
+        FIELD is_active         AS INT INIT 0 /* 0-new/inactive; 1-active; 2-deactivated; 9-closed; */
+        FIELD general_ledget    AS CHAR
+        FIELD account           AS CHAR
+        FIELD iban              AS CHAR
+        FIELD sub_account_type  AS CHAR
+        
+        INDEX id id
+        INDEX version version
+        INDEX state state
+        INDEX account_id account_id
+        INDEX name name 
+        INDEX modify_date modify_date
+        INDEX is_active is_active
+    .
+*/

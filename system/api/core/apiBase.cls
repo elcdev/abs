@@ -1,5 +1,5 @@
 CLASS apiBase IMPLEMENTS apiInterface:
-     DEFINE VARIABLE response AS responseBase.
+     DEFINE PUBLIC VARIABLE response AS responseBase.
      
      CONSTRUCTOR apiBase():
         response = NEW responseBase().
@@ -12,5 +12,4 @@ CLASS apiBase IMPLEMENTS apiInterface:
      METHOD PUBLIC responseBase invoke(request AS requestBase).
         RETURN response.
      END.
-
 END CLASS.

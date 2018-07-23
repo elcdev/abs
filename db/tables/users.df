@@ -3,6 +3,7 @@ ADD TABLE "users"
     DESCRIPTION "ABS System data tables"
 
 ADD FIELD "id" OF "users" AS INT64
+    DESCRIPTION "Record Id"
     FORMAT ">>>>>>>>>>>9"
     INITIAL "0"
     POSITION 2
@@ -10,6 +11,7 @@ ADD FIELD "id" OF "users" AS INT64
     ORDER 10
 
 ADD FIELD "version" OF "users" AS INT64
+    DESCRIPTION "Record version for replication"
     FORMAT ">>>>>>>>>>>9"
     INITIAL "0"
     POSITION 3
@@ -17,6 +19,7 @@ ADD FIELD "version" OF "users" AS INT64
     ORDER 20
 
 ADD FIELD "state" OF "users" AS INT64
+    DESCRIPTION "Record state for replication"
     FORMAT ">>>9"
     INITIAL "0"
     POSITION 4
@@ -24,6 +27,7 @@ ADD FIELD "state" OF "users" AS INT64
     ORDER 30
 
 ADD FIELD "modify_date" OF "users" AS DATETIME
+    DESCRIPTION "Record modification date"
     FORMAT "99.99.99 hh:mm:ss"
     INITIAL "now"
     POSITION 5
@@ -31,6 +35,7 @@ ADD FIELD "modify_date" OF "users" AS DATETIME
     ORDER 40
 
 ADD FIELD "modify_user" OF "users" AS CHAR
+    DESCRIPTION "Record modification user"
     FORMAT "X(8)"
     INITIAL ""
     POSITION 6
@@ -38,6 +43,7 @@ ADD FIELD "modify_user" OF "users" AS CHAR
     ORDER 50
 
 ADD FIELD "create_date" OF "users" AS DATETIME
+    DESCRIPTION "Record creation date"
     FORMAT "99.99.99 hh:mm:ss"
     INITIAL "now"
     POSITION 7
@@ -45,6 +51,7 @@ ADD FIELD "create_date" OF "users" AS DATETIME
     ORDER 60
 
 ADD FIELD "create_user" OF "users" AS CHAR
+    DESCRIPTION "Record creation user"
     FORMAT "X(8)"
     INITIAL ""
     POSITION 8
@@ -52,6 +59,7 @@ ADD FIELD "create_user" OF "users" AS CHAR
     ORDER 70
 
 ADD FIELD "login" OF "users" AS CHAR
+    DESCRIPTION "User login name"
     FORMAT "X(8)"
     INITIAL ""
     POSITION 9
@@ -59,6 +67,7 @@ ADD FIELD "login" OF "users" AS CHAR
     ORDER 80
 
 ADD FIELD "first_name" OF "users" AS CHAR
+    DESCRIPTION "User's first name"
     FORMAT "X(8)"
     INITIAL ""
     POSITION 10
@@ -66,6 +75,7 @@ ADD FIELD "first_name" OF "users" AS CHAR
     ORDER 90
 
 ADD FIELD "last_name" OF "users" AS CHAR
+    DESCRIPTION "User's last name"
     FORMAT "X(8)"
     INITIAL ""
     POSITION 11
@@ -73,6 +83,7 @@ ADD FIELD "last_name" OF "users" AS CHAR
     ORDER 100
 
 ADD FIELD "roles" OF "users" AS CHAR
+    DESCRIPTION "User's security roles separeted by coma [,]"
     FORMAT "X(50)"
     INITIAL ""
     POSITION 12
@@ -80,6 +91,7 @@ ADD FIELD "roles" OF "users" AS CHAR
     ORDER 110
 
 ADD FIELD "email" OF "users" AS CHAR
+    DESCRIPTION "User's email"
     FORMAT "X(50)"
     INITIAL ""
     POSITION 13
@@ -87,12 +99,73 @@ ADD FIELD "email" OF "users" AS CHAR
     ORDER 120
 
 ADD FIELD "password" OF "users" AS CHAR
+    DESCRIPTION "User's password hash"
     DESCRIPTION "Password hash value"
     FORMAT "X(50)"
     INITIAL ""
     POSITION 14
     MAX-WIDTH 4
     ORDER 130
+
+ADD FIELD "registration_number" OF "users" AS CHAR
+    DESCRIPTION "User's registration number/person code"
+    FORMAT "X(20)"
+    INITIAL ""
+    POSITION 15
+    MAX-WIDTH 4
+    ORDER 100
+
+ADD FIELD "client_id" OF "users" AS INT64
+    DESCRIPTION "User relation with clients table"
+    FORMAT ">>>>>>>>>>>9"
+    INITIAL 0
+    POSITION 16
+    MAX-WIDTH 4
+    ORDER 100
+
+    
+    
+
+ADD INDEX "id" ON "users" 
+  AREA "System Index"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "modify_date" ON "users" 
+  AREA "System Index"
+  INDEX-FIELD "modify_date" ASCENDING 
+
+ADD INDEX "modify_user" ON "users" 
+  AREA "System Index"
+  INDEX-FIELD "modify_user" ASCENDING 
+
+ADD INDEX "state" ON "users" 
+  AREA "System Index"
+  INDEX-FIELD "state" ASCENDING 
+
+ADD INDEX "version" ON "users" 
+  AREA "System Index"
+  INDEX-FIELD "version" ASCENDING 
+
+
+ADD INDEX "login" ON "users" 
+  AREA "System Index"
+  INDEX-FIELD "login" ASCENDING 
+  
+ADD INDEX "email" ON "users" 
+  AREA "System Index"
+  UNIQUE
+  INDEX-FIELD "email" ASCENDING 
+    
+ADD INDEX "registration_number" ON "users" 
+  AREA "System Index"
+  INDEX-FIELD "registration_number" ASCENDING 
+
+ADD INDEX "client_id" ON "users" 
+  AREA "System Index"
+  INDEX-FIELD "client_id" ASCENDING 
+
 
 .
 PSC

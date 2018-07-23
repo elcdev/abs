@@ -1,0 +1,1 @@
+DEFINE TEMP-TABLE menuTable LIKE menu.
