@@ -58,14 +58,14 @@ ADD FIELD "login" OF "users" AS CHAR
     MAX-WIDTH 4
     ORDER 80
 
-ADD FIELD "firstName" OF "users" AS CHAR
+ADD FIELD "first_name" OF "users" AS CHAR
     FORMAT "X(8)"
     INITIAL ""
     POSITION 10
     MAX-WIDTH 4
     ORDER 90
 
-ADD FIELD "lastName" OF "users" AS CHAR
+ADD FIELD "last_name" OF "users" AS CHAR
     FORMAT "X(8)"
     INITIAL ""
     POSITION 11
