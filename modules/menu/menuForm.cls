@@ -40,14 +40,14 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
     END.
 
     METHOD PUBLIC CHARACTER recordset():
-        RETURN cMenuApi:getData(0, 0, TEMP-TABLE menuTable BIND).
+        RETURN cMenuApi:getData(0, 0, TABLE menuTable BIND).
     END.
 
     ON RETURN OF menuFrame
      DO:
         IF NOT AVAILABLE menuTable THEN RETURN.
         
-        RETURN cMenuApi:getData(menuTable.id, 0, TEMP-TABLE menuTable BIND).
+        RETURN cMenuApi:getData(menuTable.id, 0, TABLE menuTable BIND).
      END.
      
     
