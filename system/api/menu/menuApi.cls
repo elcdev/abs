@@ -56,7 +56,7 @@ CLASS menuApi INHERITS apiBase:
     END.
     
     METHOD PUBLIC menuItemModel getMenuItem(iId AS INT64):
-        DEFINE tMenu AS menuItemModel NO-UNDO.
+        DEFINE VARIABLE tMenu AS menuItemModel NO-UNDO.
         
         IF NOT existsMenuItem(iId) THEN RETURN ?.
         
@@ -68,7 +68,7 @@ CLASS menuApi INHERITS apiBase:
     END.
 
     METHOD PUBLIC menuItemModel getMenuItem(iFunction AS CHAR):
-        DEFINE tMenu AS menuItemModel NO-UNDO.
+        DEFINE VARIABLE tMenu AS menuItemModel NO-UNDO.
         
         IF NOT existsMenuItem(iFunction) THEN RETURN ?.
         
