@@ -17,7 +17,7 @@ CLASS systemSettingsRequest inherits requestBase IMPLEMENTS dbInterface:
     
     END.
     
-	METHOD PUBLIC OVERRIDE CHARACTER getDb(iId AS INT64):
+	METHOD PUBLIC CHARACTER getDb(iId AS INT64):
         {requestItemGetDb.f system_settings}
         
         parent_id   = system_settings.parent_id.
