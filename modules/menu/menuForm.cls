@@ -42,7 +42,7 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
     METHOD PUBLIC CHARACTER recordset():
         DEFINE VARIABLE menuHandle AS HANDLE.
         
-        menuHandle = menuTable:HANDLE.
+        menuHandle = TEMP-TABLE menuTable:HANDLE.
         
         RETURN cMenuApi:getData(0, 0, TABLE menuHandle BIND).
     END.
