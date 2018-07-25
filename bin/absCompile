@@ -9,11 +9,10 @@ git pull
 compileMode=$1
 
 export tmpCompilePath=$absLog/$$.cpl
+rm -rd $absLog/*.cpl
 mkdir $tmpCompilePath 2>/dev/null
 
 cd $tmpCompilePath
-
-rm -rd $absLog/*.cpl
 rm -f *.r
 
 function compile {
