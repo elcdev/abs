@@ -47,7 +47,7 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
         RETURN cMenuApi:getData(0, TABLE menuTable BIND).
     END.
 
-    ON RETURN OF menuFrame
+    ON RETURN OF menuBrowse
      DO:
         IF NOT AVAILABLE menuTable THEN RETURN.
         
