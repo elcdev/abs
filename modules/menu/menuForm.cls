@@ -40,7 +40,11 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
     END.
 
     METHOD PUBLIC CHARACTER recordset():
-        RETURN cMenuApi:getData(0, 0, TABLE menuTable BIND).
+        DEFINE VARIABLE menuHandle AS HANDLE.
+        
+        menuHandle = menuTab:HANDLE.
+        
+        RETURN cMenuApi:getData(0, 0, TABLE menuHandle BIND).
     END.
 
     ON RETURN OF menuFrame
