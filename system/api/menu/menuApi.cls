@@ -12,7 +12,7 @@ CLASS menuApi INHERITS apiBase:
         RETURN "".
     END.
 
-    METHOD PUBLIC CHARACTER getData (searchString AS CHAR, iTop AS INT64, TEMP-TABLE menuTable BIND):
+    METHOD PUBLIC CHARACTER getData (searchString AS CHAR, iTop AS INT64, TABLE menuTable BIND):
         DEFINE BUFFER menu FOR menu.
         DEFINE VARIABLE i AS INT64 NO-UNDO INITIAL 0.
         
