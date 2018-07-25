@@ -1,5 +1,5 @@
 CLASS menuItemModel inherits dbModel IMPLEMENTS dbInterface:
-    DEFINE PUBLIC VARIABLE parent_id     AS INTEGER   NO-UNDO.
+    DEFINE PUBLIC VARIABLE parent_id     AS INT64     NO-UNDO.
     DEFINE PUBLIC VARIABLE position      AS INTEGER   NO-UNDO.
 	DEFINE PUBLIC VARIABLE functionName  AS CHARACTER NO-UNDO.
 	DEFINE PUBLIC VARIABLE procedureName AS CHARACTER NO-UNDO.
@@ -23,7 +23,7 @@ CLASS menuItemModel inherits dbModel IMPLEMENTS dbInterface:
         RETURN getDb(id).
     END.
     
-	METHOD PUBLIC CHARACTER getDb(iId AS INT):
+	METHOD PUBLIC CHARACTER getDb(iId AS INT64):
         {requestItemGetDb.f menu}
         
         parent_id     = menu.parent_id.
