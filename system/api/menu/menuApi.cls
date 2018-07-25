@@ -1,21 +1,5 @@
 CLASS menuApi INHERITS apiBase:
     {menuTable.i}
-/*
-    METHOD PUBLIC OVERRIDE responseBase invoke(model AS dbModel).
-        CASE request:action:
-            WHEN "getdb"   THEN response:errorDescription = request:getDb().
-            WHEN "putdb"   THEN response:errorDescription = request:putDb().
-            WHEN "getjson" THEN response:jsonData         = request:getJson().
-        END.
-        
-        RETURN response.
-    END.
-*/
-/*    
-	METHOD PUBLIC CHARACTER getData (filter AS menuFilterModel, TEMP-TABLE menuTable BIND):
-        RETURN getData(filter:parent_id, TEMP-TABLE menuTable BIND).
-    END.
-*/
 
     METHOD PUBLIC CHARACTER getData (parent_id AS INT64, TEMP-TABLE menuTable BIND):
         DEFINE BUFFER menu FOR menu.
