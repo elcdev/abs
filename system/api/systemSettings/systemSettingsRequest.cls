@@ -27,7 +27,7 @@ CLASS systemSettingsRequest inherits requestBase IMPLEMENTS dbInterface:
         RETURN "".
 	END.
 	
-	METHOD PUBLIC CHARACTER getJson():
+	METHOD PUBLIC OVERRIDE CHARACTER getJson():
 	
 	END.
 	
