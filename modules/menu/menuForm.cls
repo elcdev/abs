@@ -44,14 +44,14 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
         
         menuHandle = TEMP-TABLE menuTable:HANDLE.
         
-        RETURN cMenuApi:getData(0, 0, TABLE menuHandle BIND).
+        RETURN cMenuApi:getData(0, TABLE menuHandle BIND).
     END.
 
     ON RETURN OF menuFrame
      DO:
         IF NOT AVAILABLE menuTable THEN RETURN.
         
-        RETURN cMenuApi:getData(menuTable.id, 0, TABLE menuTable BIND).
+        RETURN cMenuApi:getData(menuTable.id, TABLE menuTable BIND).
      END.
      
     
