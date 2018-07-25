@@ -19,7 +19,7 @@ CLASS menuTableRequest inherits requestBase IMPLEMENTS dbInterface:
         RETURN getDb(id).
     END.
 	
-	METHOD PUBLIC CHARACTER getDb(iId AS INT):
+	METHOD PUBLIC CHARACTER getDb(iId AS INT64):
         {requestItemGetDb.f menu}
 
         FIND FIRST menuTable.
