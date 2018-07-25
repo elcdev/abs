@@ -4,7 +4,7 @@ CLASS menuTableRequest inherits requestBase IMPLEMENTS dbInterface:
 	METHOD PUBLIC OVERRIDE CHARACTER putDb():
         {requestItemPutDb.f menu}
         
-        BUFFER-COPY tmpMenu TO menu.
+        BUFFER-COPY menuTable TO menu.
 /*        
         position      = menu.position.
         functionName  = menu.function_name.
@@ -22,9 +22,9 @@ CLASS menuTableRequest inherits requestBase IMPLEMENTS dbInterface:
 	METHOD PUBLIC CHARACTER getDb(iId AS INT):
         {requestItemGetDb.f menu}
 
-        FIND FIRST tmpMenu.
-        IF NOT AVAILABLE tmpMenu THEN CREATE tmpMenu.
-        BUFFER-COPY menu TO tmpMenu.
+        FIND FIRST menuTable.
+        IF NOT AVAILABLE menuTable THEN CREATE menuTable.
+        BUFFER-COPY menu TO menuTable.
 /*
         menu.position       = position.
         menu.function_name  = functionName.
