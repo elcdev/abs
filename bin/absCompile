@@ -9,7 +9,7 @@ git pull
 compileMode=$1
 mkdir $absRCode 2>/dev/null
 mkdir $absRCode/hash 2>/dev/null
-rm -rd $absLog/*.cpl
+rm -rd $absLog/*.cpl 2>/dev/null
 
 export tmpCompilePath=$absLog/$$.cpl
 mkdir $tmpCompilePath 2>/dev/null
