@@ -6,7 +6,7 @@ CLASS menuItemModel inherits dbModel IMPLEMENTS dbInterface:
 	DEFINE PUBLIC VARIABLE slug          AS CHARACTER NO-UNDO.
 	DEFINE PUBLIC VARIABLE description   AS CHARACTER NO-UNDO.
 	
-	METHOD PUBLIC CHARACTER putDb():
+	METHOD PUBLIC OVERRIDE CHARACTER putDb():
         {requestItemPutDb.f menu}
         
         menu.parent_id      = parent_id.
@@ -19,7 +19,7 @@ CLASS menuItemModel inherits dbModel IMPLEMENTS dbInterface:
         RETURN "".
 	END.
 	
-    METHOD PUBLIC CHARACTER getDb():
+    METHOD PUBLIC OVERRIDE CHARACTER getDb():
         RETURN getDb(id).
     END.
     
@@ -50,7 +50,7 @@ CLASS menuItemModel inherits dbModel IMPLEMENTS dbInterface:
         RETURN getDb(getIdByFunctionName(iFunction)).
     END.
     
-	METHOD PUBLIC CHARACTER getJson():
+	METHOD PUBLIC OVERRIDE CHARACTER getJson():
 	
 	END.
 	
