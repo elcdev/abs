@@ -19,7 +19,7 @@ CLASS menuItemModel inherits dbModel IMPLEMENTS dbInterface:
         RETURN "".
 	END.
 	
-    METHOD PUBLIC CHARACTER getDb():
+    METHOD PUBLIC OVERRIDE CHARACTER getDb():
         RETURN getDb(id).
     END.
     
