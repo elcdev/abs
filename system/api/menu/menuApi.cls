@@ -1,7 +1,7 @@
 CLASS menuApi INHERITS apiBase:
     {menuTable.i}
 
-    METHOD PUBLIC CHARACTER getData (parent_id AS INT64, TEMP-TABLE menuTable BIND):
+    METHOD PUBLIC CHARACTER getData (parent_id AS INT64, TABLE menuTable BIND):
         DEFINE BUFFER menu FOR menu.
         
         FOR EACH menu NO-LOCK WHERE menu.parent_id = parent_id:
