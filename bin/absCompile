@@ -6,6 +6,8 @@ cd $absRoot
 
 git pull
 
+rm -rd *.cpl
+
 compileMode=$1
 
 export tmpCompilePath=$absLog/$$.cpl
