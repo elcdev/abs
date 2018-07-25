@@ -3,7 +3,7 @@ CLASS systemSettingsRequest inherits requestBase IMPLEMENTS dbInterface:
 	DEF VAR field_name  AS CHARACTER NO-UNDO.
 	DEF VAR field_value AS CHARACTER NO-UNDO.
 
-	METHOD PUBLIC CHARACTER putDb():
+	METHOD PUBLIC OVERRIDE CHARACTER putDb():
         {requestItemPutDb.f system_settings}
         
         parent_id   = system_settings.parent_id.
@@ -13,7 +13,7 @@ CLASS systemSettingsRequest inherits requestBase IMPLEMENTS dbInterface:
         RETURN "".
 	END.
 	
-	METHOD PUBLIC CHARACTER getDb(iId AS INT):
+	METHOD PUBLIC OVERRIDE CHARACTER getDb(iId AS INT):
         {requestItemGetDb.f system_settings}
         
         parent_id   = system_settings.parent_id.
