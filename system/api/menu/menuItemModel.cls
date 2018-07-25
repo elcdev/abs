@@ -1,4 +1,4 @@
-CLASS menuItemModel inherits dbModel IMPLEMENTS dbInterface:
+CLASS menuItemModel inherits dbModel:
     DEFINE PUBLIC VARIABLE parent_id     AS INT64     NO-UNDO.
     DEFINE PUBLIC VARIABLE position      AS INTEGER   NO-UNDO.
 	DEFINE PUBLIC VARIABLE functionName  AS CHARACTER NO-UNDO.
