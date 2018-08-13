@@ -1,0 +1,17 @@
+{
+	"name":"General ledged module",
+	"description":"General ledged module is used to manage transactions.",
+	
+	"menu":[
+		{
+			"item":{
+				"position":"1-2",
+				"name":"General ladget",
+				"function":"",
+				"procedure":"generalLedgetMenu.p",
+				"slug":""
+			}
+		}
+	]
+	
+}
