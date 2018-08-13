@@ -31,7 +31,7 @@ CLASS jsonParser:
         RETURN returnValue.
     END.
     
-    METHOD PUBLIC CHARACTER jsonParser(json AS LONGCHAR):
+    METHOD PUBLIC CHARACTER parse(json AS LONGCHAR):
     
     END.
     
