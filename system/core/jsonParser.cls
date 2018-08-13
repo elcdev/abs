@@ -24,7 +24,9 @@ CLASS jsonParser:
     END.
     
     METHOD PUBLIC LONGCHAR JsonDecodeValue(val AS LONGCHAR):
+        DEFINE VARIABLE returnValue AS LONGCHAR NO-UNDO.
         /* TODO */
+        returnValue = val.
         IF INDEX(returnValue, '\\u') > 0 THEN
             returnValue = CONSTRUCTOR:UHEX_TO_CHAR(returnValue, TRUE).
         
