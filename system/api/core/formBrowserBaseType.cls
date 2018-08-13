@@ -4,7 +4,7 @@ CLASS formBrowserBaseType IMPLEMENTS formBrowserInterface:
     DEFINE VARIABLE searchKeyWord AS CHARACTER NO-UNDO INITIAL "".
     DEFINE VARIABLE tmpFormId     AS INT64     NO-UNDO INITIAL 0.
     
-    DEFINE BUFFER searchBuffer FOR formTable.
+    /*DEFINE BUFFER searchBuffer FOR formTable.*/
     DEFINE VARIABLE garbage       AS garbageCollectorType.
     
     CONSTRUCTOR formBrowserBaseType():
@@ -21,10 +21,10 @@ CLASS formBrowserBaseType IMPLEMENTS formBrowserInterface:
     METHOD PUBLIC CHARACTER Recodset():
     END.
     
-    METHOD PUBLIC INT64 SearchByKeyword(searchKeyword AS CHAR):
+    METHOD PUBLIC INT64 SearchByKeyword(searchKeyword AS CHARACTER, searchBuffer AS BUFFER):
     END.
     
-    METHOD PUBLIC INT64 RepositionBrowse():
+    METHOD PUBLIC CHAR RepositionBrowse():
         IF searchKeyWord <> "" THEN
          DO:
             searchByKeyWord(searchKeyWord).
@@ -51,7 +51,7 @@ CLASS formBrowserBaseType IMPLEMENTS formBrowserInterface:
         
         IF AVAILABLE searchBuffer THEN RETURN INT64(searchBuffer.id).
         
-        RETURN -1.
+        RETURN "ERROR-KEYWORD-NOT-FOUND".
     END.
     
     METHOD PUBLIC INT64 DisableForm():
