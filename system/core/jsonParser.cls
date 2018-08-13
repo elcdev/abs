@@ -24,21 +24,23 @@ CLASS jsonParser:
     END.
     
     METHOD PUBLIC LONGCHAR JsonDecodeValue(val AS LONGCHAR):
-        TODO.
-        + 
+        /* TODO */
         IF INDEX(returnValue, '\\u') > 0 THEN
             returnValue = CONSTRUCTOR:UHEX_TO_CHAR(returnValue, TRUE).
         
         RETURN returnValue.
     END.
     
-    METHOD 
+    METHOD PUBLIC CHARACTER jsonParser(json AS LONGCHAR):
+    
+    END.
     
     
 END CLASS.
     
     
     
+    /*
     
     
     
@@ -136,3 +138,4 @@ END CLASS.
     
     
 END CLASS.
+*/
