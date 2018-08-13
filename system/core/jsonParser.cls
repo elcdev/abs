@@ -27,14 +27,20 @@ CLASS jsonParser:
         DEFINE VARIABLE returnValue AS LONGCHAR NO-UNDO.
         /* TODO */
         returnValue = val.
+        returnValue = REPLACE(val, '\\"', '"').
+        returnValue = REPLACE(returnValue, '\\r', CHR(10)).
+        returnValue = REPLACE(returnValue, '\\n', CHR(13)).
+        returnValue = REPLACE(returnValue, '\\t', CHR(9)).
+        /*
         IF INDEX(returnValue, '\\u') > 0 THEN
             returnValue = CONSTRUCTOR:UHEX_TO_CHAR(returnValue, TRUE).
-        
+        */
         RETURN returnValue.
     END.
     
     METHOD PUBLIC CHARACTER parse(json AS LONGCHAR):
-    
+        
+        RETURN "".
     END.
     
     
