@@ -9,4 +9,4 @@ for f in `ls -R -D *|grep :|grep -v public|grep -v session|grep -v "/tmp/"|grep 
   subfolders=$subfolders$absRoot/$f
 done
 
-PROPATH=$PROPATH:$subfolders
+export PROPATH=$PROPATH:$subfolders:$absRCode
