@@ -1,5 +1,5 @@
 CLASS menuApi INHERITS apiBase:
-    {formTable.i}
+    {menuTable.i}
 
     METHOD PUBLIC CHARACTER getData (parent_id AS INT64, TABLE formTable BIND):
         DEFINE BUFFER menu FOR menu.
