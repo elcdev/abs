@@ -15,5 +15,6 @@ CLASS garbageCollectorType:
     METHOD PUBLIC CHARACTER addItem(iObject AS Progress.Lang.Object):
         CREATE tmpObjects.
         tmpObjects.objectReference = iObject.
+        RETURN "".
     END.
 END.

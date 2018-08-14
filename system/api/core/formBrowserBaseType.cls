@@ -21,7 +21,8 @@ CLASS formBrowserBaseType IMPLEMENTS formBrowserInterface:
     METHOD PUBLIC CHARACTER Recodset():
     END.
     
-    METHOD PUBLIC INT64 SearchByKeyword(searchKeyword AS CHARACTER, searchBuffer AS BUFFER):
+    METHOD PUBLIC INT64 SearchByKeyword(searchKeyword AS CHARACTER, TEMP-TABLE searchBuffer AS HANDLE):
+        
     END.
     
     METHOD PUBLIC CHAR RepositionBrowse():
