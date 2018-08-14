@@ -38,6 +38,7 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
     METHOD PUBLIC CHARACTER showForm():
         SUPER:showHeader().
         VIEW FRAME headerFrame. PAUSE 0.
+        VIEW FRAME formFrame.   PAUSE 0.
     END.
 
     METHOD PUBLIC CHARACTER recordset():
