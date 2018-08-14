@@ -11,13 +11,15 @@ CLASS formBrowserBaseType IMPLEMENTS formBrowserInterface:
     END.
      
     DESTRUCTOR formBrowserBaseType():
-
+    
     END.
      
     METHOD PUBLIC CHARACTER InitForm():
+        RETURN "".
     END.
     
     METHOD PUBLIC CHARACTER Recodset():
+        RETURN "".
     END.
     
     METHOD PUBLIC CHARACTER SearchByKeyword(searchKeyword AS CHARACTER, TEMP-TABLE searchBuffer AS HANDLE):
@@ -54,28 +56,31 @@ CLASS formBrowserBaseType IMPLEMENTS formBrowserInterface:
         RETURN "ERROR-KEYWORD-NOT-FOUND".
     END.
     
-    METHOD PUBLIC INT64 DisableForm():
+    METHOD PUBLIC CHAR DisableForm():
         DISABLE ALL WITH FRAME formFrame.  PAUSE 0.
         DISABLE ALL WITH FRAME formShadow. PAUSE 0.
+        RETURN "".
     END.
 
-    METHOD PUBLIC INT64 HideForm():
+    METHOD PUBLIC CHAR HideForm():
         HIDE FRAME formFrame.  PAUSE 0.
         HIDE FRAME formShadow. PAUSE 0.
+        RETURN "".
     END.
     
-    METHOD PUBLIC INT64 ShowFrame():
+    METHOD PUBLIC CHAR ShowFrame():
         VIEW FRAME formShadow. PAUSE 0.
         VIEW FRAME formFrame.  PAUSE 0.
         ShowData().
+        RETURN "".
     END.
 
-    METHOD PUBLIC INT64 ShowForm():
+    METHOD PUBLIC CHAR ShowForm():
         InitForm().
         ShowFrame().
         Recordset().
         WAIT-FOR WINDOW-CLOSE OF CURRENT-WINDOW OR PF4, F4, GO OF FRAME formFrame.
-        HideForm().
+        RETURN HideForm().
     END.    
     
     ON PF2, F2 OF formBrowse
