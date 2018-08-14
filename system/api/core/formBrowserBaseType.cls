@@ -2,10 +2,9 @@ CLASS formBrowserBaseType IMPLEMENTS formBrowserInterface:
     DEFINE VARIABLE FORM_HELP_KEY AS CHARACTER NO-UNDO INITIAL "HELP".
     DEFINE VARIABLE FORM_TITLE    AS CHARACTER NO-UNDO INITIAL "".
     DEFINE VARIABLE searchKeyWord AS CHARACTER NO-UNDO INITIAL "".
-    DEFINE VARIABLE tmpFormId     AS INT64     NO-UNDO INITIAL 0.
     
-    /*DEFINE BUFFER searchBuffer FOR formTable.*/
-    DEFINE VARIABLE garbage       AS garbageCollectorType.
+    DEFINE PUBLIC VARIABLE tmpFormId     AS INT64     NO-UNDO INITIAL 0.
+    DEFINE PUBLIC VARIABLE garbage       AS garbageCollectorType.
     
     CONSTRUCTOR formBrowserBaseType():
         
