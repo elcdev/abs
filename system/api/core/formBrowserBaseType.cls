@@ -22,7 +22,7 @@ CLASS formBrowserBaseType IMPLEMENTS formBrowserInterface:
         RETURN "".
     END.
     
-    METHOD PUBLIC CHARACTER SearchByKeyword(searchKeyword AS CHARACTER, TEMP-TABLE searchBuffer AS HANDLE):
+    METHOD PUBLIC CHARACTER SearchByKeyword(searchKeyword AS CHARACTER, TABLE searchBuffer AS HANDLE):
         RETURN "".
     END.
     
