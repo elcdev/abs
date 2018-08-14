@@ -22,15 +22,23 @@ CLASS formBrowserBaseType IMPLEMENTS formBrowserInterface:
         RETURN "".
     END.
     
-    METHOD PUBLIC CHARACTER SearchByKeyword(searchKeyword AS CHARACTER, TABLE searchBuffer AS HANDLE):
-        RETURN "".
+    PARAMETER 
+    
+    METHOD PUBLIC RECID SearchByKeyword(searchKeyword AS CHARACTER):
+        IF searchKeyWord = "" OR searchKeyWord = ? THEN RETURN ?.
+        RETURN ?.
+    END.
+    
+    METHOD PUBLIC RECID SearchById(iId AS INT64):
+        RETURN ?.
     END.
     
     METHOD PUBLIC CHARACTER RepositionBrowse():
+        DEFINE VARIABLE tRecid AS RECID NO-UNDO.
+        
         IF searchKeyWord <> "" THEN
          DO:
-            searchByKeyWord(searchKeyWord).
-            IF NOT AVAILABLE searchBuffer THEN
+            IF tRecid = ? THEN
              DO:
                 searchKeyWord = SUBSTRING(searchKeyWord, 1, LENGTH(searchKeyWord) - 1).
                 RETURN RepositionBrowse().
@@ -40,18 +48,20 @@ CLASS formBrowserBaseType IMPLEMENTS formBrowserInterface:
          END.
         ELSE
          DO:
+            tRecid = SearchById(tmpFormId).
             HIDE MESSAGE.
+            /*
             FIND FIRST searchBuffer WHERE searchBuffer.id = tmpFormId
                 USE-INDEX id NO-LOCK NO-ERROR.
+                */
          END.
         
-        IF NOT AVAILABLE searchBuffer THEN
+        IF tRecid <> ? THEN
          DO:
             formBrowse:SET-REPOSITIONED-ROW(7, "CONDITIONAL") IN FRAME formFrame.
-            REPOSITION formQuery TO RECID RECID(searchBuffer) NO-ERROR.
+            REPOSITION formQuery TO RECID RECID(tRecid) NO-ERROR.
+            RETURN "".
          END.
-        
-        IF AVAILABLE searchBuffer THEN RETURN INT64(searchBuffer.id).
         
         RETURN "ERROR-KEYWORD-NOT-FOUND".
     END.
