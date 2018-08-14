@@ -19,7 +19,7 @@ FUNCTION deleteObjects CHARACTER():
 END.
 
 /* 20 + 30 + 30 */
-menuForm:showMenu().
+menuForm:showForm().
 
 deleteObjects().
 
