@@ -1,33 +1,33 @@
 CLASS menuApi INHERITS apiBase:
-    {menuTable.i}
+    {formTable.i}
 
-    METHOD PUBLIC CHARACTER getData (parent_id AS INT64, TABLE menuTable BIND):
+    METHOD PUBLIC CHARACTER getData (parent_id AS INT64, TABLE formTable BIND):
         DEFINE BUFFER menu FOR menu.
         
         FOR EACH menu NO-LOCK WHERE menu.parent_id = parent_id:
-            CREATE menuTable.
-            BUFFER-COPY menu TO menuTable.
+            CREATE formTable.
+            BUFFER-COPY menu TO formTable.
         END.
         
         RETURN "".
     END.
 
-    METHOD PUBLIC CHARACTER getData (searchString AS CHAR, iTop AS INT64, TABLE menuTable BIND):
+    METHOD PUBLIC CHARACTER getData (searchString AS CHAR, iTop AS INT64, TABLE formTable BIND):
         DEFINE BUFFER menu FOR menu.
         DEFINE VARIABLE i AS INT64 NO-UNDO INITIAL 0.
         
-        EMPTY TEMP-TABLE menuTable.
+        EMPTY TEMP-TABLE formTable.
         
         FOR EACH menu NO-LOCK WHERE menu.function_name MATCHES "*" + searchString + "*":
-            CREATE menuTable.
-            BUFFER-COPY menu TO menuTable.
+            CREATE formTable.
+            BUFFER-COPY menu TO formTable.
             i = i + 1.
             IF i > iTop AND iTop > 0 THEN LEAVE.
         END.
 
         FOR EACH menu NO-LOCK WHERE menu.description MATCHES "*" + searchString + "*":
-            CREATE menuTable.
-            BUFFER-COPY menu TO menuTable.
+            CREATE formTable.
+            BUFFER-COPY menu TO formTable.
             i = i + 1.
             IF i > iTop AND iTop > 0 THEN LEAVE.
         END.
