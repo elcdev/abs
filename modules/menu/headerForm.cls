@@ -36,7 +36,6 @@ DESTRUCTOR headerForm():
     DELETE OBJECT Settings NO-ERROR.
 END.
 
-
 METHOD PUBLIC CHARACTER showHeader():
     VIEW FRAME headerFrame. PAUSE 0.
 END.

@@ -16,7 +16,7 @@ CLASS closedDaysApi:
         DEFINE BUFFER closed_days FOR closed_days.
         
         FIND LAST closed_days NO-LOCK NO-ERROR.
-        IF NOT AVAILABLE closed_days THEN RETURN ?.
+        IF NOT AVAILABLE closed_days THEN RETURN today.
 
         RETURN closed_days.system_date.
     END.
