@@ -22,8 +22,6 @@ CLASS formBrowserBaseType IMPLEMENTS formBrowserInterface:
         RETURN "".
     END.
     
-    PARAMETER 
-    
     METHOD PUBLIC RECID SearchByKeyword(searchKeyword AS CHARACTER):
         IF searchKeyWord = "" OR searchKeyWord = ? THEN RETURN ?.
         RETURN ?.
