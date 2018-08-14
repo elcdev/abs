@@ -9,21 +9,22 @@ POS FUNCTION DESCRIPTION                                                 SUBMENU
 ================================================================================
 Find menu         [************************************************************]
 */
+
 CLASS menuForm INHERITS headerForm:
 DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
     {menuTable.i}
 
-    DEFINE QUERY menuQuery FOR menuTable.
+    DEFINE QUERY formQuery FOR formTable.
 
-    DEFINE BROWSE menuBrowse QUERY menuQuery DISPLAY
-        menuTable.position      FORMAT ">9"    LABEL "LN"
-        menuTable.description   FORMAT "X(30)" LABEL "DESCRIPTION"
-        menuTable.function_name FORMAT "X(14)" LABEL "FUNCTION"
+    DEFINE BROWSE formBrowse QUERY formQuery DISPLAY
+        formTable.position      FORMAT ">9"    LABEL "LN"
+        formTable.description   FORMAT "X(30)" LABEL "DESCRIPTION"
+        formTable.function_name FORMAT "X(14)" LABEL "FUNCTION"
         WITH 18 DOWN NO-BOX NO-LABELS
         .
         
-    DEFINE FRAME menuFrame
-        menuBrowse HELP " "
+    DEFINE FRAME formFrame
+        formBrowse HELP " "
       WITH NO-LABELS NO-BOX.
       
     CONSTRUCTOR menuForm():
@@ -34,24 +35,24 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
         DELETE OBJECT cMenuApi NO-ERROR.
     END.
 
-    METHOD PUBLIC CHARACTER showMenu():
+    METHOD PUBLIC CHARACTER showForm():
         SUPER:showHeader().
         VIEW FRAME headerFrame. PAUSE 0.
     END.
 
     METHOD PUBLIC CHARACTER recordset():
-        DEFINE VARIABLE menuHandle AS HANDLE.
+        DEFINE VARIABLE formHandle AS HANDLE.
         
-        menuHandle = TEMP-TABLE menuTable:HANDLE.
+        formHandle = TEMP-TABLE formTable:HANDLE.
         
-        RETURN cMenuApi:getData(0, TABLE menuTable BIND).
+        RETURN cMenuApi:getData(0, TABLE formTable BIND).
     END.
 
-    ON RETURN OF menuBrowse
+    ON RETURN OF formBrowse
      DO:
-        IF NOT AVAILABLE menuTable THEN RETURN.
+        IF NOT AVAILABLE formTable THEN RETURN.
         
-        RETURN cMenuApi:getData(menuTable.id, TABLE menuTable BIND).
+        RETURN cMenuApi:getData(formTable.id, TABLE formTable BIND).
      END.
      
     

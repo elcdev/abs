@@ -1,1 +1,1 @@
-DEFINE TEMP-TABLE menuTable LIKE menu.
+DEFINE TEMP-TABLE formTable LIKE menu NO-UNDO.

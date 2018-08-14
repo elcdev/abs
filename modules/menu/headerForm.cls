@@ -9,6 +9,7 @@ POS FUNCTION DESCRIPTION                                                 SUBMENU
 ================================================================================
 Find menu         [************************************************************]
 */
+
 CLASS headerForm:
 DEFINE VARIABLE Settings    AS globalSettingsApi.
 

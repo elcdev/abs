@@ -31,7 +31,7 @@ CLASS formBrowserBaseType IMPLEMENTS formBrowserInterface:
         RETURN ?.
     END.
     
-    METHOD PUBLIC CHARACTER RepositionBrowse():
+    METHOD PUBLIC CHARACTER RepositionBrowse(formBrowse AS BROWSE, formQuery AS QUERY):
         DEFINE VARIABLE tRecid AS RECID NO-UNDO.
         
         IF searchKeyWord <> "" THEN
