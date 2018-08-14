@@ -2,7 +2,7 @@ CLASS formBrowserBaseType IMPLEMENTS formBrowserInterface:
     DEFINE VARIABLE FORM_HELP_KEY AS CHARACTER NO-UNDO INITIAL "HELP".
     DEFINE VARIABLE FORM_TITLE    AS CHARACTER NO-UNDO INITIAL "".
     DEFINE VARIABLE searchKeyWord AS CHARACTER NO-UNDO INITIAL "".
-    
+
     DEFINE PUBLIC VARIABLE tmpFormId     AS INT64     NO-UNDO INITIAL 0.
     DEFINE PUBLIC VARIABLE garbage       AS garbageCollectorType.
     
@@ -20,11 +20,11 @@ CLASS formBrowserBaseType IMPLEMENTS formBrowserInterface:
     METHOD PUBLIC CHARACTER Recodset():
     END.
     
-    METHOD PUBLIC INT64 SearchByKeyword(searchKeyword AS CHARACTER, TEMP-TABLE searchBuffer AS HANDLE):
-        
+    METHOD PUBLIC CHARACTER SearchByKeyword(searchKeyword AS CHARACTER, TEMP-TABLE searchBuffer AS HANDLE):
+        RETURN "".
     END.
     
-    METHOD PUBLIC CHAR RepositionBrowse():
+    METHOD PUBLIC CHARACTER RepositionBrowse():
         IF searchKeyWord <> "" THEN
          DO:
             searchByKeyWord(searchKeyWord).
