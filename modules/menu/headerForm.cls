@@ -41,4 +41,8 @@ METHOD PUBLIC CHARACTER showHeader():
     VIEW FRAME headerFrame. PAUSE 0.
 END.
 
+METHOD PUBLIC CHARACTER hideHeader():
+    HIDE FRAME headerFrame. PAUSE 0.
+END.
+
 END.

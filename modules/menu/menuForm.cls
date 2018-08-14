@@ -37,10 +37,17 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
 
     METHOD PUBLIC CHARACTER showForm():
         SUPER:showHeader().
-        VIEW FRAME headerFrame. PAUSE 0.
+        /*VIEW FRAME headerFrame. PAUSE 0.*/
         VIEW FRAME formFrame.   PAUSE 0.
+        WAIT-FOR WINDOW-CLOSE OF CURRENT-WINDOW.
+        hideForm().
     END.
 
+    METHOD PUBLIC CHARACTER hideForm():
+        SUPER:hideHeader().
+        HIDE FRAME formFrame. PAUSE 0.
+    END.
+    
     METHOD PUBLIC CHARACTER recordset():
         DEFINE VARIABLE formHandle AS HANDLE.
         
