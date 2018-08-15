@@ -57,10 +57,7 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
     END.
 
     METHOD PUBLIC CHARACTER recordset():
-        DEFINE VARIABLE formHandle AS HANDLE.
-        formHandle = TEMP-TABLE formTable:HANDLE.
-        
-        cMenuApi:getData(0, TABLE-HANDLE formHandle BIND).
+        cMenuApi:getData(0, INPUT-OUTPUT TABLE formTable).
         openQuery().
         
         RETURN "".
@@ -68,12 +65,9 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
 
     ON RETURN OF formBrowse
      DO:
-        DEFINE VARIABLE formHandle AS HANDLE.
-        formHandle = TEMP-TABLE formTable:HANDLE.
-        
         IF NOT AVAILABLE formTable THEN RETURN.
         
-        RETURN cMenuApi:getData(formTable.id, TABLE-HANDLE formHandle BIND).
+        RETURN cMenuApi:getData(formTable.id, TABLE formTable).
      END.
      
     
