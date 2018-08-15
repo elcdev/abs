@@ -1,7 +1,7 @@
 CLASS menuApi INHERITS apiBase:
     {menuTable.i}
 
-    METHOD PUBLIC CHARACTER getData (parent_id AS INT64, TABLE formTable BIND):
+    METHOD PUBLIC CHARACTER getData (parent_id AS INT64, INPUT-OUTPUT TABLE formTable):
         DEFINE BUFFER menu FOR menu.
         
         EMPTY TEMP-TABLE formTable.
@@ -14,7 +14,7 @@ CLASS menuApi INHERITS apiBase:
         RETURN "".
     END.
 
-    METHOD PUBLIC CHARACTER getData (searchString AS CHAR, iTop AS INT64, TABLE formTable BIND):
+    METHOD PUBLIC CHARACTER getData (searchString AS CHAR, iTop AS INT64, INPUT-OUTPUT TABLE formTable):
         DEFINE BUFFER menu FOR menu.
         DEFINE VARIABLE i AS INT64 NO-UNDO INITIAL 0.
         
