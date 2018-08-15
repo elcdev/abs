@@ -57,7 +57,7 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
     END.
 
     METHOD PUBLIC CHARACTER recordset():
-        cMenuApi:getData(0, INPUT-OUTPUT TABLE formTable).
+        cMenuApi:getData(0, TABLE formTable).
         openQuery().
         
         RETURN "".
