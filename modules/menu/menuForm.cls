@@ -46,13 +46,25 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
         SUPER:hideHeader().
         HIDE FRAME formFrame. PAUSE 0.
     END.
-    
+
+    METHOD PUBLIC CHARACTER openQuery():
+        OPEN QUERY formQuery FOR EACH formTable.
+        RUN reposition().
+    END.
+
+    METHOD PUBLIC CHARACTER reposition():
+        
+    END.
+
     METHOD PUBLIC CHARACTER recordset():
         DEFINE VARIABLE formHandle AS HANDLE.
         
         formHandle = TEMP-TABLE formTable:HANDLE.
         
-        RETURN cMenuApi:getData(0, TABLE-HANDLE formHandle BIND).
+        cMenuApi:getData(0, TABLE-HANDLE formHandle BIND).
+        openQuery().
+        
+        RETURN "".
     END.
 
     ON RETURN OF formBrowse
