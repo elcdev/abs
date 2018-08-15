@@ -53,8 +53,53 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
         repositionForm().
     END.
 
-    METHOD PUBLIC CHARACTER repositionForm():
+    METHOD PUBLIC RECID SearchByKeyword(searchKeyword AS CHARACTER):
+        IF searchKeyWord = "" OR searchKeyWord = ? THEN RETURN ?.
+
+        FIND FIRST formTable WHERE formTable.function_name BEGINS searchKeyword NO-ERROR.
+        IF AVAILABLE formTable THEN RETURN RECID(formTable).
+
+        FIND FIRST formTable WHERE formTable.description BEGINS searchKeyword NO-ERROR.
+        IF AVAILABLE formTable THEN RETURN RECID(formTable).
         
+        RETURN ?.
+    END.
+    
+    METHOD PUBLIC RECID SearchById(iId AS INT64):
+        DEFINE BUFFER formTable FOR formTable.
+        FIND FIRST formTable WHERE formTable.id = iId NO-ERROR.
+        IF AVAILABLE formTable THEN RETURN RECID(formTable).
+        RETURN ?.
+    END.
+	
+    METHOD PUBLIC CHARACTER RepositionBrowse():
+        DEFINE VARIABLE tRecid AS RECID NO-UNDO.
+        
+        IF searchKeyWord <> "" THEN
+         DO:
+            tRecid = SearchByKeyword(searchKeyWord).
+            IF tRecid = ? THEN
+             DO:
+                searchKeyWord = SUBSTRING(searchKeyWord, 1, LENGTH(searchKeyWord) - 1).
+                RETURN RepositionBrowse().
+             END.
+            PAUSE 0 BEFORE-HIDE.
+            MESSAGE searchKeyWord.
+         END.
+        ELSE
+         DO:
+            tRecid = SearchById(tmpFormId).
+            HIDE MESSAGE.
+         END.
+        
+        IF tRecid <> ? THEN
+         DO:
+            formBrowse:SET-REPOSITIONED-ROW(7, "CONDITIONAL") IN FRAME formFrame.
+            REPOSITION formQuery TO RECID RECID(tRecid) NO-ERROR.
+            RETURN "".
+         END.
+        
+        RETURN "ERROR-KEYWORD-NOT-FOUND".
     END.
     
     METHOD PUBLIC CHARACTER recordset():
