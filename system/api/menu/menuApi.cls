@@ -9,7 +9,6 @@ CLASS menuApi INHERITS apiBase:
         FOR EACH menu NO-LOCK WHERE menu.parent_id = parent_id:
             CREATE formTable.
             BUFFER-COPY menu TO formTable.
-            DISPLAY formTable. 
         END.
         
         RETURN "".

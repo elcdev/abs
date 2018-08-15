@@ -60,6 +60,9 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
         cMenuApi:getData(0, TABLE formTable).
         openQuery().
         
+        FOR EACH formTable:
+            DISPLAY formTable.id.
+        END.
         RETURN "".
     END.
 
@@ -67,7 +70,9 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
      DO:
         IF NOT AVAILABLE formTable THEN RETURN.
         
-        RETURN cMenuApi:getData(formTable.id, TABLE formTable).
+        cMenuApi:getData(formTable.id, TABLE formTable).
+        openQuery().
+        RETURN "".
      END.
      
     
