@@ -4,9 +4,12 @@ CLASS menuApi INHERITS apiBase:
     METHOD PUBLIC CHARACTER getData (parent_id AS INT64, TABLE formTable BIND):
         DEFINE BUFFER menu FOR menu.
         
+        EMPTY TEMP-TABLE formTable.
+        
         FOR EACH menu NO-LOCK WHERE menu.parent_id = parent_id:
             CREATE formTable.
             BUFFER-COPY menu TO formTable.
+            DISPLAY formTable. 
         END.
         
         RETURN "".

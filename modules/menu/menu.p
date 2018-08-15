@@ -18,7 +18,7 @@ FUNCTION deleteObjects CHARACTER():
     DELETE OBJECT menuForm NO-ERROR.
 END.
 
-/* 20 + 30 + 30 */
+menuForm:recordset().
 menuForm:showForm().
 
 deleteObjects().

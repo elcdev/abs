@@ -37,7 +37,6 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
 
     METHOD PUBLIC VOID showForm():
         SUPER:showHeader().
-        /*VIEW FRAME headerFrame. PAUSE 0.*/
         VIEW FRAME formFrame.   PAUSE 0.
         WAIT-FOR WINDOW-CLOSE OF CURRENT-WINDOW.
         hideForm().
@@ -53,14 +52,16 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
         
         formHandle = TEMP-TABLE formTable:HANDLE.
         
-        RETURN cMenuApi:getData(0, TABLE formTable BIND).
+        RETURN cMenuApi:getData(0, TABLE-HANDLE formHandle BIND).
     END.
 
     ON RETURN OF formBrowse
      DO:
+        formHandle = TEMP-TABLE formTable:HANDLE.
+        
         IF NOT AVAILABLE formTable THEN RETURN.
         
-        RETURN cMenuApi:getData(formTable.id, TABLE formTable BIND).
+        RETURN cMenuApi:getData(formTable.id, TABLE-HANDLE formHandle BIND).
      END.
      
     
