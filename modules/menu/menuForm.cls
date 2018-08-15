@@ -52,7 +52,7 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
 
     METHOD PUBLIC CHARACTER openQuery():
         OPEN QUERY formQuery FOR EACH formTable.
-        repositionForm().
+        RepositionBrowse().
     END.
 
     METHOD PUBLIC RECID SearchByKeyword():
@@ -76,7 +76,7 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
         RETURN ?.
     END.
 	
-    METHOD PUBLIC CHARACTER RepositionForm():
+    METHOD PUBLIC CHARACTER RepositionBrowse():
         DEFINE VARIABLE tRecid AS RECID NO-UNDO.
         
         tRecid = SearchByKeyword().
@@ -104,6 +104,19 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
         RETURN "".
     END.
 
+    
+    ON ANY-PRINTABLE OF formBrowse
+     DO:
+        IF LASTKEY >= 32 THEN searchKeyWord = searchKeyWord + CHR(LASTKEY).
+        RepositionBrowse().
+     END.
+    
+    ON UP-ARROW,DOWN-ARROW, PAGE-UP, PAGE-DOWN OF formBrowse
+     DO:
+        searchKeyWord = "".
+        HIDE MESSAGE.
+     END.
+     
     ON RETURN OF formBrowse
      DO:
         IF NOT AVAILABLE formTable THEN RETURN.
