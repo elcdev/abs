@@ -13,7 +13,8 @@ Find menu         [************************************************************]
 CLASS menuForm INHERITS headerForm:
 DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
     {menuTable.i}
-
+    DEFINE VARIABLE searchKeyWord AS CHARACTER NO-UNDO.
+    
     DEFINE QUERY formQuery FOR formTable.
 
     DEFINE BROWSE formBrowse QUERY formQuery DISPLAY
@@ -53,8 +54,8 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
         repositionForm().
     END.
 
-    METHOD PUBLIC RECID SearchByKeyword(searchKeyword AS CHARACTER):
-        IF searchKeyWord = "" OR searchKeyWord = ? THEN RETURN ?.
+    METHOD PUBLIC RECID SearchByKeyword():
+        IF searchKeyWord = "" OR searchKeyWord = ? THEN RETURN SearchById(tmpFormId).
 
         FIND FIRST formTable WHERE formTable.function_name BEGINS searchKeyword NO-ERROR.
         IF AVAILABLE formTable THEN RETURN RECID(formTable).
@@ -62,7 +63,9 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
         FIND FIRST formTable WHERE formTable.description BEGINS searchKeyword NO-ERROR.
         IF AVAILABLE formTable THEN RETURN RECID(formTable).
         
-        RETURN ?.
+        searchKeyWord = SUBSTRING(searchKeyWord, 1, LENGTH(searchKeyWord) - 1).
+        
+        RETURN SearchByKeyword().
     END.
     
     METHOD PUBLIC RECID SearchById(iId AS INT64):
@@ -72,25 +75,12 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
         RETURN ?.
     END.
 	
-    METHOD PUBLIC CHARACTER RepositionBrowse():
+    METHOD PUBLIC CHARACTER RepositionForm():
         DEFINE VARIABLE tRecid AS RECID NO-UNDO.
         
-        IF searchKeyWord <> "" THEN
-         DO:
-            tRecid = SearchByKeyword(searchKeyWord).
-            IF tRecid = ? THEN
-             DO:
-                searchKeyWord = SUBSTRING(searchKeyWord, 1, LENGTH(searchKeyWord) - 1).
-                RETURN RepositionBrowse().
-             END.
-            PAUSE 0 BEFORE-HIDE.
-            MESSAGE searchKeyWord.
-         END.
-        ELSE
-         DO:
-            tRecid = SearchById(tmpFormId).
-            HIDE MESSAGE.
-         END.
+        tRecid = SearchByKeyword().
+        PAUSE 0 BEFORE-HIDE.
+        MESSAGE searchKeyWord.
         
         IF tRecid <> ? THEN
          DO:
