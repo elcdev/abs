@@ -38,6 +38,7 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
     METHOD PUBLIC VOID showForm():
         SUPER:showHeader().
         VIEW FRAME formFrame.   PAUSE 0.
+        ENABLE formBrowse WITH FRAME formFrame.
         WAIT-FOR WINDOW-CLOSE OF CURRENT-WINDOW.
         hideForm().
     END.
@@ -55,7 +56,7 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
     METHOD PUBLIC CHARACTER repositionForm():
         
     END.
-
+    
     METHOD PUBLIC CHARACTER recordset():
         cMenuApi:getData(0, INPUT-OUTPUT TABLE formTable).
         openQuery().
