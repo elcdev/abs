@@ -58,10 +58,10 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
     METHOD PUBLIC RECID SearchByKeyword():
         IF searchKeyWord = "" OR searchKeyWord = ? THEN RETURN SearchById(tmpFormId).
 
-        FIND FIRST formTable WHERE formTable.function_name BEGINS searchKeyword NO-ERROR.
+        FIND FIRST formTable WHERE formTable.function_name MATCHES "*" + searchKeyWord "*" NO-ERROR.
         IF AVAILABLE formTable THEN RETURN RECID(formTable).
 
-        FIND FIRST formTable WHERE formTable.description BEGINS searchKeyword NO-ERROR.
+        FIND FIRST formTable WHERE formTable.description MATCHES "*" + searchKeyWord "*" NO-ERROR.
         IF AVAILABLE formTable THEN RETURN RECID(formTable).
         
         searchKeyWord = SUBSTRING(searchKeyWord, 1, LENGTH(searchKeyWord) - 1).
