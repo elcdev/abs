@@ -86,7 +86,7 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
         IF tRecid <> ? THEN
          DO:
             formBrowse:SET-REPOSITIONED-ROW(7, "CONDITIONAL") IN FRAME formFrame.
-            REPOSITION formQuery TO RECID RECID(tRecid) NO-ERROR.
+            REPOSITION formQuery TO RECID (tRecid) NO-ERROR.
             RETURN "".
          END.
         
