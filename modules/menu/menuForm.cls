@@ -13,6 +13,7 @@ Find menu         [************************************************************]
 CLASS menuForm INHERITS headerForm:
 DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
     {menuTable.i}
+    DEFINE VARIABLE tmpFormId     AS INT64     NO-UNDO.
     DEFINE VARIABLE searchKeyWord AS CHARACTER NO-UNDO.
     
     DEFINE QUERY formQuery FOR formTable.
