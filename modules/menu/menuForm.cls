@@ -49,7 +49,7 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
 
     METHOD PUBLIC CHARACTER openQuery():
         OPEN QUERY formQuery FOR EACH formTable.
-        RUN reposition().
+        reposition().
     END.
 
     METHOD PUBLIC CHARACTER reposition():
