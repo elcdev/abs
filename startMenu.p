@@ -10,12 +10,18 @@ POS FUNCTION DESCRIPTION                                                 SUBMENU
 Find menu         [************************************************************]
 */
 
+DEFINE VARIABLE vLine       AS CHARACTER NO-UNDO.
+DEFINE VARIABLE projectRoot AS CHARACTER NO-UNDO INIT "C:/Projects/abs/".
+
+    
 CASE OPSYS:
   WHEN "unix" THEN OS-COMMAND ls.
   WHEN "win32" THEN 
   DO:
-    DEFINE VARIABLE vLine       AS CHARACTER NO-UNDO.
-    DEFINE VARIABLE projectRoot AS CHARACTER NO-UNDO INIT "C:\Projects\abs\".
+    /* TODO! for windows envairontment development only */
+    CONNECT absdb -H 192.168.1.112 -S 10000.
+    
+    projectRoot = REPLACE(projectRoot, "/", "\").
     
     IF NOT PROPATH MATCHES "*" + projectRoot + "*" THEN
     DO:
@@ -28,10 +34,10 @@ CASE OPSYS:
                 NEXT.     
             END.
             PROPATH=PROPATH + ";" + vLine.
-            /*DISPLAY vLine FORMAT "X(50)".*/
         END.
 
         INPUT CLOSE.
+        MESSAGE projectRoot SKIP PROPATH VIEW-AS ALERT-BOX.
     END.
 
   END.
