@@ -15,7 +15,10 @@ DEFINE VARIABLE projectRoot AS CHARACTER NO-UNDO INIT "C:/Projects/abs/".
 
     
 CASE OPSYS:
-  WHEN "unix" THEN OS-COMMAND ls.
+  WHEN "unix" THEN
+  DO:
+    /* unix envairontment preinitialize */
+  END.
   WHEN "win32" THEN 
   DO:
     /* TODO! for windows envairontment development only */
