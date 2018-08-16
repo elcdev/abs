@@ -37,6 +37,6 @@ CASE OPSYS:
   END.
 END CASE.
 
-RUN menu.p
+RUN menu.p.
 
 QUIT.
