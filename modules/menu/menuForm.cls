@@ -11,7 +11,7 @@ Find menu         [************************************************************]
 */
 
 CLASS menuForm INHERITS headerForm:
-DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
+    DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
     {menuTable.i}
     DEFINE VARIABLE tmpFormId     AS INT64     NO-UNDO.
     DEFINE VARIABLE searchKeyWord AS CHARACTER NO-UNDO.
@@ -58,10 +58,10 @@ DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
     METHOD PUBLIC RECID SearchByKeyword():
         IF searchKeyWord = "" OR searchKeyWord = ? THEN RETURN SearchById(tmpFormId).
 
-        FIND FIRST formTable WHERE formTable.function_name MATCHES "*" + searchKeyWord "*" NO-ERROR.
+        FIND FIRST formTable WHERE formTable.function_name MATCHES '*' + searchKeyWord + '*' NO-ERROR.
         IF AVAILABLE formTable THEN RETURN RECID(formTable).
 
-        FIND FIRST formTable WHERE formTable.description MATCHES "*" + searchKeyWord "*" NO-ERROR.
+        FIND FIRST formTable WHERE formTable.description MATCHES "*" + searchKeyWord + "*" NO-ERROR.
         IF AVAILABLE formTable THEN RETURN RECID(formTable).
         
         searchKeyWord = SUBSTRING(searchKeyWord, 1, LENGTH(searchKeyWord) - 1).

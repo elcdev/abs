@@ -1,12 +1,19 @@
 CLASS jsonMaker:
     DEFINE VARIABLE tJson  AS LONGCHAR NO-UNDO.
+    DEFINE VARIABLE openTag AS CHAR NO-UNDO.
+    DEFINE VARIABLE closeTag AS CHAR NO-UNDO.
+    
+    CONSTRUCTOR jsonMaker():
+        openTag  = CHR(123).
+        closeTag = CHR(125).
+    END.
     
     METHOD PUBLIC LONGCHAR getResultJson():
         RETURN getResultJson(tJson).
     END.
     
     METHOD PUBLIC LONGCHAR getResultJson(iValue AS LONGCHAR):
-        RETURN '\{' + TRIM(iValue, ',') + '\}'.
+        RETURN openTag + TRIM(iValue, ',') + closeTag.
     END.
     
     METHOD PUBLIC LONGCHAR addValue(iName AS CHARACTER, iValue AS CHARACTER):
@@ -35,7 +42,7 @@ CLASS jsonMaker:
             RETURN '"' + iName + '":"' + jsonSpecialChars(iValue) + '",'.
          END.
          
-        RETURN '"' + iName + '":\{' + TRIM(iValue, ',') + '\},'.
+        RETURN '"' + iName + '":' + openTag + TRIM(iValue, ',') + closeTag + ','.
     END.
     
     METHOD PUBLIC CHARACTER toHex(iValue AS INTEGER, iLength AS INT):
@@ -71,8 +78,8 @@ CLASS jsonMaker:
             IF c = CHR(13) THEN oValue = oValue + '\\n'.
             IF c = CHR(10) THEN oValue = oValue + '\\r'.
             IF c = CHR(9)  THEN oValue = oValue + '\\t'.
-            IF c = '\{'    THEN oValue = oValue + '\\u' + toHex(ASC(c), 4).
-            IF c = '\}'    THEN oValue = oValue + '\\u' + toHex(ASC(c), 4).
+            IF c = openTag THEN oValue = oValue + '\\u' + toHex(ASC(c), 4).
+            IF c = closeTag THEN oValue = oValue + '\\u' + toHex(ASC(c), 4).
         END.        
         
         RETURN oValue.

@@ -1,4 +1,7 @@
 CLASS jsonParser:
+    DEFINE VARIABLE openTag AS CHAR NO-UNDO.
+    DEFINE VARIABLE closeTag AS CHAR NO-UNDO.
+    
     DEFINE TEMP-TABLE jsonValues NO-UNDO
         FIELD Id AS INT64
         FIELD ParentId AS INT64
@@ -13,6 +16,11 @@ CLASS jsonParser:
         INDEX ParentKey ParentId KeyName
         INDEX KeyName KeyName ParentId
         .
+    
+    CONSTRUCTOR jsonParser():
+        openTag  = CHR(123).
+        closeTag = CHR(125).
+    END.
     
     METHOD PUBLIC LONGCHAR JsonEncodeValue(val AS LONGCHAR):
         DEFINE VARIABLE returnValue AS LONGCHAR NO-UNDO.

@@ -76,7 +76,7 @@ ADD FIELD "account" OF "account" AS CHAR
   MAX-WIDTH 4
   ORDER 80
 
-ADD FIELD "account_group " OF "account" AS character 
+ADD FIELD "account_group" OF "account" AS character 
   DESCRIPTION "Account group"
   FORMAT "X(15)"
   INITIAL ""
