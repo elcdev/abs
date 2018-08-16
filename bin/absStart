@@ -1,4 +1,3 @@
 #!/bin/bash
 
-./absEditor menu.p
-
+./absEditor startMenu.p
