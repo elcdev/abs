@@ -6,7 +6,9 @@
 	DEFINE VARIABLE tmpFormId     AS INT64     NO-UNDO.
 	
 	DEFINE VARIABLE DEFAULT-REPOSITION-ROW AS INT INIT 7.
-		
+	DEFINE VARIABLE FORM-HELP-KEY          AS CHARACTER NO-UNDO INITIAL "HELP".
+	DEFINE VARIABLE FORM-TITLE             AS CHARACTER NO-UNDO INITIAL "".
+
     METHOD PUBLIC RECID SearchById(iId AS INT64):
         DEFINE BUFFER formTable FOR formTable.
         FIND FIRST formTable WHERE formTable.id = iId NO-ERROR.
@@ -77,10 +79,16 @@
         HIDE MESSAGE.
      END.
      
-	
+    ON PF2, F2 OF formBrowse
+     DO:
+        DisableForm().
+        RUN formHelp.p(FORM_HELP_KEY).
+        ShowForm().
+     END.
+	 
 /*
-    DEFINE VARIABLE FORM_HELP_KEY AS CHARACTER NO-UNDO INITIAL "HELP".
-    DEFINE VARIABLE FORM_TITLE    AS CHARACTER NO-UNDO INITIAL "".
+    
+    
     
 
     DEFINE PUBLIC VARIABLE tmpFormId     AS INT64     NO-UNDO INITIAL 0.
@@ -101,16 +109,6 @@
         RETURN HideForm().
     END.    
     
-    ON PF2, F2 OF formBrowse
-     DO:
-        DisableForm().
-        RUN show_form_help.p(FORM_HELP_KEY).
-        ShowForm().
-     END.
+
      
-    
-    METHOD PUBLIC CHARACTER RecordsetOpen ():
-        OPEN QUERY formQuery FOR EACH formTable.
-        RETURN RepositionBrowse().
-    END.
-    */
+*/
