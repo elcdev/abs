@@ -29,7 +29,7 @@ CLASS menuForm INHERITS headerForm:
         
     DEFINE FRAME formFrame
         formBrowse HELP " " SKIP
-        separatorLine FORMAT "X(80)"
+        separatorLine FORMAT "X(78)"
       WITH NO-LABELS NO-BOX SIZE 80 BY 20 OVERLAY ROW 3 CENTERED.
 
     DEFINE FRAME formShadow
