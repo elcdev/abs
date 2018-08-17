@@ -82,17 +82,11 @@
     ON PF2, F2 OF formBrowse
      DO:
         DisableForm().
-        RUN formHelp.p(FORM_HELP_KEY).
+        RUN formHelp.p(FORM-HELP-KEY).
         ShowForm().
      END.
 	 
 /*
-    
-    
-    
-
-    DEFINE PUBLIC VARIABLE tmpFormId     AS INT64     NO-UNDO INITIAL 0.
-
     METHOD PUBLIC CHARACTER InitForm():
         RETURN "".
     END.
@@ -100,15 +94,5 @@
     METHOD PUBLIC CHARACTER Recodset():
         RETURN "".
     END.
-    
-    METHOD PUBLIC CHAR ShowForm():
-        InitForm().
-        ShowFrame().
-        Recordset().
-        WAIT-FOR WINDOW-CLOSE OF CURRENT-WINDOW OR PF4, F4, GO OF FRAME formFrame.
-        RETURN HideForm().
-    END.    
-    
-
-     
+   
 */
