@@ -64,7 +64,7 @@
         ShowFrame().
         Recordset().
         WAIT-FOR WINDOW-CLOSE OF CURRENT-WINDOW OR PF4, F4, GO OF FRAME formFrame.
-        RETURN HideForm().
+        HideForm().
     END. 
 	
     ON ANY-PRINTABLE OF formBrowse
