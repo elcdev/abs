@@ -14,6 +14,7 @@ CLASS menuForm INHERITS headerForm:
     DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
     {menuTable.i}
     DEFINE VARIABLE parentId      AS INT64     NO-UNDO INITIAL 0.
+    DEFINE VARIABLE separatorLine AS CHARACTER NO-UNDO.
     
     DEFINE QUERY formQuery FOR formTable.
 
@@ -27,7 +28,8 @@ CLASS menuForm INHERITS headerForm:
         .
         
     DEFINE FRAME formFrame
-        formBrowse HELP " "
+        formBrowse HELP " " SKIP
+        separatorLine FORMAT "X(80)"
       WITH NO-LABELS NO-BOX SIZE 80 BY 20 OVERLAY ROW 3 CENTERED.
 
     DEFINE FRAME formShadow
@@ -37,6 +39,7 @@ CLASS menuForm INHERITS headerForm:
     
     CONSTRUCTOR menuForm():
         cMenuApi = NEW menuApi().
+        separatorLine = getSeparator().
     END.
     
     CONSTRUCTOR menuForm(iParentId AS INT64):
@@ -54,6 +57,7 @@ CLASS menuForm INHERITS headerForm:
     
     METHOD PUBLIC VOID ShowData():
         ENABLE formBrowse WITH FRAME formFrame. 
+        DISPLAY separatorLine WITH FRAME formFrame. 
         PAUSE 0.
     END.
 

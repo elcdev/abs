@@ -34,7 +34,7 @@ CONSTRUCTOR headerForm():
     companyName = Settings:companyName.
     loginName   = Settings:loginName.
     
-    separatorLine = FILL("=", 80).
+    separatorLine = getSeparator().
 END.
 
 DESTRUCTOR headerForm():
@@ -50,6 +50,10 @@ END.
 METHOD PUBLIC OVERRIDE CHARACTER hideHeader():
     HIDE FRAME headerFrame. 
     PAUSE 0.
+END.
+
+METHOD PUBLIC CHARACTER getSeparator():
+    RETURN FILL("=", 80).
 END.
 
 END.
