@@ -25,7 +25,7 @@ DEFINE FRAME headerFrame
   " " loginName FORMAT "X(20)" SKIP 
   separatorLine FORMAT "X(78)"
   
-  WITH NO-LABELS NO-BOX SIZE 80 BY 2.
+  WITH NO-LABELS NO-BOX SIZE 80 BY 2 CENTERED.
   
 CONSTRUCTOR headerForm():
     Settings = NEW globalSettingsApi().
