@@ -10,7 +10,7 @@ POS FUNCTION DESCRIPTION                                                 SUBMENU
 Find menu         [************************************************************]
 */
 
-CLASS headerForm:
+CLASS headerForm INHERITS baseForm:
 DEFINE VARIABLE Settings    AS globalSettingsApi.
 
 DEFINE VARIABLE g-today     AS DATE NO-UNDO.
@@ -22,7 +22,7 @@ DEFINE FRAME headerFrame
       g-today FORMAT "99.99.9999"
   " " companyName FORMAT "X(29)"
   " " loginName FORMAT "X(20)"
-  WITH NO-LABELS NO-BOX.
+  WITH NO-LABELS NO-BOX SIZE 80 BY 1.
   
 CONSTRUCTOR headerForm():
     Settings = NEW globalSettingsApi().
@@ -36,12 +36,15 @@ DESTRUCTOR headerForm():
     DELETE OBJECT Settings NO-ERROR.
 END.
 
-METHOD PUBLIC CHARACTER showHeader():
+METHOD PUBLIC OVERRIDE CHARACTER showHeader():
     VIEW FRAME headerFrame. PAUSE 0.
+    DISPLAY g-today companyName loginName WITH FRAME headerFrame.
+    PAUSE 0.
 END.
 
-METHOD PUBLIC CHARACTER hideHeader():
-    HIDE FRAME headerFrame. PAUSE 0.
+METHOD PUBLIC OVERRIDE CHARACTER hideHeader():
+    HIDE FRAME headerFrame. 
+    PAUSE 0.
 END.
 
 END.

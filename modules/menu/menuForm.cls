@@ -13,8 +13,7 @@ Find menu         [************************************************************]
 CLASS menuForm INHERITS headerForm:
     DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
     {menuTable.i}
-    DEFINE VARIABLE tmpFormId     AS INT64     NO-UNDO.
-    DEFINE VARIABLE searchKeyWord AS CHARACTER NO-UNDO.
+    DEFINE VARIABLE parentId      AS INT64     NO-UNDO INITIAL 0.
     
     DEFINE QUERY formQuery FOR formTable.
 
@@ -22,37 +21,39 @@ CLASS menuForm INHERITS headerForm:
         formTable.position      FORMAT ">9"    LABEL "LN"
         formTable.description   FORMAT "X(30)" LABEL "DESCRIPTION"
         formTable.function_name FORMAT "X(14)" LABEL "FUNCTION"
-        WITH 18 DOWN NO-BOX NO-LABELS
+        WITH 18 DOWN NO-BOX NO-LABELS NO-SCROLLBAR-VERTICAL
+        SIZE 78 BY 20
         .
         
     DEFINE FRAME formFrame
         formBrowse HELP " "
-      WITH NO-LABELS NO-BOX.
-      
+      WITH NO-LABELS NO-BOX SIZE 80 BY 20.
+
+    DEFINE FRAME formShadow
+      WITH NO-LABELS NO-BOX SIZE 80 BY 20 OVERLAY.
+
+    {formBrowserBaseMethods.f}
+    
     CONSTRUCTOR menuForm():
         cMenuApi = NEW menuApi().
     END.
-
+    
+    CONSTRUCTOR menuForm(iParentId AS INT64):
+        cMenuApi = NEW menuApi().
+        parentId = iParentId.
+    END.
+    
     DESTRUCTOR menuForm():
         DELETE OBJECT cMenuApi NO-ERROR.
     END.
-
-    METHOD PUBLIC VOID showForm():
-        SUPER:showHeader().
-        VIEW FRAME formFrame.   PAUSE 0.
-        ENABLE formBrowse WITH FRAME formFrame.
-        WAIT-FOR WINDOW-CLOSE OF CURRENT-WINDOW.
-        hideForm().
+    
+    METHOD PUBLIC CHARACTER InitForm():
+        RETURN "".
     END.
-
-    METHOD PUBLIC CHARACTER hideForm():
-        SUPER:hideHeader().
-        HIDE FRAME formFrame. PAUSE 0.
-    END.
-
-    METHOD PUBLIC CHARACTER openQuery():
-        OPEN QUERY formQuery FOR EACH formTable.
-        RepositionBrowse().
+    
+    METHOD PUBLIC VOID ShowData():
+        ENABLE formBrowse WITH FRAME formFrame. 
+        PAUSE 0.
     END.
 
     METHOD PUBLIC RECID SearchByKeyword():
@@ -68,50 +69,13 @@ CLASS menuForm INHERITS headerForm:
         
         RETURN SearchByKeyword().
     END.
-    
-    METHOD PUBLIC RECID SearchById(iId AS INT64):
-        DEFINE BUFFER formTable FOR formTable.
-        FIND FIRST formTable WHERE formTable.id = iId NO-ERROR.
-        IF AVAILABLE formTable THEN RETURN RECID(formTable).
-        RETURN ?.
-    END.
-	
-    METHOD PUBLIC CHARACTER RepositionBrowse():
-        DEFINE VARIABLE tRecid AS RECID NO-UNDO.
-        
-        tRecid = SearchByKeyword().
-        HIDE MESSAGE. PAUSE 0.
-        MESSAGE searchKeyWord. PAUSE 0.
-        
-        IF tRecid <> ? THEN
-         DO:
-            formBrowse:SET-REPOSITIONED-ROW(7, "CONDITIONAL") IN FRAME formFrame.
-            REPOSITION formQuery TO RECID (tRecid) NO-ERROR.
-            RETURN "".
-         END.
-        
-        RETURN "ERROR-KEYWORD-NOT-FOUND".
-    END.
-    
+
     METHOD PUBLIC CHARACTER recordset():
-        cMenuApi:getData(0, INPUT-OUTPUT TABLE formTable).
+        cMenuApi:getData(parentId, INPUT-OUTPUT TABLE formTable).
         openQuery().
         RETURN "".
     END.
-
     
-    ON ANY-PRINTABLE OF formBrowse
-     DO:
-        IF LASTKEY >= 32 THEN searchKeyWord = searchKeyWord + CHR(LASTKEY).
-        RepositionBrowse().
-     END.
-    
-    ON UP-ARROW,DOWN-ARROW, PAGE-UP, PAGE-DOWN OF formBrowse
-     DO:
-        searchKeyWord = "".
-        HIDE MESSAGE.
-     END.
-     
     ON RETURN OF formBrowse
      DO:
         IF NOT AVAILABLE formTable THEN RETURN.
