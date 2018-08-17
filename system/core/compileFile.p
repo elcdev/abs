@@ -18,3 +18,6 @@ IF SEARCH(file) = SEARCH(fileName) OR SEARCH(file) = absRoot + SEARCH(fileName) 
     COMPILE VALUE(file) SAVE INTO VALUE(rcode).
 ELSE
     MESSAGE "File has duplicate copy in folder: " SEARCH(file) "<>" SEARCH(fileName).
+
+PAUSE 0 BEFORE-HIDE.
+QUIT.
