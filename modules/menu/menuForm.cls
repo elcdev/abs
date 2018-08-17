@@ -22,7 +22,7 @@ CLASS menuForm INHERITS headerForm:
         formTable.description   FORMAT "X(30)" LABEL "DESCRIPTION"
         formTable.function_name FORMAT "X(14)" LABEL "FUNCTION"
         WITH 18 DOWN NO-BOX NO-LABELS NO-SCROLLBAR-VERTICAL
-        SIZE 78 BY 20
+        SIZE 78 BY 20 OVERLAY
         .
         
     DEFINE FRAME formFrame
