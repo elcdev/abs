@@ -19,7 +19,7 @@ CASE OPSYS:
         CONNECT absdb -H 192.168.1.112 -S 10000 NO-ERROR.    
     END.
 
-    projectRoot = REPLACE(projectRoot, "/", "\").
+    projectRoot = REPLACE(projectRoot, "/", CHR(92)).
     
     IF NOT PROPATH MATCHES "*" + projectRoot + "*" THEN
     DO:
