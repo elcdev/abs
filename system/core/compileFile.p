@@ -11,9 +11,6 @@ absRoot  = REPLACE(absRoot, "//", "/").
 file     = REPLACE(file, "./", absRoot).
 file     = REPLACE(file, "//", "/").
 
-
-MESSAGE file SEARCH(file) SEARCH(fileName).
-
 IF SEARCH(file) = SEARCH(fileName) OR SEARCH(file) = absRoot + SEARCH(fileName) THEN
     COMPILE VALUE(file) SAVE INTO VALUE(rcode).
 ELSE
