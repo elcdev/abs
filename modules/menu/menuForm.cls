@@ -19,18 +19,19 @@ CLASS menuForm INHERITS headerForm:
 
     DEFINE BROWSE formBrowse QUERY formQuery DISPLAY
         formTable.position      FORMAT ">9"    LABEL "LN"
-        formTable.description   FORMAT "X(30)" LABEL "DESCRIPTION"
+        formTable.description   FORMAT "X(58)" LABEL "DESCRIPTION"
         formTable.function_name FORMAT "X(14)" LABEL "FUNCTION"
+        "> "                    FORMAT "XX"    LABEL "SB"
         WITH 18 DOWN NO-BOX NO-LABELS NO-SCROLLBAR-VERTICAL
-        SIZE 78 BY 20 OVERLAY
+        SIZE 78 BY 20 
         .
         
     DEFINE FRAME formFrame
         formBrowse HELP " "
-      WITH NO-LABELS NO-BOX SIZE 80 BY 20.
+      WITH NO-LABELS NO-BOX SIZE 80 BY 20 OVERLAY ROW 3.
 
     DEFINE FRAME formShadow
-      WITH NO-LABELS NO-BOX SIZE 80 BY 20 OVERLAY.
+      WITH NO-LABELS NO-BOX SIZE 80 BY 20 OVERLAY ROW 3.
 
     {formBrowserBaseMethods.f}
     
