@@ -57,7 +57,7 @@
         RETURN "".
     END.
 
-	METHOD PUBLIC CHAR ShowForm():
+	METHOD PUBLIC VOID ShowForm():
         InitForm().
         ShowFrame().
         Recordset().
