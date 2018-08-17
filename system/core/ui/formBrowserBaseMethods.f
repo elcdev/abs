@@ -20,7 +20,7 @@
         DEFINE VARIABLE tRecid AS RECID NO-UNDO.
         
         tRecid = SearchByKeyword().
-        HIDE MESSAGE. PAUSE 0.
+        IF OPSYS <> "unix" THEN HIDE MESSAGE. PAUSE 0.
         MESSAGE searchKeyWord. PAUSE 0.
         
         IF tRecid <> ? THEN
