@@ -16,4 +16,4 @@ MESSAGE file SEARCH(file) SEARCH(fileName).
 IF SEARCH(file) = SEARCH(fileName) THEN
     COMPILE VALUE(file) SAVE INTO VALUE(rcode).
 ELSE
-    MESSAGE "File has duplicate copy in folder: " SEARCH(fileName).
+    MESSAGE "File has duplicate copy in folder: " SEARCH(file) "<>" SEARCH(fileName).
