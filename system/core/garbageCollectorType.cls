@@ -1,5 +1,3 @@
-USING Progress.Lang.*.
-
 CLASS garbageCollectorType:
     DEFINE TEMP-TABLE tmpObjects NO-UNDO
         FIELD objectReference   AS CLASS Progress.Lang.Object
@@ -12,9 +10,8 @@ CLASS garbageCollectorType:
         END.
     END.
     
-    METHOD PUBLIC CHARACTER addItem(iObject AS Progress.Lang.Object):
+    METHOD PUBLIC VOID addItem(iObject AS Progress.Lang.Object):
         CREATE tmpObjects.
         tmpObjects.objectReference = iObject.
-        RETURN "".
     END.
 END.

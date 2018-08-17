@@ -64,7 +64,7 @@ CLASS menuApi INHERITS apiBase:
         
         tMenu = NEW menuItemModel().
         tMenu:getDb(iId).
-        /*garbage:addItem(tMenu).*/
+        garbage:addItem(tMenu).
         
         RETURN tMenu.
     END.
@@ -76,7 +76,7 @@ CLASS menuApi INHERITS apiBase:
         
         tMenu = NEW menuItemModel().
         tMenu:getDb(iFunction).
-        /*garbage:addItem(tMenu).*/
+        garbage:addItem(tMenu).
         
         RETURN tMenu.
     END.

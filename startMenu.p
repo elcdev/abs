@@ -13,7 +13,6 @@ Find menu         [************************************************************]
 DEFINE VARIABLE vLine       AS CHARACTER NO-UNDO.
 DEFINE VARIABLE projectRoot AS CHARACTER NO-UNDO INIT "C:/Projects/abs/".
 
-    
 CASE OPSYS:
   WHEN "unix" THEN
   DO:
@@ -22,8 +21,13 @@ CASE OPSYS:
   WHEN "win32" THEN 
   DO:
     /* TODO! for windows envairontment development only */
-    CONNECT absdb -H 192.168.1.112 -S 10000.
+    SESSION:APPL-ALERT-BOXES = FALSE.
     
+    IF NOT CONNECTED ("sbsdb") THEN
+    DO:
+        CONNECT absdb -H 192.168.1.112 -S 10000 NO-ERROR.    
+    END.
+
     projectRoot = REPLACE(projectRoot, "/", "\").
     
     IF NOT PROPATH MATCHES "*" + projectRoot + "*" THEN
@@ -40,7 +44,6 @@ CASE OPSYS:
         END.
 
         INPUT CLOSE.
-        MESSAGE projectRoot SKIP PROPATH VIEW-AS ALERT-BOX.
     END.
 
   END.

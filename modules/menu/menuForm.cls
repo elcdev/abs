@@ -80,8 +80,8 @@ CLASS menuForm INHERITS headerForm:
         DEFINE VARIABLE tRecid AS RECID NO-UNDO.
         
         tRecid = SearchByKeyword().
-        PAUSE 0 BEFORE-HIDE.
-        MESSAGE searchKeyWord.
+        HIDE MESSAGE. PAUSE 0.
+        MESSAGE searchKeyWord. PAUSE 0.
         
         IF tRecid <> ? THEN
          DO:
@@ -96,11 +96,6 @@ CLASS menuForm INHERITS headerForm:
     METHOD PUBLIC CHARACTER recordset():
         cMenuApi:getData(0, INPUT-OUTPUT TABLE formTable).
         openQuery().
-        
-        FOR EACH formTable:
-            DISPLAY formTable.id.
-        END.
-        
         RETURN "".
     END.
 
