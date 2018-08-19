@@ -10,45 +10,40 @@ POS FUNCTION DESCRIPTION                                                 SUBMENU
 Find menu         [************************************************************]
 */
 
-CLASS menuForm INHERITS headerForm:
+CLASS menuEditForm INHERITS baseForm:
+    {menuEditTable.i}
     DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
-    {menuTable.i}
     DEFINE VARIABLE parentId      AS INT64     NO-UNDO INITIAL 0.
-    DEFINE VARIABLE separatorLine AS CHARACTER NO-UNDO.
     
-    DEFINE QUERY formQuery FOR formTable.
-
+    DEFINE QUERY formQuery FOR formEditTable.
+    
     DEFINE BROWSE formBrowse QUERY formQuery DISPLAY
-        formTable.position      FORMAT ">9"    LABEL "LN"
-        formTable.description   FORMAT "X(53)" LABEL "DESCRIPTION"
-        formTable.function_name FORMAT "X(14)" LABEL "FUNCTION"
-        "> "                    FORMAT "XX"    LABEL "SB"
-        WITH 19 DOWN NO-LABELS NO-SCROLLBAR-VERTICAL
-        SIZE 78 BY 18 
+        formEditTable.fieldName    FORMAT "X(20)" LABEL "Field Name"
+        formEditTable.fieldValue   FORMAT "X(20)" LABEL "Value"
+        WITH 15 DOWN NO-BOX NO-LABELS NO-SCROLLBAR-VERTICAL
+        SIZE 43 BY 13
         .
         
     DEFINE FRAME formFrame
         formBrowse HELP " " SKIP
-        separatorLine FORMAT "X(78)"
-      WITH NO-LABELS NO-BOX SIZE 80 BY 20 OVERLAY ROW 3 
+      WITH NO-LABELS SIZE 45 BY 15 OVERLAY ROW 4
       CENTERED.
 
     DEFINE FRAME formShadow
-      WITH NO-LABELS NO-BOX SIZE 80 BY 20 OVERLAY ROW 3.
+      WITH NO-LABELS NO-BOX SIZE 45 BY 15 OVERLAY ROW 5.
 
-    {formBrowserBaseMethods.f &formTable="formTable"}
+    {formBrowserBaseMethods.f &formTable="formEditTable"}
     
-    CONSTRUCTOR menuForm():
+    CONSTRUCTOR menuEditForm():
         cMenuApi = NEW menuApi().
-        separatorLine = getSeparator().
     END.
     
-    CONSTRUCTOR menuForm(iParentId AS INT64):
+    CONSTRUCTOR menuEditForm(iParentId AS INT64):
         cMenuApi = NEW menuApi().
         parentId = iParentId.
     END.
     
-    DESTRUCTOR menuForm():
+    DESTRUCTOR menuEditForm():
         DELETE OBJECT cMenuApi NO-ERROR.
     END.
     
@@ -58,50 +53,48 @@ CLASS menuForm INHERITS headerForm:
     
     METHOD PUBLIC VOID ShowData():
         ENABLE formBrowse WITH FRAME formFrame. 
-        DISPLAY separatorLine WITH FRAME formFrame. 
         PAUSE 0.
     END.
 
     METHOD PUBLIC RECID SearchByKeyword():
         IF searchKeyWord = "" OR searchKeyWord = ? THEN RETURN SearchById(tmpFormId).
 
-        FIND FIRST formTable WHERE formTable.function_name MATCHES '*' + searchKeyWord + '*' NO-ERROR.
-        IF AVAILABLE formTable THEN RETURN RECID(formTable).
+        FIND FIRST formEditTable WHERE formEditTable.fieldName MATCHES '*' + searchKeyWord + '*' NO-ERROR.
+        IF AVAILABLE formEditTable THEN RETURN RECID(formEditTable).
 
-        FIND FIRST formTable WHERE formTable.description MATCHES "*" + searchKeyWord + "*" NO-ERROR.
-        IF AVAILABLE formTable THEN RETURN RECID(formTable).
+        FIND FIRST formEditTable WHERE formEditTable.fieldValue MATCHES "*" + searchKeyWord + "*" NO-ERROR.
+        IF AVAILABLE formEditTable THEN RETURN RECID(formEditTable).
         
         searchKeyWord = SUBSTRING(searchKeyWord, 1, LENGTH(searchKeyWord) - 1).
         
         RETURN SearchByKeyword().
     END.
 
+    METHOD PUBLIC CHARACTER recordset(iId AS INT64):
+        tmpFormId = iId.
+        recordset().
+    END.
+    
     METHOD PUBLIC CHARACTER recordset():
-        cMenuApi:getData(tmpFormId, INPUT-OUTPUT TABLE formTable).
+        EMPTY TEMP-TABLE formEditTable.
+        cMenuApi:getItemData(tmpFormId, INPUT-OUTPUT TABLE formEditTable).
         openQuery().
         RETURN "".
     END.
     
     ON RETURN OF formBrowse
      DO:
-        IF NOT AVAILABLE formTable THEN RETURN.
-        /*
-        cMenuApi:getData(formTable.id, INPUT-OUTPUT TABLE formTable).
-        openQuery().
-        */
+        IF NOT AVAILABLE formEditTable THEN RETURN.
+        
         RETURN "".
      END.
     
     ON F6 OF formBrowse
      DO:
-        IF NOT AVAILABLE formTable THEN RETURN.
-        DEFINE VARIABLE editForm AS menuEditForm.
-        DisableForm().
-        editForm = NEW menuEditForm().
-        editForm:recordset(formTable.id).
-        editForm:showForm().
-        showFrame().
-        DELETE OBJECT editForm.
+        MESSAGE "Edit" VIEW-AS ALERT-BOX.
+        /*
+        RUN menuEditForm.p.
+        */
      END.
     
 END.

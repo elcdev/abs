@@ -10,7 +10,7 @@ POS FUNCTION DESCRIPTION                                                 SUBMENU
 Find menu         [************************************************************]
 */
 
-RUN setStartupGlobalSettings.p.
+RUN startupSettings.p.
 
 RUN menu.p.
 

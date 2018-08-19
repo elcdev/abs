@@ -1,7 +1,7 @@
 /*
 	TODO! Move this methods to baseForm.cls when it is posible
 */
-
+	
 	DEFINE VARIABLE searchKeyWord AS CHARACTER NO-UNDO INITIAL "".
 	DEFINE VARIABLE tmpFormId     AS INT64     NO-UNDO.
 	
@@ -10,9 +10,9 @@
 	DEFINE VARIABLE FORM-TITLE             AS CHARACTER NO-UNDO INITIAL "".
 
     METHOD PUBLIC RECID SearchById(iId AS INT64):
-        DEFINE BUFFER formTable FOR formTable.
-        FIND FIRST formTable WHERE formTable.id = iId NO-ERROR.
-        IF AVAILABLE formTable THEN RETURN RECID(formTable).
+        DEFINE BUFFER {&formTable} FOR {&formTable}.
+        FIND FIRST {&formTable} WHERE {&formTable}.id = iId NO-ERROR.
+        IF AVAILABLE {&formTable} THEN RETURN RECID({&formTable}).
         RETURN ?.
     END.
     
@@ -34,7 +34,7 @@
     END.
 	
     METHOD PUBLIC CHARACTER openQuery():
-        OPEN QUERY formQuery FOR EACH formTable.
+        OPEN QUERY formQuery FOR EACH {&formTable}.
         RepositionBrowse().
     END.
 	
@@ -72,6 +72,12 @@
         IF LASTKEY >= 32 THEN searchKeyWord = searchKeyWord + CHR(LASTKEY).
         RepositionBrowse().
      END.
+
+	 ON backspace OF formBrowse
+     DO:
+        searchKeyWord = SUBSTRING(searchKeyWord, 1, LENGTH(searchKeyWord) - 1).
+        RepositionBrowse().
+     END.
     
     ON UP-ARROW,DOWN-ARROW, PAGE-UP, PAGE-DOWN OF formBrowse
      DO:
@@ -86,13 +92,3 @@
         ShowForm().
      END.
 	 
-/*
-    METHOD PUBLIC CHARACTER InitForm():
-        RETURN "".
-    END.
-    
-    METHOD PUBLIC CHARACTER Recodset():
-        RETURN "".
-    END.
-   
-*/

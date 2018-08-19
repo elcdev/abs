@@ -1,5 +1,6 @@
 CLASS menuApi INHERITS apiBase:
-    {menuTable.i}
+    {menuTable.i &formTable="formTable"}
+    {menuEditTable.i &formTable="formEditTable"}
 
     METHOD PUBLIC CHARACTER getData (parent_id AS INT64, INPUT-OUTPUT TABLE formTable):
         DEFINE BUFFER menu FOR menu.
@@ -13,10 +14,67 @@ CLASS menuApi INHERITS apiBase:
         
         RETURN "".
     END.
+ 
+    METHOD PUBLIC CHARACTER getItemData (iId AS INT64, INPUT-OUTPUT TABLE formEditTable):
+        RETURN getItemData (iId, "menu", INPUT-OUTPUT TABLE formEditTable).
+    END.
+    
+    METHOD PUBLIC CHARACTER getItemData (iId AS INT64, iTableName AS CHARACTER, INPUT-OUTPUT TABLE formEditTable):
+        EMPTY TEMP-TABLE formEditTable.
+        
+        DEFINE VARIABLE hBuffer AS HANDLE NO-UNDO.
+        DEFINE VARIABLE hQuery  AS HANDLE NO-UNDO.
+        DEFINE VARIABLE i       AS INT64  NO-UNDO.
+        
+        CREATE BUFFER hBuffer FOR TABLE iTableName.
+        CREATE QUERY hQuery.
 
+        hQuery:SET-BUFFERS(hBuffer).
+        hQuery:QUERY-PREPARE("FOR EACH " + iTableName + " WHERE id = " + STRING(iId)).
+        hQuery:QUERY-OPEN().
+        hQuery:GET-FIRST().
+        
+        IF NOT hQuery:QUERY-OFF-END THEN
+         DO:
+            addPropertyItem(iId, hBuffer).
+         END.
+        
+        hQuery:QUERY-CLOSE().
+        hBuffer:BUFFER-RELEASE().
+        DELETE OBJECT hBuffer.
+        DELETE OBJECT hQuery.
+        
+        RETURN "".
+    END.
+    
+    METHOD PUBLIC CHARACTER addPropertyItem(iId AS INT64, hBuffer AS HANDLE):
+        DEFINE VARIABLE i      AS INT64  NO-UNDO INITIAL 0.   
+        DEFINE VARIABLE hField AS HANDLE NO-UNDO.
+        
+        DO i = 1 TO hBuffer:NUM-FIELDS:
+            hField = hBuffer:BUFFER-FIELD(i).
+            IF INDEX("id;updateCount;version;state;modify_date;modify_user;create_date;create_user;parent_id;", hField:NAME + ";") > 0 THEN NEXT.
+            /* 
+            TODO!
+            IF NOT hField:COLUMN-LABEL BEGINS "formItem" THEN NEXT.
+            */
+            /*MESSAGE hField:NAME VIEW-AS ALERT-BOX.*/
+
+            CREATE formEditTable.
+            ASSIGN
+            formEditTable.fieldValue    = STRING(hField:BUFFER-VALUE)
+            formEditTable.fieldName     = hField:NAME
+            formEditTable.fieldLabel    = hField:LABEL
+            formEditTable.fieldPosition = hField:POSITION
+            formEditTable.fieldType     = hField:DATA-TYPE
+            .
+        END.
+        
+        RETURN "".
+    END.
+    
     METHOD PUBLIC CHARACTER getData (searchString AS CHAR, iTop AS INT64, INPUT-OUTPUT TABLE formTable):
         DEFINE BUFFER menu FOR menu.
-        DEFINE VARIABLE i AS INT64 NO-UNDO INITIAL 0.
         
         EMPTY TEMP-TABLE formTable.
         
