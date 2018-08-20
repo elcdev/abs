@@ -16,7 +16,7 @@ CASE OPSYS:
     
     IF NOT CONNECTED ("sbsdb") THEN
     DO:
-        CONNECT absdb -H 192.168.1.112 -S 10000 NO-ERROR.    
+        CONNECT absdb -H 192.168.1.114 -S 10000 NO-ERROR.    
     END.
 
     projectRoot = REPLACE(projectRoot, "/", CHR(92)).

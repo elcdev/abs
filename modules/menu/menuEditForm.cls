@@ -89,12 +89,5 @@ CLASS menuEditForm INHERITS baseForm:
         RETURN "".
      END.
     
-    ON F6 OF formBrowse
-     DO:
-        MESSAGE "Edit" VIEW-AS ALERT-BOX.
-        /*
-        RUN menuEditForm.p.
-        */
-     END.
-    
+   
 END.

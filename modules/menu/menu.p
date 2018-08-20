@@ -10,8 +10,7 @@ POS FUNCTION DESCRIPTION                                                 SUBMENU
 Find menu         [************************************************************]
 */
 
-DEFINE VARIABLE menuForm AS menuForm.
-
+DEFINE VARIABLE menuForm AS CLASS menuForm.
 menuForm = NEW menuForm().
 
 FUNCTION deleteObjects CHARACTER():

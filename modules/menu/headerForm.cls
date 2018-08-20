@@ -11,7 +11,7 @@ Find menu         [************************************************************]
 */
 
 CLASS headerForm INHERITS baseForm:
-DEFINE VARIABLE Settings    AS globalSettingsApi.
+DEFINE VARIABLE Settings    AS CLASS globalSettingsApi.
 
 DEFINE VARIABLE g-today     AS DATE NO-UNDO.
 DEFINE VARIABLE companyName AS CHARACTER NO-UNDO.
