@@ -23,7 +23,6 @@ DEFINE FRAME headerFrame
       g-today FORMAT "99.99.9999"
   " " companyName FORMAT "X(29)"
   " " loginName FORMAT "X(20)" SKIP 
-  separatorLine FORMAT "X(78)"
   
   WITH NO-LABELS NO-BOX SIZE 80 BY 2 CENTERED.
   
@@ -43,7 +42,7 @@ END.
 
 METHOD PUBLIC OVERRIDE CHARACTER showHeader():
     VIEW FRAME headerFrame. PAUSE 0.
-    DISPLAY g-today companyName loginName separatorLine WITH FRAME headerFrame.
+    DISPLAY g-today companyName loginName WITH FRAME headerFrame.
     PAUSE 0.
 END.
 
