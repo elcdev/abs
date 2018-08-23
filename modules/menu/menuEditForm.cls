@@ -29,8 +29,7 @@ CLASS menuEditForm INHERITS baseForm:
       WITH NO-LABELS SIZE 45 BY 15 OVERLAY ROW 4
       CENTERED.
 
-    DEFINE FRAME formShadow
-      WITH NO-LABELS NO-BOX SIZE 45 BY 15 OVERLAY ROW 5.
+
 
     {formBrowserBaseMethods.f &formTable="formEditTable"}
     
@@ -86,8 +85,41 @@ CLASS menuEditForm INHERITS baseForm:
      DO:
         IF NOT AVAILABLE formEditTable THEN RETURN.
         
+        DEFINE VARIABLE editorStatus AS CHAR.
+        DEFINE VARIABLE fieldEditor  AS fieldEditForm.
+
+        fieldEditor = NEW fieldEditForm().
+        fieldEditor:TOP   = formEditTable.fieldValue:ROW   IN BROWSE formBrowse + FRAME formFrame:ROW.
+        fieldEditor:Left  = formEditTable.fieldValue:COL   IN BROWSE formBrowse + FRAME formFrame:COL.
+        fieldEditor:WIDTH = formEditTable.fieldValue:Width IN BROWSE formBrowse.
+        fieldEditor:VALUE = formEditTable.fieldValue.
+        /*
+       RUN p_field_ed.p("CHAR", 
+                       INPUT-OUTPUT TmpTab.FieldValue, 
+                       INPUT-OUTPUT f_Chg, iEditMode,
+                       TmpTab.FieldValue:COL    IN BROWSE bTmp + FRAME Mf:COL + 1,
+                       TmpTab.FieldValue:ROW    IN BROWSE bTmp + FRAME Mf:ROW + 1,
+                       TmpTab.FieldValue:WIDTH  IN BROWSE bTmp,
+                       0, 1, 0).
+          */             
+        DisableForm().
+
+        fieldEditor:ShowForm().
+        
+        IF fieldEditor:State = "" THEN 
+         DO:
+            fieldEditor:VALUE = formEditTable.fieldValue.
+         END.
+         
+        DELETE OBJECT fieldEditor NO-ERROR.
+        
+        ShowData().
         RETURN "".
      END.
     
+   
+   
+
+         
    
 END.

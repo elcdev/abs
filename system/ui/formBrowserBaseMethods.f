@@ -1,6 +1,7 @@
 /*
 	TODO! Move this methods to baseForm.cls when it is posible
 */
+
 	
 	DEFINE VARIABLE searchKeyWord AS CHARACTER NO-UNDO INITIAL "".
 	DEFINE VARIABLE tmpFormId     AS INT64     NO-UNDO.
@@ -9,6 +10,9 @@
 	DEFINE VARIABLE FORM-HELP-KEY          AS CHARACTER NO-UNDO INITIAL "HELP".
 	DEFINE VARIABLE FORM-TITLE             AS CHARACTER NO-UNDO INITIAL "".
 
+    DEFINE FRAME formShadow
+      WITH NO-LABELS NO-BOX SIZE 45 BY 15 OVERLAY ROW 5 DCOLOR 1.
+	  
     METHOD PUBLIC RECID SearchById(iId AS INT64):
         DEFINE BUFFER {&formTable} FOR {&formTable}.
         FIND FIRST {&formTable} WHERE {&formTable}.id = iId NO-ERROR.
@@ -61,6 +65,7 @@
 
 	METHOD PUBLIC VOID ShowForm():
         InitForm().
+		InitShadowForm().
         ShowFrame().
         Recordset().
         WAIT-FOR WINDOW-CLOSE OF CURRENT-WINDOW OR PF4, F4, GO OF FRAME formFrame.
@@ -91,4 +96,20 @@
         RUN formHelp.p(FORM-HELP-KEY).
         ShowForm().
      END.
-	 
+	
+	ON PF4, F4 OF formBrowse
+	 DO:
+		DisableForm().
+		HideForm().
+	 END.
+
+	METHOD PUBLIC CHARACTER InitShadowForm():
+       /* IF NOT VALID-OBJECT(formShadow) THEN RETURN "NO-SHADOW".*/
+        
+        FRAME formShadow:WIDTH    = FRAME formFrame:WIDTH.
+        FRAME formShadow:Height   = FRAME formFrame:height.
+        FRAME formShadow:COL      = FRAME formFrame:COLUMN + 2.
+        FRAME formShadow:ROW      = FRAME formFrame:ROW  + 1.
+		
+        RETURN "".
+    END.

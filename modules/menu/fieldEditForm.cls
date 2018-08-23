@@ -1,17 +1,27 @@
-CLASS fieldEditForm INHERITS baseForm:
-    DEFINE VARIABLE fieldValue   AS CHARACTER NO-UNDO.
-    DEFINE VARIABLE fieldType    AS CHARACTER NO-UNDO INITIAL "CHAR".
-    DEFINE VARIABLE fieldTop     AS DECIMAL   NO-UNDO.
-    DEFINE VARIABLE fieldLeft    AS DECIMAL   NO-UNDO.
-    DEFINE VARIABLE fieldWidth   AS DECIMAL   NO-UNDO.
-    DEFINE VARIABLE fieldHeight  AS DECIMAL   NO-UNDO.
-    DEFINE VARIABLE fieldPfColor AS DECIMAL   NO-UNDO.
+CLASS fieldEditForm: /* INHERITS baseForm:*/
+    DEFINE VARIABLE fieldValue        AS CHARACTER NO-UNDO.
+    DEFINE VARIABLE fieldDefaultValue AS CHARACTER NO-UNDO INITIAL "".
+    DEFINE VARIABLE fieldType         AS CHARACTER NO-UNDO INITIAL "CHAR".
+    DEFINE VARIABLE fieldTop          AS DECIMAL   NO-UNDO.
+    DEFINE VARIABLE fieldLeft         AS DECIMAL   NO-UNDO.
+    DEFINE VARIABLE fieldWidth        AS DECIMAL   NO-UNDO.
+    DEFINE VARIABLE fieldHeight       AS DECIMAL   NO-UNDO INITIAL 1.
+    DEFINE VARIABLE fieldPfColor      AS DECIMAL   NO-UNDO INITIAL 7.
+    DEFINE VARIABLE fieldDColor       AS DECIMAL   NO-UNDO INITIAL 7.
+    DEFINE VARIABLE fieldDataList     AS CHARACTER NO-UNDO.
+    DEFINE VARIABLE fieldState        AS CHARACTER NO-UNDO INITIAL "NOT-CHANGED".
     
-    DEFINE VARIABLE hWidget    AS HANDLE    NO-UNDO.
+    DEFINE VARIABLE editorMode    AS CHARACTER NO-UNDO INITIAL "". /* = "ReadOnly"*/
+    DEFINE VARIABLE hWidget       AS HANDLE    NO-UNDO.
     
     DEFINE VARIABLE systemSettings AS systemSettingsApi NO-UNDO.
     DEFINE VARIABLE cStr           AS stringApi NO-UNDO.
     DEFINE VARIABLE cClr           AS sysColors NO-UNDO. 
+    DEFINE VARIABLE cFso           AS fileSystemObject NO-UNDO.
+    
+    DEF VAR Field_Delimiter AS CHAR INIT "|".
+    DEF VAR Null_Value      AS CHAR INIT "(null)".
+    DEF VAR oldValue        AS CHAR.
     DEF VAR settingsKey            AS CHAR      NO-UNDO INIT "/System/DataTypes/".
     
     DEF VAR HELP-PROC-NAME  AS CHAR.
@@ -29,22 +39,37 @@ CLASS fieldEditForm INHERITS baseForm:
     DEF VAR HELP-PROC-WIDTH  AS INT64.
     DEF VAR HELP-PROC-LTYPE  AS INT64.
     DEF VAR IsOk             AS LOG.
+    DEF VAR Prg_Ex           AS INT64.
     
     DEFINE FRAME formFrame
       WITH NO-LABEL SIZE 10 BY 1 OVERLAY NO-BOX COL 1 ROW 1.
+
+    DEFINE FRAME shadowFrame
+      WITH NO-LABEL SIZE 10 BY 1 OVERLAY NO-BOX COL 1 ROW 1.
+    
     
     CONSTRUCTOR fieldEditForm():
         systemSettings = NEW systemSettingsApi().
         cStr           = NEW stringApi().
         cClr           = NEW sysColors().
+        cFso           = NEW fileSystemObject().
     END.
     
     DESTRUCTOR fieldEditForm():
         DELETE OBJECT systemSettings NO-ERROR.
         DELETE OBJECT cStr           NO-ERROR.
         DELETE OBJECT cClr           NO-ERROR.
+        DELETE OBJECT cFso           NO-ERROR.
     END.
     
+    {propertyGetSetForField.f &name="width" &type="dec" &field="fieldWidth"}
+    {propertyGetSetForField.f &name="height" &type="dec" &field="fieldHeight"}
+    {propertyGetSetForField.f &name="top" &type="dec" &field="fieldTop"}
+    {propertyGetSetForField.f &name="left" &type="dec" &field="fieldLeft"}
+    {propertyGetSetForField.f &name="value" &type="char" &field="fieldValue"}
+    {propertyGetSetForField.f &name="state" &type="char" &field="fieldState"}
+
+        
     METHOD PUBLIC CHARACTER InitForm():
         DEF VAR S_W       AS INT64 NO-UNDO.
         DEF VAR S_H       AS INT64 NO-UNDO.
@@ -77,6 +102,7 @@ CLASS fieldEditForm INHERITS baseForm:
             IF fieldHeight <= 0 THEN fieldHeight = 1.
             IF fieldWidth  <= 0 THEN fieldWidth  = 8.
          END.
+
         mf_Top      = fieldTop.
         mf_Left     = fieldLeft.
         mf_Width    = fieldWidth.
@@ -91,19 +117,19 @@ CLASS fieldEditForm INHERITS baseForm:
         
         If f_Prp_Id > 0 THEN
          DO:
-            IF fieldPfColor = 0 THEN
+            IF fieldPfColor = 0 AND OPSYS = "unix" THEN
                   fieldPfColor = cclr:getColorNumber(systemSettings:getValueChar(f_Prp_ID,
                                                  "HELP-PROC-SLCLR")).
             HELP-PROC-NAME = systemSettings:getValueChar(f_Prp_ID, "HELP-PROC-NAME").
             IF HELP-PROC-NAME <> "" THEN 
              DO:
-                HELP-PROC-AUTO = systemSettings:getValueInt(f_Prp_ID, "HELP-PROC-AUTO").
+                HELP-PROC-AUTO = systemSettings:getValueInt64(f_Prp_ID, "HELP-PROC-AUTO").
                 
                 /* Задаем список значений по полю */
-                IF f_DataList = "" THEN
+                IF fieldDataList = "" THEN
                     HELP-PROC-DATA = systemSettings:getValueChar(f_Prp_ID, "HELP-PROC-DATA").
                 ELSE
-                    HELP-PROC-DATA = f_DataList.
+                    HELP-PROC-DATA = fieldDataList.
                 
                 /* Цвет фона */
                 HELP-PROC-BGCLR = 
@@ -117,7 +143,7 @@ CLASS fieldEditForm INHERITS baseForm:
                 /* Цвет курсора */
                 HELP-PROC-SLCLR = fieldPfColor.
                 /* Позиция окна Y */
-                HELP-PROC-TOP    = systemSettings:getValueInt(f_Prp_ID, "HELP-PROC-TOP").
+                HELP-PROC-TOP    = systemSettings:getValueInt64(f_Prp_ID, "HELP-PROC-TOP").
                 IF HELP-PROC-TOP = 0 THEN HELP-PROC-TOP = fieldTop.
                 /* Позиция окна X */
                 HELP-PROC-LEFT   = systemSettings:getValueInt(f_Prp_ID, "HELP-PROC-LEFT").
@@ -158,12 +184,13 @@ CLASS fieldEditForm INHERITS baseForm:
                  DO:
                     Prg_Ex = 1.
                     
-                    RUN DisableMf.
+                    DisableForm().
                     IF HELP-PROC-NAME = "p_field_ls" THEN
                      DO:
-                        /*MESSAGE "Opening list ...".*/
-                        RUN p_field_ls.p(INPUT-OUTPUT f_Vl,
-                                         INPUT-OUTPUT f_Chg,
+                        MESSAGE "TODO! Opening list ...". PAUSE 10.
+                        /*
+                        RUN p_field_ls.p(INPUT-OUTPUT fieldValue,
+                                         INPUT-OUTPUT fieldState,
                                          HELP-PROC-DATA,
                                          STRING(HELP-PROC-LEFT)   + "|" +
                                          STRING(HELP-PROC-TOP)    + "|" +
@@ -176,6 +203,7 @@ CLASS fieldEditForm INHERITS baseForm:
                                          STRING(HELP-PROC-BXCLR)  + "|" + 
                                          STRING(HELP-PROC-SHCLR)  + "|"
                                          ).
+                                         */
                      END.
                     ELSE
                      DO:
@@ -183,16 +211,16 @@ CLASS fieldEditForm INHERITS baseForm:
                                               HELP-PROC-WIDTH, HELP-PROC-HEIGHT,
                                               HELP-PROC-BGCLR, HELP-PROC-SLCLR,
                                               HELP-PROC-SHCLR, HELP-PROC-BXCLR,
-                                              HELP-PROC-DATA,  INPUT-OUTPUT f_Vl,
+                                              HELP-PROC-DATA,  INPUT-OUTPUT fieldValue,
                                               OUTPUT IsOk).
                      END.
-                    IF IsOk THEN f_Chg = 1.
+                    IF IsOk THEN fieldState = "".
                     
-                    RUN HideMf.
-                    RETURN.
+                    HideForm().
+                    RETURN "".
                  END.
              END.
-            systemSettings:EnableSystemWarnings().
+            /*systemSettings:EnableSystemWarnings().*/
          END.
         ELSE
          DO:
@@ -201,31 +229,43 @@ CLASS fieldEditForm INHERITS baseForm:
          
 
 
+        
         FRAME formFrame:WIDTH    = mf_Width.
         FRAME formFrame:Height   = mf_Height.
         FRAME formFrame:COL      = mf_Left.
         FRAME formFrame:ROW      = mf_Top.
 
-        hWidget              = Create_Field(   fieldType, 
-                                            f_Vl, 
+        hWidget            = CreateField(   fieldType, 
+                                            fieldValue, 
                                             FRAME formFrame:HANDLE, 
                                             1, 
                                             1,
                                             mf_Width,
                                             mf_Height).
-        hWidget:DCOLOR  = f_DCOLOR.
-        hWidget:PFCOLOR = fieldPfColor.
-        IF f_Mode = 5 THEN
+        hWidget:DCOLOR  = fieldDColor.
+        
+        IF OPSYS = "unix" THEN hWidget:PFCOLOR = fieldPfColor.
+        IF editorMode = "ReadOnly" THEN
          DO:    
             hWidget:SENSITIVE  = False.
          END.
 
         RETURN "".
     END.
+	
+    METHOD PUBLIC CHARACTER InitShadowForm():
+        
+        FRAME shadowFrame:WIDTH    = FRAME formFrame:WIDTH.
+        FRAME shadowFrame:Height   = FRAME formFrame:height.
+        FRAME shadowFrame:COL      = FRAME formFrame:COLUMN + 2.
+        FRAME shadowFrame:ROW      = FRAME formFrame:ROW  + 1.
+		
+        RETURN "".
+    END.
     
     METHOD PUBLIC CHARACTER ShowList():
-        IF cfso:FindFile(INPUT-OUTPUT HELP-PROC-NAME) = 1 THEN LEAVE.
-        RUN DisableMf.
+        IF cfso:FindFile(INPUT-OUTPUT HELP-PROC-NAME) <> "" THEN RETURN "".
+        DisableForm().
         IsOk = No.
         IF HELP-PROC-NAME = "r_field_ls" THEN
          DO:
@@ -251,39 +291,42 @@ CLASS fieldEditForm INHERITS baseForm:
                                   HELP-PROC-WIDTH, HELP-PROC-HEIGHT,
                                   HELP-PROC-BGCLR, HELP-PROC-SLCLR,
                                   HELP-PROC-SHCLR, HELP-PROC-BXCLR,
-                                  HELP-PROC-DATA,  INPUT-OUTPUT f_Vl,
+                                  HELP-PROC-DATA,  INPUT-OUTPUT fieldValue,
                                   OUTPUT IsOk).
          END.
-        IF IsOk THEN f_Chg = 1.
+        IF IsOk THEN fieldState = "".
     END.
 
     ON PF2, F2 OF FRAME formFrame
      DO:
-        RUN Show_List.
-        ShowMf.
+        ShowList().
+        ShowFrame().
      END.
      
-    ON GO OF FRAME formFrame 
+    ON GO, RETURN OF FRAME formFrame 
      DO:
-        IF f_Mode = 0 OR f_Mode = 2 THEN
+        IF editorMode = "" OR editorMode = "2" THEN
          DO:
-            f_Vl  = ctrl:SCREEN-VALUE.
-            IF f_Vl = f_Null_Value THEN f_Vl = "".
-            IF f_Vl <> f_Vl_Old THEN f_Chg = 1.
+            fieldValue  = hWidget:SCREEN-VALUE.
+            IF fieldValue = Null_Value THEN fieldValue = "".
+            IF fieldValue <> oldValue    THEN fieldState = "".
          END.
      END.
 
     ON PF4, F4, END-ERROR OF FRAME formFrame
      DO:
-        HideMf().
+        DEF VAR fl   AS INT64.
+        HideForm().
+        /*
         IF fl = 0 THEN 
          DO:
             APPLY "WINDOW-CLOSE" TO CURRENT-WINDOW.
          END.
+        */
      END.
      
     METHOD PUBLIC VOID ShowData():
-        ENABLE fieldValue WITH FRAME formFrame. 
+        ENABLE  fieldValue WITH FRAME formFrame. 
         PAUSE 0.
     END.
 
@@ -291,12 +334,7 @@ CLASS fieldEditForm INHERITS baseForm:
         RETURN "".
     END.
     
-    ON RETURN OF fieldValue
-     DO:
-
-        RETURN "".
-     END.
-    
+   
     METHOD WIDGET-HANDLE createField (fieldType AS CHAR, 
                                               f_Vl AS CHAR, 
                                               Mf AS WIDGET-HANDLE,
@@ -383,4 +421,54 @@ CLASS fieldEditForm INHERITS baseForm:
         RETURN ctrl.
     END.
 
+    METHOD PUBLIC CHAR DisableForm():
+        DISABLE ALL WITH FRAME formFrame.  PAUSE 0.
+        DISABLE ALL WITH FRAME formShadow. PAUSE 0.
+        RETURN "".
+    END.
+
+    METHOD PUBLIC CHAR HideForm():
+        HIDE FRAME formFrame.  PAUSE 0.
+        HIDE FRAME formShadow. PAUSE 0.
+        RETURN "".
+    END.
+    
+    METHOD PUBLIC CHAR ShowFrame():
+        VIEW FRAME formShadow. PAUSE 0.
+        VIEW FRAME formFrame.  PAUSE 0.
+        ShowData().
+        RETURN "".
+    END.
+
+	METHOD PUBLIC VOID ShowForm():
+        InitForm().
+        InitShadowForm().
+        ShowFrame().
+        PAUSE 44.        
+        oldValue = fieldValue.
+
+        IF editorMode = "2" THEN 
+         DO:
+            hWidget:AUTO-ZAP=False.
+            hWidget:CURSOR-OFFSET = 2.
+            
+            APPLY "INSERT-MODE" TO FOCUS.
+            APPLY "LEFT-ARROW" TO FOCUS.
+            APPLY "END" TO FOCUS.
+         END.
+     
+        IF Prg_Ex = 0 AND (editorMode = "" OR editorMode = "1" OR editorMode = "2") THEN
+         DO:
+            IF editorMode = "2" THEN
+                APPLY "INSERT".
+                
+            ON PF4 END-ERROR.       
+            WAIT-FOR WINDOW-CLOSE OF CURRENT-WINDOW OR PF4, F4, RETURN, GO OF FRAME formFrame.
+            HideForm().
+            DELETE WIDGET hWidget.
+         END.
+        
+    END. 
 END.
+
+

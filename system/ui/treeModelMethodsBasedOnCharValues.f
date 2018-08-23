@@ -69,6 +69,11 @@
         oValue = INT64(getValueChar(iParentId, iKeyName)) NO-ERROR.
         RETURN oValue.
      END.
+     METHOD PUBLIC INT getValueInt(iParentId AS INT64, iKeyName AS CHAR):
+        DEFINE VARIABLE oValue AS INT NO-UNDO.
+        oValue = INT(getValueChar(iParentId, iKeyName)) NO-ERROR.
+        RETURN oValue.
+     END.
      METHOD PUBLIC LOG getValueLog(iParentId AS INT64, iKeyName AS CHARACTER):
         RETURN getValueLog(iParentId, iKeyName, "").
      END.
@@ -103,6 +108,9 @@
      END.
      METHOD PUBLIC DEC getValueDec(iKeyName AS CHAR):
         RETURN getValueDec(defaultRootKeyId, iKeyName).
+     END.
+     METHOD PUBLIC INT getValueInt(iKeyName AS CHAR):
+        RETURN getValueInt(defaultRootKeyId, iKeyName).
      END.
      METHOD PUBLIC INT64 getValueInt64(iKeyName AS CHAR):
         RETURN getValueInt64(defaultRootKeyId, iKeyName).

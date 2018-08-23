@@ -49,6 +49,7 @@ CLASS menuForm INHERITS headerForm:
         DELETE OBJECT cMenuApi NO-ERROR.
     END.
     
+  
     METHOD PUBLIC CHARACTER InitForm():
         RETURN "".
     END.
@@ -90,14 +91,20 @@ CLASS menuForm INHERITS headerForm:
     
     ON F6 OF formBrowse
      DO:
-        IF NOT AVAILABLE formTable THEN RETURN.
         DEFINE VARIABLE editForm AS menuEditForm.
+        
+        IF NOT AVAILABLE formTable THEN RETURN.
+        
         DisableForm().
+        
         editForm = NEW menuEditForm().
         editForm:recordset(formTable.id).
         editForm:showForm().
-        showFrame().
         DELETE OBJECT editForm.
+        
+        showFrame().
+        showData().
+        CURRENT-WINDOW:SENSITIVE = true.
      END.
     
 END.
