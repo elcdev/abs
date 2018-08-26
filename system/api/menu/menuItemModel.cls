@@ -32,6 +32,20 @@ CLASS menuItemModel inherits dbModel:
         RETURN "".
 	END.
 	
+	METHOD PUBLIC CHARACTER setValuesFromBuffer(hMenuBuffer AS HANDLE):
+        DEFINE VARIABLE i      AS INT64  NO-UNDO INITIAL 0.   
+        DEFINE VARIABLE hField AS HANDLE NO-UNDO.
+        
+        DO i = 1 TO hMenuBuffer:NUM-FIELDS:
+            hField = hMenuBuffer:BUFFER-FIELD(i).
+            /*IF INDEX("id;updateCount;version;state;modify_date;modify_user;create_date;create_user;parent_id;", hField:NAME + ";") > 0 THEN NEXT.*/
+
+            DYNAMIC-PROPERTY(THIS-OBJECT, hField:NAME) = hField:BUFFER-VALUE.
+        END.
+        
+        RETURN "".
+	END.
+    
     METHOD PUBLIC INT64 getIdByFunctionName(iFunction AS CHAR):
         DEFINE BUFFER menu FOR menu.
 

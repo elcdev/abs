@@ -61,7 +61,10 @@
     METHOD PUBLIC CHAR ShowFrame():
 		SUPER:showHeader().
         IF ENABLE-SHADOW THEN 
+		 DO:
 			VIEW FRAME formShadow.
+			PAUSE 0.
+	     END.
         VIEW FRAME formFrame.  PAUSE 0.
         ShowData().
         RETURN "".

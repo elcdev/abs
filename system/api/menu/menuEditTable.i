@@ -5,6 +5,7 @@ DEFINE TEMP-TABLE formEditTable NO-UNDO
     FIELD fieldLabel    AS CHARACTER 
     FIELD fieldPosition AS INTEGER
     FIELD fieldType     AS CHARACTER
+    FIELD fieldChanged  AS LOG 
     
     INDEX pk id fieldPosition
     INDEX fieldName fieldName
