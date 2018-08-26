@@ -16,24 +16,22 @@ DEFINE VARIABLE Settings      AS CLASS globalSettingsApi.
 DEFINE VARIABLE g-today       AS DATE NO-UNDO.
 DEFINE VARIABLE companyName   AS CHARACTER NO-UNDO.
 DEFINE VARIABLE loginName     AS CHARACTER NO-UNDO.
-DEFINE VARIABLE separatorLine AS CHARACTER NO-UNDO.
   
 /* 20 + 30 + 30 */
 DEFINE FRAME headerFrame
       g-today     FORMAT "99.99.9999"
-  " " companyName FORMAT "X(29)"
-  " " loginName   FORMAT "X(10)":R 
+      companyName FORMAT "X(29)":L
+      loginName   FORMAT "X(10)" AT 65
   
-  WITH NO-LABELS NO-BOX SIZE 80 BY 1 CENTERED.
+  WITH NO-LABELS NO-BOX SIZE 80 BY 1 ROW 1.
   
 CONSTRUCTOR headerForm():
     Settings = NEW globalSettingsApi().
     
     g-today     = Settings:g-today.
     companyName = Settings:companyName.
-    loginName   = Settings:loginName.
-
-    separatorLine = getSeparator().
+    loginName   = SUBSTRING(Settings:loginName, 1, 10).
+    loginName   = STRING(FILL(" ",10 - LENGTH (loginName)) + loginName, "X(10)").
     FRAME headerFrame:SCROLLABLE = FALSE.
 END.
 
@@ -42,7 +40,8 @@ DESTRUCTOR headerForm():
 END.
 
 METHOD PUBLIC OVERRIDE CHARACTER showHeader():
-    VIEW FRAME headerFrame. PAUSE 0.
+    VIEW FRAME headerFrame. 
+    PAUSE 0.
     DISPLAY g-today companyName loginName WITH FRAME headerFrame.
     PAUSE 0.
 END.

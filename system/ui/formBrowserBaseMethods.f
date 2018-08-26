@@ -9,7 +9,8 @@
 	DEFINE VARIABLE DEFAULT-REPOSITION-ROW AS INT INIT 7.
 	DEFINE VARIABLE FORM-HELP-KEY          AS CHARACTER NO-UNDO INITIAL "HELP".
 	DEFINE VARIABLE FORM-TITLE             AS CHARACTER NO-UNDO INITIAL "".
-
+	DEFINE VARIABLE ENABLE-SHADOW          AS LOG       NO-UNDO INITIAL TRUE.
+	
     DEFINE FRAME formShadow
       WITH NO-LABELS NO-BOX SIZE 45 BY 15 OVERLAY ROW 5 DCOLOR 1.
 	  
@@ -44,20 +45,23 @@
 	
     METHOD PUBLIC CHAR DisableForm():
         DISABLE ALL WITH FRAME formFrame.  PAUSE 0.
-        DISABLE ALL WITH FRAME formShadow. PAUSE 0.
+		IF ENABLE-SHADOW THEN
+			DISABLE ALL WITH FRAME formShadow. PAUSE 0.
         RETURN "".
     END.
 
     METHOD PUBLIC CHAR HideForm():
 		SUPER:hideHeader().
         HIDE FRAME formFrame.  PAUSE 0.
-        HIDE FRAME formShadow. PAUSE 0.
+		IF ENABLE-SHADOW THEN
+			HIDE FRAME formShadow. PAUSE 0.
         RETURN "".
     END.
     
     METHOD PUBLIC CHAR ShowFrame():
 		SUPER:showHeader().
-        VIEW FRAME formShadow. PAUSE 0.
+        IF ENABLE-SHADOW THEN 
+			VIEW FRAME formShadow.
         VIEW FRAME formFrame.  PAUSE 0.
         ShowData().
         RETURN "".
@@ -104,7 +108,7 @@
 	 END.
 
 	METHOD PUBLIC CHARACTER InitShadowForm():
-       /* IF NOT VALID-OBJECT(formShadow) THEN RETURN "NO-SHADOW".*/
+        IF NOT ENABLE-SHADOW THEN RETURN "NO-SHADOW".
         
         FRAME formShadow:WIDTH    = FRAME formFrame:WIDTH.
         FRAME formShadow:Height   = FRAME formFrame:height.

@@ -19,11 +19,11 @@ CLASS menuForm INHERITS headerForm:
 
     DEFINE BROWSE formBrowse QUERY formQuery DISPLAY
         formTable.position      FORMAT ">9"    LABEL "LN"
-        formTable.description   FORMAT "X(53)" LABEL "DESCRIPTION"
-        formTable.function_name FORMAT "X(14)" LABEL "FUNCTION"
+        formTable.description   FORMAT "X(55)" LABEL "DESCRIPTION"
+        formTable.function_name FORMAT "X(15)" LABEL "FUNCTION"
         "> "                    FORMAT "XX"    LABEL "SB"
         WITH 19 DOWN NO-LABELS NO-SCROLLBAR-VERTICAL
-        SIZE 79 BY 18 
+        SIZE 80 BY 18 
         .
         
     DEFINE FRAME formFrame
@@ -39,6 +39,7 @@ CLASS menuForm INHERITS headerForm:
     
     CONSTRUCTOR menuForm():
         cMenuApi = NEW menuApi().
+        ENABLE-SHADOW = FALSE.
     END.
     
     CONSTRUCTOR menuForm(iParentId AS INT64):
