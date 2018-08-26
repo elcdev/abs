@@ -93,22 +93,15 @@ CLASS menuEditForm INHERITS baseForm:
         fieldEditor:Left  = formEditTable.fieldValue:COL   IN BROWSE formBrowse + FRAME formFrame:COL.
         fieldEditor:WIDTH = formEditTable.fieldValue:Width IN BROWSE formBrowse.
         fieldEditor:VALUE = formEditTable.fieldValue.
-        /*
-       RUN p_field_ed.p("CHAR", 
-                       INPUT-OUTPUT TmpTab.FieldValue, 
-                       INPUT-OUTPUT f_Chg, iEditMode,
-                       TmpTab.FieldValue:COL    IN BROWSE bTmp + FRAME Mf:COL + 1,
-                       TmpTab.FieldValue:ROW    IN BROWSE bTmp + FRAME Mf:ROW + 1,
-                       TmpTab.FieldValue:WIDTH  IN BROWSE bTmp,
-                       0, 1, 0).
-          */             
+            
         DisableForm().
 
         fieldEditor:ShowForm().
-        
+        MESSAGE fieldEditor:State VIEW-AS ALERT-BOX.
         IF fieldEditor:State = "" THEN 
          DO:
-            fieldEditor:VALUE = formEditTable.fieldValue.
+            formEditTable.fieldValue = fieldEditor:VALUE.
+            formBrowse:refresh().
          END.
          
         DELETE OBJECT fieldEditor NO-ERROR.

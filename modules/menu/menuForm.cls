@@ -23,16 +23,17 @@ CLASS menuForm INHERITS headerForm:
         formTable.function_name FORMAT "X(14)" LABEL "FUNCTION"
         "> "                    FORMAT "XX"    LABEL "SB"
         WITH 19 DOWN NO-LABELS NO-SCROLLBAR-VERTICAL
-        SIZE 78 BY 18 
+        SIZE 79 BY 18 
         .
         
     DEFINE FRAME formFrame
         formBrowse HELP " " SKIP
-      WITH NO-LABELS NO-BOX SIZE 80 BY 20 OVERLAY ROW 3 
+      WITH NO-LABELS NO-BOX SIZE 80 BY 20 OVERLAY ROW 2 
       CENTERED.
 
     DEFINE FRAME formShadow
-      WITH NO-LABELS NO-BOX SIZE 80 BY 20 OVERLAY ROW 3.
+      WITH NO-LABELS NO-BOX SIZE 80 BY 20 OVERLAY ROW 2
+      CENTERED.
 
     {formBrowserBaseMethods.f &formTable="formTable"}
     
@@ -55,7 +56,9 @@ CLASS menuForm INHERITS headerForm:
     END.
     
     METHOD PUBLIC VOID ShowData():
+        SUPER:showHeader().
         ENABLE formBrowse WITH FRAME formFrame. 
+        
         PAUSE 0.
     END.
 

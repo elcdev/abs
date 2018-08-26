@@ -11,20 +11,20 @@ Find menu         [************************************************************]
 */
 
 CLASS headerForm INHERITS baseForm:
-DEFINE VARIABLE Settings    AS CLASS globalSettingsApi.
+DEFINE VARIABLE Settings      AS CLASS globalSettingsApi.
 
-DEFINE VARIABLE g-today     AS DATE NO-UNDO.
-DEFINE VARIABLE companyName AS CHARACTER NO-UNDO.
-DEFINE VARIABLE loginName   AS CHARACTER NO-UNDO.
+DEFINE VARIABLE g-today       AS DATE NO-UNDO.
+DEFINE VARIABLE companyName   AS CHARACTER NO-UNDO.
+DEFINE VARIABLE loginName     AS CHARACTER NO-UNDO.
 DEFINE VARIABLE separatorLine AS CHARACTER NO-UNDO.
   
 /* 20 + 30 + 30 */
 DEFINE FRAME headerFrame
-      g-today FORMAT "99.99.9999"
+      g-today     FORMAT "99.99.9999"
   " " companyName FORMAT "X(29)"
-  " " loginName FORMAT "X(20)" SKIP 
+  " " loginName   FORMAT "X(10)":R 
   
-  WITH NO-LABELS NO-BOX SIZE 80 BY 2 CENTERED.
+  WITH NO-LABELS NO-BOX SIZE 80 BY 1 CENTERED.
   
 CONSTRUCTOR headerForm():
     Settings = NEW globalSettingsApi().
@@ -32,8 +32,9 @@ CONSTRUCTOR headerForm():
     g-today     = Settings:g-today.
     companyName = Settings:companyName.
     loginName   = Settings:loginName.
-    
+
     separatorLine = getSeparator().
+    FRAME headerFrame:SCROLLABLE = FALSE.
 END.
 
 DESTRUCTOR headerForm():
