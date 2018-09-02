@@ -157,30 +157,37 @@ ADD FIELD "branch" OF "account" AS character
   ORDER 180
 
 
-
-ADD FIELD "client_id" OF "account" AS int64
+ADD FIELD "cif" OF "account" AS char
   DESCRIPTION "Relation withs clients table"
-  FORMAT ">>>>>>>>>>>9"
+  FORMAT "X(12)"
   INITIAL 0
   POSITION 20
   MAX-WIDTH 12
   ORDER 190
+  
+ADD FIELD "client_id" OF "account" AS int64
+  DESCRIPTION "Relation withs clients table"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL 0
+  POSITION 21
+  MAX-WIDTH 12
+  ORDER 200
 
 ADD FIELD "account_status" OF "account" AS char
   DESCRIPTION "Account satus: [new]-new, [active]-active, [closed]-closed"
   FORMAT "X(10)"
   INITIAL ""
-  POSITION 21
+  POSITION 22
   MAX-WIDTH 10
-  ORDER 200
+  ORDER 210
 
 ADD FIELD "description" OF "account" AS character 
   DESCRIPTION "Sub type (dfbForClients, dfbForElcoin)"
   FORMAT "X(50)"
   INITIAL ""
-  POSITION 22
+  POSITION 23
   MAX-WIDTH 50
-  ORDER 210
+  ORDER 220
   
 
   
@@ -188,68 +195,68 @@ ADD FIELD "open_date" OF "account" AS date
   DESCRIPTION "Account open date"
   FORMAT "99.99.9999"
   INITIAL ?
-  POSITION 23
+  POSITION 24
   MAX-WIDTH 10
-  ORDER 220
+  ORDER 230
   
 ADD FIELD "close_date" OF "account" AS date
   DESCRIPTION "Account close date"
   FORMAT "99.99.9999"
   INITIAL ?
-  POSITION 24
+  POSITION 25
   MAX-WIDTH 10
-  ORDER 230
+  ORDER 240
 
 
 ADD FIELD "open_amount" OF "account" AS decimal
   DESCRIPTION "Account open amount (for overdraft/deposit) move to data"
   FORMAT "-z,zzz,zzz,zz9.99"
   INITIAL "0.00"
-  POSITION 25
+  POSITION 26
   MAX-WIDTH 17
-  ORDER 240
+  ORDER 250
   
 
   
-ADD FIELD "last_operation_date" OF "account" AS datetime 
+ADD FIELD "last_operation_date" OF "account" AS date
   DESCRIPTION "Last operation date"
-  FORMAT "99.99.9999 hh:mm:ss"
-  INITIAL "now"
-  POSITION 26
-  MAX-WIDTH 19
-  ORDER 250
-  
-ADD FIELD "last_debet_date" OF "account" AS datetime 
-  DESCRIPTION "Last debet operation date"
-  FORMAT "99.99.9999 hh:mm:ss"
-  INITIAL "now"
+  FORMAT "99.99.9999"
+  INITIAL ?
   POSITION 27
   MAX-WIDTH 19
   ORDER 260
+  
+ADD FIELD "last_debet_date" OF "account" AS date 
+  DESCRIPTION "Last debet operation date"
+  FORMAT "99.99.9999"
+  INITIAL ?
+  POSITION 28
+  MAX-WIDTH 19
+  ORDER 270
   
 ADD FIELD "last_debet_amount" OF "account" AS decimal
   DESCRIPTION "Last debet operation amount"
   FORMAT "-z,zzz,zzz,zz9.99"
   INITIAL "0.00"
-  POSITION 28
-  MAX-WIDTH 17
-  ORDER 270
-
-ADD FIELD "last_credit_date" OF "account" AS datetime 
-  DESCRIPTION "Last credit operation date"
-  FORMAT "99.99.9999 hh:mm:ss"
-  INITIAL "now"
   POSITION 29
+  MAX-WIDTH 17
+  ORDER 280
+
+ADD FIELD "last_credit_date" OF "account" AS date
+  DESCRIPTION "Last credit operation date"
+  FORMAT "99.99.9999"
+  INITIAL ?
+  POSITION 28
   MAX-WIDTH 4
-  ORDER 280  
+  ORDER 290  
   
 ADD FIELD "last_credit_amount" OF "account" AS decimal 
   DESCRIPTION "Last credit operation date"
   FORMAT "-z,zzz,zzz,zz9.99"
   INITIAL "0.00"
-  POSITION 30
+  POSITION 29
   MAX-WIDTH 17
-  ORDER 290    
+  ORDER 300    
   
   
   

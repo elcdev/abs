@@ -96,7 +96,7 @@ ADD FIELD "balance" OF "gl_balance" AS decimal
   ORDER 110
   
  
-ADD FIELD "total_debit" OF "gl_balance" AS decimal
+ADD FIELD "total_debet" OF "gl_balance" AS decimal
   DESCRIPTION "Account total debet turnover from open date"
   FORMAT "-z,zzz,zzz,zz9.99"
   INITIAL "0.00"

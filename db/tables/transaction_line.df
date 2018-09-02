@@ -1,5 +1,5 @@
 ADD TABLE "transaction_line"
-    AREA "Clients Data"
+    AREA "Accounts Data"
     DESCRIPTION "ABS Clients data tables"
 
 ADD FIELD "id" OF "transaction_line" AS INT64
