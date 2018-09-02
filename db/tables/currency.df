@@ -1,0 +1,153 @@
+ADD TABLE "currency"
+  AREA "Accounts Data"
+  DESCRIPTION "ABS gls data tables"
+  DUMP-NAME "currency"
+
+ADD FIELD "id" OF "currency" AS int64 
+  DESCRIPTION "Record Id"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  POSITION 2
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "version" OF "currency" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  POSITION 3
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "state" OF "currency" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  POSITION 4
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "modify_date" OF "currency" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  POSITION 5
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "modify_user" OF "currency" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 6
+  MAX-WIDTH 8
+  ORDER 50
+
+ADD FIELD "create_date" OF "currency" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  POSITION 7
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "create_user" OF "currency" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 8
+  MAX-WIDTH 8
+  ORDER 70
+
+
+  
+  
+ADD FIELD "currency" OF "currency" AS CHAR
+  DESCRIPTION "Currency iso code"
+  FORMAT "X(3)"
+  INITIAL ""
+  POSITION 9
+  MAX-WIDTH 3
+  ORDER 80
+  
+ADD FIELD "description" OF "currency" AS character 
+  DESCRIPTION "Sub type (dfbForClients, dfbForElcoin)"
+  FORMAT "X(50)"
+  INITIAL ""
+  POSITION 10
+  MAX-WIDTH 50
+  ORDER 90
+  
+ADD FIELD "decimal_points" OF "currency" AS int 
+  DESCRIPTION "Deciml points"
+  FORMAT ">>9"
+  INITIAL ""
+  POSITION 11
+  MAX-WIDTH 3
+  ORDER 100
+
+ADD FIELD "currency_order" OF "currency" AS INT
+  DESCRIPTION "Currency order for reports"
+  FORMAT "zzzz9"
+  INITIAL ""
+  POSITION 12
+  MAX-WIDTH 5
+  ORDER 110
+  
+ADD FIELD "currency_status" OF "currency" AS CHAR
+  DESCRIPTION "Currency status [A]ctive-[C]losed "
+  FORMAT "X(10)"
+  INITIAL ""
+  POSITION 13
+  MAX-WIDTH 10
+  ORDER 120
+  
+
+  
+
+ADD INDEX "id" ON "currency" 
+  AREA "Accounts Index"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "modify_date" ON "currency" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_date" ASCENDING 
+
+ADD INDEX "modify_user" ON "currency" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_user" ASCENDING 
+
+ADD INDEX "state" ON "currency" 
+  AREA "Accounts Index"
+  INDEX-FIELD "state" ASCENDING 
+
+ADD INDEX "version" ON "currency" 
+  AREA "Accounts Index"
+  INDEX-FIELD "version" ASCENDING 
+
+  
+
+  
+ADD INDEX "currency" ON "currency" 
+  AREA "Accounts Index"
+  INDEX-FIELD "currency" ASCENDING 
+  
+ADD INDEX "currency_order" ON "currency" 
+  AREA "Accounts Index"
+  INDEX-FIELD "currency_order" ASCENDING 
+  INDEX-FIELD "currency" ASCENDING 
+  
+ADD INDEX "currency_status" ON "currency" 
+  AREA "Accounts Index"
+  INDEX-FIELD "currency_status" ASCENDING 
+  
+
+ 
+
+.
+PSC
+cpstream=utf-8
+.
+0000002533

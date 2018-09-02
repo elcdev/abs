@@ -52,29 +52,26 @@ ADD FIELD "create_user" OF "closed_days" AS CHAR
     ORDER 70
 
 
+    
 
-ADD FIELD "system_date" OF "closed_days" AS DATE
-    FORMAT "99.99.99"
+ADD FIELD "balance_date" OF "closed_days" AS DATE
+    FORMAT "99.99.9999"
     INITIAL ""
     POSITION 9
     MAX-WIDTH 4
     ORDER 80
 
-ADD FIELD "is_friday" OF "closed_days" AS INT
-    FORMAT "9"
-    INITIAL "0"
-    POSITION 10
-    MAX-WIDTH 4
-    ORDER 90
-
 ADD FIELD "closed" OF "closed_days" AS LOGICAL
     FORMAT "YES/NO"
     INITIAL FALSE
-    POSITION 11
+    POSITION 10
     MAX-WIDTH 5
-    ORDER 100
+    ORDER 90
 
 
+    
+    
+    
     
 ADD INDEX "id" ON "closed_days" 
   AREA "System Index"
@@ -99,11 +96,15 @@ ADD INDEX "version" ON "closed_days"
   INDEX-FIELD "version" ASCENDING 
 
 
-ADD INDEX "system_date" ON "closed_days" 
+  
+  
+ADD INDEX "balance_date" ON "closed_days" 
   AREA "System Data"
-  INDEX-FIELD "system_date" ASCENDING   
+  INDEX-FIELD "balance_date" ASCENDING   
 
-
+ADD INDEX "closed" ON "closed_days" 
+  AREA "System Data"
+  INDEX-FIELD "closed" ASCENDING  
   
 .
 PSC

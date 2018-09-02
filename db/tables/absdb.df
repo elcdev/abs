@@ -1,0 +1,2347 @@
+ADD TABLE "account"
+  AREA "Accounts Data"
+  DESCRIPTION "ABS Accounts data tables"
+  DUMP-NAME "account"
+
+ADD FIELD "id" OF "account" AS int64 
+  DESCRIPTION "Record Id"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "version" OF "account" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "state" OF "account" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "modify_date" OF "account" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "modify_user" OF "account" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "create_date" OF "account" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "create_user" OF "account" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 70
+
+ADD FIELD "gl" OF "account" AS int64 
+  DESCRIPTION "General ledger account number"
+  FORMAT "zzzzzzzzz9"
+  INITIAL "0"
+  MAX-WIDTH 10
+  ORDER 80
+
+ADD FIELD "iban" OF "account" AS character 
+  DESCRIPTION "account number"
+  FORMAT "X(35)"
+  INITIAL ""
+  MAX-WIDTH 35
+  ORDER 90
+
+ADD FIELD "account" OF "account" AS character 
+  DESCRIPTION "account number"
+  FORMAT "X(12)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 100
+
+ADD FIELD "base_account" OF "account" AS character 
+  DESCRIPTION "Base multicurrency account"
+  FORMAT "X(12)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 110
+
+ADD FIELD "overdraft_account" OF "account" AS character 
+  DESCRIPTION "Overdraft account for current account"
+  FORMAT "X(12)"
+  INITIAL ""
+  MAX-WIDTH 12
+  ORDER 120
+
+ADD FIELD "currency" OF "account" AS character 
+  DESCRIPTION "Currency"
+  FORMAT "X(3)"
+  INITIAL ""
+  MAX-WIDTH 3
+  ORDER 130
+
+ADD FIELD "account_group" OF "account" AS character 
+  DESCRIPTION "Account group"
+  FORMAT "X(7)"
+  INITIAL ""
+  MAX-WIDTH 7
+  ORDER 140
+
+ADD FIELD "subledger_type" OF "account" AS character 
+  DESCRIPTION "account type (aaa, dfb, arp, fun)"
+  FORMAT "X(5)"
+  INITIAL ""
+  MAX-WIDTH 5
+  ORDER 150
+
+ADD FIELD "account_subtype" OF "account" AS character 
+  DESCRIPTION "Sub type (dfbForClients, dfbForElcoin)"
+  FORMAT "X(7)"
+  INITIAL ""
+  MAX-WIDTH 7
+  ORDER 160
+
+ADD FIELD "product_code" OF "account" AS character 
+  DESCRIPTION "Product code"
+  FORMAT "X(7)"
+  INITIAL ""
+  MAX-WIDTH 7
+  ORDER 170
+
+ADD FIELD "branch" OF "account" AS character 
+  DESCRIPTION "Branch of account"
+  FORMAT "X(5)"
+  INITIAL ""
+  MAX-WIDTH 5
+  ORDER 180
+
+ADD FIELD "client_id" OF "account" AS int64 
+  DESCRIPTION "Relation withs clients table"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 12
+  ORDER 190
+
+ADD FIELD "account_status" OF "account" AS character 
+  DESCRIPTION "Account satus: [new]-new, [active]-active, [closed]-closed"
+  FORMAT "X(10)"
+  INITIAL ""
+  MAX-WIDTH 10
+  ORDER 200
+
+ADD FIELD "description" OF "account" AS character 
+  DESCRIPTION "Sub type (dfbForClients, dfbForElcoin)"
+  FORMAT "X(50)"
+  INITIAL ""
+  MAX-WIDTH 50
+  ORDER 210
+
+ADD FIELD "open_date" OF "account" AS date 
+  DESCRIPTION "Account open date"
+  FORMAT "99.99.9999"
+  INITIAL ?
+  MAX-WIDTH 10
+  ORDER 220
+
+ADD FIELD "close_date" OF "account" AS date 
+  DESCRIPTION "Account close date"
+  FORMAT "99.99.9999"
+  INITIAL ?
+  MAX-WIDTH 10
+  ORDER 230
+
+ADD FIELD "open_amount" OF "account" AS decimal 
+  DESCRIPTION "Account open amount (for overdraft/deposit) move to data"
+  FORMAT "-z,zzz,zzz,zz9.99"
+  INITIAL "0.00"
+  MAX-WIDTH 17
+  ORDER 240
+
+ADD FIELD "last_operation_date" OF "account" AS datetime 
+  DESCRIPTION "Last operation date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 19
+  ORDER 250
+
+ADD FIELD "last_debet_date" OF "account" AS datetime 
+  DESCRIPTION "Last debet operation date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 19
+  ORDER 260
+
+ADD FIELD "last_debet_amount" OF "account" AS decimal 
+  DESCRIPTION "Last debet operation amount"
+  FORMAT "-z,zzz,zzz,zz9.99"
+  INITIAL "0.00"
+  MAX-WIDTH 17
+  ORDER 270
+
+ADD FIELD "last_credit_date" OF "account" AS datetime 
+  DESCRIPTION "Last credit operation date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 280
+
+ADD FIELD "last_credit_amount" OF "account" AS decimal 
+  DESCRIPTION "Last credit operation date"
+  FORMAT "-z,zzz,zzz,zz9.99"
+  INITIAL "0.00"
+  MAX-WIDTH 17
+  ORDER 290
+
+ADD INDEX "id" ON "account" 
+  AREA "Accounts Index"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "account" ON "account" 
+  AREA "Accounts Index"
+  UNIQUE
+  INDEX-FIELD "account" ASCENDING 
+
+ADD INDEX "account_group" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "account_group" ASCENDING 
+
+ADD INDEX "account_status" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "account_status" ASCENDING 
+
+ADD INDEX "account_subtype" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "account_subtype" ASCENDING 
+
+ADD INDEX "base_account" ON "account" 
+  AREA "Accounts Data"
+  INDEX-FIELD "base_account" ASCENDING 
+
+ADD INDEX "branch" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "branch" ASCENDING 
+
+ADD INDEX "client_id" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "client_id" ASCENDING 
+
+ADD INDEX "close_date" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "close_date" ASCENDING 
+
+ADD INDEX "currency" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "currency" ASCENDING 
+
+ADD INDEX "gl" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "gl" ASCENDING 
+
+ADD INDEX "iban" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "iban" ASCENDING 
+
+ADD INDEX "modify_date" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_date" ASCENDING 
+
+ADD INDEX "modify_user" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_user" ASCENDING 
+
+ADD INDEX "open_date" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "open_date" ASCENDING 
+
+ADD INDEX "overdraft_account" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "overdraft_account" ASCENDING 
+
+ADD INDEX "product_code" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "product_code" ASCENDING 
+
+ADD INDEX "state" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "state" ASCENDING 
+
+ADD INDEX "subledger_type" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "subledger_type" ASCENDING 
+
+ADD INDEX "version" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "version" ASCENDING 
+
+ADD TABLE "account_balance"
+  AREA "Accounts Data"
+  DESCRIPTION "ABS Accounts data tables"
+  DUMP-NAME "account_balance"
+
+ADD FIELD "id" OF "account_balance" AS int64 
+  DESCRIPTION "Record Id"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 12
+  ORDER 10
+
+ADD FIELD "version" OF "account_balance" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 12
+  ORDER 20
+
+ADD FIELD "state" OF "account_balance" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "modify_date" OF "account_balance" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 19
+  ORDER 40
+
+ADD FIELD "modify_user" OF "account_balance" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 8
+  ORDER 50
+
+ADD FIELD "create_date" OF "account_balance" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 19
+  ORDER 60
+
+ADD FIELD "create_user" OF "account_balance" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 8
+  ORDER 70
+
+ADD FIELD "gl" OF "account_balance" AS int64 
+  DESCRIPTION "General ledger account number"
+  FORMAT "zzzzzzzzz9"
+  INITIAL "0"
+  MAX-WIDTH 10
+  ORDER 80
+
+ADD FIELD "account_balance" OF "account_balance" AS character 
+  DESCRIPTION "account number"
+  FORMAT "X(12)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 90
+
+ADD FIELD "balance_date" OF "account_balance" AS date 
+  DESCRIPTION "Balance date"
+  FORMAT "99.99.9999"
+  INITIAL "?"
+  MAX-WIDTH 10
+  ORDER 100
+
+ADD FIELD "currency" OF "account_balance" AS character 
+  DESCRIPTION "Currency"
+  FORMAT "X(3)"
+  INITIAL ""
+  MAX-WIDTH 3
+  ORDER 110
+
+ADD FIELD "balance" OF "account_balance" AS decimal 
+  DESCRIPTION "Account balnce for date"
+  FORMAT "-z,zzz,zzz,zz9.99"
+  INITIAL "0.00"
+  MAX-WIDTH 17
+  ORDER 120
+
+ADD FIELD "hold_balance" OF "account_balance" AS decimal 
+  DESCRIPTION "Account hold balance"
+  FORMAT "-z,zzz,zzz,zz9.99"
+  INITIAL "0.00"
+  MAX-WIDTH 17
+  ORDER 130
+
+ADD FIELD "available_balance" OF "account_balance" AS decimal 
+  DESCRIPTION "Account available balance"
+  FORMAT "-z,zzz,zzz,zz9.99"
+  INITIAL "0.00"
+  MAX-WIDTH 17
+  ORDER 140
+
+ADD FIELD "total_debit" OF "account_balance" AS decimal 
+  DESCRIPTION "Account total debet turnover from open date"
+  FORMAT "-z,zzz,zzz,zz9.99"
+  INITIAL "0.00"
+  MAX-WIDTH 17
+  ORDER 150
+
+ADD FIELD "total_credit" OF "account_balance" AS decimal 
+  DESCRIPTION "Account total credit turnover from open date"
+  FORMAT "-z,zzz,zzz,zz9.99"
+  INITIAL "0.00"
+  MAX-WIDTH 17
+  ORDER 160
+
+ADD INDEX "id" ON "account_balance" 
+  AREA "Accounts Index"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "account_balance" ON "account_balance" 
+  AREA "Accounts Index"
+  UNIQUE
+  INDEX-FIELD "account_balance" ASCENDING 
+  INDEX-FIELD "currency" ASCENDING 
+  INDEX-FIELD "balance_date" ASCENDING 
+
+ADD INDEX "balance_date" ON "account_balance" 
+  AREA "Accounts Index"
+  INDEX-FIELD "balance_date" ASCENDING 
+
+ADD INDEX "currency" ON "account_balance" 
+  AREA "Accounts Index"
+  INDEX-FIELD "currency" ASCENDING 
+  INDEX-FIELD "balance_date" ASCENDING 
+
+ADD INDEX "gl" ON "account_balance" 
+  AREA "Accounts Index"
+  INDEX-FIELD "gl" ASCENDING 
+  INDEX-FIELD "currency" ASCENDING 
+  INDEX-FIELD "balance_date" ASCENDING 
+
+ADD INDEX "modify_date" ON "account_balance" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_date" ASCENDING 
+
+ADD INDEX "modify_user" ON "account_balance" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_user" ASCENDING 
+
+ADD INDEX "state" ON "account_balance" 
+  AREA "Accounts Index"
+  INDEX-FIELD "state" ASCENDING 
+
+ADD INDEX "version" ON "account_balance" 
+  AREA "Accounts Index"
+  INDEX-FIELD "version" ASCENDING 
+
+ADD TABLE "account_balance_future"
+  AREA "Clients Data"
+  DESCRIPTION "ABS Clients data tables"
+  DUMP-NAME "account_balance_future"
+
+ADD FIELD "id" OF "account_balance_future" AS int64 
+  DESCRIPTION "Record Id"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "version" OF "account_balance_future" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "state" OF "account_balance_future" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "modify_date" OF "account_balance_future" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "modify_user" OF "account_balance_future" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 8
+  ORDER 50
+
+ADD FIELD "create_date" OF "account_balance_future" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "create_user" OF "account_balance_future" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 8
+  ORDER 70
+
+ADD FIELD "header_id" OF "account_balance_future" AS int64 
+  DESCRIPTION "Transaction number"
+  FORMAT "zzzzzzzzzzz9"
+  INITIAL "0"
+  MAX-WIDTH 12
+  ORDER 80
+
+ADD FIELD "line" OF "account_balance_future" AS integer 
+  DESCRIPTION "Line number in transaction"
+  FORMAT "zzz9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 90
+
+ADD FIELD "gl" OF "account_balance_future" AS int64 
+  DESCRIPTION "General ledger account number"
+  FORMAT "zzzzzzzzz9"
+  INITIAL "0"
+  MAX-WIDTH 10
+  ORDER 100
+
+ADD FIELD "account" OF "account_balance_future" AS character 
+  DESCRIPTION "account number"
+  FORMAT "X(12)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 110
+
+ADD FIELD "balance_date" OF "account_balance_future" AS date 
+  DESCRIPTION "Balance date"
+  FORMAT "99.99.9999"
+  INITIAL "?"
+  MAX-WIDTH 10
+  ORDER 120
+
+ADD FIELD "currency" OF "account_balance_future" AS character 
+  DESCRIPTION "Currency"
+  FORMAT "X(3)"
+  INITIAL ""
+  MAX-WIDTH 3
+  ORDER 130
+
+ADD FIELD "dc" OF "account_balance_future" AS character 
+  DESCRIPTION "[D]ebit/[C]redit"
+  FORMAT "X"
+  INITIAL ""
+  MAX-WIDTH 1
+  ORDER 140
+
+ADD FIELD "debet" OF "account_balance_future" AS decimal 
+  DESCRIPTION "Debet amount"
+  FORMAT "z,zzz,zzz,zz9.99"
+  INITIAL "0"
+  MAX-WIDTH 16
+  ORDER 150
+
+ADD FIELD "credit" OF "account_balance_future" AS decimal 
+  DESCRIPTION "Credit amount"
+  FORMAT "z,zzz,zzz,zz9.99"
+  INITIAL "0"
+  MAX-WIDTH 16
+  ORDER 160
+
+ADD FIELD "gl_type" OF "account_balance_future" AS character 
+  DESCRIPTION "Account type [a]ctive/[p]assive/[r]evenu/[e]xpencies/[o]wnership"
+  FORMAT "X(10)"
+  INITIAL ""
+  MAX-WIDTH 10
+  VALEXP "index(""ALORE"", gl_type) > 0"
+  VALMSG "Invalid gl_type value ([A,L,O,R,E])"
+  HELP "[A,L,O,R,E]"
+  ORDER 170
+
+ADD FIELD "action" OF "account_balance_future" AS character 
+  DESCRIPTION "ction for line processing"
+  FORMAT "X(30)"
+  INITIAL ""
+  MAX-WIDTH 12
+  ORDER 180
+
+ADD INDEX "id" ON "account_balance_future" 
+  AREA "Accounts Index"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "account" ON "account_balance_future" 
+  AREA "Accounts Index"
+  INDEX-FIELD "account" ASCENDING 
+  INDEX-FIELD "currency" ASCENDING 
+  INDEX-FIELD "balance_date" ASCENDING 
+
+ADD INDEX "balance_date" ON "account_balance_future" 
+  AREA "Accounts Index"
+  INDEX-FIELD "balance_date" ASCENDING 
+
+ADD INDEX "currency" ON "account_balance_future" 
+  AREA "Accounts Index"
+  INDEX-FIELD "currency" ASCENDING 
+  INDEX-FIELD "balance_date" ASCENDING 
+
+ADD INDEX "gl" ON "account_balance_future" 
+  AREA "Accounts Index"
+  INDEX-FIELD "gl" ASCENDING 
+  INDEX-FIELD "currency" ASCENDING 
+  INDEX-FIELD "balance_date" ASCENDING 
+
+ADD INDEX "header_id" ON "account_balance_future" 
+  AREA "Accounts Index"
+  INDEX-FIELD "header_id" ASCENDING 
+  INDEX-FIELD "line" ASCENDING 
+
+ADD INDEX "modify_date" ON "account_balance_future" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_date" ASCENDING 
+
+ADD INDEX "modify_user" ON "account_balance_future" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_user" ASCENDING 
+
+ADD INDEX "state" ON "account_balance_future" 
+  AREA "Accounts Index"
+  INDEX-FIELD "state" ASCENDING 
+
+ADD INDEX "version" ON "account_balance_future" 
+  AREA "Accounts Index"
+  INDEX-FIELD "version" ASCENDING 
+
+ADD TABLE "client"
+  AREA "Clients Data"
+  DESCRIPTION "ABS Clients data tables"
+  DUMP-NAME "client"
+
+ADD FIELD "id" OF "client" AS int64 
+  DESCRIPTION "Record Id"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "version" OF "client" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "state" OF "client" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "modify_date" OF "client" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "modify_user" OF "client" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "create_date" OF "client" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "create_user" OF "client" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 70
+
+ADD FIELD "cif" OF "client" AS character 
+  DESCRIPTION "Client code"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 80
+
+ADD FIELD "full_name" OF "client" AS character 
+  DESCRIPTION "Full person or entity name"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 90
+
+ADD FIELD "first_name" OF "client" AS character 
+  DESCRIPTION "Person first name"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 100
+
+ADD FIELD "last_name" OF "client" AS character 
+  DESCRIPTION "Person last name"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 110
+
+ADD FIELD "middle_name" OF "client" AS character 
+  DESCRIPTION "Person last name"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 120
+
+ADD FIELD "client_group" OF "client" AS character 
+  DESCRIPTION "Group of clients"
+  FORMAT "X(5)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 130
+
+ADD FIELD "client_type" OF "client" AS character 
+  DESCRIPTION "Type of client ([p]erson/[b]busines)"
+  FORMAT "X(1)"
+  INITIAL ""
+  MAX-WIDTH 1
+  ORDER 140
+
+ADD FIELD "birth_day" OF "client" AS date 
+  DESCRIPTION "Person birth day or Busynes registration date"
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 10
+  ORDER 150
+
+ADD FIELD "sex" OF "client" AS character 
+  DESCRIPTION "F-eminum/M-uskulinum/N-eutral/E-ntity"
+  FORMAT "X"
+  INITIAL "N"
+  MAX-WIDTH 1
+  ORDER 160
+
+ADD FIELD "registration_number" OF "client" AS character 
+  DESCRIPTION "User's registration number/person code"
+  FORMAT "X(20)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 170
+
+ADD FIELD "client_status" OF "client" AS character 
+  DESCRIPTION "[N]ew, [A]ctive, [R]estricted, [C]losed"
+  FORMAT "X(10)"
+  INITIAL ""
+  MAX-WIDTH 10
+  ORDER 180
+
+ADD FIELD "registration_date" OF "client" AS date 
+  DESCRIPTION "Client registration date in system"
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 10
+  ORDER 190
+
+ADD FIELD "registration_user" OF "client" AS character 
+  DESCRIPTION "Who registered client in the system"
+  FORMAT "X(10)"
+  INITIAL ""
+  MAX-WIDTH 10
+  ORDER 200
+
+ADD FIELD "activation_date" OF "client" AS date 
+  DESCRIPTION "Client activation date in the system"
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 10
+  ORDER 210
+
+ADD FIELD "activation_user" OF "client" AS character 
+  DESCRIPTION "Who activated client in the system"
+  FORMAT "X(10)"
+  INITIAL ""
+  MAX-WIDTH 10
+  ORDER 220
+
+ADD FIELD "close_date" OF "client" AS date 
+  DESCRIPTION "Client close date in the system"
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 10
+  ORDER 230
+
+ADD FIELD "close_user" OF "client" AS character 
+  DESCRIPTION "Who closed client in the system"
+  FORMAT "X(10)"
+  INITIAL ""
+  MAX-WIDTH 10
+  ORDER 240
+
+ADD FIELD "residence_country" OF "client" AS character 
+  DESCRIPTION "ISO residence country code"
+  FORMAT "X(2)"
+  INITIAL ""
+  MAX-WIDTH 2
+  ORDER 250
+
+ADD FIELD "ext_client_id" OF "client" AS character 
+  DESCRIPTION "External system client id connection"
+  FORMAT "X(16)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 260
+
+ADD FIELD "scoring_risk_group" OF "client" AS character 
+  DESCRIPTION "Client AML scoring group"
+  FORMAT "X(16)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 270
+
+ADD FIELD "scoring_points" OF "client" AS integer 
+  DESCRIPTION "Client AML scoring point"
+  FORMAT "zz9"
+  INITIAL "0"
+  MAX-WIDTH 3
+  ORDER 280
+
+ADD INDEX "id" ON "client" 
+  AREA "Clients Index"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "birth_day" ON "client" 
+  AREA "Clients Index"
+  INDEX-FIELD "birth_day" ASCENDING 
+
+ADD INDEX "cif" ON "client" 
+  AREA "Clients Index"
+  INDEX-FIELD "cif" ASCENDING 
+
+ADD INDEX "client_group" ON "client" 
+  AREA "Clients Index"
+  INDEX-FIELD "client_group" ASCENDING 
+
+ADD INDEX "client_status" ON "client" 
+  AREA "Clients Index"
+  INDEX-FIELD "client_status" ASCENDING 
+
+ADD INDEX "client_type" ON "client" 
+  AREA "Clients Index"
+  INDEX-FIELD "client_type" ASCENDING 
+
+ADD INDEX "ext_client_id" ON "client" 
+  AREA "Clients Index"
+  INDEX-FIELD "ext_client_id" ASCENDING 
+
+ADD INDEX "first_name" ON "client" 
+  AREA "Clients Index"
+  INDEX-FIELD "first_name" ASCENDING 
+
+ADD INDEX "full_name" ON "client" 
+  AREA "Clients Index"
+  INDEX-FIELD "full_name" ASCENDING 
+
+ADD INDEX "last_name" ON "client" 
+  AREA "Clients Index"
+  INDEX-FIELD "last_name" ASCENDING 
+
+ADD INDEX "modify_date" ON "client" 
+  AREA "Clients Index"
+  INDEX-FIELD "modify_date" ASCENDING 
+
+ADD INDEX "modify_user" ON "client" 
+  AREA "Clients Index"
+  INDEX-FIELD "modify_user" ASCENDING 
+
+ADD INDEX "registration_date" ON "client" 
+  AREA "Clients Index"
+  INDEX-FIELD "registration_date" ASCENDING 
+
+ADD INDEX "registration_number" ON "client" 
+  AREA "Clients Index"
+  INDEX-FIELD "registration_number" ASCENDING 
+
+ADD INDEX "residence_country" ON "client" 
+  AREA "Clients Index"
+  INDEX-FIELD "residence_country" ASCENDING 
+
+ADD INDEX "scoring_risk_group" ON "client" 
+  AREA "Clients Index"
+  INDEX-FIELD "scoring_risk_group" ASCENDING 
+
+ADD INDEX "state" ON "client" 
+  AREA "Clients Index"
+  INDEX-FIELD "state" ASCENDING 
+
+ADD INDEX "version" ON "client" 
+  AREA "Clients Index"
+  INDEX-FIELD "version" ASCENDING 
+
+ADD TABLE "closed_days"
+  AREA "System Data"
+  DESCRIPTION "ABS closed days"
+  DUMP-NAME "closed_days"
+
+ADD FIELD "id" OF "closed_days" AS int64 
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "version" OF "closed_days" AS int64 
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "state" OF "closed_days" AS int64 
+  FORMAT ">>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "modify_date" OF "closed_days" AS datetime 
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "modify_user" OF "closed_days" AS character 
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "create_date" OF "closed_days" AS datetime 
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "create_user" OF "closed_days" AS character 
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 70
+
+ADD FIELD "balance_date" OF "closed_days" AS date 
+  FORMAT "99.99.9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 80
+
+ADD FIELD "closed" OF "closed_days" AS logical 
+  FORMAT "YES/NO"
+  INITIAL "FALSE"
+  MAX-WIDTH 5
+  ORDER 90
+
+ADD INDEX "id" ON "closed_days" 
+  AREA "System Index"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "balance_date" ON "closed_days" 
+  AREA "System Data"
+  INDEX-FIELD "balance_date" ASCENDING 
+
+ADD INDEX "closed" ON "closed_days" 
+  AREA "System Data"
+  INDEX-FIELD "closed" ASCENDING 
+
+ADD INDEX "modify_date" ON "closed_days" 
+  AREA "System Index"
+  INDEX-FIELD "modify_date" ASCENDING 
+
+ADD INDEX "modify_user" ON "closed_days" 
+  AREA "System Index"
+  INDEX-FIELD "modify_user" ASCENDING 
+
+ADD INDEX "state" ON "closed_days" 
+  AREA "System Index"
+  INDEX-FIELD "state" ASCENDING 
+
+ADD INDEX "version" ON "closed_days" 
+  AREA "System Index"
+  INDEX-FIELD "version" ASCENDING 
+
+ADD TABLE "currency"
+  AREA "Accounts Data"
+  DESCRIPTION "ABS gls data tables"
+  DUMP-NAME "currency"
+
+ADD FIELD "id" OF "currency" AS int64 
+  DESCRIPTION "Record Id"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "version" OF "currency" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "state" OF "currency" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "modify_date" OF "currency" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "modify_user" OF "currency" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "create_date" OF "currency" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "create_user" OF "currency" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 70
+
+ADD FIELD "currency" OF "currency" AS character 
+  DESCRIPTION "Currency iso code"
+  FORMAT "X(3)"
+  INITIAL ""
+  MAX-WIDTH 3
+  ORDER 80
+
+ADD FIELD "description" OF "currency" AS character 
+  DESCRIPTION "Sub type (dfbForClients, dfbForElcoin)"
+  FORMAT "X(50)"
+  INITIAL ""
+  MAX-WIDTH 50
+  ORDER 90
+
+ADD FIELD "decimal_points" OF "currency" AS integer 
+  DESCRIPTION "Deciml points"
+  FORMAT ">>9"
+  INITIAL "0"
+  MAX-WIDTH 3
+  ORDER 100
+
+ADD FIELD "currency_order" OF "currency" AS integer 
+  DESCRIPTION "Currency order for reports"
+  FORMAT "zzzz9"
+  INITIAL "0"
+  MAX-WIDTH 5
+  ORDER 110
+
+ADD FIELD "currency_status" OF "currency" AS character 
+  DESCRIPTION "Currency status [A]ctive-[C]losed "
+  FORMAT "X(10)"
+  INITIAL ""
+  MAX-WIDTH 10
+  ORDER 120
+
+ADD INDEX "id" ON "currency" 
+  AREA "Accounts Index"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "currency" ON "currency" 
+  AREA "Accounts Index"
+  INDEX-FIELD "currency" ASCENDING 
+
+ADD INDEX "currency_order" ON "currency" 
+  AREA "Accounts Index"
+  INDEX-FIELD "currency_order" ASCENDING 
+  INDEX-FIELD "currency" ASCENDING 
+
+ADD INDEX "currency_status" ON "currency" 
+  AREA "Accounts Index"
+  INDEX-FIELD "currency_status" ASCENDING 
+
+ADD INDEX "modify_date" ON "currency" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_date" ASCENDING 
+
+ADD INDEX "modify_user" ON "currency" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_user" ASCENDING 
+
+ADD INDEX "state" ON "currency" 
+  AREA "Accounts Index"
+  INDEX-FIELD "state" ASCENDING 
+
+ADD INDEX "version" ON "currency" 
+  AREA "Accounts Index"
+  INDEX-FIELD "version" ASCENDING 
+
+ADD TABLE "gl"
+  AREA "Accounts Data"
+  DESCRIPTION "ABS gls data tables"
+  DUMP-NAME "gl"
+
+ADD FIELD "id" OF "gl" AS int64 
+  DESCRIPTION "Record Id"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "version" OF "gl" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "state" OF "gl" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "modify_date" OF "gl" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "modify_user" OF "gl" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "create_date" OF "gl" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "create_user" OF "gl" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 70
+
+ADD FIELD "gl" OF "gl" AS int64 
+  DESCRIPTION "General ledger account number"
+  FORMAT "zzzzzzzzz9"
+  INITIAL "0"
+  MAX-WIDTH 10
+  ORDER 80
+
+ADD FIELD "parent_gl" OF "gl" AS int64 
+  DESCRIPTION "General ledger account number"
+  FORMAT "zzzzzzzzz9"
+  INITIAL "0"
+  MAX-WIDTH 10
+  ORDER 90
+
+ADD FIELD "description" OF "gl" AS character 
+  DESCRIPTION "Sub type (dfbForClients, dfbForElcoin)"
+  FORMAT "X(50)"
+  INITIAL ""
+  MAX-WIDTH 50
+  ORDER 100
+
+ADD FIELD "gl_type" OF "gl" AS character 
+  DESCRIPTION "Account type [a]ctive/[p]assive/[r]evenu/[e]xpencies/[o]wnership"
+  FORMAT "X(10)"
+  INITIAL ""
+  MAX-WIDTH 10
+  VALEXP "index(""ALORE"", gl_type) > 0"
+  VALMSG "Invalid gl_type value ([A,L,O,R,E])"
+  HELP "[A,L,O,R,E]"
+  ORDER 110
+
+ADD FIELD "subledger_type" OF "gl" AS character 
+  DESCRIPTION "account type (aaa, dfb, arp, fun)"
+  FORMAT "X(5)"
+  INITIAL ""
+  MAX-WIDTH 5
+  ORDER 120
+
+ADD FIELD "gl_status" OF "gl" AS character 
+  DESCRIPTION "Gl account satus: [active]-active, [closed]-closed"
+  FORMAT "X(10)"
+  INITIAL ""
+  MAX-WIDTH 10
+  ORDER 130
+
+ADD FIELD "level" OF "gl" AS integer 
+  DESCRIPTION "Gl account display structure level (summarizing level)"
+  FORMAT ">9"
+  INITIAL "1"
+  MAX-WIDTH 2
+  ORDER 140
+
+ADD FIELD "total_action" OF "gl" AS logical 
+  DESCRIPTION "Summarized account yes/no"
+  FORMAT "yes/no"
+  INITIAL "no"
+  MAX-WIDTH 3
+  ORDER 150
+
+ADD FIELD "restrict_operation" OF "gl" AS logical 
+  DESCRIPTION "Yes - disable operations with account, No - enable operations"
+  FORMAT "yes/no"
+  INITIAL "no"
+  MAX-WIDTH 3
+  ORDER 160
+
+ADD INDEX "id" ON "gl" 
+  AREA "Accounts Index"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "gl" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "gl" ASCENDING 
+
+ADD INDEX "gl_status" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "gl_status" ASCENDING 
+
+ADD INDEX "gl_type" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "gl_type" ASCENDING 
+
+ADD INDEX "level" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "level" ASCENDING 
+
+ADD INDEX "modify_date" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_date" ASCENDING 
+
+ADD INDEX "modify_user" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_user" ASCENDING 
+
+ADD INDEX "parent_gl" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "parent_gl" ASCENDING 
+
+ADD INDEX "state" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "state" ASCENDING 
+
+ADD INDEX "subledger_type" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "subledger_type" ASCENDING 
+
+ADD INDEX "version" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "version" ASCENDING 
+
+ADD TABLE "gl_balance"
+  AREA "Accounts Data"
+  DESCRIPTION "ABS Accounts data tables"
+  DUMP-NAME "gl_balance"
+
+ADD FIELD "id" OF "gl_balance" AS int64 
+  DESCRIPTION "Record Id"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 12
+  ORDER 10
+
+ADD FIELD "version" OF "gl_balance" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 12
+  ORDER 20
+
+ADD FIELD "state" OF "gl_balance" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "modify_date" OF "gl_balance" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 19
+  ORDER 40
+
+ADD FIELD "modify_user" OF "gl_balance" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 8
+  ORDER 50
+
+ADD FIELD "create_date" OF "gl_balance" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 19
+  ORDER 60
+
+ADD FIELD "create_user" OF "gl_balance" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 8
+  ORDER 70
+
+ADD FIELD "gl" OF "gl_balance" AS int64 
+  DESCRIPTION "General ledger account number"
+  FORMAT "zzzzzzzzz9"
+  INITIAL "0"
+  MAX-WIDTH 10
+  ORDER 80
+
+ADD FIELD "balance_date" OF "gl_balance" AS date 
+  DESCRIPTION "Balance date"
+  FORMAT "99.99.9999"
+  INITIAL "?"
+  MAX-WIDTH 10
+  ORDER 90
+
+ADD FIELD "currency" OF "gl_balance" AS character 
+  DESCRIPTION "Currency"
+  FORMAT "X(3)"
+  INITIAL ""
+  MAX-WIDTH 3
+  ORDER 100
+
+ADD FIELD "balance" OF "gl_balance" AS decimal 
+  DESCRIPTION "Account balnce for date"
+  FORMAT "-z,zzz,zzz,zz9.99"
+  INITIAL "0.00"
+  MAX-WIDTH 17
+  ORDER 110
+
+ADD FIELD "total_debit" OF "gl_balance" AS decimal 
+  DESCRIPTION "Account total debet turnover from open date"
+  FORMAT "-z,zzz,zzz,zz9.99"
+  INITIAL "0.00"
+  MAX-WIDTH 17
+  ORDER 120
+
+ADD FIELD "total_credit" OF "gl_balance" AS decimal 
+  DESCRIPTION "Account total credit turnover from open date"
+  FORMAT "-z,zzz,zzz,zz9.99"
+  INITIAL "0.00"
+  MAX-WIDTH 17
+  ORDER 130
+
+ADD INDEX "id" ON "gl_balance" 
+  AREA "Accounts Index"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "balance_date" ON "gl_balance" 
+  AREA "Accounts Index"
+  INDEX-FIELD "balance_date" ASCENDING 
+
+ADD INDEX "currency" ON "gl_balance" 
+  AREA "Accounts Index"
+  INDEX-FIELD "currency" ASCENDING 
+  INDEX-FIELD "balance_date" ASCENDING 
+
+ADD INDEX "gl" ON "gl_balance" 
+  AREA "Accounts Index"
+  INDEX-FIELD "gl" ASCENDING 
+  INDEX-FIELD "currency" ASCENDING 
+  INDEX-FIELD "balance_date" ASCENDING 
+
+ADD INDEX "modify_date" ON "gl_balance" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_date" ASCENDING 
+
+ADD INDEX "modify_user" ON "gl_balance" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_user" ASCENDING 
+
+ADD INDEX "state" ON "gl_balance" 
+  AREA "Accounts Index"
+  INDEX-FIELD "state" ASCENDING 
+
+ADD INDEX "version" ON "gl_balance" 
+  AREA "Accounts Index"
+  INDEX-FIELD "version" ASCENDING 
+
+ADD TABLE "localization"
+  AREA "System Data"
+  DESCRIPTION "ABS System data tables"
+  DUMP-NAME "localization"
+
+ADD FIELD "id" OF "localization" AS int64 
+  DESCRIPTION "Record Id"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "version" OF "localization" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "state" OF "localization" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "modify_date" OF "localization" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "modify_user" OF "localization" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "create_date" OF "localization" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "create_user" OF "localization" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 70
+
+ADD FIELD "language" OF "localization" AS character 
+  DESCRIPTION "localization position in parent record set (en/lv/ru...)"
+  FORMAT "X(2)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 80
+
+ADD FIELD "category" OF "localization" AS character 
+  DESCRIPTION "Object category for national language translations"
+  FORMAT "X(15)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 90
+
+ADD FIELD "key" OF "localization" AS character 
+  DESCRIPTION "Key of translation to national language in english (used in programs)"
+  FORMAT "X(30)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 100
+
+ADD FIELD "description" OF "localization" AS character 
+  DESCRIPTION "Key value translated in national language "
+  FORMAT "X(50)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 110
+
+ADD INDEX "id" ON "localization" 
+  AREA "System Index"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "category" ON "localization" 
+  AREA "System Index"
+  INDEX-FIELD "category" ASCENDING 
+
+ADD INDEX "key" ON "localization" 
+  AREA "System Index"
+  INDEX-FIELD "key" ASCENDING 
+  INDEX-FIELD "language" ASCENDING 
+  INDEX-FIELD "category" ASCENDING 
+
+ADD INDEX "language" ON "localization" 
+  AREA "System Data"
+  INDEX-FIELD "language" ASCENDING 
+
+ADD INDEX "modify_date" ON "localization" 
+  AREA "System Index"
+  INDEX-FIELD "modify_date" ASCENDING 
+
+ADD INDEX "modify_user" ON "localization" 
+  AREA "System Index"
+  INDEX-FIELD "modify_user" ASCENDING 
+
+ADD INDEX "state" ON "localization" 
+  AREA "System Index"
+  INDEX-FIELD "state" ASCENDING 
+
+ADD INDEX "version" ON "localization" 
+  AREA "System Index"
+  INDEX-FIELD "version" ASCENDING 
+
+ADD TABLE "menu"
+  AREA "System Data"
+  DESCRIPTION "ABS System data tables"
+  DUMP-NAME "menu"
+
+ADD FIELD "id" OF "menu" AS int64 
+  DESCRIPTION "Record Id"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "version" OF "menu" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "state" OF "menu" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "modify_date" OF "menu" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "modify_user" OF "menu" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "create_date" OF "menu" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "create_user" OF "menu" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 70
+
+ADD FIELD "position" OF "menu" AS integer 
+  DESCRIPTION "Menu position in parent record set"
+  FORMAT ">>9"
+  INITIAL "1"
+  MAX-WIDTH 4
+  ORDER 80
+
+ADD FIELD "function_name" OF "menu" AS character 
+  DESCRIPTION "Menu short unique function name"
+  FORMAT "X(15)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 90
+
+ADD FIELD "procedure_name" OF "menu" AS character 
+  DESCRIPTION "Menu startup procedure"
+  FORMAT "X(20)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 100
+
+ADD FIELD "slug" OF "menu" AS character 
+  DESCRIPTION "Menu slug for web version"
+  FORMAT "X(50)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 110
+
+ADD FIELD "description" OF "menu" AS character 
+  DESCRIPTION "Menu description"
+  FORMAT "X(50)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 120
+
+ADD FIELD "action" OF "menu" AS character 
+  DESCRIPTION "Action for procedure"
+  FORMAT "X(50)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 130
+
+ADD FIELD "parent_id" OF "menu" AS int64 
+  DESCRIPTION "Parent id for menu set"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 140
+
+ADD INDEX "id" ON "menu" 
+  AREA "System Index"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "function_name" ON "menu" 
+  AREA "System Index"
+  UNIQUE
+  INDEX-FIELD "version" ASCENDING 
+
+ADD INDEX "modify_date" ON "menu" 
+  AREA "System Index"
+  INDEX-FIELD "modify_date" ASCENDING 
+
+ADD INDEX "modify_user" ON "menu" 
+  AREA "System Index"
+  INDEX-FIELD "modify_user" ASCENDING 
+
+ADD INDEX "parent_id" ON "menu" 
+  AREA "System Data"
+  INDEX-FIELD "parent_id" ASCENDING 
+
+ADD INDEX "parent_position" ON "menu" 
+  AREA "System Index"
+  INDEX-FIELD "parent_id" ASCENDING 
+  INDEX-FIELD "position" ASCENDING 
+
+ADD INDEX "slug" ON "menu" 
+  AREA "System Index"
+  INDEX-FIELD "slug" ASCENDING 
+
+ADD INDEX "state" ON "menu" 
+  AREA "System Index"
+  INDEX-FIELD "state" ASCENDING 
+
+ADD INDEX "version" ON "menu" 
+  AREA "System Index"
+  INDEX-FIELD "version" ASCENDING 
+
+ADD TABLE "system_settings"
+  AREA "System Data"
+  DESCRIPTION "ABS System data tables"
+  DUMP-NAME "system_settings"
+
+ADD FIELD "id" OF "system_settings" AS int64 
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "version" OF "system_settings" AS int64 
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "state" OF "system_settings" AS int64 
+  FORMAT ">>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "modify_date" OF "system_settings" AS datetime 
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "modify_user" OF "system_settings" AS character 
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "create_date" OF "system_settings" AS datetime 
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "create_user" OF "system_settings" AS character 
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 70
+
+ADD FIELD "parent_id" OF "system_settings" AS character 
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 80
+
+ADD FIELD "field_name" OF "system_settings" AS character 
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 90
+
+ADD FIELD "field_value" OF "system_settings" AS character 
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 100
+
+ADD INDEX "id" ON "system_settings" 
+  AREA "System Index"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "modify_date" ON "system_settings" 
+  AREA "System Index"
+  INDEX-FIELD "modify_date" ASCENDING 
+
+ADD INDEX "modify_user" ON "system_settings" 
+  AREA "System Index"
+  INDEX-FIELD "modify_user" ASCENDING 
+
+ADD INDEX "parent_id" ON "system_settings" 
+  AREA "System Data"
+  INDEX-FIELD "parent_id" ASCENDING 
+
+ADD INDEX "parent_name" ON "system_settings" 
+  AREA "System Data"
+  INDEX-FIELD "parent_id" ASCENDING 
+  INDEX-FIELD "field_name" ASCENDING 
+
+ADD INDEX "parent_value" ON "system_settings" 
+  AREA "System Data"
+  INDEX-FIELD "parent_id" ASCENDING 
+  INDEX-FIELD "field_value" ASCENDING 
+
+ADD INDEX "state" ON "system_settings" 
+  AREA "System Index"
+  INDEX-FIELD "state" ASCENDING 
+
+ADD INDEX "version" ON "system_settings" 
+  AREA "System Index"
+  INDEX-FIELD "version" ASCENDING 
+
+ADD TABLE "transaction_header"
+  AREA "Clients Data"
+  DESCRIPTION "ABS Clients data tables"
+  DUMP-NAME "transaction_header"
+
+ADD FIELD "id" OF "transaction_header" AS int64 
+  DESCRIPTION "Record Id"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "version" OF "transaction_header" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "state" OF "transaction_header" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "modify_date" OF "transaction_header" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "modify_user" OF "transaction_header" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 8
+  ORDER 50
+
+ADD FIELD "create_date" OF "transaction_header" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "create_user" OF "transaction_header" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 8
+  ORDER 70
+
+ADD FIELD "header_id" OF "transaction_header" AS int64 
+  DESCRIPTION "Transaction number"
+  FORMAT "zzzzzzzzzzz9"
+  INITIAL "0"
+  MAX-WIDTH 12
+  ORDER 80
+
+ADD FIELD "balance_date" OF "transaction_header" AS date 
+  DESCRIPTION "Balance date"
+  FORMAT "99.99.9999"
+  INITIAL "?"
+  MAX-WIDTH 10
+  ORDER 90
+
+ADD FIELD "document_id" OF "transaction_header" AS int64 
+  DESCRIPTION "Document id number"
+  FORMAT "zzzzzzzzzzz9"
+  INITIAL "0"
+  MAX-WIDTH 12
+  ORDER 100
+
+ADD FIELD "deal_number" OF "transaction_header" AS character 
+  DESCRIPTION "Deal reference"
+  FORMAT "X(16)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 110
+
+ADD FIELD "head_status" OF "transaction_header" AS integer 
+  DESCRIPTION "0-New,6-Approved"
+  FORMAT "9"
+  INITIAL "0"
+  MAX-WIDTH 1
+  ORDER 120
+
+ADD FIELD "authorize_user" OF "transaction_header" AS character 
+  DESCRIPTION "User who authorized transaction"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 8
+  ORDER 130
+
+ADD FIELD "authorize_date" OF "transaction_header" AS date 
+  DESCRIPTION "Transaction authorization date"
+  FORMAT "99.99.9999"
+  INITIAL ?
+  MAX-WIDTH 10
+  ORDER 140
+
+ADD INDEX "id" ON "transaction_header" 
+  AREA "Accounts Index"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "balance_date" ON "transaction_header" 
+  AREA "Accounts Index"
+  INDEX-FIELD "balance_date" ASCENDING 
+
+ADD INDEX "deal_number" ON "transaction_header" 
+  AREA "Accounts Index"
+  INDEX-FIELD "deal_number" ASCENDING 
+
+ADD INDEX "document_id" ON "transaction_header" 
+  AREA "Accounts Index"
+  INDEX-FIELD "document_id" ASCENDING 
+
+ADD INDEX "header_id" ON "transaction_header" 
+  AREA "Accounts Index"
+  INDEX-FIELD "header_id" ASCENDING 
+
+ADD INDEX "head_status" ON "transaction_header" 
+  AREA "Accounts Index"
+  INDEX-FIELD "head_status" ASCENDING 
+
+ADD INDEX "modify_date" ON "transaction_header" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_date" ASCENDING 
+
+ADD INDEX "modify_user" ON "transaction_header" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_user" ASCENDING 
+
+ADD INDEX "state" ON "transaction_header" 
+  AREA "Accounts Index"
+  INDEX-FIELD "state" ASCENDING 
+
+ADD INDEX "version" ON "transaction_header" 
+  AREA "Accounts Index"
+  INDEX-FIELD "version" ASCENDING 
+
+ADD TABLE "transaction_line"
+  AREA "Clients Data"
+  DESCRIPTION "ABS Clients data tables"
+  DUMP-NAME "transaction_line"
+
+ADD FIELD "id" OF "transaction_line" AS int64 
+  DESCRIPTION "Record Id"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "version" OF "transaction_line" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "state" OF "transaction_line" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "modify_date" OF "transaction_line" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "modify_user" OF "transaction_line" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 8
+  ORDER 50
+
+ADD FIELD "create_date" OF "transaction_line" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "create_user" OF "transaction_line" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 8
+  ORDER 70
+
+ADD FIELD "header_id" OF "transaction_line" AS int64 
+  DESCRIPTION "Transaction number"
+  FORMAT "zzzzzzzzzzz9"
+  INITIAL "0"
+  MAX-WIDTH 12
+  ORDER 80
+
+ADD FIELD "line" OF "transaction_line" AS integer 
+  DESCRIPTION "Line number in transaction"
+  FORMAT "zzz9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 90
+
+ADD FIELD "line_status" OF "transaction_line" AS integer 
+  DESCRIPTION "0-New,6-Approved,"
+  FORMAT "9"
+  INITIAL "0"
+  MAX-WIDTH 1
+  ORDER 100
+
+ADD FIELD "line_type" OF "transaction_line" AS character 
+  DESCRIPTION "Line operation type (cash/transfer/...)"
+  FORMAT "X(10)"
+  INITIAL ""
+  MAX-WIDTH 10
+  ORDER 110
+
+ADD FIELD "gl" OF "transaction_line" AS int64 
+  DESCRIPTION "General ledger account number"
+  FORMAT "zzzzzzzzz9"
+  INITIAL "0"
+  MAX-WIDTH 10
+  ORDER 120
+
+ADD FIELD "account" OF "transaction_line" AS character 
+  DESCRIPTION "account number"
+  FORMAT "X(12)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 130
+
+ADD FIELD "balance_date" OF "transaction_line" AS date 
+  DESCRIPTION "Balance date"
+  FORMAT "99.99.9999"
+  INITIAL "?"
+  MAX-WIDTH 10
+  ORDER 140
+
+ADD FIELD "currency" OF "transaction_line" AS character 
+  DESCRIPTION "Currency"
+  FORMAT "X(3)"
+  INITIAL ""
+  MAX-WIDTH 3
+  ORDER 150
+
+ADD FIELD "dc" OF "transaction_line" AS character 
+  DESCRIPTION "[D]ebit/[C]redit"
+  FORMAT "X"
+  INITIAL ""
+  MAX-WIDTH 1
+  ORDER 160
+
+ADD FIELD "debet" OF "transaction_line" AS decimal 
+  DESCRIPTION "Debet amount"
+  FORMAT "z,zzz,zzz,zz9.99"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 170
+
+ADD FIELD "credit" OF "transaction_line" AS decimal 
+  DESCRIPTION "Credit amount"
+  FORMAT "z,zzz,zzz,zz9.99"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 180
+
+ADD FIELD "details" OF "transaction_line" AS character 
+  DESCRIPTION "Transation details in residence country national language"
+  FORMAT "X(80)"
+  INITIAL ""
+  MAX-WIDTH 80
+  ORDER 190
+
+ADD FIELD "details_template" OF "transaction_line" AS character 
+  DESCRIPTION "Transation details template for nation language translations"
+  FORMAT "X(80)"
+  INITIAL ""
+  MAX-WIDTH 80
+  ORDER 200
+
+ADD FIELD "cif" OF "transaction_line" AS character 
+  DESCRIPTION "Client's code"
+  FORMAT "X(12)"
+  INITIAL ""
+  MAX-WIDTH 12
+  ORDER 210
+
+ADD FIELD "client_id" OF "transaction_line" AS int64 
+  DESCRIPTION "Client's id"
+  FORMAT "zzzzzzzzzzz9"
+  INITIAL "0"
+  MAX-WIDTH 12
+  ORDER 220
+
+ADD FIELD "hash_tags" OF "transaction_line" AS character 
+  DESCRIPTION "Tags for for transaction: #fuel#cash# "
+  FORMAT "X(30)"
+  INITIAL ""
+  MAX-WIDTH 30
+  ORDER 230
+
+ADD FIELD "service_code" OF "transaction_line" AS character 
+  DESCRIPTION "Service code of line"
+  FORMAT "X(5)"
+  INITIAL ""
+  MAX-WIDTH 5
+  ORDER 240
+
+ADD FIELD "authorize_user" OF "transaction_line" AS character 
+  DESCRIPTION "User who authorized transaction"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 8
+  ORDER 250
+
+ADD FIELD "authorize_date" OF "transaction_line" AS date 
+  DESCRIPTION "Transaction authorization date"
+  FORMAT "99.99.9999"
+  INITIAL ?
+  MAX-WIDTH 10
+  ORDER 260
+
+ADD FIELD "is_processed" OF "transaction_line" AS logical 
+  DESCRIPTION "Line is applied to balance"
+  FORMAT "yes/no"
+  INITIAL "NO"
+  MAX-WIDTH 3
+  ORDER 270
+
+ADD FIELD "created_by_programm" OF "transaction_line" AS logical 
+  DESCRIPTION "Programm which creted line"
+  FORMAT "X(80)"
+  INITIAL "NO"
+  MAX-WIDTH 80
+  ORDER 280
+
+ADD INDEX "id" ON "transaction_line" 
+  AREA "Accounts Index"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "account" ON "transaction_line" 
+  AREA "Accounts Index"
+  INDEX-FIELD "account" ASCENDING 
+  INDEX-FIELD "currency" ASCENDING 
+  INDEX-FIELD "balance_date" ASCENDING 
+
+ADD INDEX "balance_date" ON "transaction_line" 
+  AREA "Accounts Index"
+  INDEX-FIELD "balance_date" ASCENDING 
+
+ADD INDEX "cif" ON "transaction_line" 
+  AREA "Accounts Index"
+  INDEX-FIELD "cif" ASCENDING 
+  INDEX-FIELD "currency" ASCENDING 
+  INDEX-FIELD "balance_date" ASCENDING 
+
+ADD INDEX "currency" ON "transaction_line" 
+  AREA "Accounts Index"
+  INDEX-FIELD "currency" ASCENDING 
+  INDEX-FIELD "balance_date" ASCENDING 
+
+ADD INDEX "gl" ON "transaction_line" 
+  AREA "Accounts Index"
+  INDEX-FIELD "gl" ASCENDING 
+  INDEX-FIELD "currency" ASCENDING 
+  INDEX-FIELD "balance_date" ASCENDING 
+
+ADD INDEX "hash_tags" ON "transaction_line" 
+  AREA "Accounts Index"
+  INDEX-FIELD "hash_tags" ASCENDING 
+  INDEX-FIELD "balance_date" ASCENDING 
+  INDEX-FIELD "cif" ASCENDING 
+
+ADD INDEX "header_id" ON "transaction_line" 
+  AREA "Accounts Index"
+  INDEX-FIELD "header_id" ASCENDING 
+  INDEX-FIELD "line" ASCENDING 
+
+ADD INDEX "is_processed" ON "transaction_line" 
+  AREA "Accounts Index"
+  INDEX-FIELD "is_processed" ASCENDING 
+
+ADD INDEX "modify_date" ON "transaction_line" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_date" ASCENDING 
+
+ADD INDEX "modify_user" ON "transaction_line" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_user" ASCENDING 
+
+ADD INDEX "state" ON "transaction_line" 
+  AREA "Accounts Index"
+  INDEX-FIELD "state" ASCENDING 
+
+ADD INDEX "version" ON "transaction_line" 
+  AREA "Accounts Index"
+  INDEX-FIELD "version" ASCENDING 
+
+ADD TABLE "users"
+  AREA "System Data"
+  DESCRIPTION "ABS System data tables"
+  DUMP-NAME "users"
+
+ADD FIELD "id" OF "users" AS int64 
+  DESCRIPTION "Record Id"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "version" OF "users" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "state" OF "users" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "modify_date" OF "users" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "modify_user" OF "users" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "create_date" OF "users" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "create_user" OF "users" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 70
+
+ADD FIELD "login" OF "users" AS character 
+  DESCRIPTION "User login name"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 80
+
+ADD FIELD "first_name" OF "users" AS character 
+  DESCRIPTION "User's first name"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 90
+
+ADD FIELD "last_name" OF "users" AS character 
+  DESCRIPTION "User's last name"
+  FORMAT "X(8)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 102
+
+ADD FIELD "roles" OF "users" AS character 
+  DESCRIPTION "User's security roles separeted by coma [,]"
+  FORMAT "X(50)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 110
+
+ADD FIELD "email" OF "users" AS character 
+  DESCRIPTION "User's email"
+  FORMAT "X(50)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 120
+
+ADD FIELD "password" OF "users" AS character 
+  DESCRIPTION "Password hash value"
+  FORMAT "X(50)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 130
+
+ADD FIELD "registration_number" OF "users" AS character 
+  DESCRIPTION "User's registration number/person code"
+  FORMAT "X(20)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 101
+
+ADD FIELD "client_id" OF "users" AS int64 
+  DESCRIPTION "User relation with clients table"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 100
+
+ADD INDEX "id" ON "users" 
+  AREA "System Index"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "client_id" ON "users" 
+  AREA "System Index"
+  INDEX-FIELD "client_id" ASCENDING 
+
+ADD INDEX "email" ON "users" 
+  AREA "System Index"
+  UNIQUE
+  INDEX-FIELD "email" ASCENDING 
+
+ADD INDEX "login" ON "users" 
+  AREA "System Index"
+  INDEX-FIELD "login" ASCENDING 
+
+ADD INDEX "modify_date" ON "users" 
+  AREA "System Index"
+  INDEX-FIELD "modify_date" ASCENDING 
+
+ADD INDEX "modify_user" ON "users" 
+  AREA "System Index"
+  INDEX-FIELD "modify_user" ASCENDING 
+
+ADD INDEX "registration_number" ON "users" 
+  AREA "System Index"
+  INDEX-FIELD "registration_number" ASCENDING 
+
+ADD INDEX "state" ON "users" 
+  AREA "System Index"
+  INDEX-FIELD "state" ASCENDING 
+
+ADD INDEX "version" ON "users" 
+  AREA "System Index"
+  INDEX-FIELD "version" ASCENDING 
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000055554

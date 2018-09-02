@@ -1,24 +1,199 @@
-/*
-DEF TEMP-TABLE gl NO-UNDO
-        FIELD id                AS INT64
-        FIELD version           AS INT64
-        FIELD state             AS INT64
-        FIELD modify_date       AS DATETIME
-        FIELD create_date       AS DATETIME
-        FIELD modify_user       AS CHAR
-        FIELD create_user       AS CHAR
+ADD TABLE "gl"
+  AREA "Accounts Data"
+  DESCRIPTION "ABS gls data tables"
+  DUMP-NAME "gl"
 
-        FIELD general_ledget    AS CHAR
-        FIELD sub_account_type  AS CHAR
-        FIELD is_active         AS INT INIT 0 /* 0-new/inactive; 1-active; 2-deactivated; 9-closed; */
-        FIELD parent_id         AS INT64      /* accumulating g.l. account id */
+ADD FIELD "id" OF "gl" AS int64 
+  DESCRIPTION "Record Id"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  POSITION 2
+  MAX-WIDTH 4
+  ORDER 10
 
-        INDEX id id
-        INDEX version version
-        INDEX state state
-        INDEX account_id account_id
-        INDEX name name 
-        INDEX modify_date modify_date
-        INDEX is_active is_active
-    .
-*/
+ADD FIELD "version" OF "gl" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  POSITION 3
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "state" OF "gl" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  POSITION 4
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "modify_date" OF "gl" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  POSITION 5
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "modify_user" OF "gl" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 6
+  MAX-WIDTH 8
+  ORDER 50
+
+ADD FIELD "create_date" OF "gl" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  POSITION 7
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "create_user" OF "gl" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 8
+  MAX-WIDTH 8
+  ORDER 70
+
+
+  
+  
+
+ADD FIELD "gl" OF "gl" AS INT64
+  DESCRIPTION "General ledger account number"
+  FORMAT "zzzzzzzzz9"
+  INITIAL ""
+  POSITION 9
+  MAX-WIDTH 10
+  ORDER 80
+
+ADD FIELD "parent_gl" OF "gl" AS INT64
+  DESCRIPTION "General ledger account number"
+  FORMAT "zzzzzzzzz9"
+  INITIAL ""
+  POSITION 10
+  MAX-WIDTH 10
+  ORDER 90
+  
+  
+ADD FIELD "description" OF "gl" AS character 
+  DESCRIPTION "Sub type (dfbForClients, dfbForElcoin)"
+  FORMAT "X(50)"
+  INITIAL ""
+  POSITION 11
+  MAX-WIDTH 50
+  ORDER 100
+  
+ADD FIELD "gl_type" OF "gl" AS character
+  DESCRIPTION "Account type [a]ctive/[p]assive/[r]evenu/[e]xpencies/[o]wnership"
+  VALEXP "index(""ALORE"", gl_type) > 0"
+  VALMSG "Invalid gl_type value ([A,L,O,R,E])"
+  HELP "[A,L,O,R,E]"
+  FORMAT "X(10)"
+  INITIAL ""
+  POSITION 12
+  MAX-WIDTH 10
+  ORDER 110
+  
+ADD FIELD "subledger_type" OF "gl" AS character
+  DESCRIPTION "account type (aaa, dfb, arp, fun)"
+  FORMAT "X(5)"
+  INITIAL ""
+  POSITION 13
+  MAX-WIDTH 5
+  ORDER 120
+
+ADD FIELD "gl_status" OF "gl" AS char
+  DESCRIPTION "Gl account satus: [active]-active, [closed]-closed"
+  FORMAT "X(10)"
+  INITIAL ""
+  POSITION 14
+  MAX-WIDTH 10
+  ORDER 130
+
+ADD FIELD "level" OF "gl" AS int
+  DESCRIPTION "Gl account display structure level (summarizing level)"
+  FORMAT ">9"
+  INITIAL "1"
+  POSITION 15
+  MAX-WIDTH 2
+  ORDER 140
+
+ADD FIELD "total_action" OF "gl" AS LOGICAL
+  DESCRIPTION "Summarized account yes/no"
+  FORMAT "yes/no"
+  INITIAL "no"
+  POSITION 16
+  MAX-WIDTH 3
+  ORDER 150
+
+ADD FIELD "restrict_operation" OF "gl" AS LOGICAL 
+  DESCRIPTION "Yes - disable operations with account, No - enable operations"
+  FORMAT "yes/no"
+  INITIAL "no"
+  POSITION 17
+  MAX-WIDTH 3
+  ORDER 160
+  
+  
+  
+  ADD INDEX "id" ON "gl" 
+  AREA "Accounts Index"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "modify_date" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_date" ASCENDING 
+
+ADD INDEX "modify_user" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "modify_user" ASCENDING 
+
+ADD INDEX "state" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "state" ASCENDING 
+
+ADD INDEX "version" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "version" ASCENDING 
+
+  
+
+  
+ADD INDEX "gl" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "gl" ASCENDING 
+  
+ADD INDEX "parent_gl" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "parent_gl" ASCENDING 
+  
+ADD INDEX "gl_type" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "gl_type" ASCENDING 
+  
+ADD INDEX "subledger_type" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "subledger_type" ASCENDING 
+  
+ADD INDEX "gl_status" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "gl_status" ASCENDING 
+  
+ADD INDEX "level" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "level" ASCENDING 
+  
+ 
+
+.
+PSC
+cpstream=utf-8
+.
+0000002533
