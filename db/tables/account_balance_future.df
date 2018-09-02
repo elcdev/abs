@@ -1,5 +1,5 @@
 ADD TABLE "account_balance_future"
-    AREA "Clients Data"
+    AREA "Accounts Data"
     DESCRIPTION "ABS Clients data tables"
 
 ADD FIELD "id" OF "account_balance_future" AS INT64

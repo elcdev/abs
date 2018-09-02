@@ -1,5 +1,5 @@
 ADD TABLE "transaction_header"
-    AREA "Clients Data"
+    AREA "Accounts Data"
     DESCRIPTION "ABS Clients data tables"
 
 ADD FIELD "id" OF "transaction_header" AS INT64
