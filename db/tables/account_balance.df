@@ -171,10 +171,10 @@ ADD INDEX "gl" ON "account_balance"
   INDEX-FIELD "currency" ASCENDING 
   INDEX-FIELD "balance_date" ASCENDING 
   
-ADD INDEX "account_balance" ON "account_balance" 
+ADD INDEX "account" ON "account_balance" 
   UNIQUE
   AREA "Accounts Index"
-  INDEX-FIELD "account_balance" ASCENDING 
+  INDEX-FIELD "account" ASCENDING 
   INDEX-FIELD "currency" ASCENDING 
   INDEX-FIELD "balance_date" ASCENDING 
   
