@@ -40,7 +40,7 @@ ADD FIELD "modify_user" OF "menu" AS character
   FORMAT "X(8)"
   INITIAL ""
   POSITION 6
-  MAX-WIDTH 4
+  MAX-WIDTH 8
   ORDER 50
 
 ADD FIELD "create_date" OF "menu" AS datetime 
@@ -56,7 +56,7 @@ ADD FIELD "create_user" OF "menu" AS character
   FORMAT "X(8)"
   INITIAL ""
   POSITION 8
-  MAX-WIDTH 4
+  MAX-WIDTH 8
   ORDER 70
 
 ADD FIELD "position" OF "menu" AS integer 
