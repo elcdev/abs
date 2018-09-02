@@ -120,7 +120,7 @@ ADD FIELD "available_balance" OF "account_balance" AS decimal
   MAX-WIDTH 17
   ORDER 140  
 
-ADD FIELD "total_debit" OF "account_balance" AS decimal
+ADD FIELD "total_debet" OF "account_balance" AS decimal
   DESCRIPTION "Account total debet turnover from open date"
   FORMAT "-z,zzz,zzz,zz9.99"
   INITIAL "0.00"
