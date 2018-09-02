@@ -1,51 +1,31 @@
 /* Main procedure for creating jl */
 
-define input parameter trx_numb    AS int64.
-define input parameter jl_glkon    AS int64.
+define input parameter jl_header    AS int64.
+define input parameter jl_glkon    AS int.
 define input parameter jl_account  AS character.
 define input parameter jl_line     AS int64.
 define input parameter jl_debet    AS dec.
 define input parameter jl_credit   AS dec.
-define input parameter jl_rem1     AS char.
-define input parameter jl_rem2     AS char.
-define input parameter jl_rem3     AS char.
+define input parameter jl_details  AS char.
 define input parameter jl_oprtype    AS char.
-define input parameter jl_currency AS int64.
+define input parameter jl_currency AS char.
 define input parameter jl_dat      AS date.
 define input parameter jl_ofc      AS char.
-DEFINE INPUT PARAMETER jl_cif AS CHARACTER.
-DEFINE INPUT PARAMETER nocheckbalance AS LOG. 
-define input parameter change_balance_sign as int64.
-define input parameter jl_status as int64.
-define input parameter jl_authorize as char.
+define input parameter jl_cif as character.
+define input parameter nocheckbalance AS LOG. 
+define input parameter change_balance_sign as log.
+define input parameter jl_status as int.
+define input parameter jl_authorize_user as char.
+define input parameter jl_authorize_date AS DATE.
 define output parameter sost as int64.
 define output parameter mes as character format "x(75)".
 
-create jl.
-    assign jl.jh     = trx_numb 
-           jl.gl     = jl_glkon 
-           jl.acc    = jl_account 
-           jl.ln     = jl_line
-           jl.dam    = jl_debet 
-           jl.cam    = jl_credit 
-           jl.ofc    = jl_ofc
-           jl.who    = g-ofc 
-           jl.whn    = today 
-           jl.tim    = time
-           jl.jdt    = jl_dat 
-           jl.rem[1] = jl_rem1 
-           jl.rem[2] = jl_rem2 
-           jl.rem[3] = jl_rem3 
-           /* ??? jl.rem_template = t_Rem_Template */
-           jl.dc     = jl_oprtype 
-           jl.crc    = jl_currency
-           jl.sts    = jl_status
-           jl.teller = jl_authorize
-           jl.cif    = jl_cif. 
-
-def var checkSD as log init yes. /* by ingsaf */
+def var checkSD as log init yes. 
 def var checkSK as log init yes. 
 def var t_Rem_Template as char no-undo.
+DEFINE VARIABLE overdraft_account AS CHARACTER.
+DEFINE VARIABLE isok AS LOG.
+DEFINE VARIABLE account_balance AS DECIMAL.
 
 {global.i}
 
@@ -63,16 +43,16 @@ FUNCTION setError LOG (iSost AS INT64, iMess AS CHAR):
     mes = iMess.
     RETURN false.
 END.
-FUNCTION isValidCurrency LOG(currency AS INT64):
-    DEFINE BUFFER bf_crc FOR crc.
-    find bf_crc where bf_crc.crc = currency no-lock no-error.
-    if not available bf_crc then do:
+FUNCTION isValidCurrency LOG(currency AS char):
+    DEFINE BUFFER bf_currency FOR currency.
+    find bf_currency where bf_currency.currency = currency no-lock no-error.
+    if not available bf_currency then do:
         setError(0, "Currency " + string(currency) +  " is incorrect!").
         return false.
     end. 
     return true.
 END.
-FUNCTION isValidGlAccount LOG(iGl AS INT64):
+FUNCTION isValidGlAccount LOG(iGl AS INT):
     def buffer gl for bank.gl.
     find gl where gl.gl = iGl no-lock no-error.
     if not available gl then do:
@@ -86,40 +66,40 @@ FUNCTION isValidGlAccount LOG(iGl AS INT64):
     return true.
  END.
  
- FUNCTION isValidTrxNumber LOG(trx_numb AS INT64):
-    find FIRST jh WHERE jh.jh = trx_numb no-lock no-error.
-    if not available jh then do:
-        setError(0, "Incorrect Transaction Number " + string(trx_numb) +  " !").
+ FUNCTION isValidTrxNumber LOG(jl_header AS INT64):
+    find FIRST transaction_header WHERE transaction_header.header_id = jl_header no-lock no-error.
+    if not available transaction_header then do:
+        setError(0, "Incorrect Transaction Number " + string(jl_header) +  " !").
         return false.
     end.
     return true.
  END.
  
- FUNCTION jl_line_check INT64(trx_numb AS INT64, jl_line AS INT64):
-    find first jl where jl.jh = trx_numb and jl.ln = jl_line use-index jhln no-lock no-error.
-    if available jl then do :
-        find last jl where jl.jh = numb use-index jhln no-lock no-error.
-        if available jl then jl_line = jl.ln + 1.
+ FUNCTION jl_line_check INT64(jl_header AS INT64, jl_line AS INT64):
+    find first transaction_line where transaction_line.header_id = jl_header and transaction_line.line = jl_line use-index header_id no-lock no-error.
+    if available transaction_line then do :
+        find last transaction_line where transaction_line.header_id = jl_header use-index header_id no-lock no-error.
+        if available transaction_line then jl_line = transaction_line.line + 1.
     end.  
     RETURN jl_line.
  END.
  
  FUNCTION isValidTrxDate LOG(trx_dat AS date):
-    find FIRST cls WHERE cls.cls = trx_dat no-lock no-error.
-    if not available cls then do:
+    find FIRST closed_days WHERE closed_days.balance_date = trx_dat no-lock no-error.
+    if not available closed_days then do:
         IF trx_dat = TODAY THEN DO:
-            RUN open_new_balance_date(trx_dat). /* TODO !!!!! cls create, glday create */
+            RUN open_new_balance_date(trx_dat). /* TODO !!!!! closed_days create, glday create */
             RETURN TRUE.
         END.
         setError(0, "Incorrect Transaction Date " + string(trx_dat) +  " !").
         return false.
     end.
-    ELSE IF cls.closed = YES THEN DO:
+    ELSE IF closed_days.closed = YES THEN DO:
         setError(0, "Date is closed for operations " + string(trx_dat) +  " !").
         return false.
     END.
     return true.
-    /* TODO Нужен процесс автоматического создания cls, glday, когда наступает новая дата - возможно, task manager*/
+    /* TODO Нужен процесс автоматического создания closed_days, glday, когда наступает новая дата - возможно, task manager*/
  END.
  
 /*  Надо подумать, что с этим делать 
@@ -133,37 +113,38 @@ RUN mak_template.r(INPUT-OUTPUT tRem1, INPUT-OUTPUT tRem2, INPUT-OUTPUT tRem3,IN
 
 do transaction :
     sost = 0.
-    IF isValidTrxNumber(trx_numb) = NO THEN UNDO, RETURN.
-    FIND FIRST jh WHERE jh.jh = trx_numb EXCLUSIVE-LOCK NO-ERROR.
+    IF isValidTrxNumber(jl_header) = NO THEN UNDO, RETURN.
+    FIND FIRST transaction_header WHERE transaction_header.header_id = jl_header EXCLUSIVE-LOCK NO-ERROR.
     
-    jl_line = jl_line_check(trx_numb,jl_line).
+    jl_line = jl_line_check(jl_header,jl_line).
     
     IF isValidGlAccount(jl_glkon) = NO THEN UNDO, RETURN.
     find gl where gl.gl = jl_glkon NO-LOCK NO-ERROR.
     
     IF isValidCurrency(jl_currency) = NO THEN UNDO, RETURN.
-    find crc where crc.crc = jl_currency no-lock no-error.
-    if available crc then do :
-        jl_debet = round(jl_debet,crc.decpnt).
-        jl_credit = round(jl_credit,crc.decpnt).
+    find FIRST currency where currency.currency = jl_currency no-lock no-error.
+    if available currency then do :
+        jl_debet = round(jl_debet,currency.decimal_points).
+        
+        jl_credit = round(jl_credit,currency.decimal_points).
     end.
         
-    IF isValidGlAccount(jl_dat) = NO THEN UNDO, RETURN.
+    IF isValidtrxdate(jl_dat) = NO THEN UNDO, RETURN.
     
-    IF gl.subled NE "" THEN DO:
-        run ValidateSubacc(jl_account, jl_currency, jl_oprtype, OUTPUT odaccount, OUTPUT isOK, OUTPUT mes). 
+    IF gl.subledger_type NE "" THEN DO:
+        run Validateaccount(jl_account, jl_currency, jl_oprtype, OUTPUT overdraft_account, OUTPUT isOK, OUTPUT mes). 
         IF isok = NO THEN UNDO, RETURN.
-        FIND FIRST subacc WHERE subacc.account = jl_account AND subacc.crc = jl_currency EXCLUSIVE-LOCK NO-ERROR.
-        jl_cif = subacc.cif.
-        RUN calc_balance(subacc.account,subacc.odaccount, subacc.gl, subacc.crc, jl_dat, gl.type, OUTPUT isok, OUTPUT mes, 
+        FIND FIRST account WHERE account.account = jl_account AND account.currency = jl_currency EXCLUSIVE-LOCK NO-ERROR.
+        jl_cif = account.cif.
+        RUN calc_balance(account.account,account.overdraft_account, account.gl, account.currency, jl_dat, gl.gl_type, OUTPUT isok, OUTPUT mes, 
         OUTPUT account_balance).
         IF isok = NO THEN UNDO, RETURN.
         IF nocheckbalance = NO THEN DO:
-            RUN chk_balance(account_balance, gl.type, jl_oprtype, jl_debet, jl_credit, OUTPUT isok, OUTPUT mes).
+            RUN check_balance(account.account, account_balance, gl.gl_type, jl_oprtype, jl_debet, jl_credit, OUTPUT isok, OUTPUT mes).
         END.
         ELSE isok = YES.
         IF isok = NO THEN UNDO, RETURN.   
-        RUN make_jl_line().
+        RUN make_transaction_line.
         
         /* Пока не ясно, надо ли это делать 
         RUN if_need_od_line(OUTPUT need_od_line).
@@ -173,26 +154,26 @@ do transaction :
         END.
         */
         /* Это признак того, что надо накатывать остаток сразу */
-        IF change_balance_sign = YES THEN RUN DO:
-            RUN change_gl_balance(jl_glkon, jl_dat, gl.subled, jl_oprtype, jl_currency, jl_debet, jl_credit, OUTPUT isok). 
+        IF change_balance_sign = YES THEN DO:
+            RUN change_gl_balance(jl_glkon, jl_dat, gl.subledger_type, jl_oprtype, jl_currency, jl_debet, jl_credit, OUTPUT isok). 
             IF isok = NO THEN UNDO, RETURN.
-            RUN change_account_balance(jl_account, jl_dat, gl.subled, jl_oprtype, jl_currency, jl_debet, jl_credit, OUTPUT isok).
+            RUN change_account_balance(jl_account, jl_dat, gl.subledger_type, jl_oprtype, jl_currency, jl_debet, jl_credit, OUTPUT isok).
             IF isok = NO THEN UNDO, RETURN.
             RUN change_info_account(jl_account, jl_dat, jl_oprtype, jl_currency, jl_debet, jl_credit, OUTPUT isok).
             IF isok = NO THEN UNDO, RETURN.
         END.
         ELSE DO:
-            RUN create_future_account_balance(trx_numb, jl_line, jl_glkon,jl_account, jl_dat, gl.subled, jl_oprtype,
-            jl_currency, jl_currency,jl_debet, jl_credit, OUTPUT isok).
+            RUN create_future_account_balance(jl_header, jl_line, jl_glkon,jl_account, jl_dat, gl.subledger_type, jl_oprtype,
+            jl_currency, jl_debet, jl_credit, jl_ofc, OUTPUT isok).
             IF isok = NO THEN UNDO, RETURN.
         END.  
         isok = YES.
     END.
     ELSE DO:
         isok = YES.
-        IF change_balance_sign = YES THEN RUN change_gl_balance(jl_glkon, jl_dat, gl.subled, jl_oprtype, jl_currency, jl_debet, jl_credit, OUTPUT isok).
-        ELSE RUN reate_future_account_balance(trx_numb, jl_line, jl_glkon,jl_account, jl_dat, gl.subled, jl_oprtype,
-        jl_currency, jl_currency,jl_debet, jl_credit, OUTPUT isok).
+        IF change_balance_sign = YES THEN RUN change_gl_balance(jl_glkon, jl_dat, gl.subledger_type, jl_oprtype, jl_currency, jl_debet, jl_credit, OUTPUT isok).
+        ELSE RUN create_future_account_balance(jl_header, jl_line, jl_glkon, jl_account, jl_dat, gl.subledger_type, jl_oprtype,
+        jl_currency, jl_debet, jl_credit, jl_ofc, OUTPUT isok).
         IF isok = NO THEN UNDO, RETURN.
     END.
     
@@ -203,47 +184,47 @@ do transaction :
     процессом, а не в самой транзакции */
 end.
 
-procedure ValidateSubacc : 
+procedure Validateaccount : 
     DEFINE INPUT PARAMETER jl_account AS CHARACTER. 
-    DEFINE INPUT PARAMETER jl_currency AS INT64.
+    DEFINE INPUT PARAMETER jl_currency AS char.
     DEFINE INPUT PARAMETER jl_oprtype AS CHARACTER.
-    DEFINE OUTPUT PARAMETER odaccount AS CHARACTER.
+    DEFINE OUTPUT PARAMETER overdraft_account AS CHARACTER.
     DEFINE OUTPUT PARAMETER OK AS LOG.
     DEFINE OUTPUT PARAMETER Errmes AS CHARACTER.
     
-    DEFINE BUFFER bf_subacc FOR subacc.
+    DEFINE BUFFER bf_account FOR account.
     
     OK = NO.
-    find first subacc where subacc.account = jl_account AND subacc.crc = jl_currency exclusive-lock no-error.
-    if avail subacc and jl_oprtype = "D" then do:
-        find first aas where aas.account = subacc.account AND aas.sic = "SD" no-lock no-error. 
+    find first account where account.account = jl_account AND account.currency = jl_currency exclusive-lock no-error.
+    if avail account and jl_oprtype = "D" then do:
+        find first aas where aas.aaa = account.account AND aas.sic = "SD" no-lock no-error. 
         if avail aas and checkSD then do:
-            Errmes = " Stop Debet instruction for " + jl_account +  " " + aas.reason.
+            Errmes = " Stop Debet instruction for " + jl_account +  " " + aas.payee.
             return .
         end.
     end.    
-    else if avail subacc and jl_oprtype = "C" then do:
-        find first aas where aas.account = subacc.account AND aas.sic = "SK" no-lock no-error. 
+    else if avail account and jl_oprtype = "C" then do:
+        find first aas where aas.aaa = account.account AND aas.sic = "SK" no-lock no-error. 
         if avail aas and checkSK then do:
-            Errmes = " Stop Credit instruction for " + jl_account +  " " + aas.reason.
+            Errmes = " Stop Credit instruction for " + jl_account +  " " + aas.payee.
             return .
         end.
     end.
-    if subacc.gl ne glkon then do :
-        Errmes = "Balance account in TRX differs from balance account in SubAccount " + jl_account + " !".
+    if account.gl ne jl_glkon then do :
+        Errmes = "Balance account in TRX differs from balance account in accountount " + jl_account + " !".
         return.
     end.
-    if subacc.crc ne val then do :
-        Errmes = "Currency in TRX differs from currency in SubAccount " + jl_account + " !".
+    if account.currency ne jl_currency then do :
+        Errmes = "Currency in TRX differs from currency in accountount " + jl_account + " !".
         return.
     end. 
-    IF subacc.sts = "C" THEN DO:
-        Errmes = "SubAccount " + jl_account + " is closed!".
+    IF account.account_status = "CLOSE" THEN DO:
+        Errmes = "accountount " + jl_account + " is closed!".
         RETURN.
     END.
-    IF subacc.odaccount NE "" THEN DO:
-        odaccount = subacc.odaccount.
-        find first bf_subacc where bf_subacc.account = odaccount AND bf_subacc.crc = jl_currency exclusive-lock no-error.
+    IF account.overdraft_account NE "" THEN DO:
+        overdraft_account = account.overdraft_account.
+        find first bf_account where bf_account.account = overdraft_account AND bf_account.currency = jl_currency exclusive-lock no-error.
     end.    
         
     OK = YES.
@@ -252,88 +233,89 @@ END PROCEDURE.
 
 PROCEDURE calc_balance :
     DEFINE INPUT PARAMETER account AS CHARACTER.
-    DEFINE INPUT PARAMETER odaccount AS CHARACTER.
+    DEFINE INPUT PARAMETER overdraft_account AS CHARACTER.
     DEFINE INPUT PARAMETER account_gl AS INT64.
-    DEFINE INPUT PARAMETER account_crc AS INT64.
+    DEFINE INPUT PARAMETER account_currency AS char.
     DEFINE INPUT PARAMETER opr_date AS DATE.
     DEFINE INPUT PARAMETER gl_type AS CHARACTER.
     DEFINE OUTPUT PARAMETER ok AS LOG.
     DEFINE OUTPUT PARAMETER ErrMes AS CHARACTER.
     DEFINE OUTPUT PARAMETER account_balance AS dec.
     
-    DEFINE BUFFER bf_accbalance FOR accbalance.
-    DEFINE BUFFER bf_subacc FOR subacc.
+    DEFINE BUFFER bf_account_balance FOR account_balance.
+    DEFINE BUFFER bf_account FOR account.
     
     DEFINE VARIABLE acc_future_balance AS DECIMAL.
     DEFINE VARIABLE odacc_future_balance AS DECIMAL.
-    DEFINE VARIABLE okbal AS LOG INITIAL NO.
+    DEFINE VARIABLE okbal AS char.
     
     OK = NO.
-    FIND FIRST accbalance WHERE accbalance.account = account AND 
-    accbalance.cbalancedate EQ opr_date AND accbalance.crc = account_crc EXCLUSIVE-LOCK NO-ERROR.
-    IF NOT AVAILABLE accbalance THEN DO:
-        RUN create_accbalance(account,account_gl, account_crc, opr_date,OUTPUT okbal).
-        IF okbal = <> "" THEN DO:
+    FIND FIRST account_balance WHERE account_balance.account = account AND 
+    account_balance.balance_date EQ opr_date AND account_balance.currency = account_currency EXCLUSIVE-LOCK NO-ERROR.
+    IF NOT AVAILABLE account_balance THEN DO:
+        RUN create_account_balance(account,account_gl, account_currency, opr_date,OUTPUT okbal).
+        IF okbal <> "" THEN DO:
             ErrMes = "Can't calculate Account Balance!".
             UNDO, RETURN.
         END.    
-        FIND FIRST accbalance WHERE accbalance.account = account AND 
-        accbalance.cbalancedate EQ opr_date AND accbalance.crc = account_crc EXCLUSIVE-LOCK NO-ERROR.
+        FIND FIRST account_balance WHERE account_balance.account = account AND 
+        account_balance.balance_date EQ opr_date AND account_balance.currency = account_currency EXCLUSIVE-LOCK NO-ERROR.
     END.
-    account_balance = accbalance.cbalance - accbalance.hold.
-    RUN calc_future_balance(account, account_crc, opr_date, gl_type, OUTPUT acc_future_balance).
+    account_balance = account_balance.balance - account_balance.hold_balance.
+    RUN calc_future_balance(account, account_currency, opr_date, gl_type, OUTPUT acc_future_balance).
     account_balance = account_balance + acc_future_balance.
-    IF odaccount NE "" THEN DO:
-        FIND FIRST bf_subacc WHERE bf_subacc.account = odaccount EXCLUSIVE-LOCK NO-ERROR.
-        FIND FIRST bf_accbalance WHERE bf_accbalance.account = odaccount AND 
-        bf_accbalance.cbalancedate EQ opr_date AND bf_accbalance.crc = account_crc EXCLUSIVE-LOCK NO-ERROR.
-        IF NOT AVAILABLE bf_accbalance THEN DO:
-            RUN create_accbalance(odaccount, bf_subacc.gl, bf_subacc.crc, opr_date,OUTPUT okbal).
-            IF okbal = NO THEN DO:
+    IF overdraft_account NE "" THEN DO:
+        FIND FIRST bf_account WHERE bf_account.account = overdraft_account EXCLUSIVE-LOCK NO-ERROR.
+        FIND FIRST bf_account_balance WHERE bf_account_balance.account = overdraft_account AND 
+        bf_account_balance.balance_date EQ opr_date AND bf_account_balance.currency = account_currency EXCLUSIVE-LOCK NO-ERROR.
+        IF NOT AVAILABLE bf_account_balance THEN DO:
+            RUN create_account_balance(overdraft_account, bf_account.gl, bf_account.currency, opr_date,OUTPUT okbal).
+            IF okbal <> "" THEN DO:
                 ErrMes = "Can't calculate O/D Account Balance!".
-                UND0, RETURN.
+                UNDO, RETURN.
             END.    
-            FIND FIRST bf_accbalance WHERE bf_accbalance.account = odaccount AND 
-            bf_accbalance.cbalancedate EQ opr_date AND bf_accbalance.crc = account_crc EXCLUSIVE-LOCK NO-ERROR.
+            FIND FIRST bf_account_balance WHERE bf_account_balance.account = overdraft_account AND 
+            bf_account_balance.balance_date EQ opr_date AND bf_account_balance.currency = account_currency EXCLUSIVE-LOCK NO-ERROR.
         END.
-        account_balance = account_balance + (bf_accbalance.cbalance - bf_accbalance.hold).
+        account_balance = account_balance + (bf_account_balance.balance - bf_account_balance.hold_balance).
     END.
     OK = YES.
 END PROCEDURE.
 
 
-PROCEDURE create_accbalance :
+PROCEDURE create_account_balance :
     DEFINE INPUT PARAMETER account     AS CHARACTER.
     DEFINE INPUT PARAMETER account_gl  AS INT64.
-    DEFINE INPUT PARAMETER account_crc AS int64.
+    DEFINE INPUT PARAMETER account_currency AS char.
     DEFINE INPUT PARAMETER opr_date    AS DATE.
     DEFINE OUTPUT PARAMETER ok         AS CHAR.
-    DEFINE BUFFER bf_accbalance FOR accbalance.
+    DEFINE BUFFER bf_account_balance FOR account_balance.
     
-    ok = "NO-ACCBALANCE".
-    FIND last bf_accbalance WHERE bf_accbalance.account = account AND accbalance.crc = account_crc AND
-    bf_accbalance.cbalancedate lt opr_date EXCLUSIVE-LOCK NO-ERROR. 
-    IF AVAILABLE bf_accbalance THEN DO:
-        CREATE accbalance.
-        BUFFER-COPY bf_accbalance TO accbalance.
-        accbalance.cbalancedat = opr_date.
+    ok = "NO-account_balance".
+    FIND last bf_account_balance WHERE bf_account_balance.account = account AND account_balance.currency = account_currency AND
+    bf_account_balance.balance_date lt opr_date EXCLUSIVE-LOCK NO-ERROR. 
+    IF AVAILABLE bf_account_balance THEN DO:
+        CREATE account_balance.
+        BUFFER-COPY bf_account_balance TO account_balance.
+        account_balance.balance_date = opr_date.
         /* Trigger na whn */
     END.
     ELSE DO:
-        create accbalance.
+        create account_balance.
         assign
-            accbalance.account = account
-            accbalance.gl      = account_gl
-            accbalance.cbalancedate = opr_date
-            accbalance.crc     = account_crc.
+            account_balance.account = account
+            account_balance.gl      = account_gl
+            account_balance.balance_date = opr_date
+            account_balance.currency     = account_currency.
             /* Trigger na whn */
     END.
     ok = "".
 END PROCEDURE.
 
 PROCEDURE check_balance :
+    DEFINE INPUT PARAMETER account AS CHARACTER.
     DEFINE INPUT PARAMETER account_balance AS DECIMAL.
-    DEFINE INPUT PARAMETER gltype AS CHARACTER.
+    DEFINE INPUT PARAMETER gl_type AS CHARACTER.
     DEFINE INPUT PARAMETER jl_oprtype AS CHARACTER.
     DEFINE INPUT PARAMETER debet AS DECIMAL.
     DEFINE INPUT PARAMETER credit AS DECIMAL.
@@ -355,55 +337,53 @@ PROCEDURE check_balance :
     Errmes = "Out of balance on Account " + account + "!".
 END PROCEDURE.
 
-PROCEDURE make_jl_line:
-    create jl.
-    assign jl.jh     = trx_numb 
-           jl.gl     = jl_glkon 
-           jl.acc    = jl_account 
-           jl.dam    = jl_debet 
-           jl.cam    = jl_credit 
-           jl.ofc    = jl_ofc
-           jl.who    = g-ofc 
-           jl.whn    = today 
-           jl.tim    = time
-           jl.ln     = jl_line 
-           jl.jdt    = jl_dat 
-           jl.rem[1] = jl_rem1 
-           jl.rem[2] = jl_rem2 
-           jl.rem[3] = jl_rem3 
-           /* ??? jl.rem_template = t_Rem_Template */
-           jl.dc     = jl_oprtype 
-           jl.crc    = jl_currency
-           jl.sts    = jl_status
-           jl.teller = jl_authorize
-           jl.cif    = jl_cif. 
+PROCEDURE make_transaction_line:
+    create transaction_line.
+    assign transaction_line.header_id        = jl_header 
+           transaction_line.gl               = jl_glkon 
+           transaction_line.account          = jl_account 
+           transaction_line.debet            = jl_debet 
+           transaction_line.credit           = jl_credit 
+           transaction_line.create_user      = jl_ofc
+           transaction_line.create_date      = now
+           transaction_line.modify_user      = g-ofc 
+           transaction_line.modify_date      = now
+           transaction_line.line             = jl_line
+           transaction_line.balance_date     = jl_dat 
+           transaction_line.details_template = jl_details 
+           transaction_line.dc               = jl_oprtype 
+           transaction_line.currency         = jl_currency
+           transaction_line.line_status      = jl_status
+           transaction_line.authorize_user   = jl_authorize_user
+           transaction_line.authorize_date   = jl_authorize_date
+           transaction_line.cif              = jl_cif. 
 END PROCEDURE.
 
 PROCEDURE change_gl_balance:
-    DEFINE INPUT PARAMETER jl_glkon AS CHARACTER.
+    DEFINE INPUT PARAMETER jl_glkon AS INTEGER.
     DEFINE INPUT PARAMETER opr_date AS DATE.
     DEFINE INPUT PARAMETER gl_type AS CHARACTER.
     DEFINE INPUT PARAMETER jl_oprtype AS CHARACTER.
-    DEFINE INPUT PARAMETER jl_currency AS INT64.
+    DEFINE INPUT PARAMETER jl_currency AS char.
     DEFINE INPUT PARAMETER jl_debet as DECIMAL.
     DEFINE INPUT PARAMETER jl_credit AS DECIMAL.
     DEFINE OUTPUT PARAMETER OK AS LOG.
     
     OK = NO.
     /* Nakat ostatka ot dati operaciji do poslednej otkritoj dati */
-    FOR EACH glbalance WHERE glbalance.account = account AND 
-        glbalance.balancedate ge opr_date AND glbalance.crc = jl_currency EXCLUSIVE-LOCK :
+    FOR EACH gl_balance WHERE gl_balance.gl = jl_glkon AND 
+        gl_balance.balance_date ge opr_date AND gl_balance.currency = jl_currency EXCLUSIVE-LOCK :
         assign
-            glbalance.total_debet = glbalance.total_debet + jl_debet
-            glbalance.total_credit = glbalance.total_credit + jl_credit.
+            gl_balance.total_debet = gl_balance.total_debet + jl_debet
+            gl_balance.total_credit = gl_balance.total_credit + jl_credit.
         
         IF jl_oprtype = "D" THEN DO:
-            IF (gl_type = "A" OR gl_type = "E") THEN glbalance.balance = glbalance.balance + jl_debet.
-            ELSE IF (gl_type = "L" OR gl_type = "O" OR gl_type = "R") then glbalance.balance = glbalance.balance - jl_debet.
+            IF (gl_type = "A" OR gl_type = "E") THEN gl_balance.balance = gl_balance.balance + jl_debet.
+            ELSE IF (gl_type = "L" OR gl_type = "O" OR gl_type = "R") then gl_balance.balance = gl_balance.balance - jl_debet.
         END. 
         ELSE IF jl_oprtype = "C" THEN DO:
-            IF (gl_type = "A" OR gl_type = "E") THEN glbalance.balance = glbalance.balance - jl_credit.
-            ELSE IF (gl_type = "L" OR gl_type = "O" OR gl_type = "R") THEN glbalance.balance = glbalance.balance + jl_credit.
+            IF (gl_type = "A" OR gl_type = "E") THEN gl_balance.balance = gl_balance.balance - jl_credit.
+            ELSE IF (gl_type = "L" OR gl_type = "O" OR gl_type = "R") THEN gl_balance.balance = gl_balance.balance + jl_credit.
         END.        
     END.    
     OK = YES.
@@ -415,74 +395,76 @@ PROCEDURE change_account_balance:
     DEFINE INPUT PARAMETER opr_date AS DATE.
     DEFINE INPUT PARAMETER gl_type AS CHARACTER.
     DEFINE INPUT PARAMETER jl_oprtype AS CHARACTER.
-    DEFINE INPUT PARAMETER jl_currency AS INT64.
+    DEFINE INPUT PARAMETER jl_currency AS char.
     DEFINE INPUT PARAMETER jl_debet as DECIMAL.
     DEFINE INPUT PARAMETER jl_credit AS DECIMAL.
     DEFINE OUTPUT PARAMETER OK AS LOG.
     
     OK = NO.
     /* Nakat ostatka ot dati operaciji do poslednej otkritoj dati */
-    FOR EACH accbalance WHERE accbalance.account = account AND 
-        accbalance.cbalancedate ge opr_date AND accbalance.crc = jl_currency EXCLUSIVE-LOCK :
+    FOR EACH account_balance WHERE account_balance.account = account AND 
+        account_balance.balance_date ge opr_date AND account_balance.currency = jl_currency EXCLUSIVE-LOCK :
         assign
-            accbalance.total_debet = accbalance.total_debet + jl_debet
-            accbalance.total_credit = accbalance.total_credit + jl_credit.
+            account_balance.total_debet = account_balance.total_debet + jl_debet
+            account_balance.total_credit = account_balance.total_credit + jl_credit.
         
         IF jl_oprtype = "D" THEN DO:
-            IF (gl_type = "A" OR gl_type = "E") THEN accbalance.cbalance = accbalance.cbalance + jl_debet.
-            ELSE IF (gl_type = "L" OR gl_type = "O" OR gl_type = "R") then accbalance.cbalance = accbalance.cbalance - jl_debet.
+            IF (gl_type = "A" OR gl_type = "E") THEN account_balance.balance = account_balance.balance + jl_debet.
+            ELSE IF (gl_type = "L" OR gl_type = "O" OR gl_type = "R") then account_balance.balance = account_balance.balance - jl_debet.
         END. 
         ELSE IF jl_oprtype = "C" THEN DO:
-            IF (gl_type = "A" OR gl_type = "E") THEN accbalance.cbalance = accbalance.cbalance - jl_credit.
-            ELSE IF (gl_type = "L" OR gl_type = "O" OR gl_type = "R" ) THEN accbalance.cbalance = accbalance.cbalance + jl_credit.
+            IF (gl_type = "A" OR gl_type = "E") THEN account_balance.balance = account_balance.balance - jl_credit.
+            ELSE IF (gl_type = "L" OR gl_type = "O" OR gl_type = "R" ) THEN account_balance.balance = account_balance.balance + jl_credit.
         END.        
-        accbalance.availbal = accbalance.cbalance - accbalance.holdbal.
+        account_balance.available_balance = account_balance.balance - account_balance.hold_balance.
     END.    
     OK = YES.
 END PROCEDURE.
 
 PROCEDURE create_future_account_balance:
-    DEFINE INPUT PARAMETER trx_numb AS INT64.
+    DEFINE INPUT PARAMETER jl_header AS INT64.
     DEFINE INPUT PARAMETER jl_line AS INT64.
     DEFINE INPUT PARAMETER jl_glkon AS INT64.
     DEFINE INPUT PARAMETER jl_account AS CHARACTER.
     DEFINE INPUT PARAMETER opr_date AS DATE.
     DEFINE INPUT PARAMETER gl_type AS CHARACTER.
     DEFINE INPUT PARAMETER jl_oprtype AS CHARACTER.
-    DEFINE INPUT PARAMETER jl_currency AS INT64.
+    DEFINE INPUT PARAMETER jl_currency AS char.
     DEFINE INPUT PARAMETER jl_debet as DECIMAL.
     DEFINE INPUT PARAMETER jl_credit AS DECIMAL.
+    DEFINE INPUT PARAMETER jl_ofc AS CHARACTER.
     DEFINE OUTPUT PARAMETER OK AS LOG.
     
     OK = NO.
-    create accbalance_future.
-    assign accbalance_future.flow = "account_balance"
-           accbalance_future.jh = trx_numb
-           accbalance_future.line = jl_line
-           accbalance_future.gl = jl_glkon
-           accbalance_future.crc = jl_currency
-           accbalance_future.account = jl_account
-           accbalance_future.jldat = opr_date
-           accbalance_future.dam = jl_debet
-           accbalance_future.cam = jl_credit
-           accbalance_future.dc = jl_oprtype
-           accbalance_future.gltype  = gl_type
-           accbalance_future.whn = NOW.
+    create account_balance_future.
+    assign account_balance_future.action = "account_balance"
+           account_balance_future.header_id = jl_header
+           account_balance_future.line = jl_line
+           account_balance_future.gl = jl_glkon
+           account_balance_future.currency = jl_currency
+           account_balance_future.account = jl_account
+           account_balance_future.balance_date = opr_date
+           account_balance_future.debet = jl_debet
+           account_balance_future.credit = jl_credit
+           account_balance_future.dc = jl_oprtype
+           account_balance_future.gl_type  = gl_type
+           account_balance_future.create_date = NOW
+           account_balance_future.create_user = jl_ofc.
     OK = YES.       
 end procedure.
 
 PROCEDURE calc_future_balance:
     DEFINE INPUT PARAMETER jl_account AS CHARACTER.
-    DEFINE INPUT PARAMETER jl_currency AS INT64.
+    DEFINE INPUT PARAMETER jl_currency AS char.
     DEFINE INPUT PARAMETER opr_date AS DATE.
     DEFINE INPUT PARAMETER gl_type AS CHARACTER.
     DEFINE OUTPUT PARAMETER acc_future_balance AS DECIMAL.
     
-    FOR EACH accbalance_future WHERE acncbalance_future.flow = "account_balance" AND accbalance_future.account = jl_account AND
-        accbalance_future.crc = jl_currency AND accbalance_future.jldat LE opr_date no-lock:
-        IF gl_type = "A" OR gl_type = "E" THEN acc_future_balance = acc_future_balance + accbalance_future.dam - accbalance_future.cam.
-        ELSE gl_type = "L" OR gl_type = "O" OR gl_type = "R" THEN 
-        acc_future_balance = acc_future_balance + accbalance_future.cam - accbalance_future.dam.
+    FOR EACH account_balance_future WHERE account_balance_future.action = "account_balance" AND account_balance_future.account = jl_account AND
+        account_balance_future.currency = jl_currency AND account_balance_future.balance_date LE opr_date no-lock:
+        IF gl_type = "A" OR gl_type = "E" THEN acc_future_balance = acc_future_balance + account_balance_future.debet - account_balance_future.credit.
+        ELSE IF gl_type = "L" OR gl_type = "O" OR gl_type = "R" THEN 
+        acc_future_balance = acc_future_balance + account_balance_future.credit - account_balance_future.debet.
     END.
 END PROCEDURE.    
     
@@ -492,23 +474,23 @@ PROCEDURE change_info_account:
     DEFINE INPUT PARAMETER jl_account AS CHARACTER.
     DEFINE INPUT PARAMETER opr_date AS DATE.
     DEFINE INPUT PARAMETER jl_oprtype AS CHARACTER.
-    DEFINE INPUT PARAMETER jl_currency AS INT64.
-    DEFINE INPUT PARAMETER jl_debet as DECIMAL.
+    DEFINE INPUT PARAMETER jl_currency AS char.
+    DEFINE INPUT PARAMETER jl_debet as DECIMAL. 
     DEFINE INPUT PARAMETER jl_credit AS DECIMAL.
     DEFINE OUTPUT PARAMETER OK AS LOG.
     OK = NO.
     
-    find first subacc where subacc.account = jl_account AND subacc.crc = jl_currency exclusive-lock no-error.
-    if AVAILABLE subacc THEN DO:
-        IF jl_oprtype = "D" AND subacc.lastdebetdate < opr_date THEN DO:
-            subacc.lastdebetdate = opr_date.
-            subacc.lastdebet = jl_debet.
+    find first account where account.account = jl_account AND account.currency = jl_currency exclusive-lock no-error.
+    if AVAILABLE account THEN DO:
+        IF jl_oprtype = "D" AND account.last_debet_date < opr_date THEN DO:
+            account.last_debet_date = opr_date.
+            account.last_debet_amount = jl_debet.
         END.  
-        ELSE IF jl_oprtype = "C" AND subacc.lastcreditdate < opr_date THEN DO:
-            subacc.lastcreditdate = opr_date.
-            subacc.lastcredit = jl_credit.
+        ELSE IF jl_oprtype = "C" AND account.last_credit_date < opr_date THEN DO:
+            account.last_credit_date = opr_date.
+            account.last_credit_amount = jl_credit.
         END. 
-        IF subacc.lastoperationdate < opr_date THEN subacc.lastoperationdate = opr_date.
+        IF account.last_operation_date < opr_date THEN account.last_operation_date = opr_date.
         OK = YES.
     END.
 END PROCEDURE.
