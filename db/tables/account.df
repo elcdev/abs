@@ -220,16 +220,16 @@ ADD FIELD "open_amount" OF "account" AS decimal
   
 ADD FIELD "last_operation_date" OF "account" AS date
   DESCRIPTION "Last operation date"
-  FORMAT "99.99.9999 hh:mm:ss"
-  INITIAL "now"
+  FORMAT "99.99.9999"
+  INITIAL ?
   POSITION 27
   MAX-WIDTH 19
   ORDER 260
   
 ADD FIELD "last_debet_date" OF "account" AS date 
   DESCRIPTION "Last debet operation date"
-  FORMAT "99.99.9999 hh:mm:ss"
-  INITIAL "now"
+  FORMAT "99.99.9999"
+  INITIAL ?
   POSITION 28
   MAX-WIDTH 19
   ORDER 270
@@ -244,8 +244,8 @@ ADD FIELD "last_debet_amount" OF "account" AS decimal
 
 ADD FIELD "last_credit_date" OF "account" AS date
   DESCRIPTION "Last credit operation date"
-  FORMAT "99.99.9999 hh:mm:ss"
-  INITIAL "now"
+  FORMAT "99.99.9999"
+  INITIAL ?
   POSITION 28
   MAX-WIDTH 4
   ORDER 290  
