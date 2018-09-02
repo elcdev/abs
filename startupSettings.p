@@ -4,6 +4,8 @@
 DEFINE VARIABLE vLine       AS CHARACTER NO-UNDO.
 DEFINE VARIABLE projectRoot AS CHARACTER NO-UNDO INIT "C:/Projects/abs/".
 
+session:date-format = "dmy".
+
 CASE OPSYS:
   WHEN "unix" THEN
   DO:

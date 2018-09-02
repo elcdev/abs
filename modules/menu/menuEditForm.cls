@@ -12,8 +12,9 @@ Find menu         [************************************************************]
 
 CLASS menuEditForm INHERITS baseForm:
     {menuEditTable.i}
-    DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
-    DEFINE VARIABLE parentId      AS INT64     NO-UNDO INITIAL 0.
+    DEFINE VARIABLE cMenuApi    AS menuApi NO-UNDO.
+    DEFINE VARIABLE parentId    AS INT64     NO-UNDO INITIAL 0.
+    DEFINE VARIABLE dataChanged AS LOG NO-UNDO INITIAL FALSE.
     
     DEFINE QUERY formQuery FOR formEditTable.
     
@@ -28,8 +29,6 @@ CLASS menuEditForm INHERITS baseForm:
         formBrowse HELP " " SKIP
       WITH NO-LABELS SIZE 45 BY 15 OVERLAY ROW 4
       CENTERED.
-
-
 
     {formBrowserBaseMethods.f &formTable="formEditTable"}
     
@@ -93,22 +92,15 @@ CLASS menuEditForm INHERITS baseForm:
         fieldEditor:Left  = formEditTable.fieldValue:COL   IN BROWSE formBrowse + FRAME formFrame:COL.
         fieldEditor:WIDTH = formEditTable.fieldValue:Width IN BROWSE formBrowse.
         fieldEditor:VALUE = formEditTable.fieldValue.
-        /*
-       RUN p_field_ed.p("CHAR", 
-                       INPUT-OUTPUT TmpTab.FieldValue, 
-                       INPUT-OUTPUT f_Chg, iEditMode,
-                       TmpTab.FieldValue:COL    IN BROWSE bTmp + FRAME Mf:COL + 1,
-                       TmpTab.FieldValue:ROW    IN BROWSE bTmp + FRAME Mf:ROW + 1,
-                       TmpTab.FieldValue:WIDTH  IN BROWSE bTmp,
-                       0, 1, 0).
-          */             
+            
         DisableForm().
-
         fieldEditor:ShowForm().
         
         IF fieldEditor:State = "" THEN 
          DO:
-            fieldEditor:VALUE = formEditTable.fieldValue.
+            formEditTable.fieldValue = fieldEditor:VALUE.
+            formBrowse:refresh().
+            dataChanged = TRUE.
          END.
          
         DELETE OBJECT fieldEditor NO-ERROR.
@@ -117,9 +109,18 @@ CLASS menuEditForm INHERITS baseForm:
         RETURN "".
      END.
     
-   
-   
-
-         
-   
+	METHOD PRIVATE CHARACTER saveData():
+        cMenuApi:getItemData(tmpFormId, INPUT-OUTPUT TABLE formEditTable).
+    END.
+    
+	ON PF4, F4 OF formBrowse
+	 DO:
+        DEFINE VARIABLE answer AS LOG NO-UNDO.
+        MESSAGE "Save data" VIEW-AS ALERT-BOX BUTTONS YES-NO UPDATE answer.
+        IF answer THEN saveData().
+		
+        DisableForm().
+		HideForm().
+	 END.
+  
 END.

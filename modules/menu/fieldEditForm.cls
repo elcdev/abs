@@ -38,6 +38,7 @@ CLASS fieldEditForm: /* INHERITS baseForm:*/
     DEF VAR HELP-PROC-HEIGHT AS INT64.
     DEF VAR HELP-PROC-WIDTH  AS INT64.
     DEF VAR HELP-PROC-LTYPE  AS INT64.
+    DEF VAR ENABLE-SHADOW   AS LOG INITIAL FALSE.
     DEF VAR IsOk             AS LOG.
     DEF VAR Prg_Ex           AS INT64.
     
@@ -303,13 +304,13 @@ CLASS fieldEditForm: /* INHERITS baseForm:*/
         ShowFrame().
      END.
      
-    ON GO, RETURN OF FRAME formFrame 
+    ON GO, RETURN OF FRAME formFrame
      DO:
         IF editorMode = "" OR editorMode = "2" THEN
          DO:
             fieldValue  = hWidget:SCREEN-VALUE.
             IF fieldValue = Null_Value THEN fieldValue = "".
-            IF fieldValue <> oldValue    THEN fieldState = "".
+            IF fieldValue <> oldValue  THEN fieldState = "".
          END.
      END.
 
@@ -326,8 +327,7 @@ CLASS fieldEditForm: /* INHERITS baseForm:*/
      END.
      
     METHOD PUBLIC VOID ShowData():
-        ENABLE  fieldValue WITH FRAME formFrame. 
-        PAUSE 0.
+        
     END.
 
     METHOD PUBLIC CHARACTER recordset():
@@ -434,9 +434,14 @@ CLASS fieldEditForm: /* INHERITS baseForm:*/
     END.
     
     METHOD PUBLIC CHAR ShowFrame():
-        VIEW FRAME formShadow. PAUSE 0.
+        IF ENABLE-SHADOW THEN 
+         DO:
+            VIEW FRAME formShadow. PAUSE 0. 
+         END.
+         
         VIEW FRAME formFrame.  PAUSE 0.
         ShowData().
+        
         RETURN "".
     END.
 
@@ -444,7 +449,7 @@ CLASS fieldEditForm: /* INHERITS baseForm:*/
         InitForm().
         InitShadowForm().
         ShowFrame().
-        PAUSE 44.        
+    
         oldValue = fieldValue.
 
         IF editorMode = "2" THEN 
@@ -464,6 +469,14 @@ CLASS fieldEditForm: /* INHERITS baseForm:*/
                 
             ON PF4 END-ERROR.       
             WAIT-FOR WINDOW-CLOSE OF CURRENT-WINDOW OR PF4, F4, RETURN, GO OF FRAME formFrame.
+        
+            IF editorMode = "" OR editorMode = "2" THEN
+             DO:
+                fieldValue  = hWidget:SCREEN-VALUE.
+                IF fieldValue = Null_Value THEN fieldValue = "".
+                IF fieldValue <> oldValue  THEN fieldState = "".
+             END.
+         
             HideForm().
             DELETE WIDGET hWidget.
          END.
