@@ -1,7 +1,7 @@
 CLASS dbModel IMPLEMENTS dbInterface:
-    DEFINE PUBLIC VARIABLE action  AS CHARACTER NO-UNDO.
-    DEFINE PUBLIC VARIABLE id      AS INTEGER   NO-UNDO.
-	DEFINE PUBLIC VARIABLE version AS INTEGER   NO-UNDO.
+    {propertyGetSet.f &name="action"  &type="char"}
+    {propertyGetSet.f &name="id"      &type="int64"}
+    {propertyGetSet.f &name="version" &type="int64"}
 
     METHOD PUBLIC CHARACTER getDb(iId AS INT64):
         RETURN "NOT-EMPLEMENTED".

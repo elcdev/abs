@@ -85,30 +85,53 @@ CLASS menuForm INHERITS headerForm:
     
     ON RETURN OF formBrowse
      DO:
+        DEFINE VARIABLE tMenu AS menuItemModel.
+        
         IF NOT AVAILABLE formTable THEN RETURN.
-        /*
-        cMenuApi:getData(formTable.id, INPUT-OUTPUT TABLE formTable).
-        openQuery().
-        */
+        /* TODO */
+        IF formTable.action = "" THEN 
+         DO:
+            cMenuApi:getData(formTable.parent_id, INPUT-OUTPUT TABLE formTable).
+            openQuery().
+         END.
+        ELSE IF formTable.action = "run" THEN 
+         DO:
+            tMenu = cMenuApi:getModel(formTable.id).
+            RUN VALUE(formTable.procedure_name) (tMenu).
+            DELETE OBJECT tMenu NO-ERROR.
+         END.
+        ELSE IF formTable.action = "proc" THEN 
+         DO:
+            RUN VALUE(formTable.procedure_name).
+         END.
+        
         RETURN "".
      END.
     
+    ON INSERT OF formBrowse
+     DO:
+        editItem(0).
+     END.
+     
     ON F6 OF formBrowse
      DO:
-        DEFINE VARIABLE editForm AS menuEditForm.
-        
         IF NOT AVAILABLE formTable THEN RETURN.
+        editItem(formTable.id).
+     END.
+
+    METHOD PRIVATE CHARACTER editItem(iId AS INT64):
+        DEFINE VARIABLE editForm AS menuEditForm.
         
         DisableForm().
         
         editForm = NEW menuEditForm().
-        editForm:recordset(formTable.id).
+        editForm:recordset(iId).
         editForm:showForm().
+        IF editForm:dataChanged THEN recordset().
         DELETE OBJECT editForm.
         
         showFrame().
         showData().
-        CURRENT-WINDOW:SENSITIVE = true.
-     END.
-    
+        RETURN "".        
+    END.
 END.

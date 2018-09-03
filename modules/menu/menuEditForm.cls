@@ -11,10 +11,11 @@ Find menu         [************************************************************]
 */
 
 CLASS menuEditForm INHERITS baseForm:
-    {menuEditTable.i}
+    {menuEditTable.i }
+    
     DEFINE VARIABLE cMenuApi    AS menuApi NO-UNDO.
     DEFINE VARIABLE parentId    AS INT64     NO-UNDO INITIAL 0.
-    DEFINE VARIABLE dataChanged AS LOG NO-UNDO INITIAL FALSE.
+    {propertyGetSet.f &name="dataChanged"   &type="LOG"}
     
     DEFINE QUERY formQuery FOR formEditTable.
     
@@ -75,7 +76,7 @@ CLASS menuEditForm INHERITS baseForm:
     
     METHOD PUBLIC CHARACTER recordset():
         EMPTY TEMP-TABLE formEditTable.
-        cMenuApi:getItemData(tmpFormId, INPUT-OUTPUT TABLE formEditTable).
+        cMenuApi:getItemData(tmpFormId, INPUT-OUTPUT TABLE formEditTable BY-REFERENCE).
         openQuery().
         RETURN "".
     END.
@@ -110,14 +111,17 @@ CLASS menuEditForm INHERITS baseForm:
      END.
     
 	METHOD PRIVATE CHARACTER saveData():
-        cMenuApi:getItemData(tmpFormId, INPUT-OUTPUT TABLE formEditTable).
+        RETURN cMenuApi:setValuesFromEditBuffer(tmpFormId, INPUT-OUTPUT TABLE formEditTable).
     END.
     
 	ON PF4, F4 OF formBrowse
 	 DO:
         DEFINE VARIABLE answer AS LOG NO-UNDO.
-        MESSAGE "Save data" VIEW-AS ALERT-BOX BUTTONS YES-NO UPDATE answer.
-        IF answer THEN saveData().
+        IF dataChanged THEN
+         DO:
+            MESSAGE "Save data" VIEW-AS ALERT-BOX BUTTONS YES-NO UPDATE answer.
+            IF answer THEN saveData().
+         END.
 		
         DisableForm().
 		HideForm().
