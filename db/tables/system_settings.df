@@ -53,7 +53,7 @@ ADD FIELD "create_user" OF "system_settings" AS CHAR
 
 
     
-ADD FIELD "parent_id" OF "system_settings" AS CHAR
+ADD FIELD "parent_id" OF "system_settings" AS INT64
     FORMAT "X(8)"
     INITIAL ""
     POSITION 9
