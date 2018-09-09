@@ -246,7 +246,7 @@ ADD FIELD "last_credit_date" OF "account" AS date
   DESCRIPTION "Last credit operation date"
   FORMAT "99.99.9999"
   INITIAL ?
-  POSITION 28
+  POSITION 30
   MAX-WIDTH 4
   ORDER 290  
   
@@ -254,7 +254,7 @@ ADD FIELD "last_credit_amount" OF "account" AS decimal
   DESCRIPTION "Last credit operation date"
   FORMAT "-z,zzz,zzz,zz9.99"
   INITIAL "0.00"
-  POSITION 29
+  POSITION 31
   MAX-WIDTH 17
   ORDER 300    
   

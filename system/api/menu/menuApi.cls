@@ -1,6 +1,6 @@
 CLASS menuApi INHERITS apiBase:
     {menuTable.i &formTable="formTable"}
-    {menuEditTable.i &formTable="formEditTable"}
+    {menuEditTable.i &formTable="formEditTable" /*&reference = "REFERENCE-ONLY"*/}
 
     METHOD PUBLIC CHARACTER getData (parent_id AS INT64, INPUT-OUTPUT TABLE formTable):
         DEFINE BUFFER menu FOR menu.
@@ -61,6 +61,7 @@ CLASS menuApi INHERITS apiBase:
 
             CREATE formEditTable.
             ASSIGN
+            formEditTable.id            = iId
             formEditTable.fieldValue    = STRING(hField:BUFFER-VALUE)
             formEditTable.fieldName     = hField:NAME
             formEditTable.fieldLabel    = hField:LABEL
@@ -71,37 +72,7 @@ CLASS menuApi INHERITS apiBase:
         
         RETURN "".
     END.
-    /*
-    METHOD PUBLIC CHARACTER saveItemData (iId AS INT64, iTableName AS CHARACTER, INPUT-OUTPUT TABLE formEditTable):
-        DEFINE VARIABLE tMenuItem AS menuItemModel.
-        
-        tMenuItem = getMenuItem(iId).
-        
-        DEFINE VARIABLE hBuffer AS HANDLE NO-UNDO.
-        DEFINE VARIABLE hQuery  AS HANDLE NO-UNDO.
-        DEFINE VARIABLE i       AS INT64  NO-UNDO.
-        
-        CREATE BUFFER hBuffer FOR TABLE iTableName.
-        CREATE QUERY hQuery.
 
-        hQuery:SET-BUFFERS(hBuffer).
-        hQuery:QUERY-PREPARE("FOR EACH " + iTableName + " WHERE id = " + STRING(iId)).
-        hQuery:QUERY-OPEN().
-        hQuery:GET-FIRST().
-        
-        IF NOT hQuery:QUERY-OFF-END THEN
-         DO:
-            addPropertyItem(iId, hBuffer).
-         END.
-        
-        hQuery:QUERY-CLOSE().
-        hBuffer:BUFFER-RELEASE().
-        DELETE OBJECT hBuffer.
-        DELETE OBJECT hQuery.
-        
-        RETURN "".
-    END.
-    */
     METHOD PUBLIC CHARACTER getData (searchString AS CHAR, iTop AS INT64, INPUT-OUTPUT TABLE formTable):
         DEFINE BUFFER menu FOR menu.
         
@@ -144,6 +115,10 @@ CLASS menuApi INHERITS apiBase:
         RETURN FALSE.
     END.
     
+    METHOD PUBLIC menuItemModel getModel(iId AS INT64):
+        RETURN getMenuItem(iId).
+    END.
+    
     METHOD PUBLIC menuItemModel getMenuItem(iId AS INT64):
         DEFINE VARIABLE tMenu AS menuItemModel NO-UNDO.
         
@@ -168,4 +143,38 @@ CLASS menuApi INHERITS apiBase:
         RETURN tMenu.
     END.
     
+    METHOD PUBLIC CHARACTER setValuesFromEditBuffer(iId AS INT64, INPUT-OUTPUT TABLE formEditTable):
+        DEFINE VARIABLE tMenu AS menuItemModel NO-UNDO.
+        DEFINE VARIABLE oError AS CHARACTER INITIAL "ERROR".
+        
+        tMenu = getMenuItem(iId).
+        
+        FOR EACH formEditTable WHERE formEditTable.id = iId:
+            oError = "".
+
+            CASE formEditTable.fieldType:
+                WHEN "CHAR" OR WHEN "CHARACTER" THEN
+                 DO:
+                    DYNAMIC-PROPERTY(tMenu, formEditTable.fieldName) = formEditTable.fieldValue.
+                 END.
+                WHEN "DATE" THEN
+                    DYNAMIC-PROPERTY(tMenu, formEditTable.fieldName) = DATE(formEditTable.fieldValue) NO-ERROR.
+                WHEN "DATETIME" THEN
+                    DYNAMIC-PROPERTY(tMenu, formEditTable.fieldName) = DATETIME(formEditTable.fieldValue) NO-ERROR.
+                WHEN "LOG" OR WHEN "LOGICAL" THEN
+                    DYNAMIC-PROPERTY(tMenu, formEditTable.fieldName) = formEditTable.fieldValue NO-ERROR.
+                WHEN "INT" OR WHEN "INTEGER" THEN
+                    DYNAMIC-PROPERTY(tMenu, formEditTable.fieldName) = INT(formEditTable.fieldValue) NO-ERROR.
+                WHEN "INT64" THEN
+                    DYNAMIC-PROPERTY(tMenu, formEditTable.fieldName) = INT64(formEditTable.fieldValue) NO-ERROR.
+                WHEN "DEC" OR WHEN "DECIMAL" THEN
+                    DYNAMIC-PROPERTY(tMenu, formEditTable.fieldName) = DEC(formEditTable.fieldValue) NO-ERROR.
+                OTHERWISE 
+                    RETURN "UNSUPPORTED-DATA-TYPE: setValuesFromEditBuffer".
+            END.
+        END.
+
+        RETURN tMenu:putDb().
+    END.
+
 END CLASS.
