@@ -1,16 +1,21 @@
-        DEFINE BUFFER {1} FOR {1}.
+        DEFINE BUFFER {&table} FOR {&table}.
         
 		IF id > 0 THEN
 		 DO:
-			FIND FIRST {1} NO-LOCK WHERE {1}.id = id NO-ERROR.
-			IF NOT AVAILABLE {1} THEN RETURN "RECORD-NOT-FOUND".
-			FIND FIRST {1} WHERE {1}.id = id EXCLUSIVE-LOCK NO-WAIT NO-ERROR.
-			IF NOT AVAILABLE {1} THEN RETURN "RECORD-LOCKED".
+			FIND FIRST {&table} NO-LOCK WHERE {&table}.id = id NO-ERROR.
+			IF NOT AVAILABLE {&table} THEN RETURN "RECORD-NOT-FOUND".
+			FIND FIRST {&table} WHERE {&table}.id = id EXCLUSIVE-LOCK NO-WAIT NO-ERROR.
+			IF NOT AVAILABLE {&table} THEN RETURN "RECORD-LOCKED".
 		 END.
 		ELSE
 		 DO:
-			CREATE {1}.
+			CREATE {&table}.
+			{&table}.create_user      = globalSettings:loginName. 
+			{&table}.create_date      = now.
 		 END.
 		
-		{1}.id      = id.
-		{1}.version = version.
+		{&table}.id          = id.
+		{&table}.version     = version.
+		{&table}.modify_user = globalSettings:loginName. 
+		{&table}.modify_date = now.
+
