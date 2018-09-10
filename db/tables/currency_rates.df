@@ -72,33 +72,33 @@ ADD FIELD "currency" OF "currency_rates" AS CHAR
   DESCRIPTION "Currency iso code"
   FORMAT "X(3)"
   INITIAL ""
-  POSITION 9
+  POSITION 10
   MAX-WIDTH 3
-  ORDER 80
+  ORDER 90
   
 ADD FIELD "rate_type" OF "currency_rates" AS character 
   DESCRIPTION "ECB_BUY/ECB_SELL/ELC_BUY/ELC_SELL"
   FORMAT "X(50)"
   INITIAL ""
-  POSITION 10
+  POSITION 11
   MAX-WIDTH 50
-  ORDER 90
+  ORDER 100
   
 ADD FIELD "rate" OF "currency_rates" AS decimal
   DESCRIPTION "Currency rate"
   FORMAT ">>>>>9.99999999"
   INITIAL ""
-  POSITION 11
+  POSITION 12
   MAX-WIDTH 3
-  ORDER 100
+  ORDER 110
 
 ADD FIELD "count" OF "currency_rates" AS decimal
   DESCRIPTION "Currency order for reports"
   FORMAT "zzzz9"
   INITIAL ""
-  POSITION 12
+  POSITION 13
   MAX-WIDTH 5
-  ORDER 110
+  ORDER 120
 
 
   
