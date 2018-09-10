@@ -9,7 +9,12 @@ CLASS globalSettings INHERITS systemSettingsApi:
         PUBLIC GET:
             RETURN tBalanceDate.
         END.
-        PRIVATE SET.
+
+    DEFINE STATIC PUBLIC PROPERTY Balance_Date AS DATE NO-UNDO
+        PUBLIC GET:
+            RETURN tBalanceDate.
+        END.
+        
     DEFINE STATIC PUBLIC PROPERTY g-today AS DATE NO-UNDO
         PUBLIC GET:
             RETURN tBalanceDate.

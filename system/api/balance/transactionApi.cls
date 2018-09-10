@@ -8,7 +8,7 @@ CLASS transactionApi:
     END.
     
     DESTRUCTOR transactionApi():
-        DELETE OBJECT garbage     NO-ERROR.
+        DELETE OBJECT garbage          NO-ERROR.
         DELETE OBJECT cTransactionCore NO-ERROR.
     END.
     
@@ -100,27 +100,36 @@ CLASS transactionApi:
     END.
 
     METHOD PUBLIC transactionLineModel createLineModel():
-        DEFINE VARIABLE iTransaction AS transactionLineModel.
+        DEFINE VARIABLE iTransactionLine AS transactionLineModel.
         
-        iTransaction = NEW transactionLineModel().
-        garbage:addItem(iTransaction).
+        iTransactionLine = NEW transactionLineModel().
+        garbage:addItem(iTransactionLine).
         
-        RETURN iTransaction.
+        RETURN iTransactionLine.
     END.
     
     METHOD PUBLIC transactionHeaderModel createHeaderModel():
-        DEFINE VARIABLE iTransaction AS transactionHeaderModel.
+        DEFINE VARIABLE iTransactionHeader AS transactionHeaderModel.
         
-        iTransaction = NEW transactionHeaderModel().
-        garbage:addItem(iTransaction).
+        iTransactionHeader = NEW transactionHeaderModel().
+        garbage:addItem(iTransactionHeader).
         
-        RETURN iTransaction.
+        RETURN iTransactionHeader.
     END.
     
-    METHOD PUBLIC CHAR validate(iTransaction AS transactionLineModel):
+    METHOD PUBLIC transactionHeaderModel createHeader():
+        DEFINE VARIABLE tHeader AS transactionHeaderModel.
+        
+        tHeader = createHeaderModel().
+        IF tHeader:putDb() <> "" THEN RETURN ?. /* Error header not created */
+        
+        RETURN tHeader.
+    END.
+    
+    METHOD PUBLIC CHAR validateLine(iTransactionLine AS transactionLineModel):
         DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
         
-        oError = cTransactionCore:validateTransactionAccount(iTransaction).
+        oError = cTransactionCore:validateTransactionAccount(iTransactionLine).
         
         /* TODO VALIDATE */
         

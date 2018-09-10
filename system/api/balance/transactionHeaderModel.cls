@@ -18,7 +18,13 @@ CLASS transactionHeaderModel INHERITS dbModel:
 	END.
 
     METHOD PUBLIC CHARACTER getDbByHeader(iHeader_id AS INT64):
-        {requestItemGetDbByField.f &table="transaction_header" &field="id"}
+        {requestItemGetDbByField.f &table="transaction_header" &field="header_id"}
         RETURN getValuesFromBuffer(BUFFER gl:handle).
     END.
+    
+    METHOD PUBLIC CHARACTER initDefaultSettings():
+        header_id = NEXT-VALUE(transaction_header_id).
+        balance_date = globalSettings:balance_date.
+    END.    
+    
  END.
