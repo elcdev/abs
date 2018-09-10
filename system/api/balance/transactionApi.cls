@@ -109,9 +109,9 @@ CLASS transactionApi:
     END.
     
     METHOD PUBLIC transactionHeaderModel createHeaderModel():
-        DEFINE VARIABLE iTransaction AS transactionLineModel.
+        DEFINE VARIABLE iTransaction AS transactionHeaderModel.
         
-        iTransaction = NEW transactionLineModel().
+        iTransaction = NEW transactionHeaderModel().
         garbage:addItem(iTransaction).
         
         RETURN iTransaction.
