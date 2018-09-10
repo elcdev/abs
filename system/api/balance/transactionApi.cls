@@ -16,12 +16,16 @@ CLASS transactionApi:
         RETURN cTransactionCore:initCore(iCurrentMenuFunction).
     END.
     
-    METHOD PUBLIC CHARACTER create(iTransaction AS transactionLineModel, nocheckbalance AS LOG, change_balance_sign AS LOG):
+    METHOD PUBLIC CHARACTER createLine(iTransaction AS transactionLineModel):
+        RETURN createLine(iTransaction, FALSE, FALSE).
+    END.
+    
+    METHOD PUBLIC CHARACTER createLine(iTransaction AS transactionLineModel, nocheckbalance AS LOG, change_balance_sign AS LOG):
         DEFINE VARIABLE oError     AS CHARACTER      NO-UNDO.
         DEFINE VARIABLE tAccount   AS accountModel   NO-UNDO.
         DEFINE VARIABLE tGlAccount AS glAccountModel NO-UNDO.
         
-        oError = validate(iTransaction).
+        oError = validateLine(iTransaction).
         IF oError <> "" THEN RETURN oError.
         
         tAccount = NEW accountModel().
@@ -117,13 +121,17 @@ CLASS transactionApi:
         RETURN iTransactionHeader.
     END.
     
-    METHOD PUBLIC transactionHeaderModel createHeader():
-        DEFINE VARIABLE tHeader AS transactionHeaderModel.
+    METHOD PUBLIC CHAR createHeader(iTransactionHeader AS transactionHeaderModel):
+        DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
         
-        tHeader = createHeaderModel().
-        IF tHeader:putDb() <> "" THEN RETURN ?. /* Error header not created */
+        IF NOT VALID-OBJECT(iTransactionHeader) THEN
+         DO:
+            iTransactionHeader = createHeaderModel().
+         END.
         
-        RETURN tHeader.
+        oError = iTransactionHeader:putDb().
+        
+        RETURN oError.
     END.
     
     METHOD PUBLIC CHAR validateLine(iTransactionLine AS transactionLineModel):
@@ -136,5 +144,25 @@ CLASS transactionApi:
         RETURN oError.
     END.
     
+    METHOD PUBLIC CHARACTER authorizeTransaction(iTransactionHeader AS transactionHeaderModel):
+        DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
+        DEFINE BUFFER transaction_line FOR transaction_line.
+        
+        IF NOT VALID-OBJECT(iTransactionHeader) THEN RETURN "ERROR-HEADER-UNDEFINED".
+        
+        DO TRANSACTION:
+            FOR EACH transaction_line:
+                transaction_line.authorize_user = globalSettings:loginName.
+                transaction_line.authorize_date = today.
+            END.
+            
+            iTransactionHeader:authorize_user = globalSettings:loginName.
+            iTransactionHeader:authorize_date = today.
+            oError = iTransactionHeader:putDb().
+            IF oError <> "" THEN UNDO.
+        END. 
+        
+        RETURN oError.
+    END.
     
 END.

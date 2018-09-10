@@ -18,42 +18,13 @@ CLASS transactionLineModel INHERITS dbModel:
     {propertyGetSet.f &name="authorize_user"   &type="CHARACTER"}
     {propertyGetSet.f &name="authorize_date"   &type="DATE"}
 
+    DEFINE VARIABLE tAccount AS accountModel.
+    
     METHOD PUBLIC OVERRIDE CHARACTER putDb():
         {requestItemPutDb.f &TABLE="transaction_line"}
         RETURN setValuesToBuffer(BUFFER transaction_line:handle).
 	END.
-/*
-PROCEDURE make_transaction_line:
-    create transaction_line.
-    assign transaction_line.header_id        = jl_header 
-           transaction_line.line             = jl_line
-           transaction_line.line_status      = jl_status
-           transaction_line.gl               = jl_glkon 
-           transaction_line.account          = jl_account 
-           transaction_line.balance_date     = jl_dat 
-           transaction_line.currency         = jl_currency
-           
-           transaction_line.dc               = jl_oprtype 
-           transaction_line.debet            = jl_debet 
-           transaction_line.credit           = jl_credit 
-           transaction_line.details_template = jl_details 
-           
-           transaction_line.create_user      = jl_ofc
-           transaction_line.create_date      = now
-           transaction_line.modify_user      = g-ofc 
-           transaction_line.modify_date      = now
-           
-           
-           
-           
-           
-           
-           transaction_line.authorize_user   = jl_authorize_user
-           transaction_line.authorize_date   = jl_authorize_date
-           transaction_line.cif              = jl_cif. 
-END PROCEDURE.
 
-*/
     METHOD PUBLIC OVERRIDE CHARACTER getDb(iId AS INT64):
         {requestItemGetDbByField.f &table="transaction_line" &field="id"}
         RETURN super:getValuesFromBuffer(BUFFER transaction_line:handle).
@@ -62,5 +33,54 @@ END PROCEDURE.
     METHOD PUBLIC CHARACTER getDbByHeader(iHeader_id AS INT64):
         {requestItemGetDbByField.f &table="transaction_line" &field="header_id"}
         RETURN getValuesFromBuffer(BUFFER gl:handle).
+    END.
+    
+    METHOD PUBLIC CHARACTER empty ():
+        /* super:empty(). */
+        
+        RETURN "".
+    END.
+    
+    METHOD PUBLIC CHARACTER setAccount(iAccount AS CHAR):
+        DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
+        DEFINE VARIABLE tAccount AS accountModel.
+        
+        tAccount = NEW accountModel().
+        oError = tAccount:getDbByAccount(iAccount).
+        IF oError <> "" THEN RETURN oError.
+        
+        gl       = tAccount:gl.
+        account  = iAccount.
+        currency = tAccount:currency.
+        cif      = tAccount:cif.
+        
+        RETURN "".
+    END.
+    
+    METHOD STATIC PRIVATE CHARACTER validateDc(iDC AS CHAR):
+        IF INDEX("D,C,", iDC + ",") < 1 THEN RETURN "ERROR-INVALID-DC-VALUE".
+        RETURN "".
+    END.
+    
+    METHOD PUBLIC CHARACTER setLineData(iAccount AS CHARACTER, iDC AS CHARACTER, iAmount AS DECIMAL, iCurrency AS CHARACTER, iDetails AS CHAR):
+        DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
+        
+        oError = setAccount(iAccount).
+        IF oError <> "" THEN RETURN oError.
+        
+        oError = validateDc(iDC).
+        IF oError <> "" THEN RETURN oError.
+        dc = iDc.
+        
+        CASE iDC:
+            WHEN "D" THEN debet  = iAmount.
+            WHEN "C" THEN credit = iAmount.
+        END.
+        
+        currency     = iCurrency.
+        details      = iDetails.
+        balance_date = globalSettings:balance_date.
+        
+        RETURN "". 
     END.
  END.
