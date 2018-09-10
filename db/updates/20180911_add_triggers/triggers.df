@@ -1,0 +1,64 @@
+MODIFY TABLE "users"
+    AREA "System Data"
+    DESCRIPTION "ABS System data tables"
+    TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_users_rw.p" CRC "?"
+
+MODIFY TABLE "client"
+    AREA "Clients Data"
+    DESCRIPTION "ABS Clients data tables"
+    TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_client_rw.p" CRC "?"
+
+MODIFY TABLE "account_balance_future"
+    AREA "Accounts Data"
+    DESCRIPTION "ABS Clients data tables"
+    TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_account_balance_future_rw.p" CRC "?"
+    
+MODIFY TABLE "account_balance"
+  AREA "Accounts Data"
+  DESCRIPTION "ABS Accounts data tables"
+  DUMP-NAME "account_balance"
+  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_account_balance_rw.p" CRC "?"
+
+MODIFY TABLE "account"
+  AREA "Accounts Data"
+  DESCRIPTION "ABS Accounts data tables"
+  DUMP-NAME "account"
+  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_account_rw.p" CRC "?"
+
+MODIFY TABLE "closed_days"
+    AREA "System Data"
+    DESCRIPTION "ABS closed days"
+    TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_closed_days_rw.p" CRC "?"
+
+MODIFY TABLE "currency"
+  AREA "Accounts Data"
+  DESCRIPTION "ABS gls data tables"
+  DUMP-NAME "currency"
+  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_currency_rw.p" CRC "?"
+
+MODIFY TABLE "currency_rates"
+  AREA "Accounts Data"
+  DESCRIPTION "ABS gls data tables"
+  DUMP-NAME "currency_rates"
+  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_currency_rates_rw.p" CRC "?" 
+
+MODIFY TABLE "gl"
+  AREA "ACCOUNTS DATA"
+  DESCRIPTION "ABS gls data tables"
+  DUMP-NAME "gl"
+  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_gl_rw.p" CRC "?" 
+
+MODIFY TABLE "gl_balance"
+  AREA "Accounts Data"
+  DESCRIPTION "ABS Accounts data tables"
+  DUMP-NAME "gl_balance"
+  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_gl_balance_rw.p" CRC "?" 
+
+MODIFY TABLE "localization"
+  AREA "System Data"
+  DESCRIPTION "ABS System data tables"
+  DUMP-NAME "localization"
+  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_localization_rw.p" CRC "?" 
+
+
+  

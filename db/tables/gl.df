@@ -1,7 +1,8 @@
 ADD TABLE "gl"
   AREA "ACCOUNTS DATA"
   DESCRIPTION "ABS gls data tables"
-  DUMP-NAME "gl-------1"
+  DUMP-NAME "gl"
+  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_gl_rw.p" CRC "?" 
 
 ADD FIELD "id" OF "gl" AS int64 
   DESCRIPTION "Record Id"

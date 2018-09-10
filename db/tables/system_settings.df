@@ -1,6 +1,7 @@
 ADD TABLE "system_settings"
     AREA "System Data"
     DESCRIPTION "ABS System data tables"
+    TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_system_settings_rw.p" CRC "?" 
 
 ADD FIELD "id" OF "system_settings" AS INT64
     FORMAT ">>>>>>>>>>>9"

@@ -1,7 +1,8 @@
 ADD TABLE "account_balance_future"
     AREA "Accounts Data"
     DESCRIPTION "ABS Clients data tables"
-
+    TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_account_balance_future_rw.p" CRC "?"
+    
 ADD FIELD "id" OF "account_balance_future" AS INT64
     DESCRIPTION "Record Id"
     FORMAT ">>>>>>>>>>>9"

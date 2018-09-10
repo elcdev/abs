@@ -2,6 +2,7 @@ ADD TABLE "localization"
   AREA "System Data"
   DESCRIPTION "ABS System data tables"
   DUMP-NAME "localization"
+  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_localization_rw.p" CRC "?" 
 
 ADD FIELD "id" OF "localization" AS int64 
   DESCRIPTION "Record Id"

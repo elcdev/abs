@@ -1,6 +1,7 @@
 ADD TABLE "transaction_header"
     AREA "Accounts Data"
     DESCRIPTION "ABS Clients data tables"
+    TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_transaction_header_rw.p" CRC "?" 
 
 ADD FIELD "id" OF "transaction_header" AS INT64
     DESCRIPTION "Record Id"

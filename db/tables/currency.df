@@ -2,6 +2,7 @@ ADD TABLE "currency"
   AREA "Accounts Data"
   DESCRIPTION "ABS gls data tables"
   DUMP-NAME "currency"
+  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_currency_rw.p" CRC "?"
 
 ADD FIELD "id" OF "currency" AS int64 
   DESCRIPTION "Record Id"

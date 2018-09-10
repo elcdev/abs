@@ -1,6 +1,7 @@
 ADD TABLE "closed_days"
     AREA "System Data"
     DESCRIPTION "ABS closed days"
+    TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_closed_days_rw.p" CRC "?"
 
 ADD FIELD "id" OF "closed_days" AS INT64
     FORMAT ">>>>>>>>>>>9"

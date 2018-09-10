@@ -2,6 +2,7 @@ ADD TABLE "menu"
   AREA "System Data"
   DESCRIPTION "ABS System data tables"
   DUMP-NAME "menu"
+  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_menu_rw.p" CRC "?" 
 
 ADD FIELD "id" OF "menu" AS int64 
   DESCRIPTION "Record Id"

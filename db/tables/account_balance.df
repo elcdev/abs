@@ -2,6 +2,7 @@ ADD TABLE "account_balance"
   AREA "Accounts Data"
   DESCRIPTION "ABS Accounts data tables"
   DUMP-NAME "account_balance"
+  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_account_balance_rw.p" CRC "?"
 
 ADD FIELD "id" OF "account_balance" AS int64 
   DESCRIPTION "Record Id"

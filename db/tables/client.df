@@ -1,6 +1,7 @@
 ADD TABLE "client"
     AREA "Clients Data"
     DESCRIPTION "ABS Clients data tables"
+    TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_client_rw.p" CRC "?"
 
 ADD FIELD "id" OF "client" AS INT64
     DESCRIPTION "Record Id"

@@ -2,6 +2,7 @@ ADD TABLE "currency_rates"
   AREA "Accounts Data"
   DESCRIPTION "ABS gls data tables"
   DUMP-NAME "currency_rates"
+  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_currency_rates_rw.p" CRC "?" 
 
 ADD FIELD "id" OF "currency_rates" AS int64 
   DESCRIPTION "Record Id"

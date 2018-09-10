@@ -2,6 +2,7 @@ ADD TABLE "gl_balance"
   AREA "Accounts Data"
   DESCRIPTION "ABS Accounts data tables"
   DUMP-NAME "gl_balance"
+  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_gl_balance_rw.p" CRC "?" 
 
 ADD FIELD "id" OF "gl_balance" AS int64 
   DESCRIPTION "Record Id"
