@@ -99,7 +99,16 @@ CLASS transactionApi:
         RETURN "".
     END.
 
-    METHOD PUBLIC transactionLineModel createModel():
+    METHOD PUBLIC transactionLineModel createLineModel():
+        DEFINE VARIABLE iTransaction AS transactionLineModel.
+        
+        iTransaction = NEW transactionLineModel().
+        garbage:addItem(iTransaction).
+        
+        RETURN iTransaction.
+    END.
+    
+    METHOD PUBLIC transactionHeaderModel createHeaderModel():
         DEFINE VARIABLE iTransaction AS transactionLineModel.
         
         iTransaction = NEW transactionLineModel().
