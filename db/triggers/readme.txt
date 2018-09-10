@@ -1,5 +1,5 @@
 Folder to store triggers for tables.
 
 Trigger name format / rule:
-	[table name]_wr.p - for write
-	[table name]_dl.p - for delete
+	trg_[table name]_rw.p - for replication write
+	trg_[table name]_dl.p - for delete

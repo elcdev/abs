@@ -22,7 +22,7 @@ tDetails = "Test transaction for date %balnce_date%".
 oError = cTrDebetLine:setLineData("A100000", "D", 1000, "EUR", tDetails).
 IF oError <> "" THEN
  DO:
-    MESSAGE oError VIEW-AS ALERT-BOX.
+    MESSAGE "Debet line error:" SKIP oError VIEW-AS ALERT-BOX.
     RETURN.
  END.
 
@@ -34,7 +34,7 @@ IF oError <> "" THEN
  DO:
     MESSAGE oError VIEW-AS ALERT-BOX.
     RETURN.
- END.
+ END.   
 
 /* auhorize transaction */
 cTransactionApi:authorizeTransaction(cTrHeader).

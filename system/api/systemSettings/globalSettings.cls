@@ -1,5 +1,5 @@
 CLASS globalSettings INHERITS systemSettingsApi:
-    DEFINE STATIC VARIABLE tLoginName    AS CHARACTER NO-UNDO.
+    DEFINE STATIC VARIABLE tUser         AS CHARACTER NO-UNDO.
     DEFINE STATIC VARIABLE tCompanyName  AS CHARACTER NO-UNDO.
     DEFINE STATIC VARIABLE tcompanyRegNr AS CHARACTER NO-UNDO.
     DEFINE STATIC VARIABLE tBalanceDate  AS DATE      NO-UNDO.
@@ -35,10 +35,16 @@ CLASS globalSettings INHERITS systemSettingsApi:
 
     DEFINE STATIC PUBLIC PROPERTY loginName AS CHAR NO-UNDO
         PUBLIC GET:
-            RETURN tLoginName.
+            RETURN tUser.
         END.
         PRIVATE SET.
-    
+
+    DEFINE STATIC PUBLIC PROPERTY user AS CHAR NO-UNDO
+        PUBLIC GET:
+            RETURN tUser.
+        END.
+        PRIVATE SET.
+        
     DEFINE STATIC PUBLIC PROPERTY currentMenuFunction AS CHAR NO-UNDO
         PUBLIC GET:
             RETURN tMenuFunction.
@@ -71,10 +77,10 @@ CLASS globalSettings INHERITS systemSettingsApi:
         
         IF tCompanyName  = ?  THEN tCompanyName  = "Unknown Company".
         
-        IF tLoginName    = ? OR tLoginName = "" THEN tLoginName = OS-GETENV("LOGON").
-        IF tLoginName    = ? OR tLoginName = "" THEN tLoginName = OS-GETENV("LOGNAME").
-        IF tLoginName    = ? OR tLoginName = "" THEN tLoginName = OS-GETENV("USER").
-        IF tLoginName    = ? OR tLoginName = "" THEN tLoginName = OS-GETENV("USERNAME").
+        IF tUser    = ? OR tUser = "" THEN tUser = OS-GETENV("LOGON").
+        IF tUser    = ? OR tUser = "" THEN tUser = OS-GETENV("LOGNAME").
+        IF tUser    = ? OR tUser = "" THEN tUser = OS-GETENV("USER").
+        IF tUser    = ? OR tUser = "" THEN tUser = OS-GETENV("USERNAME").
   
         RETURN "".
     END.
