@@ -1,0 +1,25 @@
+DELETE FIELD "total_action" OF "gl" 
+
+ADD FIELD "total_acc" OF "gl" AS logical 
+  DESCRIPTION "Summarized account yes/no"
+  FORMAT "yes/no"
+  INITIAL "no"
+  POSITION 16
+  MAX-WIDTH 3
+  ORDER 150
+
+ADD FIELD "short_name" OF "gl" AS character 
+  DESCRIPTION "GL short name"
+  FORMAT "x(50)"
+  INITIAL ""
+  LABEL "Short Name"
+  POSITION 18
+  MAX-WIDTH 100
+  ORDER 170
+  
+
+.
+PSC
+cpstream=utf-8
+.
+0000002533
