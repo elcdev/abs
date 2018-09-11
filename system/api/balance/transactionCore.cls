@@ -268,15 +268,21 @@ CLASS transactionCore:
         oError = iAccount:getDb(iAccount:id).
         IF oError <> "" THEN RETURN oError.
     
-        IF iTransactionLine:line_type = "D" AND iAccount:last_debet_date < iTransactionLine:balance_date THEN DO:
+        IF iTransactionLine:line_type = "D" AND (iAccount:last_debet_date < iTransactionLine:balance_date OR iAccount:last_debet_date = ?) THEN 
+         DO:
             iAccount:last_debet_date   = iTransactionLine:balance_date.
             iAccount:last_debet_amount = iTransactionLine:debet.
-        END.  
-        ELSE IF iTransactionLine:line_type = "C" AND iAccount:last_credit_date < iTransactionLine:balance_date THEN DO:
+         END.  
+        ELSE IF iTransactionLine:line_type = "C" AND (iAccount:last_credit_date < iTransactionLine:balance_date OR iAccount:last_credit_date = ?) THEN 
+         DO:
             iAccount:last_credit_date   = iTransactionLine:balance_date.
             iAccount:last_credit_amount = iTransactionLine:credit.
-        END. 
-        IF iAccount:last_operation_date < iTransactionLine:balance_date THEN iAccount:last_operation_date = iTransactionLine:balance_date.
+         END.
+         
+        IF iAccount:last_operation_date < iTransactionLine:balance_date OR iAccount:last_operation_date = ? THEN 
+         DO:
+            iAccount:last_operation_date = iTransactionLine:balance_date.
+         END.
         
         RETURN "".
     END.
@@ -372,4 +378,16 @@ CLASS transactionCore:
        RETURN "". 
     END.
 
+    METHOD PUBLIC CHAR validateGlBalance (iTransactionLine AS transactionLineModel, iGlAccount AS glAccountModel):
+        DEFINE BUFFER gl_balance FOR gl_balance.
+        
+        FIND FIRST gl_balance WHERE gl_balance.gl           = iGlAccount:gl
+                                AND gl_balance.balance_date = iTransactionLine:balance_date
+                                AND gl_balance.currency     = iTransactionLine:currency 
+                                NO-LOCK NO-ERROR.
+
+        IF AVAILABLE gl_balance THEN RETURN "".
+        
+        RETURN "ERROR-NO-GL-BALANCE".
+    END. 
 END.

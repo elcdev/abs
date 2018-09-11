@@ -60,5 +60,13 @@ MODIFY TABLE "localization"
   DUMP-NAME "localization"
   TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_localization_rw.p" CRC "?" 
 
-
-  
+MODIFY TABLE "transaction_header"
+    AREA "Accounts Data"
+    DESCRIPTION "ABS Clients data tables"
+    TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_transaction_header_rw.p" CRC "?" 
+    
+MODIFY TABLE "transaction_line"
+  AREA "Accounts Data"
+  DESCRIPTION "ABS Clients data tables"
+  DUMP-NAME "transaction_line"
+  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_transaction_line_rw.p" CRC "?"   

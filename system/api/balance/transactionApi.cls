@@ -25,6 +25,9 @@ CLASS transactionApi:
         DEFINE VARIABLE tAccount   AS accountModel   NO-UNDO.
         DEFINE VARIABLE tGlAccount AS glAccountModel NO-UNDO.
         
+        oError = transactionCore:validateTrnsactionNumber(iTransaction:Header_Id).
+        IF oError <> "" THEN RETURN oError.
+        
         oError = validateLine(iTransaction).
         IF oError <> "" THEN RETURN oError.
         
@@ -32,6 +35,9 @@ CLASS transactionApi:
         oError = tAccount:getDbByAccount(iTransaction:account).
         IF oError <> "" THEN RETURN oError.
 
+        oError = cTransactionCore:ValidateCurrency(iTransaction:currency).
+        IF oError <> "" THEN RETURN oError.
+        
         tGlAccount = NEW glAccountModel().
         oError = tGlAccount:getDbByGl(tAccount:gl).
         IF oError <> "" THEN RETURN oError.
@@ -43,17 +49,15 @@ CLASS transactionApi:
 
         oError = transactionCore:validateGlRestricted(tGlAccount).
         IF oError <> "" THEN RETURN oError.
-
-        oError = cTransactionCore:ValidateCurrency(iTransaction:currency).
-        IF oError <> "" THEN RETURN oError.
-
-
+        
+        oError = cTransactionCore:validateGlBalance(iTransaction, tGlAccount).
+        IF oError <> "" THEN change_balance_sign = NO.
 
         do transaction :
             find FIRST currency where currency.currency = iTransaction:currency no-lock no-error.
             if available currency then do :
-                iTransaction:debet = round(iTransaction:debet,currency.decimal_points).
-                iTransaction:credit = round(iTransaction:credit,currency.decimal_points).
+                iTransaction:debet  = round(iTransaction:debet,  currency.decimal_points).
+                iTransaction:credit = round(iTransaction:credit, currency.decimal_points).
             end.
                 
             oError = cTransactionCore:validateBalanceDate(iTransaction:balance_date).
