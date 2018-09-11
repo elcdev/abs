@@ -29,11 +29,14 @@ CASE OPSYS:
 
         REPEAT:
             IMPORT UNFORMATTED vLine.
-            IF vLine MATCHES "*.git*" THEN
-            DO:
+            IF vLine MATCHES "*.git*" OR vLine MATCHES "*/tmp/*" OR vLine MATCHES "*/www/public/*" THEN
+             DO:
                 NEXT.     
-            END.
-            PROPATH=PROPATH + ";" + vLine.
+             END.
+            IF NOT PROPATH MATCHES "*;" + vLine + "*" THEN
+             DO:
+                PROPATH=PROPATH + ";" + vLine.
+             END.
         END.
 
         INPUT CLOSE.
