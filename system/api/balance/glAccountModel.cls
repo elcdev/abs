@@ -1,12 +1,12 @@
 CLASS glAccountModel INHERITS dbModel:
-    {propertyGetSet.f &name="gl"                  &type="int64"}
+    {propertyGetSet.f &name="gl"                  &type="INT64"}
     {propertyGetSet.f &name="parent_gl"           &type="INT64"}
     {propertyGetSet.f &name="description"         &type="CHAR"}
     {propertyGetSet.f &name="gl_type"             &type="CHAR"}
     {propertyGetSet.f &name="subledger_type"      &type="CHAR"}
     {propertyGetSet.f &name="gl_status"           &type="CHAR"}
     {propertyGetSet.f &name="level"               &type="INT"}
-    {propertyGetSet.f &name="total_action"        &type="LOGICL"}
+    {propertyGetSet.f &name="total_action"        &type="LOGICAL"}
     {propertyGetSet.f &name="restrict_operation"  &type="LOGICAL"}
     
 	METHOD PUBLIC OVERRIDE CHARACTER putDb():

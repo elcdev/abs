@@ -46,6 +46,7 @@ CLASS dbModel IMPLEMENTS dbInterface:
         DEFINE VARIABLE oProperties AS Progress.Reflect.Property NO-UNDO EXTENT.
         DEFINE VARIABLE hField      AS HANDLE NO-UNDO.
         DEFINE VARIABLE i           AS INTEGER NO-UNDO.
+        DEFINE VARIABLE tString     AS CHARACTER NO-UNDO. 
         
         IF NOT VALID-HANDLE(hBuffer) THEN RETURN "ERROR-INVALID-BUFFER-HANDLE".
         
@@ -55,12 +56,14 @@ CLASS dbModel IMPLEMENTS dbInterface:
             IF oProperties[i]:DataTypeName <> "Progress.Lang.Object" THEN
             DO:
                 hField = hBuffer:BUFFER-FIELD(oProperties[i]:NAME) NO-ERROR.
+                
                 IF VALID-HANDLE(hField) THEN 
                  DO ON ERROR UNDO, THROW:
                     hField:BUFFER-VALUE() = DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME).
 
                     CATCH eAnyError AS Progress.Lang.Error:
-                        RETURN "ERROR-SET-VALUE-FROM-BUFFER:" + eAnyError:GetMessage(1).
+                        tString = STRING(DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME)).
+                        RETURN "ERROR-SET-VALUE-TO-BUFFER: " + oProperties[i]:NAME + "=" + STRING(tString, "X(20)") + "; " + eAnyError:GetMessage(1).
                     END CATCH.
 
                  END.
@@ -70,7 +73,36 @@ CLASS dbModel IMPLEMENTS dbInterface:
         RETURN  "".
     END.
     
-    METHOD CHARACTER getUser():
-    
+    METHOD PUBLIC CHARACTER empty():
+        DEFINE VARIABLE oProperties AS Progress.Reflect.Property NO-UNDO EXTENT.
+        DEFINE VARIABLE i           AS INTEGER NO-UNDO.
+        DEFINE VARIABLE tString     AS CHARACTER NO-UNDO. 
+
+        oProperties = THIS-OBJECT:GetClass():GetProperties() . 
+         
+        DO i = 1 TO EXTENT(oProperties):
+            IF oProperties[i]:DataTypeName <> "Progress.Lang.Object" THEN
+             DO ON ERROR UNDO, THROW:
+                CASE oProperties[i]:DataTypeName:
+                    WHEN "INTEGER"   THEN DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME) = 0.
+                    WHEN "INT64"     THEN DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME) = 0.
+                    WHEN "DECIMAL"   THEN DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME) = 0.
+                    WHEN "CHARACTER" THEN DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME) = "".
+                    WHEN "LONGCHAR"  THEN DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME) = "".
+                    WHEN "LOGICAL"   THEN DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME) = FALSE.
+                    WHEN "DATE"      THEN DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME) = ?.
+                    WHEN "DATETIME"  THEN DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME) = ?.
+                    OTHERWISE             DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME) = ?.
+                 END.
+                CATCH eAnyError AS Progress.Lang.Error:
+                    tString = STRING(DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME)).
+                    RETURN "ERROR-IN-EMPTY-MODEL: Field=" + oProperties[i]:NAME + "; " + eAnyError:GetMessage(1).
+                END CATCH.
+             END.
+        END.
+        
+        RETURN  "".
     END.
+
+    
 END CLASS.

@@ -14,8 +14,8 @@
 			{&table}.create_date      = now.
 		 END.
 		
-		{&table}.id          = id.
-		{&table}.version     = version.
+		/*{&table}.id          = id.*/
+		/*{&table}.version     = version.*/
 		{&table}.modify_user = globalSettings:loginName. 
 		{&table}.modify_date = now.
 

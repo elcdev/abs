@@ -1,12 +1,12 @@
 CLASS transactionCore:
-    DEFINE VARIABLE ENABLE-STOP-DEBET-CHECK    AS LOGICAL NO-UNDO INIT YES.
-    DEFINE VARIABLE ENABLE-STOP-CREDIT-CHECK   AS LOGICAL NO-UNDO INIT YES.
+    DEFINE STATIC VARIABLE ENABLE-STOP-DEBET-CHECK    AS LOGICAL NO-UNDO INIT YES.
+    DEFINE STATIC VARIABLE ENABLE-STOP-CREDIT-CHECK   AS LOGICAL NO-UNDO INIT YES.
     
-    DEFINE PUBLIC VARIABLE ACCOUNT-STATUS-CLOSED AS CHARACTER INITIAL "closed".
+    DEFINE STATIC PUBLIC VARIABLE ACCOUNT-STATUS-CLOSED AS CHARACTER INITIAL "closed".
     
-    DEFINE VARIABLE currentMenuFunction AS CHARACTER NO-UNDO INITIAL "". /* TODO! */
+    DEFINE STATIC VARIABLE currentMenuFunction AS CHARACTER NO-UNDO INITIAL "". /* TODO! */
   
-    DEFINE VARIABLE garbage        AS garbageCollectorType.
+    DEFINE STATIC VARIABLE garbage        AS garbageCollectorType.
     
     CONSTRUCTOR transactionCore():
         garbage        = NEW garbageCollectorType().
@@ -16,7 +16,7 @@ CLASS transactionCore:
         DELETE OBJECT garbage        NO-ERROR.
     END.
 
-    METHOD PUBLIC CHARACTER initCore(iCurrentMenuFunction AS CHARACTER):
+    METHOD STATIC PUBLIC CHARACTER initCore(iCurrentMenuFunction AS CHARACTER):
         currentMenuFunction= iCurrentMenuFunction.
         ENABLE-STOP-DEBET-CHECK  = NO.
         IF getSystemSettingsValue(currentMenuFunction, "NOSDCHECK-FNAME") = "" THEN ENABLE-STOP-DEBET-CHECK  = YES.
@@ -29,30 +29,31 @@ CLASS transactionCore:
     END.
     
     /* TODO; Move to global settings */    
-    METHOD PRIVATE CHARACTER getSystemSettingsValue(iMenuFunctionName AS CHARACTER, iFieldName AS CHARACTER):
+    METHOD STATIC PRIVATE CHARACTER getSystemSettingsValue(iMenuFunctionName AS CHARACTER, iFieldName AS CHARACTER):
         RETURN globalSettings:getValueChar("Balance/MenuDisableCheckStopDC/" + iMenuFunctionName + "/" + iFieldName).
     END.
     
     
-    METHOD PUBLIC CHARACTER validateAccountSpecialInstruction(iAccount AS CHARACTER, iInstruction AS CHARACTER):
-/*
-        DEFINE BUFFER aas FOR aas.
+    METHOD STATIC PUBLIC CHARACTER validateAccountSpecialInstruction(iAccount AS CHARACTER, iInstruction AS CHARACTER):
+        DEFINE BUFFER account_restrictions FOR account_restrictions.
        
-        FIND FIRST aas WHERE aas.account = iAccount AND aas.sic = iInstruction NO-LOCK NO-ERROR.
-        IF NOT AVAILABLE aas THEN RETURN ""
- */       
+        FIND FIRST account_restrictions WHERE account_restrictions.account     = iAccount 
+                                          AND account_restrictions.instruction = iInstruction 
+                                          NO-LOCK NO-ERROR.
+        IF NOT AVAILABLE account_restrictions THEN RETURN "".
+ 
         RETURN "ERROR-STOP-DEBET: Stop Debet instruction for " + iAccount +  " ". /* + aas.payee.*/
     END.
 
-    METHOD PUBLIC CHARACTER validateTransactionAccount(iTransactionLine AS transactionLineModel):
+    METHOD STATIC PUBLIC CHARACTER validateTransactionAccount(iTransactionLine AS transactionLineModel):
         RETURN validateTransactionAccount(iTransactionLine:gl, iTransactionLine:account, iTransactionLine:Currency, iTransactionLine:dc).
     END.
     
-    METHOD PUBLIC CHARACTER validateTransactionAccount( iGl                AS INT64,
-                                                    iAccount           AS CHARACTER, 
-                                                    iCurrency          AS CHARACTER, 
-                                                    iDc                AS CHARACTER
-                                                    ):
+    METHOD STATIC PUBLIC CHARACTER validateTransactionAccount( iGl                AS INT64,
+                                                        iAccount           AS CHARACTER, 
+                                                        iCurrency          AS CHARACTER, 
+                                                        iDc                AS CHARACTER
+                                                      ):
         DEFINE VARIABLE oError AS CHARACTER NO-UNDO INITIAL "".
         
         DEFINE BUFFER account FOR account.
@@ -66,19 +67,25 @@ CLASS transactionCore:
             RETURN "ERROR-INVALID-GL:Balance account in TRX differs from balance account in account " + iAccount + "!".
         END.
         
-        IF INDEX('D,C,', iDc + ',') < 1    THEN RETURN "ERROR-INVALID-DC-VALUE".
+        oError = validateDc(iDC).
+        IF oError <> "" THEN RETURN oError.
+        
         IF iDc = "D" AND ENABLE-STOP-DEBET-CHECK  THEN oError = validateAccountSpecialInstruction(iAccount, "SD").
         IF iDc = "C" AND ENABLE-STOP-CREDIT-CHECK THEN oError = validateAccountSpecialInstruction(iAccount, "SK").
         RETURN oError.
     END. 
 
+    METHOD STATIC PUBLIC CHARACTER validateDc(iDC AS CHAR):
+        IF INDEX("D,C,", iDC + ",") < 1 THEN RETURN "ERROR-INVALID-DC-VALUE".
+        RETURN "".
+    END.
     
-    METHOD PUBLIC LOG isValidCurrency(iCurrency AS char):
+    METHOD STATIC PUBLIC LOG isValidCurrency(iCurrency AS char):
         IF validateCurrency(iCurrency) = "" THEN RETURN TRUE.
         RETURN FALSE.
     END.
     
-    METHOD PUBLIC CHARACTER validateCurrency(iCurrency AS char):
+    METHOD STATIC PUBLIC CHARACTER validateCurrency(iCurrency AS char):
         DEFINE BUFFER bf_currency FOR currency.
         
         find bf_currency where bf_currency.currency = iCurrency no-lock no-error.
@@ -123,7 +130,7 @@ CLASS transactionCore:
         RETURN iLine.
     END.
  
-    METHOD PUBLIC CHARACTER validateBalanceDate(iBalanceDate AS DATE):
+    METHOD STATIC PUBLIC CHARACTER validateBalanceDate(iBalanceDate AS DATE):
         DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
     
         oError = closedDaysApi:validBalanceDate(iBalanceDate).
@@ -139,7 +146,7 @@ CLASS transactionCore:
     END.
      
     
-    METHOD PUBLIC CHAR getAccountBalance(iGlAccount AS glAccountModel, iAccount AS accountModel, iBalanceDate AS DATE, OUTPUT oBalance AS DEC):
+    METHOD STATIC PUBLIC CHAR getAccountBalance(iGlAccount AS glAccountModel, iAccount AS accountModel, iBalanceDate AS DATE, OUTPUT oBalance AS DEC):
         DEFINE BUFFER account_balance        FOR account_balance.
         DEFINE VARIABLE tOverDraftAccount    AS accountModel NO-UNDO.        
         DEFINE VARIABLE oOdBalance           AS DECIMAL      NO-UNDO.
@@ -191,10 +198,14 @@ CLASS transactionCore:
         RETURN  oError.
     END.
 
-
-    METHOD PUBLIC CHAR checkTransactionAmount (iTransactionLine AS transactionLineModel, iGlAccount AS glAccountModel, iAccount AS accountModel):
-        DEFINE VARIABLE iAccountBalance AS DECIMAL NO-UNDO.
-        DEFINE VARIABLE oError          AS CHARACTER NO-UNDO. 
+    METHOD STATIC PUBLIC CHAR checkTransactionAmount (iTransactionLine AS transactionLineModel):
+        DEFINE VARIABLE iAccountBalance AS DECIMAL        NO-UNDO.
+        DEFINE VARIABLE oError          AS CHARACTER      NO-UNDO. 
+        DEFINE VARIABLE iGlAccount      AS glAccountModel NO-UNDO.
+        DEFINE VARIABLE iAccount        AS accountModel   NO-UNDO.
+        
+        iGlAccount = iTransactionLine:getGlAccount.
+        iAccount   = iTransactionLine:getAccount.
         
         oError = getAccountBalance(iGlAccount, iAccount, iTransactionLine:Balance_Date, OUTPUT iAccountBalance). 
         IF oError <> "" THEN RETURN oError.
@@ -244,7 +255,7 @@ CLASS transactionCore:
         RETURN "".
     END.
 
-    METHOD PUBLIC CHAR getFutureAccountBalance(iGlAccount AS glAccountModel, iAccount AS accountModel, iBalanceDate AS DATE, OUTPUT oBalance AS DEC):
+    METHOD STATIC PUBLIC CHAR getFutureAccountBalance(iGlAccount AS glAccountModel, iAccount AS accountModel, iBalanceDate AS DATE, OUTPUT oBalance AS DEC):
         DEFINE BUFFER account_balance_future FOR account_balance_future.
         
         oBalance = 0.
@@ -262,8 +273,11 @@ CLASS transactionCore:
     END.
     
     
-    METHOD PUBLIC CHAR setAccountLastOperationData (iTransactionLine AS transactionLineModel, iAccount AS accountModel):
-        DEFINE VARIABLE oError          AS CHARACTER NO-UNDO INITIAL "". 
+    METHOD STATIC PUBLIC CHAR setAccountLastOperationData (iTransactionLine AS transactionLineModel):
+        DEFINE VARIABLE oError   AS CHARACTER    NO-UNDO INITIAL "". 
+        DEFINE VARIABLE iAccount AS accountModel NO-UNDO.
+        
+        iAccount = iTransactionLine:getAccount.
         
         oError = iAccount:getDb(iAccount:id).
         IF oError <> "" THEN RETURN oError.
@@ -284,12 +298,15 @@ CLASS transactionCore:
             iAccount:last_operation_date = iTransactionLine:balance_date.
          END.
         
-        RETURN "".
+        RETURN iAccount:putDb().
     END.
     
     
-    METHOD PUBLIC CHAR createFutureAccountBalance(iTransactionLine AS transactionLineModel, iGlAccount AS glAccountModel):
+    METHOD STATIC PUBLIC CHAR createFutureAccountBalance(iTransactionLine AS transactionLineModel):
         DEFINE BUFFER account_balance_future FOR account_balance_future.
+        DEFINE VARIABLE iGlAccount AS glAccountModel NO-UNDO.
+        
+        iGlAccount = iTransactionLine:getGlAccount.
         
         create account_balance_future.
         
@@ -313,16 +330,20 @@ CLASS transactionCore:
         
     END.
 
-    METHOD PUBLIC CHAR changeGlBalance(iTransactionLine AS transactionLineModel, iGlAccount AS glAccountModel):
-        DEFINE VARIABLE oError          AS CHARACTER NO-UNDO INITIAL "". 
+    METHOD STATIC PUBLIC CHAR changeGlBalance(iTransactionLine AS transactionLineModel):
+        DEFINE VARIABLE oError     AS CHARACTER      NO-UNDO INITIAL "". 
+        DEFINE VARIABLE iGlAccount AS glAccountModel NO-UNDO.
+        
         DEFINE BUFFER gl_balance FOR gl_balance.
+        
+        iGlAccount = iTransactionLine:GetGlAccount.
         
         /* Nakat ostatka ot dati operaciji do poslednej otkritoj dati */
         FOR EACH gl_balance WHERE gl_balance.gl            = iTransactionLine:gl 
                               AND gl_balance.balance_date >= iTransactionLine:balance_date 
                               AND gl_balance.currency      = iTransactionLine:currency 
                    EXCLUSIVE-LOCK:
-            assign
+            ASSIGN 
                 gl_balance.total_debet  = gl_balance.total_debet + iTransactionLine:debet
                 gl_balance.total_credit = gl_balance.total_credit + iTransactionLine:credit.
             
@@ -345,10 +366,14 @@ CLASS transactionCore:
         RETURN oError.
     END.
     
-    METHOD PUBLIC CHAR changeAccountBalance(iTransactionLine AS transactionLineModel, iGlAccount AS glAccountModel):
-        DEFINE VARIABLE oError          AS CHARACTER NO-UNDO INITIAL "". 
+    METHOD STATIC PUBLIC CHARACTER changeAccountBalance(iTransactionLine AS transactionLineModel):
+        DEFINE VARIABLE oError          AS CHARACTER      NO-UNDO INITIAL "".
+        DEFINE VARIABLE iGlAccount      AS glAccountModel NO-UNDO.        
+        
         DEFINE BUFFER account_balance FOR account_balance.
 
+        iGlAccount = iTransactionLine:GetGlAccount.
+        
         /* Nakat ostatka ot dati operaciji do poslednej otkritoj dati */
         FOR EACH account_balance WHERE account_balance.account      = iTransactionLine:account 
                                    AND account_balance.balance_date >= iTransactionLine:balance_date 
@@ -378,8 +403,11 @@ CLASS transactionCore:
        RETURN "". 
     END.
 
-    METHOD PUBLIC CHAR validateGlBalance (iTransactionLine AS transactionLineModel, iGlAccount AS glAccountModel):
+    METHOD STATIC PUBLIC CHARACTER validateGlBalance (iTransactionLine AS transactionLineModel):
         DEFINE BUFFER gl_balance FOR gl_balance.
+        DEFINE VARIABLE iGlAccount      AS glAccountModel NO-UNDO.   
+        
+        iGlAccount = iTransactionLine:GetGlAccount.
         
         FIND FIRST gl_balance WHERE gl_balance.gl           = iGlAccount:gl
                                 AND gl_balance.balance_date = iTransactionLine:balance_date

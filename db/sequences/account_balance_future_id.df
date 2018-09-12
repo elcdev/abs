@@ -1,0 +1,10 @@
+ADD SEQUENCE "account_balance_future_id"
+  INITIAL 1
+  INCREMENT 1
+  CYCLE-ON-LIMIT no
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000000092

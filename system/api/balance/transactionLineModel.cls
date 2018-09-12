@@ -18,7 +18,36 @@ CLASS transactionLineModel INHERITS dbModel:
     {propertyGetSet.f &name="authorize_user"   &type="CHARACTER"}
     {propertyGetSet.f &name="authorize_date"   &type="DATE"}
 
-    DEFINE VARIABLE tAccount AS accountModel.
+    DEFINE VARIABLE tAccount   AS accountModel           NO-UNDO.
+    DEFINE VARIABLE tGlAccount AS glAccountModel         NO-UNDO.
+    DEFINE VARIABLE tHeader    AS transactionHeaderModel NO-UNDO.
+    DEFINE VARIABLE initDone   AS LOGICAL                NO-UNDO INITIAL FALSE.
+    
+    DEFINE PUBLIC PROPERTY getAccount AS accountModel NO-UNDO
+        GET:
+            InitObjects().
+            RETURN tAccount.
+        END.
+
+    DEFINE PUBLIC PROPERTY getHeader AS transactionHeaderModel NO-UNDO
+        GET:
+            InitObjects().
+            RETURN tHeader.
+        END.
+
+    DEFINE PUBLIC PROPERTY getGlAccount AS glAccountModel NO-UNDO
+        GET:
+            InitObjects().
+            RETURN tGlAccount.
+        END.
+        
+    CONSTRUCTOR transactionLineModel(iTransactionHeader AS transactionHeaderModel):
+        tHeader = iTransactionHeader.
+    END.
+
+    CONSTRUCTOR transactionLineModel():
+        
+    END.
     
     METHOD PUBLIC OVERRIDE CHARACTER putDb():
         {requestItemPutDb.f &TABLE="transaction_line"}
@@ -35,51 +64,68 @@ CLASS transactionLineModel INHERITS dbModel:
         RETURN getValuesFromBuffer(BUFFER gl:handle).
     END.
     
-    METHOD PUBLIC CHARACTER empty ():
-        /* super:empty(). */
-        
-        RETURN "".
+    METHOD PUBLIC OVERRIDE CHARACTER empty():
+        RETURN super:empty().
     END.
     
-    METHOD PUBLIC CHARACTER setAccount(iAccount AS CHAR):
+    METHOD PRIVATE CHARACTER setAccount(iAccount AS CHAR):
         DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
-        DEFINE VARIABLE tAccount AS accountModel.
-        
-        tAccount = NEW accountModel().
+
         oError = tAccount:getDbByAccount(iAccount).
-        IF oError <> "" THEN RETURN oError.
+        IF oError <> "" THEN RETURN "ERROR-ACCOUNT-" + oError.
         
         gl       = tAccount:gl.
         account  = iAccount.
         currency = tAccount:currency.
         cif      = tAccount:cif.
         
-        RETURN "".
+        IF gl <> 0 OR gl <> tGlAccount:gl THEN oError = tGlAccount:getDbByGl(gl).
+        
+        RETURN oError.
     END.
     
-    METHOD STATIC PRIVATE CHARACTER validateDc(iDC AS CHAR):
-        IF INDEX("D,C,", iDC + ",") < 1 THEN RETURN "ERROR-INVALID-DC-VALUE".
-        RETURN "".
+    METHOD PRIVATE CHARACTER InitObjects():
+        DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
+        IF initDone THEN RETURN "".
+        
+        IF NOT VALID-OBJECT(tAccount)   THEN tAccount   = NEW accountModel().
+        IF NOT VALID-OBJECT(tGlAccount) THEN tGlAccount = NEW glAccountModel().
+        IF NOT VALID-OBJECT(tHeader)    THEN tHeader    = NEW transactionHeaderModel().
+        
+        IF account <> "" OR account <> tAccount:account THEN oError = setAccount(account).
+        IF tHeader:header_id = 0 AND header_id > 0      THEN oError = tHeader:getDbByHeader(header_id).
+        IF tHeader:header_id = 0                        THEN oError = "ERROR-INVALID-TRANSACTION-HEAD".
+        /*initDone = TRUE.*/
+        
+        RETURN oError.
     END.
-    
+
     METHOD PUBLIC CHARACTER setLineData(iAccount AS CHARACTER, iDC AS CHARACTER, iAmount AS DECIMAL, iCurrency AS CHARACTER, iDetails AS CHAR):
         DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
         
+        oError = InitObjects().
+        IF oError <> "" THEN RETURN oError.
+        
+        details      = iDetails.
+        balance_date = globalSettings:balance_date.
+
         oError = setAccount(iAccount).
         IF oError <> "" THEN RETURN oError.
         
-        oError = validateDc(iDC).
-        IF oError <> "" THEN RETURN oError.
         dc = iDc.
-        
+        oError = transactionCore:validateDc(iDC).
+        IF oError <> "" THEN RETURN oError.
+
         CASE iDC:
             WHEN "D" THEN debet  = iAmount.
             WHEN "C" THEN credit = iAmount.
         END.
         
+        oError = InitObjects().
+        IF oError <> "" THEN RETURN oError.
+
         currency     = iCurrency.
         details      = iDetails.
-        balance_date = globalSettings:balance_date.
         
         RETURN "". 
     END.
