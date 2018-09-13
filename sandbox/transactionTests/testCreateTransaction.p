@@ -35,7 +35,7 @@ DO TRANSACTION ON ERROR UNDO, THROW:
     END CATCH.
     
     FINALLY:
-        MESSAGE "Transaction made successfully" VIEW-AS ALERT-BOX.
+        MESSAGE "Transaction made successfully!" SKIP "header_id:" cTrHeader:header_id VIEW-AS ALERT-BOX.
     END.
 END.
 /* auhorize transaction */
