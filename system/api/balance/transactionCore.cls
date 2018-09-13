@@ -240,7 +240,7 @@ CLASS transactionCore:
         
         IF AVAILABLE prev_account_balance THEN 
          DO:
-            BUFFER-COPY prev_account_balance TO account_balance.
+            BUFFER-COPY prev_account_balance EXCEPT balance_date id version TO account_balance.
          END.
 
         ASSIGN 

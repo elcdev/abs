@@ -61,7 +61,7 @@ CLASS transactionApi:
 
             oError = transactionCore:validateBalanceDate(iTransaction:balance_date).
             IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 500).
-                
+
             DO TRANSACTION ON ERROR UNDO, THROW:
                 find FIRST currency where currency.currency = iTransaction:currency no-lock no-error.
                 if available currency then do :
@@ -88,10 +88,10 @@ CLASS transactionApi:
                     IF change_balance_sign = YES THEN DO:
                         oError = transactionCore:changeGlBalance(iTransaction).
                         IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 503).
-                        
+
                         oError = transactionCore:changeAccountBalance(iTransaction).
                         IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 504).
-                        
+
                         oError = transactionCore:setAccountLastOperationData(iTransaction).
                     END.
                     ELSE DO:
@@ -110,6 +110,7 @@ CLASS transactionApi:
             END.
             RETURN oError.
         END.
+        
         CATCH eAnyError AS Progress.Lang.Error:
             /*oError =  oError + ":" + eAnyError:GetMessage(1).*/
         END CATCH.
