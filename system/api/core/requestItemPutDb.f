@@ -12,10 +12,10 @@
 			CREATE {&table}.
 			{&table}.create_user      = globalSettings:loginName. 
 			{&table}.create_date      = now.
+			id                        = {&table}.id.
+			version                   = {&table}.version.
 		 END.
 		
-		/*{&table}.id          = id.*/
-		/*{&table}.version     = version.*/
 		{&table}.modify_user = globalSettings:loginName. 
 		{&table}.modify_date = now.
 
