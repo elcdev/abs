@@ -84,6 +84,17 @@ CLASS transactionLineModel INHERITS dbModel:
         RETURN oError.
     END.
     
+    METHOD PRIVATE CHARACTER setGlAccount(iGl AS INT64):
+        DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
+
+        oError = tGlAccount:getDbByGl(iGl).
+        IF oError <> "" THEN RETURN "ERROR-GL-" + oError.
+        
+        gl       = tGlAccount:gl.
+        
+        RETURN oError.
+    END.
+    
     METHOD PRIVATE CHARACTER InitObjects():
         DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
         IF initDone THEN RETURN "".
@@ -93,6 +104,7 @@ CLASS transactionLineModel INHERITS dbModel:
         IF NOT VALID-OBJECT(tHeader)    THEN tHeader    = NEW transactionHeaderModel().
         
         IF account <> "" OR account <> tAccount:account THEN oError = setAccount(account).
+        IF account = "" AND Gl > 0                      THEN oError = setGlAccount(Gl).
         IF tHeader:header_id = 0 AND header_id > 0      THEN oError = tHeader:getDbByHeader(header_id).
         IF tHeader:header_id = 0                        THEN oError = "ERROR-INVALID-TRANSACTION-HEAD".
         /*initDone = TRUE.*/
@@ -100,7 +112,15 @@ CLASS transactionLineModel INHERITS dbModel:
         RETURN oError.
     END.
 
+    METHOD PUBLIC CHARACTER setLineData(iGl AS INT64, iDC AS CHARACTER, iAmount AS DECIMAL, iCurrency AS CHARACTER, iDetails AS CHAR):
+        RETURN setLineData(iGl, "", iDC, iAmount, iCurrency, iDetails).
+    END.
+    
     METHOD PUBLIC CHARACTER setLineData(iAccount AS CHARACTER, iDC AS CHARACTER, iAmount AS DECIMAL, iCurrency AS CHARACTER, iDetails AS CHAR):
+        RETURN setLineData(0, iAccount, iDC, iAmount, iCurrency, iDetails).
+    END.
+    
+    METHOD PUBLIC CHARACTER setLineData(iGl AS INT64, iAccount AS CHARACTER, iDC AS CHARACTER, iAmount AS DECIMAL, iCurrency AS CHARACTER, iDetails AS CHAR):
         DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
         
         oError = InitObjects().
@@ -108,8 +128,20 @@ CLASS transactionLineModel INHERITS dbModel:
         
         balance_date = globalSettings:balance_date.
 
-        oError = setAccount(iAccount).
-        IF oError <> "" THEN RETURN oError.
+        IF iAccount <> "" THEN 
+         DO:
+            oError = setAccount(iAccount).
+            IF oError <> "" THEN RETURN oError.
+         END.
+        ELSE IF iGl > 0 THEN 
+         DO:
+            oError = setGlAccount(iGl).
+            IF oError <> "" THEN RETURN oError.
+         END.
+        ELSE 
+         DO:
+            RETURN "ERROR-NO-ACCOUNTS".
+         END.
         
         dc = iDc.
         oError = transactionCore:validateDc(iDC).

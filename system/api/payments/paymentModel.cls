@@ -86,12 +86,14 @@ CLASS paymentModel INHERITS dbModel:
     END.
     
     METHOD PUBLIC CHARACTER makeTransaction():
-        DEFINE VARIABLE trHeader        AS transactionHeaderModel.
-        DEFINE VARIABLE debetLine       AS transactionLineModel.
-        DEFINE VARIABLE creditLine      AS transactionLineModel.
-        DEFINE VARIABLE feeLine         AS transactionLineModel.
-
-        DEFINE VARIABLE oError          AS CHARACTER NO-UNDO.
+        DEFINE VARIABLE trHeader           AS transactionHeaderModel.
+        DEFINE VARIABLE debetLine          AS transactionLineModel.
+        DEFINE VARIABLE creditLine         AS transactionLineModel.
+        DEFINE VARIABLE feeDebetLine       AS transactionLineModel.
+        DEFINE VARIABLE feeCreditLine      AS transactionLineModel.
+        DEFINE VARIABLE details_commission AS CHARACTER NO-UNDO.
+        DEFINE VARIABLE oError             AS CHARACTER NO-UNDO.
+        DEFINE VARIABLE tFeeAccount        AS CHARACTER NO-UNDO.
 
         DO TRANSACTION ON ERROR UNDO, THROW:
             oError = putDb().
@@ -100,27 +102,39 @@ CLASS paymentModel INHERITS dbModel:
             oError = transactionApi:createHeader(INPUT-OUTPUT trHeader, id).
             IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ";IN-CREATE-HEADER", 1).
 
-            debetLine  = transactionApi:createLineModel(trHeader).
-            creditLine = transactionApi:createLineModel(trHeader).
-            feeLine    = transactionApi:createLineModel(trHeader).
+            debetLine     = transactionApi:createLineModel(trHeader).
+            creditLine    = transactionApi:createLineModel(trHeader).
+            feeDebetLine  = transactionApi:createLineModel(trHeader).
+            feeCreditLine = transactionApi:createLineModel(trHeader).
 
             /* !TODO Create lines */
-            oError = creditLine:setLineData(beneficiary_account, "C", amount + fee_amount, currency, details).
-            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ";IN-SET-CREDIT-DATA", 1).
             oError = debetLine:setLineData(sender_account, "D", amount, currency, details).
             IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ";IN-SET-DEBET-DATA", 1).
-            /*
-            oError = feeLine:setLineData(fee_account, "D", fee_amount, fee_currency, details).
-            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ";IN-SET-FEE-DATA", 1).
-             */
+
+            oError = creditLine:setLineData(beneficiary_account, "C", amount, currency, details).
+            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ";IN-SET-CREDIT-DATA", 1).
+
+            /* Commission lines */
+            details_commission = SUBSTITUTE(paymentConstants:payment_internal_fee_details, "").
+            IF fee_account <> "" THEN tFeeAccount = fee_account. ELSE tFeeAccount = sender_account.
+            
+            oError = feeDebetLine:setLineData(tFeeAccount, "D", fee_amount, fee_currency, details_commission).
+            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ";IN-SET-FEE-DEBET-DATA", 1).
+
+            oError = feeCreditLine:setLineData(paymentConstants:payment_internal_fee_gl, "C", fee_amount, fee_currency, details_commission).
+            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ";IN-SET-FEE-CREDIT-DATA", 1).
+
+            /* Make transaction in db */
+            oError = transactionApi:createLine(debetLine, FALSE, TRUE).
+            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ";IN-CREATE-DEBET;" + debetLine:account, 1).
             oError = transactionApi:createLine(creditLine, FALSE, TRUE) NO-ERROR.
             IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ";IN-CREATE-CREDIT", 1).
-            oError = transactionApi:createLine(debetLine, FALSE, TRUE).
-            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ";IN-CREATE-DEBET", 1).
-            /*
-            oError = transactionApi:createLine(feeLine, FALSE, TRUE) NO-ERROR.
-            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ";IN-CREATE-FEE", 1).
-            */
+
+            oError = transactionApi:createLine(feeDebetLine, FALSE, TRUE).
+            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ";IN-CREATE-FEE-DEBET", 1).
+            oError = transactionApi:createLine(feeCreditLine, FALSE, TRUE) NO-ERROR.
+            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ";IN-CREATE-FEE-CREDIT", 1).
+            
             CATCH eAnyError AS Progress.Lang.Error:
                 /* TODO! Remove message after testing */
                 MESSAGE "Error in transaction: " SKIP eAnyError:GetMessage(1) VIEW-AS ALERT-BOX.
@@ -132,7 +146,8 @@ CLASS paymentModel INHERITS dbModel:
                 DELETE OBJECT trHeader   NO-ERROR.
                 DELETE OBJECT debetLine  NO-ERROR.
                 DELETE OBJECT creditLine NO-ERROR.
-                DELETE OBJECT feeLine    NO-ERROR.
+                DELETE OBJECT feeDebetLine  NO-ERROR.
+                DELETE OBJECT feeCreditLine NO-ERROR.
             END.
         END.
         

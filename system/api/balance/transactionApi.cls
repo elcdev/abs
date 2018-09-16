@@ -32,26 +32,24 @@ CLASS transactionApi:
         DO TRANSACTION ON ERROR UNDO, THROW:
             oError = transactionCore:validateTrnsactionNumber(iTransaction:Header_Id).
             IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 400).
-            
+
             oError = validateLine(iTransaction).
             IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 401).
-            
-            tAccount = iTransaction:getAccount.
-            oError = tAccount:getDbByAccount(iTransaction:account). /* TODO! Rewrite */
-            
-            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 402).
 
             oError = TransactionCore:ValidateCurrency(iTransaction:currency).
             IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 403).
 
+            /*TODO Move this validation to model */
             tGlAccount = iTransaction:getGlAccount.
-            oError = tGlAccount:getDbByGl(tAccount:gl).
+            oError = tGlAccount:getDbByGl(iTransaction:gl).
+
             IF oError <> "" THEN 
              DO:
                 oError = "ERROR-GL-" + oError.
                 UNDO, THROW NEW Progress.Lang.AppError(oError, 404).
              END.
 
+                
             oError = transactionCore:validateTrnsactionNumber(iTransaction:header_id).
             IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 405).
 
@@ -71,11 +69,17 @@ CLASS transactionApi:
             if available currency then do :
                 iTransaction:debet  = round(iTransaction:debet,  currency.decimal_points).
                 iTransaction:credit = round(iTransaction:credit, currency.decimal_points).
+                
+                MESSAGE "debet: " iTransaction:debet SKIP "credit:" iTransaction:credit VIEW-AS ALERT-BOX.
             end.
 
-            iTransaction:cif = tAccount:cif.
-            
+           
             IF tGlAccount:subledger_type NE "" THEN DO:
+                tAccount = iTransaction:getAccount.
+                oError = tAccount:getDbByAccount(iTransaction:account). /* TODO! Rewrite */
+                IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 402).
+                iTransaction:cif = tAccount:cif.    
+                
                 oError = TransactionCore:validateTransactionAccount(iTransaction). 
                 IF oError <> "" THEN RETURN oError.
 
@@ -103,6 +107,9 @@ CLASS transactionApi:
                 END.  
             END.
             ELSE DO:
+                 oError = iTransaction:putDb().
+                IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 502).
+
                 IF change_balance_sign = YES THEN 
                     oError = transactionCore:changeGlBalance(iTransaction).
                 ELSE

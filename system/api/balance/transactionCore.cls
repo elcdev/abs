@@ -49,6 +49,7 @@ CLASS transactionCore:
         RETURN validateTransactionAccount(iTransactionLine:gl, iTransactionLine:account, iTransactionLine:Currency, iTransactionLine:dc).
     END.
     
+    /* TODO!!! */
     METHOD STATIC PUBLIC CHARACTER validateTransactionAccount( iGl                AS INT64,
                                                         iAccount           AS CHARACTER, 
                                                         iCurrency          AS CHARACTER, 
@@ -58,15 +59,23 @@ CLASS transactionCore:
         
         DEFINE BUFFER account FOR account.
         
-        FIND FIRST account WHERE account.account = iAccount NO-LOCK NO-ERROR.
-        IF NOT AVAILABLE account                          THEN RETURN "ERROR-ACCOUNT-NOT-FOUND".
-        IF account.account_status = ACCOUNT-STATUS-CLOSED THEN RETURN "ERROR-ACCOUNT-CLOSED:Account " + iAccount + " is closed!".
-        IF account.currency <> iCurrency                  THEN RETURN "ERROR-CURRENCY-NO-MATCH-ACCOUNT:Currency in TRX differs from currency in account " + iAccount + "!".
+        IF iAccount <> "" THEN
+         DO:
+            FIND FIRST account WHERE account.account = iAccount NO-LOCK NO-ERROR.
+            IF NOT AVAILABLE account                          THEN RETURN "ERROR-ACCOUNT-NOT-FOUND".
+            IF account.account_status = ACCOUNT-STATUS-CLOSED THEN RETURN "ERROR-ACCOUNT-CLOSED:Account " + iAccount + " is closed!".
+            IF account.currency <> iCurrency                  THEN RETURN "ERROR-CURRENCY-NO-MATCH-ACCOUNT:Currency in TRX differs from currency in account " + iAccount + "!".
         
-        IF account.gl ne iGl THEN DO:
-            RETURN "ERROR-INVALID-GL:Balance account in TRX differs from balance account in account " + iAccount + "!".
-        END.
-        
+            IF account.gl ne iGl THEN DO:
+                RETURN "ERROR-INVALID-GL:Balance account in TRX differs from balance account in account " + iAccount + "!".
+            END.
+         END.
+        ELSE
+         DO:
+            oError = validateGl(iGl).
+            IF oError <> "" THEN RETURN oError.
+         END.
+
         oError = validateDc(iDC).
         IF oError <> "" THEN RETURN oError.
         
@@ -75,6 +84,20 @@ CLASS transactionCore:
         RETURN oError.
     END. 
 
+    
+    METHOD STATIC PUBLIC CHAR  validateGl(iGl AS INT64):
+        DEFINE BUFFER gl FOR gl.
+        
+        FIND gl WHERE gl.gl = iGl NO-LOCK NO-ERROR.
+        IF NOT AVAILABLE gl THEN 
+         DO:
+            RETURN "ERROR-INVALID-GL;Balance account " + string(iGl, ">>>>>9") +  " is incorrect!".
+         END.
+
+        RETURN "".
+    END.
+ 
+ 
     METHOD STATIC PUBLIC CHARACTER validateDc(iDC AS CHAR):
         IF INDEX("D,C,", iDC + ",") < 1 THEN RETURN "ERROR-INVALID-DC-VALUE".
         RETURN "".
@@ -379,10 +402,12 @@ CLASS transactionCore:
                                    AND account_balance.balance_date >= iTransactionLine:balance_date 
                                    AND account_balance.currency      = iTransactionLine:currency 
                         EXCLUSIVE-LOCK:
+            
+
             assign
                 account_balance.total_debet  = account_balance.total_debet  + iTransactionLine:debet
                 account_balance.total_credit = account_balance.total_credit + iTransactionLine:credit.
-            
+          
             IF iTransactionLine:dc = "D" THEN 
              DO:
                 IF (iGlAccount:gl_type = "A" OR iGlAccount:gl_type = "E") THEN 
