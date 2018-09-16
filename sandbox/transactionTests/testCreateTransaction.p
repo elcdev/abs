@@ -9,53 +9,35 @@ RUN startupSettings.p.
 
 cTransactionApi = NEW transactionApi().
 
-oError = cTransactionApi:createHeader(INPUT-OUTPUT cTrHeader).
-IF oError <> "" THEN
- DO:
-    MESSAGE oError VIEW-AS ALERT-BOX.
-    RETURN.
- END.
+DO TRANSACTION ON ERROR UNDO, THROW:
+    oError = cTransactionApi:createHeader(INPUT-OUTPUT cTrHeader).
+    IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ";IN-CREATE-HEADER", 1).
 
-cTrDebetLine  = cTransactionApi:createLineModel(cTrHeader).
-cTrCreditLine = cTransactionApi:createLineModel(cTrHeader).
+    cTrDebetLine  = cTransactionApi:createLineModel(cTrHeader).
+    cTrCreditLine = cTransactionApi:createLineModel(cTrHeader).
 
-tDetails = "Test transaction for date %balnce_date%".
+    tDetails = "Test transaction for date %balnce_date%".
 
-cTrDebetLine:gl = 101000.
+    oError = cTrDebetLine:setLineData("A100000", "D", 1000, "EUR", tDetails).
+    IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ";IN-SET-DEBET-DATA", 1).
 
-oError = cTrDebetLine:setLineData("A100000", "D", 1000, "EUR", tDetails).
-IF oError <> "" THEN
- DO:
-    MESSAGE "Debet line error:" SKIP oError VIEW-AS ALERT-BOX.
-    RETURN.
- END.
- 
-MESSAGE cTrDebetLine:getAccount:account cTrDebetLine:getGlAccount:gl cTrDebetLine:getAccount:currency
-    VIEW-AS ALERT-BOX.
+    oError = cTrCreditLine:setLineData("A200000", "C", 1000, "EUR", tDetails).
+    IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ";IN-SET-CREDIT-DATA", 1).
+     
+    oError = cTransactionApi:createLine(cTrDebetLine, FALSE, TRUE).
+    IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ";IN-CREATE-DEBET", 1).
 
-
-oError = cTrCreditLine:setLineData("A200000", "C", 1000, "EUR", tDetails).
-IF oError <> "" THEN
- DO:
-    MESSAGE "Debet line error:" SKIP oError VIEW-AS ALERT-BOX.
-    RETURN.
- END.
- 
-oError = cTransactionApi:createLine(cTrDebetLine).
-IF oError <> "" THEN
- DO:
-    MESSAGE "Create debet line" SKIP oError VIEW-AS ALERT-BOX.
-    RETURN.
- END.   
-
-oError = cTransactionApi:createLine(cTrCreditLine, FALSE, TRUE) NO-ERROR.
-MESSAGE "Create line" SKIP oError VIEW-AS ALERT-BOX.
-IF oError <> "" THEN
- DO:
-    MESSAGE "Create credit line" SKIP oError VIEW-AS ALERT-BOX.
-    RETURN.
- END.  
- 
+    oError = cTransactionApi:createLine(cTrCreditLine, FALSE, TRUE) NO-ERROR.
+    IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ";IN-CREATE-CREDIT", 1).
+    
+    CATCH eAnyError AS Progress.Lang.Error:
+        MESSAGE "ERROR TUT " SKIP eAnyError:GetMessage(1) VIEW-AS ALERT-BOX.
+    END CATCH.
+    
+    FINALLY:
+        MESSAGE "Transaction made successfully!" SKIP "header_id:" cTrHeader:header_id VIEW-AS ALERT-BOX.
+    END.
+END.
 /* auhorize transaction */
 /*cTransactionApi:authorizeTransaction(cTrHeader).*/
 
@@ -64,4 +46,3 @@ IF oError <> "" THEN
 
 /* */
 
-PAUSE.

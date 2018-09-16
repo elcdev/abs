@@ -240,7 +240,7 @@ CLASS transactionCore:
         
         IF AVAILABLE prev_account_balance THEN 
          DO:
-            BUFFER-COPY prev_account_balance TO account_balance.
+            BUFFER-COPY prev_account_balance EXCEPT balance_date id version TO account_balance.
          END.
 
         ASSIGN 
@@ -418,4 +418,12 @@ CLASS transactionCore:
         
         RETURN "ERROR-NO-GL-BALANCE".
     END. 
+    
+    METHOD STATIC PUBLIC CHARACTER validateAccount(iAccount AS CHARACTER):
+        DEFINE BUFFER account FOR account.
+        
+        IF NOT CAN-FIND(FIRST account NO-LOCK WHERE account.account = iAccount) THEN RETURN "ERROR-INVALID-ACCOUNT".
+        
+        RETURN "".
+    END.
 END.

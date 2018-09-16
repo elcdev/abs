@@ -106,7 +106,6 @@ CLASS transactionLineModel INHERITS dbModel:
         oError = InitObjects().
         IF oError <> "" THEN RETURN oError.
         
-        details      = iDetails.
         balance_date = globalSettings:balance_date.
 
         oError = setAccount(iAccount).
@@ -125,7 +124,8 @@ CLASS transactionLineModel INHERITS dbModel:
         IF oError <> "" THEN RETURN oError.
 
         currency     = iCurrency.
-        details      = iDetails.
+        details            = iDetails. /* TODO! Make traslates to local language */
+        details_template   = iDetails.
         
         RETURN "". 
     END.
