@@ -2,7 +2,7 @@ ADD TABLE "account"
   AREA "Accounts Data"
   DESCRIPTION "ABS Accounts data tables"
   DUMP-NAME "account"
-  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_account_rw.p" CRC "?"
+  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_account_rw.p" CRC "?" 
 
 ADD FIELD "id" OF "account" AS int64 
   DESCRIPTION "Record Id"
@@ -60,23 +60,15 @@ ADD FIELD "create_user" OF "account" AS character
   MAX-WIDTH 8
   ORDER 70
 
-  
-  
-  
-  
-  
-  
-  
-  
-ADD FIELD "gl" OF "account" AS INT64
+ADD FIELD "gl" OF "account" AS int64 
   DESCRIPTION "General ledger account number"
   FORMAT "zzzzzzzzz9"
-  INITIAL ""
+  INITIAL "0"
   POSITION 9
   MAX-WIDTH 10
   ORDER 80
 
-ADD FIELD "iban" OF "account" AS CHAR
+ADD FIELD "iban" OF "account" AS character 
   DESCRIPTION "account number"
   FORMAT "X(35)"
   INITIAL ""
@@ -84,7 +76,7 @@ ADD FIELD "iban" OF "account" AS CHAR
   MAX-WIDTH 35
   ORDER 90
 
-ADD FIELD "account" OF "account" AS CHAR
+ADD FIELD "account" OF "account" AS character 
   DESCRIPTION "account number"
   FORMAT "X(12)"
   INITIAL ""
@@ -92,7 +84,7 @@ ADD FIELD "account" OF "account" AS CHAR
   MAX-WIDTH 4
   ORDER 100
 
-ADD FIELD "base_account" OF "account" AS character
+ADD FIELD "base_account" OF "account" AS character 
   DESCRIPTION "Base multicurrency account"
   FORMAT "X(12)"
   INITIAL ""
@@ -107,8 +99,8 @@ ADD FIELD "overdraft_account" OF "account" AS character
   POSITION 13
   MAX-WIDTH 12
   ORDER 120
-  
-ADD FIELD "currency" OF "account" AS char
+
+ADD FIELD "currency" OF "account" AS character 
   DESCRIPTION "Currency"
   FORMAT "X(3)"
   INITIAL ""
@@ -116,7 +108,6 @@ ADD FIELD "currency" OF "account" AS char
   MAX-WIDTH 3
   ORDER 130
 
-  
 ADD FIELD "account_group" OF "account" AS character 
   DESCRIPTION "Account group"
   FORMAT "X(7)"
@@ -125,14 +116,14 @@ ADD FIELD "account_group" OF "account" AS character
   MAX-WIDTH 7
   ORDER 140
 
-ADD FIELD "subledger_type" OF "account" AS character
+ADD FIELD "subledger_type" OF "account" AS character 
   DESCRIPTION "account type (aaa, dfb, arp, fun)"
   FORMAT "X(5)"
   INITIAL ""
   POSITION 16
   MAX-WIDTH 5
   ORDER 150
-  
+
 ADD FIELD "account_subtype" OF "account" AS character 
   DESCRIPTION "Sub type (dfbForClients, dfbForElcoin)"
   FORMAT "X(7)"
@@ -141,7 +132,7 @@ ADD FIELD "account_subtype" OF "account" AS character
   MAX-WIDTH 7
   ORDER 160
 
-ADD FIELD "product_code" OF "account" AS char 
+ADD FIELD "product_code" OF "account" AS character 
   DESCRIPTION "Product code"
   FORMAT "X(7)"
   INITIAL ""
@@ -157,24 +148,23 @@ ADD FIELD "branch" OF "account" AS character
   MAX-WIDTH 5
   ORDER 180
 
-
-ADD FIELD "cif" OF "account" AS char
+ADD FIELD "cif" OF "account" AS character 
   DESCRIPTION "Relation withs clients table"
   FORMAT "X(12)"
-  INITIAL 0
+  INITIAL "0"
   POSITION 20
   MAX-WIDTH 12
   ORDER 190
-  
-ADD FIELD "client_id" OF "account" AS int64
+
+ADD FIELD "client_id" OF "account" AS int64 
   DESCRIPTION "Relation withs clients table"
   FORMAT ">>>>>>>>>>>9"
-  INITIAL 0
+  INITIAL "0"
   POSITION 21
   MAX-WIDTH 12
   ORDER 200
 
-ADD FIELD "account_status" OF "account" AS char
+ADD FIELD "account_status" OF "account" AS character 
   DESCRIPTION "Account satus: [new]-new, [active]-active, [closed]-closed"
   FORMAT "X(10)"
   INITIAL ""
@@ -189,18 +179,16 @@ ADD FIELD "description" OF "account" AS character
   POSITION 23
   MAX-WIDTH 50
   ORDER 220
-  
 
-  
-ADD FIELD "open_date" OF "account" AS date
+ADD FIELD "open_date" OF "account" AS date 
   DESCRIPTION "Account open date"
   FORMAT "99.99.9999"
   INITIAL ?
   POSITION 24
   MAX-WIDTH 10
   ORDER 230
-  
-ADD FIELD "close_date" OF "account" AS date
+
+ADD FIELD "close_date" OF "account" AS date 
   DESCRIPTION "Account close date"
   FORMAT "99.99.9999"
   INITIAL ?
@@ -208,66 +196,107 @@ ADD FIELD "close_date" OF "account" AS date
   MAX-WIDTH 10
   ORDER 240
 
-
-ADD FIELD "open_amount" OF "account" AS decimal
+ADD FIELD "open_amount" OF "account" AS decimal 
   DESCRIPTION "Account open amount (for overdraft/deposit) move to data"
   FORMAT "-z,zzz,zzz,zz9.99"
   INITIAL "0.00"
   POSITION 26
   MAX-WIDTH 17
+  DECIMALS 2
   ORDER 250
-  
 
-  
-ADD FIELD "last_operation_date" OF "account" AS date
+ADD FIELD "last_operation_date" OF "account" AS date 
   DESCRIPTION "Last operation date"
   FORMAT "99.99.9999"
   INITIAL ?
   POSITION 27
   MAX-WIDTH 19
   ORDER 260
-  
-ADD FIELD "last_debet_date" OF "account" AS date 
-  DESCRIPTION "Last debet operation date"
+
+ADD FIELD "last_credit_date" OF "account" AS date 
+  DESCRIPTION "Last credit operation date"
   FORMAT "99.99.9999"
   INITIAL ?
   POSITION 28
-  MAX-WIDTH 19
-  ORDER 270
-  
-ADD FIELD "last_debet_amount" OF "account" AS decimal
+  MAX-WIDTH 4
+  ORDER 290
+
+ADD FIELD "last_debet_amount" OF "account" AS decimal 
   DESCRIPTION "Last debet operation amount"
   FORMAT "-z,zzz,zzz,zz9.99"
   INITIAL "0.00"
   POSITION 29
   MAX-WIDTH 17
+  DECIMALS 2
   ORDER 280
 
-ADD FIELD "last_credit_date" OF "account" AS date
-  DESCRIPTION "Last credit operation date"
+ADD FIELD "last_debet_date" OF "account" AS date 
+  DESCRIPTION "Last debet operation date"
   FORMAT "99.99.9999"
   INITIAL ?
   POSITION 30
-  MAX-WIDTH 4
-  ORDER 290  
-  
+  MAX-WIDTH 19
+  ORDER 270
+
 ADD FIELD "last_credit_amount" OF "account" AS decimal 
   DESCRIPTION "Last credit operation date"
   FORMAT "-z,zzz,zzz,zz9.99"
   INITIAL "0.00"
   POSITION 31
   MAX-WIDTH 17
-  ORDER 300    
-  
-  
-  
-  
-  
+  DECIMALS 2
+  ORDER 300
+
 ADD INDEX "id" ON "account" 
   AREA "Accounts Index"
   UNIQUE
   PRIMARY
   INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "account" ON "account" 
+  AREA "Accounts Index"
+  UNIQUE
+  INDEX-FIELD "account" ASCENDING 
+
+ADD INDEX "account_group" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "account_group" ASCENDING 
+
+ADD INDEX "account_status" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "account_status" ASCENDING 
+
+ADD INDEX "account_subtype" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "account_subtype" ASCENDING 
+
+ADD INDEX "base_account" ON "account" 
+  AREA "Accounts Data"
+  INDEX-FIELD "base_account" ASCENDING 
+
+ADD INDEX "branch" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "branch" ASCENDING 
+
+ADD INDEX "client_id" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "client_id" ASCENDING 
+
+ADD INDEX "close_date" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "close_date" ASCENDING 
+
+ADD INDEX "currency" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "currency" ASCENDING 
+
+ADD INDEX "gl" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "gl" ASCENDING 
+
+ADD INDEX "iban" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "iban" ASCENDING 
 
 ADD INDEX "modify_date" ON "account" 
   AREA "Accounts Index"
@@ -277,85 +306,32 @@ ADD INDEX "modify_user" ON "account"
   AREA "Accounts Index"
   INDEX-FIELD "modify_user" ASCENDING 
 
-ADD INDEX "state" ON "account" 
+ADD INDEX "open_date" ON "account" 
   AREA "Accounts Index"
-  INDEX-FIELD "state" ASCENDING 
-
-ADD INDEX "version" ON "account" 
-  AREA "Accounts Index"
-  INDEX-FIELD "version" ASCENDING 
-
-  
-  
-  
-ADD INDEX "gl" ON "account" 
-  AREA "Accounts Index"
-  INDEX-FIELD "gl" ASCENDING 
-  
-ADD INDEX "base_account" ON "account" 
-  AREA "Accounts Data"
-  INDEX-FIELD "base_account" ASCENDING 
-
-ADD INDEX "iban" ON "account" 
-  AREA "Accounts Index"
-  INDEX-FIELD "iban" ASCENDING 
-  
-ADD INDEX "account" ON "account" 
-  UNIQUE
-  AREA "Accounts Index"
-  INDEX-FIELD "account" ASCENDING 
+  INDEX-FIELD "open_date" ASCENDING 
 
 ADD INDEX "overdraft_account" ON "account" 
   AREA "Accounts Index"
   INDEX-FIELD "overdraft_account" ASCENDING 
 
-ADD INDEX "account_status" ON "account" 
-  AREA "Accounts Index"
-  INDEX-FIELD "account_status" ASCENDING 
-
-ADD INDEX "client_id" ON "account" 
-  AREA "Accounts Index"
-  INDEX-FIELD "client_id" ASCENDING 
-
-ADD INDEX "branch" ON "account" 
-  AREA "Accounts Index"
-  INDEX-FIELD "branch" ASCENDING 
-  
-ADD INDEX "currency" ON "account" 
-  AREA "Accounts Index"
-  INDEX-FIELD "currency" ASCENDING 
-
-ADD INDEX "open_date" ON "account" 
-  AREA "Accounts Index"
-  INDEX-FIELD "open_date" ASCENDING 
-
-ADD INDEX "close_date" ON "account" 
-  AREA "Accounts Index"
-  INDEX-FIELD "close_date" ASCENDING 
-  
 ADD INDEX "product_code" ON "account" 
   AREA "Accounts Index"
   INDEX-FIELD "product_code" ASCENDING 
 
-ADD INDEX "account_group" ON "account" 
+ADD INDEX "state" ON "account" 
   AREA "Accounts Index"
-  INDEX-FIELD "account_group" ASCENDING 
+  INDEX-FIELD "state" ASCENDING 
 
 ADD INDEX "subledger_type" ON "account" 
   AREA "Accounts Index"
   INDEX-FIELD "subledger_type" ASCENDING 
 
-ADD INDEX "account_subtype" ON "account" 
+ADD INDEX "version" ON "account" 
   AREA "Accounts Index"
-  INDEX-FIELD "account_subtype" ASCENDING 
+  INDEX-FIELD "version" ASCENDING 
 
-
-
-
-
-  
 .
 PSC
-cpstream=utf-8
+cpstream=ISO8859-1
 .
-0000002533
+0000007561

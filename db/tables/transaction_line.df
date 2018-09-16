@@ -138,6 +138,7 @@ ADD FIELD "debet" OF "transaction_line" AS decimal
   INITIAL "0"
   POSITION 18
   MAX-WIDTH 16
+  DECIMALS 2
   ORDER 170
 
 ADD FIELD "credit" OF "transaction_line" AS decimal 
@@ -146,6 +147,7 @@ ADD FIELD "credit" OF "transaction_line" AS decimal
   INITIAL "0"
   POSITION 19
   MAX-WIDTH 16
+  DECIMALS 2
   ORDER 180
 
 ADD FIELD "details" OF "transaction_line" AS character 
@@ -296,4 +298,4 @@ ADD INDEX "version" ON "transaction_line"
 PSC
 cpstream=ISO8859-1
 .
-0000007150
+0000007085
