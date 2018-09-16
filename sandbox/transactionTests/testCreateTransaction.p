@@ -16,11 +16,12 @@ IF oError <> "" THEN
     RETURN.
  END.
 
-
 cTrDebetLine  = cTransactionApi:createLineModel(cTrHeader).
 cTrCreditLine = cTransactionApi:createLineModel(cTrHeader).
 
 tDetails = "Test transaction for date %balnce_date%".
+
+cTrDebetLine:gl = 101000.
 
 oError = cTrDebetLine:setLineData("A100000", "D", 1000, "EUR", tDetails).
 IF oError <> "" THEN
