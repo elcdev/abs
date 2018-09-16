@@ -44,8 +44,8 @@ FUNCTION setError LOG (iSost AS INT64, iMess AS CHAR):
     RETURN false.
 END.
 FUNCTION isValidCurrency LOG(currency AS char):
-    DEFINE BUFFER bf_currency FOR crc. /* !!! Change to currency.*/
-    find bf_currency where bf_currency.code = currency no-lock no-error. /*!!!! */
+    DEFINE BUFFER bf_currency FOR currency.
+    find bf_currency where bf_currency.currency = currency no-lock no-error.
     if not available bf_currency then do:
         setError(0, "Currency " + string(currency) +  " is incorrect!").
         return false.
@@ -121,8 +121,7 @@ do transaction :
     sost = 0.
     IF isValidTrxNumber(jl_header) = NO THEN UNDO, RETURN.
     FIND FIRST transaction_header WHERE transaction_header.header_id = jl_header EXCLUSIVE-LOCK NO-ERROR.
-    DISPLAY "1 stage".
-    PAUSE.
+
     jl_line = jl_line_check(jl_header,jl_line).
     
     IF isValidGlAccount(jl_glkon) = NO THEN UNDO, RETURN.
@@ -133,40 +132,28 @@ do transaction :
     IF isGlBalance(jl_glkon, jl_currency, jl_dat) = NO THEN change_balance_sign = NO.
     
     IF isValidCurrency(jl_currency) = NO THEN UNDO, RETURN.
-    DISPLAY "3 stage".
-    PAUSE.
-    /* !!!!!!!
     find FIRST currency where currency.currency = jl_currency no-lock no-error.
     if available currency then do :
         jl_debet = round(jl_debet,currency.decimal_points).
         
         jl_credit = round(jl_credit,currency.decimal_points).
     end.
-    *****/
         
     IF isValidtrxdate(jl_dat) = NO THEN UNDO, RETURN.
-    DISPLAY "4 stage".
-    PAUSE.
     
     IF gl.subledger_type NE "" THEN DO:
         run Validateaccount(jl_account, jl_currency, jl_oprtype, OUTPUT overdraft_account, OUTPUT isOK, OUTPUT mes). 
         IF isok = NO THEN UNDO, RETURN.
-        DISPLAY "5 stage".
-        PAUSE.
         FIND FIRST account WHERE account.account = jl_account AND account.currency = jl_currency EXCLUSIVE-LOCK NO-ERROR.
         jl_cif = account.cif.
         RUN calc_balance(account.account,account.overdraft_account, account.gl, account.currency, jl_dat, gl.gl_type, OUTPUT isok, OUTPUT mes, 
         OUTPUT account_balance).
         IF isok = NO THEN UNDO, RETURN.
-        DISPLAY "6 stage".
-        PAUSE.
         IF nocheckbalance = NO THEN DO:
             RUN check_balance(account.account, account_balance, gl.gl_type, jl_oprtype, jl_debet, jl_credit, OUTPUT isok, OUTPUT mes).
         END.
         ELSE isok = YES.
-        IF isok = NO THEN UNDO, RETURN.  
-        DISPLAY "7 stage".
-        PAUSE.        
+        IF isok = NO THEN UNDO, RETURN.   
         RUN make_transaction_line.
         
         /* Пока не ясно, надо ли это делать 
@@ -180,16 +167,11 @@ do transaction :
         IF change_balance_sign = YES THEN DO:
             RUN change_gl_balance(jl_glkon, jl_dat, gl.gl_type, jl_oprtype, jl_currency, jl_debet, jl_credit, OUTPUT isok). 
             IF isok = NO THEN UNDO, RETURN.
-            DISPLAY "8 stage".
-            PAUSE.
+            
             RUN change_account_balance(jl_account, jl_dat, gl.gl_type, jl_oprtype, jl_currency, jl_debet, jl_credit, OUTPUT isok).
             IF isok = NO THEN UNDO, RETURN.
-            DISPLAY "9 stage".
-            PAUSE.
             RUN change_info_account(jl_account, jl_dat, jl_oprtype, jl_currency, jl_debet, jl_credit, OUTPUT isok).
             IF isok = NO THEN UNDO, RETURN.
-            DISPLAY "10 stage".
-            PAUSE.
         END.
         ELSE DO:
             RUN create_future_account_balance(jl_header, jl_line, jl_glkon,jl_account, jl_dat, gl.gl_type, jl_oprtype,
