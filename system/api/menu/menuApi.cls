@@ -147,7 +147,7 @@ CLASS menuApi INHERITS apiBase:
         DEFINE VARIABLE tMenu AS menuItemModel NO-UNDO.
         DEFINE VARIABLE oError AS CHARACTER INITIAL "ERROR".
         
-        tMenu = getMenuItem(iId).
+        tMenu = getModel(iId).
         
         FOR EACH formEditTable WHERE formEditTable.id = iId:
             oError = "".
