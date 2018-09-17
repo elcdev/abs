@@ -1,10 +1,10 @@
-ADD TABLE "payments"
+ADD TABLE "payment"
   AREA "Accounts Data"
   DESCRIPTION "ABS Clients data tables"
-  DUMP-NAME "payments"
-  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_payments_rw.p" CRC "?" 
+  DUMP-NAME "payment"
+  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_payment_rw.p" CRC "?" 
 
-ADD FIELD "id" OF "payments" AS int64 
+ADD FIELD "id" OF "payment" AS int64 
   DESCRIPTION "Record Id"
   FORMAT ">>>>>>>>>>>9"
   INITIAL "0"
@@ -12,7 +12,7 @@ ADD FIELD "id" OF "payments" AS int64
   MAX-WIDTH 4
   ORDER 10
 
-ADD FIELD "version" OF "payments" AS int64 
+ADD FIELD "version" OF "payment" AS int64 
   DESCRIPTION "Record version for replication"
   FORMAT ">>>>>>>>>>>9"
   INITIAL "0"
@@ -20,7 +20,7 @@ ADD FIELD "version" OF "payments" AS int64
   MAX-WIDTH 4
   ORDER 20
 
-ADD FIELD "state" OF "payments" AS int64 
+ADD FIELD "state" OF "payment" AS int64 
   DESCRIPTION "Record state for replication"
   FORMAT ">>>9"
   INITIAL "0"
@@ -28,7 +28,7 @@ ADD FIELD "state" OF "payments" AS int64
   MAX-WIDTH 4
   ORDER 30
 
-ADD FIELD "modify_date" OF "payments" AS datetime 
+ADD FIELD "modify_date" OF "payment" AS datetime 
   DESCRIPTION "Record modification date"
   FORMAT "99.99.99 hh:mm:ss"
   INITIAL "now"
@@ -36,7 +36,7 @@ ADD FIELD "modify_date" OF "payments" AS datetime
   MAX-WIDTH 4
   ORDER 40
 
-ADD FIELD "modify_user" OF "payments" AS character 
+ADD FIELD "modify_user" OF "payment" AS character 
   DESCRIPTION "Record modification user"
   FORMAT "X(8)"
   INITIAL ""
@@ -44,7 +44,7 @@ ADD FIELD "modify_user" OF "payments" AS character
   MAX-WIDTH 8
   ORDER 50
 
-ADD FIELD "create_date" OF "payments" AS datetime 
+ADD FIELD "create_date" OF "payment" AS datetime 
   DESCRIPTION "Record creation date"
   FORMAT "99.99.99 hh:mm:ss"
   INITIAL "now"
@@ -52,7 +52,7 @@ ADD FIELD "create_date" OF "payments" AS datetime
   MAX-WIDTH 4
   ORDER 60
 
-ADD FIELD "create_user" OF "payments" AS character 
+ADD FIELD "create_user" OF "payment" AS character 
   DESCRIPTION "Record creation user"
   FORMAT "X(8)"
   INITIAL ""
@@ -64,7 +64,7 @@ ADD FIELD "create_user" OF "payments" AS character
   
   
   
-ADD FIELD "payment_type" OF "payments" AS char 
+ADD FIELD "payment_type" OF "payment" AS char 
   DESCRIPTION "Transaction number"
   FORMAT "X(10)"
   INITIAL "0"
@@ -72,7 +72,7 @@ ADD FIELD "payment_type" OF "payments" AS char
   MAX-WIDTH 12
   ORDER 80
 
-ADD FIELD "payment_date" OF "payments" AS date 
+ADD FIELD "payment_date" OF "payment" AS date 
   DESCRIPTION "Payment registration date"
   FORMAT "99.99.9999"
   INITIAL ?
@@ -80,7 +80,7 @@ ADD FIELD "payment_date" OF "payments" AS date
   MAX-WIDTH 4
   ORDER 90
 
-ADD FIELD "amount" OF "payments" AS decimal 
+ADD FIELD "amount" OF "payment" AS decimal 
   DESCRIPTION "Amount"
   FORMAT "-z,zzz,zzz,zz9.99"
   INITIAL "0"
@@ -88,7 +88,7 @@ ADD FIELD "amount" OF "payments" AS decimal
   MAX-WIDTH 1
   ORDER 100
 
-ADD FIELD "currency" OF "payments" AS character 
+ADD FIELD "currency" OF "payment" AS character 
   DESCRIPTION "Currency"
   FORMAT "X(3)"
   INITIAL ""
@@ -96,7 +96,7 @@ ADD FIELD "currency" OF "payments" AS character
   MAX-WIDTH 3
   ORDER 110
   
-ADD FIELD "details" OF "payments" AS character 
+ADD FIELD "details" OF "payment" AS character 
   DESCRIPTION "Transation details in residence country national language"
   FORMAT "X(80)"
   INITIAL ""
@@ -104,7 +104,7 @@ ADD FIELD "details" OF "payments" AS character
   MAX-WIDTH 80
   ORDER 120
   
-ADD FIELD "urgency" OF "payments" AS character 
+ADD FIELD "urgency" OF "payment" AS character 
   DESCRIPTION "Urgency: statdart/express"
   FORMAT "X(10)"
   INITIAL ""
@@ -112,7 +112,7 @@ ADD FIELD "urgency" OF "payments" AS character
   MAX-WIDTH 10
   ORDER 130
 
-ADD FIELD "value_date" OF "payments" AS date 
+ADD FIELD "value_date" OF "payment" AS date 
   DESCRIPTION "Value date"
   FORMAT "99.99.9999"
   INITIAL ?
@@ -123,7 +123,7 @@ ADD FIELD "value_date" OF "payments" AS date
   
   
   
-ADD FIELD "sender_name" OF "payments" AS character 
+ADD FIELD "sender_name" OF "payment" AS character 
   DESCRIPTION "Sender name"
   FORMAT "X(25)"
   INITIAL ""
@@ -131,7 +131,7 @@ ADD FIELD "sender_name" OF "payments" AS character
   MAX-WIDTH 4
   ORDER 150
 
-ADD FIELD "sender_account" OF "payments" AS character 
+ADD FIELD "sender_account" OF "payment" AS character 
   DESCRIPTION "Sender account"
   FORMAT "X(12)"
   INITIAL ""
@@ -139,7 +139,7 @@ ADD FIELD "sender_account" OF "payments" AS character
   MAX-WIDTH 10
   ORDER 160
 
-ADD FIELD "sender_bank_name" OF "payments" AS character 
+ADD FIELD "sender_bank_name" OF "payment" AS character 
   DESCRIPTION "Sender bank name"
   FORMAT "X(25)"
   INITIAL ""
@@ -147,7 +147,7 @@ ADD FIELD "sender_bank_name" OF "payments" AS character
   MAX-WIDTH 1
   ORDER 170
   
-ADD FIELD "sender_bank_address" OF "payments" AS character 
+ADD FIELD "sender_bank_address" OF "payment" AS character 
   DESCRIPTION "Sender bank address"
   FORMAT "X(30)"
   INITIAL ""
@@ -155,7 +155,7 @@ ADD FIELD "sender_bank_address" OF "payments" AS character
   MAX-WIDTH 1
   ORDER 180
 
-ADD FIELD "sender_bank_swift" OF "payments" AS character 
+ADD FIELD "sender_bank_swift" OF "payment" AS character 
   DESCRIPTION "Sender bank swift"
   FORMAT "X(12)"
   INITIAL ""
@@ -168,7 +168,7 @@ ADD FIELD "sender_bank_swift" OF "payments" AS character
   
   
   
-ADD FIELD "beneficiary_name" OF "payments" AS character 
+ADD FIELD "beneficiary_name" OF "payment" AS character 
   DESCRIPTION "Beneficiary name"
   FORMAT "X(25)"
   INITIAL ""
@@ -176,7 +176,7 @@ ADD FIELD "beneficiary_name" OF "payments" AS character
   MAX-WIDTH 4
   ORDER 200
 
-ADD FIELD "beneficiary_account" OF "payments" AS character 
+ADD FIELD "beneficiary_account" OF "payment" AS character 
   DESCRIPTION "Beneficiary account"
   FORMAT "X(12)"
   INITIAL ?
@@ -184,7 +184,7 @@ ADD FIELD "beneficiary_account" OF "payments" AS character
   MAX-WIDTH 10
   ORDER 210
 
-ADD FIELD "beneficiary_bank_name" OF "payments" AS character 
+ADD FIELD "beneficiary_bank_name" OF "payment" AS character 
   DESCRIPTION "Beneficiary bank name"
   FORMAT "X(12)"
   INITIAL ""
@@ -192,7 +192,7 @@ ADD FIELD "beneficiary_bank_name" OF "payments" AS character
   MAX-WIDTH 1
   ORDER 220
   
-ADD FIELD "beneficiary_bank_address" OF "payments" AS character 
+ADD FIELD "beneficiary_bank_address" OF "payment" AS character 
   DESCRIPTION "Beneficiary bank address"
   FORMAT "X(30)"
   INITIAL ""
@@ -200,7 +200,7 @@ ADD FIELD "beneficiary_bank_address" OF "payments" AS character
   MAX-WIDTH 1
   ORDER 230
 
-ADD FIELD "beneficiary_bank_swift" OF "payments" AS character 
+ADD FIELD "beneficiary_bank_swift" OF "payment" AS character 
   DESCRIPTION "Beneficiary bank swift"
   FORMAT "X(12)"
   INITIAL ""
@@ -212,7 +212,7 @@ ADD FIELD "beneficiary_bank_swift" OF "payments" AS character
   
   
   
-ADD FIELD "nostro_account" OF "payments" AS character 
+ADD FIELD "nostro_account" OF "payment" AS character 
   DESCRIPTION "Nostro account"
   FORMAT "X(12)"
   INITIAL ""
@@ -220,7 +220,7 @@ ADD FIELD "nostro_account" OF "payments" AS character
   MAX-WIDTH 1
   ORDER 250
   
-ADD FIELD "intermediary_bank_name" OF "payments" AS character 
+ADD FIELD "intermediary_bank_name" OF "payment" AS character 
   DESCRIPTION "Intermediary bank name"
   FORMAT "X(25)"
   INITIAL ""
@@ -228,7 +228,7 @@ ADD FIELD "intermediary_bank_name" OF "payments" AS character
   MAX-WIDTH 1
   ORDER 260
   
-ADD FIELD "intermediary_bank_swift" OF "payments" AS character 
+ADD FIELD "intermediary_bank_swift" OF "payment" AS character 
   DESCRIPTION "Intermediary bank swift"
   FORMAT "X(12)"
   INITIAL ""
@@ -236,7 +236,7 @@ ADD FIELD "intermediary_bank_swift" OF "payments" AS character
   MAX-WIDTH 1
   ORDER 270
   
-ADD FIELD "intermediary_bank_address" OF "payments" AS character 
+ADD FIELD "intermediary_bank_address" OF "payment" AS character 
   DESCRIPTION "Intermediary bank address"
   FORMAT "X(30)"
   INITIAL ""
@@ -247,7 +247,7 @@ ADD FIELD "intermediary_bank_address" OF "payments" AS character
 
   
   
-ADD FIELD "fee_amount" OF "payments" AS decimal 
+ADD FIELD "fee_amount" OF "payment" AS decimal 
   DESCRIPTION "Fee amount"
   FORMAT "z,zzz,zz9.99"
   INITIAL "0"
@@ -255,7 +255,7 @@ ADD FIELD "fee_amount" OF "payments" AS decimal
   MAX-WIDTH 1
   ORDER 290
   
-ADD FIELD "fee_currency" OF "payments" AS character 
+ADD FIELD "fee_currency" OF "payment" AS character 
   DESCRIPTION "Fee currency"
   FORMAT "X(3)"
   INITIAL ""
@@ -263,7 +263,7 @@ ADD FIELD "fee_currency" OF "payments" AS character
   MAX-WIDTH 3
   ORDER 300
   
-ADD FIELD "fee_account" OF "payments" AS character 
+ADD FIELD "fee_account" OF "payment" AS character 
   DESCRIPTION "Fee account"
   FORMAT "X(12)"
   INITIAL ""
@@ -274,44 +274,44 @@ ADD FIELD "fee_account" OF "payments" AS character
   
   
   
-ADD INDEX "id" ON "payments" 
+ADD INDEX "id" ON "payment" 
   AREA "Accounts Index"
   UNIQUE
   PRIMARY
   INDEX-FIELD "id" ASCENDING 
 
-ADD INDEX "sender_account" ON "payments" 
+ADD INDEX "sender_account" ON "payment" 
   AREA "Accounts Index"
   INDEX-FIELD "sender_account" ASCENDING 
   INDEX-FIELD "payment_date" ASCENDING 
 
-ADD INDEX "beneficiary_account" ON "payments" 
+ADD INDEX "beneficiary_account" ON "payment" 
   AREA "Accounts Index"
   INDEX-FIELD "beneficiary_account" ASCENDING 
   INDEX-FIELD "payment_date" ASCENDING 
   
-ADD INDEX "payment_date" ON "payments" 
+ADD INDEX "payment_date" ON "payment" 
   AREA "Accounts Index"
   INDEX-FIELD "payment_date" ASCENDING 
 
-ADD INDEX "currency" ON "payments" 
+ADD INDEX "currency" ON "payment" 
   AREA "Accounts Index"
   INDEX-FIELD "currency" ASCENDING 
   INDEX-FIELD "payment_date" ASCENDING 
 
-ADD INDEX "modify_date" ON "payments" 
+ADD INDEX "modify_date" ON "payment" 
   AREA "Accounts Index"
   INDEX-FIELD "modify_date" ASCENDING 
 
-ADD INDEX "modify_user" ON "payments" 
+ADD INDEX "modify_user" ON "payment" 
   AREA "Accounts Index"
   INDEX-FIELD "modify_user" ASCENDING 
 
-ADD INDEX "state" ON "payments" 
+ADD INDEX "state" ON "payment" 
   AREA "Accounts Index"
   INDEX-FIELD "state" ASCENDING 
 
-ADD INDEX "version" ON "payments" 
+ADD INDEX "version" ON "payment" 
   AREA "Accounts Index"
   INDEX-FIELD "version" ASCENDING 
 
