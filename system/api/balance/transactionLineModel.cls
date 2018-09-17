@@ -19,7 +19,7 @@ CLASS transactionLineModel INHERITS dbModel:
     {propertyGetSet.f &name="authorize_date"   &type="DATE"}
 
     DEFINE VARIABLE tAccount   AS accountModel           NO-UNDO.
-    DEFINE VARIABLE tGlAccount AS glAccountModel         NO-UNDO.
+    DEFINE VARIABLE tGlAccount AS glModel         NO-UNDO.
     DEFINE VARIABLE tHeader    AS transactionHeaderModel NO-UNDO.
     DEFINE VARIABLE initDone   AS LOGICAL                NO-UNDO INITIAL FALSE.
     
@@ -35,7 +35,7 @@ CLASS transactionLineModel INHERITS dbModel:
             RETURN tHeader.
         END.
 
-    DEFINE PUBLIC PROPERTY getGlAccount AS glAccountModel NO-UNDO
+    DEFINE PUBLIC PROPERTY getGlAccount AS glModel NO-UNDO
         GET:
             InitObjects().
             RETURN tGlAccount.
@@ -100,7 +100,7 @@ CLASS transactionLineModel INHERITS dbModel:
         IF initDone THEN RETURN "".
         
         IF NOT VALID-OBJECT(tAccount)   THEN tAccount   = NEW accountModel().
-        IF NOT VALID-OBJECT(tGlAccount) THEN tGlAccount = NEW glAccountModel().
+        IF NOT VALID-OBJECT(tGlAccount) THEN tGlAccount = NEW glModel().
         IF NOT VALID-OBJECT(tHeader)    THEN tHeader    = NEW transactionHeaderModel().
         
         IF account <> "" OR account <> tAccount:account THEN oError = setAccount(account).

@@ -119,7 +119,7 @@ CLASS transactionCore:
         return "".
     END.
     
-    METHOD STATIC PUBLIC CHARACTER validateGlRestricted(iGlAccount AS glAccountModel):
+    METHOD STATIC PUBLIC CHARACTER validateGlRestricted(iGlAccount AS glModel):
         IF NOT iGlAccount:restrict_operation THEN RETURN "".
         RETURN "ERROR-GL-RESTRICTED:Balance account " + string(iGlAccount:Gl) + " is closed for operations!".
     END.
@@ -169,7 +169,7 @@ CLASS transactionCore:
     END.
      
     
-    METHOD STATIC PUBLIC CHAR getAccountBalance(iGlAccount AS glAccountModel, iAccount AS accountModel, iBalanceDate AS DATE, OUTPUT oBalance AS DEC):
+    METHOD STATIC PUBLIC CHAR getAccountBalance(iGlAccount AS glModel, iAccount AS accountModel, iBalanceDate AS DATE, OUTPUT oBalance AS DEC):
         DEFINE BUFFER account_balance        FOR account_balance.
         DEFINE VARIABLE tOverDraftAccount    AS accountModel NO-UNDO.        
         DEFINE VARIABLE oOdBalance           AS DECIMAL      NO-UNDO.
@@ -224,7 +224,7 @@ CLASS transactionCore:
     METHOD STATIC PUBLIC CHAR checkTransactionAmount (iTransactionLine AS transactionLineModel):
         DEFINE VARIABLE iAccountBalance AS DECIMAL        NO-UNDO.
         DEFINE VARIABLE oError          AS CHARACTER      NO-UNDO. 
-        DEFINE VARIABLE iGlAccount      AS glAccountModel NO-UNDO.
+        DEFINE VARIABLE iGlAccount      AS glModel NO-UNDO.
         DEFINE VARIABLE iAccount        AS accountModel   NO-UNDO.
         
         iGlAccount = iTransactionLine:getGlAccount.
@@ -278,7 +278,7 @@ CLASS transactionCore:
         RETURN "".
     END.
 
-    METHOD STATIC PUBLIC CHAR getFutureAccountBalance(iGlAccount AS glAccountModel, iAccount AS accountModel, iBalanceDate AS DATE, OUTPUT oBalance AS DEC):
+    METHOD STATIC PUBLIC CHAR getFutureAccountBalance(iGlAccount AS glModel, iAccount AS accountModel, iBalanceDate AS DATE, OUTPUT oBalance AS DEC):
         DEFINE BUFFER account_balance_future FOR account_balance_future.
         
         oBalance = 0.
@@ -327,7 +327,7 @@ CLASS transactionCore:
     
     METHOD STATIC PUBLIC CHAR createFutureAccountBalance(iTransactionLine AS transactionLineModel):
         DEFINE BUFFER account_balance_future FOR account_balance_future.
-        DEFINE VARIABLE iGlAccount AS glAccountModel NO-UNDO.
+        DEFINE VARIABLE iGlAccount AS glModel NO-UNDO.
         
         iGlAccount = iTransactionLine:getGlAccount.
         
@@ -355,7 +355,7 @@ CLASS transactionCore:
 
     METHOD STATIC PUBLIC CHAR changeGlBalance(iTransactionLine AS transactionLineModel):
         DEFINE VARIABLE oError     AS CHARACTER      NO-UNDO INITIAL "". 
-        DEFINE VARIABLE iGlAccount AS glAccountModel NO-UNDO.
+        DEFINE VARIABLE iGlAccount AS glModel NO-UNDO.
         
         DEFINE BUFFER gl_balance FOR gl_balance.
         
@@ -391,7 +391,7 @@ CLASS transactionCore:
     
     METHOD STATIC PUBLIC CHARACTER changeAccountBalance(iTransactionLine AS transactionLineModel):
         DEFINE VARIABLE oError          AS CHARACTER      NO-UNDO INITIAL "".
-        DEFINE VARIABLE iGlAccount      AS glAccountModel NO-UNDO.        
+        DEFINE VARIABLE iGlAccount      AS glModel NO-UNDO.        
         
         DEFINE BUFFER account_balance FOR account_balance.
 
@@ -430,7 +430,7 @@ CLASS transactionCore:
 
     METHOD STATIC PUBLIC CHARACTER validateGlBalance (iTransactionLine AS transactionLineModel):
         DEFINE BUFFER gl_balance FOR gl_balance.
-        DEFINE VARIABLE iGlAccount      AS glAccountModel NO-UNDO.   
+        DEFINE VARIABLE iGlAccount      AS glModel NO-UNDO.   
         
         iGlAccount = iTransactionLine:GetGlAccount.
         

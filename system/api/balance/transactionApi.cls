@@ -26,7 +26,7 @@ CLASS transactionApi:
     METHOD STATIC PUBLIC CHARACTER createLine(iTransaction AS transactionLineModel, nocheckbalance AS LOG, change_balance_sign AS LOG):
         DEFINE VARIABLE oError     AS CHARACTER      NO-UNDO.
         DEFINE VARIABLE tAccount   AS accountModel   NO-UNDO.
-        DEFINE VARIABLE tGlAccount AS glAccountModel NO-UNDO.
+        DEFINE VARIABLE tGlAccount AS glModel NO-UNDO.
         DEFINE BUFFER currency     FOR currency.
         
         DO TRANSACTION ON ERROR UNDO, THROW:
