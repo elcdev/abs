@@ -1,4 +1,4 @@
-ADD FIELD"uid" OF "account" AS char
+ADD FIELD "uid" OF "account" AS char
   DESCRIPTION "Unique id"
   FORMAT "X(36)"
   INITIAL "guid"
@@ -6,7 +6,7 @@ ADD FIELD"uid" OF "account" AS char
   MAX-WIDTH 4
   ORDER 15
 
-MODIFY FIELD"version" OF "account" AS int64 
+MODIFY FIELD "version" OF "account" AS int64 
   DESCRIPTION "Record version for replication"
   FORMAT ">>>>>>>>>>>9"
   INITIAL "0"
@@ -14,7 +14,7 @@ MODIFY FIELD"version" OF "account" AS int64
   MAX-WIDTH 4
   ORDER 20
 
-MODIFY FIELD"state" OF "account" AS int64 
+MODIFY FIELD "state" OF "account" AS int64 
   DESCRIPTION "Record state for replication"
   FORMAT ">>>9"
   INITIAL "0"
@@ -22,7 +22,7 @@ MODIFY FIELD"state" OF "account" AS int64
   MAX-WIDTH 4
   ORDER 30
 
-MODIFY FIELD"modify_date" OF "account" AS datetime 
+MODIFY FIELD "modify_date" OF "account" AS datetime 
   DESCRIPTION "Record modification date"
   FORMAT "99.99.9999 hh:mm:ss"
   INITIAL "now"
@@ -30,7 +30,7 @@ MODIFY FIELD"modify_date" OF "account" AS datetime
   MAX-WIDTH 4
   ORDER 40
 
-MODIFY FIELD"modify_user" OF "account" AS character 
+MODIFY FIELD "modify_user" OF "account" AS character 
   DESCRIPTION "Record modification user"
   FORMAT "X(8)"
   INITIAL ""
@@ -38,7 +38,7 @@ MODIFY FIELD"modify_user" OF "account" AS character
   MAX-WIDTH 8
   ORDER 50
 
-MODIFY FIELD"create_date" OF "account" AS datetime 
+MODIFY FIELD "create_date" OF "account" AS datetime 
   DESCRIPTION "Record creation date"
   FORMAT "99.99.9999 hh:mm:ss"
   INITIAL "now"
@@ -46,7 +46,7 @@ MODIFY FIELD"create_date" OF "account" AS datetime
   MAX-WIDTH 4
   ORDER 60
 
-MODIFY FIELD"create_user" OF "account" AS character 
+MODIFY FIELD "create_user" OF "account" AS character 
   DESCRIPTION "Record creation user"
   FORMAT "X(8)"
   INITIAL ""
@@ -54,7 +54,7 @@ MODIFY FIELD"create_user" OF "account" AS character
   MAX-WIDTH 8
   ORDER 70
 
-MODIFY FIELD"gl" OF "account" AS int64 
+MODIFY FIELD "gl" OF "account" AS int64 
   DESCRIPTION "General ledger account number"
   FORMAT "zzzzzzzzz9"
   INITIAL "0"
@@ -62,7 +62,7 @@ MODIFY FIELD"gl" OF "account" AS int64
   MAX-WIDTH 10
   ORDER 80
 
-MODIFY FIELD"iban" OF "account" AS character 
+MODIFY FIELD "iban" OF "account" AS character 
   DESCRIPTION "account number"
   FORMAT "X(35)"
   INITIAL ""
@@ -70,7 +70,7 @@ MODIFY FIELD"iban" OF "account" AS character
   MAX-WIDTH 35
   ORDER 90
 
-MODIFY FIELD"account" OF "account" AS character 
+MODIFY FIELD "account" OF "account" AS character 
   DESCRIPTION "account number"
   FORMAT "X(12)"
   INITIAL ""
@@ -78,7 +78,7 @@ MODIFY FIELD"account" OF "account" AS character
   MAX-WIDTH 4
   ORDER 100
 
-MODIFY FIELD"base_account" OF "account" AS character 
+MODIFY FIELD "base_account" OF "account" AS character 
   DESCRIPTION "Base multicurrency account"
   FORMAT "X(12)"
   INITIAL ""
@@ -86,7 +86,7 @@ MODIFY FIELD"base_account" OF "account" AS character
   MAX-WIDTH 4
   ORDER 110
 
-MODIFY FIELD"overdraft_account" OF "account" AS character 
+MODIFY FIELD "overdraft_account" OF "account" AS character 
   DESCRIPTION "Overdraft account for current account"
   FORMAT "X(12)"
   INITIAL ""
@@ -94,7 +94,7 @@ MODIFY FIELD"overdraft_account" OF "account" AS character
   MAX-WIDTH 12
   ORDER 120
 
-MODIFY FIELD"currency" OF "account" AS character 
+MODIFY FIELD "currency" OF "account" AS character 
   DESCRIPTION "Currency"
   FORMAT "X(3)"
   INITIAL ""
@@ -102,7 +102,7 @@ MODIFY FIELD"currency" OF "account" AS character
   MAX-WIDTH 3
   ORDER 130
 
-MODIFY FIELD"account_group" OF "account" AS character 
+MODIFY FIELD "account_group" OF "account" AS character 
   DESCRIPTION "Account group"
   FORMAT "X(7)"
   INITIAL ""
@@ -110,7 +110,7 @@ MODIFY FIELD"account_group" OF "account" AS character
   MAX-WIDTH 7
   ORDER 140
 
-MODIFY FIELD"subledger_type" OF "account" AS character 
+MODIFY FIELD "subledger_type" OF "account" AS character 
   DESCRIPTION "account type (aaa, dfb, arp, fun)"
   FORMAT "X(5)"
   INITIAL ""
@@ -118,7 +118,7 @@ MODIFY FIELD"subledger_type" OF "account" AS character
   MAX-WIDTH 5
   ORDER 150
 
-MODIFY FIELD"account_subtype" OF "account" AS character 
+MODIFY FIELD "account_subtype" OF "account" AS character 
   DESCRIPTION "Sub type (dfbForClients, dfbForElcoin)"
   FORMAT "X(7)"
   INITIAL ""
@@ -126,7 +126,7 @@ MODIFY FIELD"account_subtype" OF "account" AS character
   MAX-WIDTH 7
   ORDER 160
 
-MODIFY FIELD"product_code" OF "account" AS character 
+MODIFY FIELD "product_code" OF "account" AS character 
   DESCRIPTION "Product code"
   FORMAT "X(7)"
   INITIAL ""
@@ -134,7 +134,7 @@ MODIFY FIELD"product_code" OF "account" AS character
   MAX-WIDTH 7
   ORDER 170
 
-MODIFY FIELD"branch" OF "account" AS character 
+MODIFY FIELD "branch" OF "account" AS character 
   DESCRIPTION "Branch of account"
   FORMAT "X(5)"
   INITIAL ""
@@ -142,7 +142,7 @@ MODIFY FIELD"branch" OF "account" AS character
   MAX-WIDTH 5
   ORDER 180
 
-MODIFY FIELD"cif" OF "account" AS character 
+MODIFY FIELD "cif" OF "account" AS character 
   DESCRIPTION "Relation withs clients table"
   FORMAT "X(12)"
   INITIAL "0"
@@ -150,7 +150,7 @@ MODIFY FIELD"cif" OF "account" AS character
   MAX-WIDTH 12
   ORDER 190
 
-MODIFY FIELD"client_id" OF "account" AS int64 
+MODIFY FIELD "client_id" OF "account" AS int64 
   DESCRIPTION "Relation withs clients table"
   FORMAT ">>>>>>>>>>>9"
   INITIAL "0"
@@ -158,7 +158,7 @@ MODIFY FIELD"client_id" OF "account" AS int64
   MAX-WIDTH 12
   ORDER 200
 
-MODIFY FIELD"account_status" OF "account" AS character 
+MODIFY FIELD "account_status" OF "account" AS character 
   DESCRIPTION "Account satus: [new]-new, [active]-active, [closed]-closed"
   FORMAT "X(10)"
   INITIAL ""
@@ -166,7 +166,7 @@ MODIFY FIELD"account_status" OF "account" AS character
   MAX-WIDTH 10
   ORDER 210
 
-MODIFY FIELD"description" OF "account" AS character 
+MODIFY FIELD "description" OF "account" AS character 
   DESCRIPTION "Sub type (dfbForClients, dfbForElcoin)"
   FORMAT "X(50)"
   INITIAL ""
@@ -174,7 +174,7 @@ MODIFY FIELD"description" OF "account" AS character
   MAX-WIDTH 50
   ORDER 220
 
-MODIFY FIELD"open_date" OF "account" AS date 
+MODIFY FIELD "open_date" OF "account" AS date 
   DESCRIPTION "Account open date"
   FORMAT "99.99.9999"
   INITIAL ?
@@ -182,7 +182,7 @@ MODIFY FIELD"open_date" OF "account" AS date
   MAX-WIDTH 10
   ORDER 230
 
-MODIFY FIELD"close_date" OF "account" AS date 
+MODIFY FIELD "close_date" OF "account" AS date 
   DESCRIPTION "Account close date"
   FORMAT "99.99.9999"
   INITIAL ?
@@ -190,7 +190,7 @@ MODIFY FIELD"close_date" OF "account" AS date
   MAX-WIDTH 10
   ORDER 240
 
-MODIFY FIELD"open_amount" OF "account" AS decimal 
+MODIFY FIELD "open_amount" OF "account" AS decimal 
   DESCRIPTION "Account open amount (for overdraft/deposit) move to data"
   FORMAT "-z,zzz,zzz,zz9.99"
   INITIAL "0.00"
@@ -199,7 +199,7 @@ MODIFY FIELD"open_amount" OF "account" AS decimal
   DECIMALS 2
   ORDER 250
 
-MODIFY FIELD"last_operation_date" OF "account" AS date 
+MODIFY FIELD "last_operation_date" OF "account" AS date 
   DESCRIPTION "Last operation date"
   FORMAT "99.99.9999"
   INITIAL ?
@@ -207,7 +207,7 @@ MODIFY FIELD"last_operation_date" OF "account" AS date
   MAX-WIDTH 19
   ORDER 260
 
-MODIFY FIELD"last_credit_date" OF "account" AS date 
+MODIFY FIELD "last_credit_date" OF "account" AS date 
   DESCRIPTION "Last credit operation date"
   FORMAT "99.99.9999"
   INITIAL ?
@@ -215,7 +215,7 @@ MODIFY FIELD"last_credit_date" OF "account" AS date
   MAX-WIDTH 4
   ORDER 290
 
-MODIFY FIELD"last_debet_amount" OF "account" AS decimal 
+MODIFY FIELD "last_debet_amount" OF "account" AS decimal 
   DESCRIPTION "Last debet operation amount"
   FORMAT "-z,zzz,zzz,zz9.99"
   INITIAL "0.00"
@@ -224,7 +224,7 @@ MODIFY FIELD"last_debet_amount" OF "account" AS decimal
   DECIMALS 2
   ORDER 280
 
-MODIFY FIELD"last_debet_date" OF "account" AS date 
+MODIFY FIELD "last_debet_date" OF "account" AS date 
   DESCRIPTION "Last debet operation date"
   FORMAT "99.99.9999"
   INITIAL ?
@@ -232,7 +232,7 @@ MODIFY FIELD"last_debet_date" OF "account" AS date
   MAX-WIDTH 19
   ORDER 270
 
-MODIFY FIELD"last_credit_amount" OF "account" AS decimal 
+MODIFY FIELD "last_credit_amount" OF "account" AS decimal 
   DESCRIPTION "Last credit operation date"
   FORMAT "-z,zzz,zzz,zz9.99"
   INITIAL "0.00"

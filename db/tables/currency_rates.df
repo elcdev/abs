@@ -12,7 +12,7 @@ ADD FIELD "id" OF "currency_rates" AS int64
   MAX-WIDTH 4
   ORDER 10
 
-ADD FIELD "uid" OF "currency" AS char
+ADD FIELD "uid" OF "currency_rates" AS character
   DESCRIPTION "Unique id"
   FORMAT "X(36)"
   INITIAL "guid"

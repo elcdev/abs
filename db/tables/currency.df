@@ -12,7 +12,7 @@ ADD FIELD "id" OF "currency" AS int64
   MAX-WIDTH 4
   ORDER 10
 
-ADD FIELD "uid" OF "currency" AS char
+ADD FIELD "uid" OF "currency" AS character
   DESCRIPTION "Unique id"
   FORMAT "X(36)"
   INITIAL "guid"
@@ -71,7 +71,7 @@ ADD FIELD "create_user" OF "currency" AS character
 
   
   
-ADD FIELD "currency" OF "currency" AS CHAR
+ADD FIELD "currency" OF "currency" AS character
   DESCRIPTION "Currency iso code"
   FORMAT "X(3)"
   INITIAL ""
@@ -87,7 +87,7 @@ ADD FIELD "description" OF "currency" AS character
   MAX-WIDTH 50
   ORDER 90
   
-ADD FIELD "decimal_points" OF "currency" AS int 
+ADD FIELD "decimal_points" OF "currency" AS integer 
   DESCRIPTION "Deciml points"
   FORMAT ">>9"
   INITIAL ""
@@ -95,7 +95,7 @@ ADD FIELD "decimal_points" OF "currency" AS int
   MAX-WIDTH 3
   ORDER 100
 
-ADD FIELD "currency_order" OF "currency" AS INT
+ADD FIELD "currency_order" OF "currency" AS INTEGER
   DESCRIPTION "Currency order for reports"
   FORMAT "zzzz9"
   INITIAL ""
@@ -103,7 +103,7 @@ ADD FIELD "currency_order" OF "currency" AS INT
   MAX-WIDTH 5
   ORDER 110
   
-ADD FIELD "currency_status" OF "currency" AS CHAR
+ADD FIELD "currency_status" OF "currency" AS character
   DESCRIPTION "Currency status [A]ctive-[C]losed "
   FORMAT "X(10)"
   INITIAL ""

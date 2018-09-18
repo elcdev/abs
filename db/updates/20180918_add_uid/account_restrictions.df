@@ -1,4 +1,4 @@
-ADD FIELD "uid" OF "account_restrictions" AS char
+ADD FIELD "uid" OF "account_restrictions" AS character
   DESCRIPTION "Unique id"
   FORMAT "X(36)"
   INITIAL "guid"
@@ -58,7 +58,7 @@ MODIFY FIELD "create_user" OF "account_restrictions" AS character
   
   
   
-MODIFY FIELD "account" OF "account_restrictions" AS CHAR
+MODIFY FIELD "account" OF "account_restrictions" AS character
   DESCRIPTION "account number"
   FORMAT "X(12)"
   INITIAL ""
@@ -66,7 +66,7 @@ MODIFY FIELD "account" OF "account_restrictions" AS CHAR
   MAX-WIDTH 12
   ORDER 80
 
-MODIFY FIELD "instruction" OF "account_restrictions" AS char
+MODIFY FIELD "instruction" OF "account_restrictions" AS character
   DESCRIPTION "Account instruction"
   FORMAT "X(10)"
   INITIAL ""
@@ -84,7 +84,7 @@ MODIFY FIELD "balance_date" OF "account_restrictions" AS date
         
   
 
-ADD INDEX "uid" ON "payment_template_data" 
+ADD INDEX "uid" ON "account_restrictions" 
   AREA "Accounts Index"
   INDEX-FIELD "uid" ASCENDING 
 

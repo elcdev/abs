@@ -12,7 +12,7 @@ ADD FIELD "id" OF "payment" AS int64
   MAX-WIDTH 4
   ORDER 10
 
-ADD FIELD "uid" OF "payment" AS char
+ADD FIELD "uid" OF "payment" AS character
   DESCRIPTION "Unique id"
   FORMAT "X(36)"
   INITIAL "0"
@@ -72,7 +72,7 @@ ADD FIELD "create_user" OF "payment" AS character
   
   
   
-ADD FIELD "payment_type" OF "payment" AS char 
+ADD FIELD "payment_type" OF "payment" AS character 
   DESCRIPTION "Transaction number"
   FORMAT "X(10)"
   INITIAL "0"

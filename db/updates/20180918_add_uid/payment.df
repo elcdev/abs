@@ -1,4 +1,4 @@
-ADD FIELD "uid" OF "payment" AS char
+ADD FIELD "uid" OF "payment" AS character
   DESCRIPTION "Unique id"
   FORMAT "X(36)"
   INITIAL "0"
@@ -58,7 +58,7 @@ MODIFY FIELD "create_user" OF "payment" AS character
   
   
   
-MODIFY FIELD "payment_type" OF "payment" AS char 
+MODIFY FIELD "payment_type" OF "payment" AS character 
   DESCRIPTION "Transaction number"
   FORMAT "X(10)"
   INITIAL "0"

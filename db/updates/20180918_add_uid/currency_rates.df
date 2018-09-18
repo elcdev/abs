@@ -1,5 +1,5 @@
 
-ADD FIELD "uid" OF "currency" AS char
+ADD FIELD "uid" OF "currency_rates" AS character
   DESCRIPTION "Unique id"
   FORMAT "X(36)"
   INITIAL "guid"

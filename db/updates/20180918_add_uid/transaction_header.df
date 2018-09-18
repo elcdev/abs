@@ -1,5 +1,5 @@
 
-ADD FIELD "uid" OF "transaction_header" AS char
+ADD FIELD "uid" OF "transaction_header" AS character
   DESCRIPTION "Unique id"
   FORMAT "X(36)"
   INITIAL "guid"
@@ -31,7 +31,7 @@ MODIFY FIELD "modify_date" OF "transaction_header" AS DATETIME
     MAX-WIDTH 4
     ORDER 40
 
-MODIFY FIELD "modify_user" OF "transaction_header" AS CHAR
+MODIFY FIELD "modify_user" OF "transaction_header" AS character
     DESCRIPTION "Record modification user"
     FORMAT "X(8)"
     INITIAL ""
@@ -47,7 +47,7 @@ MODIFY FIELD "create_date" OF "transaction_header" AS DATETIME
     MAX-WIDTH 4
     ORDER 60
 
-MODIFY FIELD "create_user" OF "transaction_header" AS CHAR
+MODIFY FIELD "create_user" OF "transaction_header" AS character
     DESCRIPTION "Record creation user"
     FORMAT "X(8)"
     INITIAL ""
@@ -83,7 +83,7 @@ MODIFY FIELD "document_id" OF "transaction_header" AS int64
   MAX-WIDTH 12
   ORDER 100 
 
-MODIFY FIELD "deal_number" OF "transaction_header" AS char
+MODIFY FIELD "deal_number" OF "transaction_header" AS character
   DESCRIPTION "Deal reference"
   FORMAT "X(16)"
   INITIAL ""
@@ -91,7 +91,7 @@ MODIFY FIELD "deal_number" OF "transaction_header" AS char
   MAX-WIDTH 16
   ORDER 110 
   
-MODIFY FIELD "head_status" OF "transaction_header" AS int
+MODIFY FIELD "head_status" OF "transaction_header" AS integer
   DESCRIPTION "0-New,6-Approved"
   FORMAT "9"
   INITIAL "0"
@@ -103,7 +103,7 @@ MODIFY FIELD "head_status" OF "transaction_header" AS int
   
   
   
-MODIFY FIELD "authorize_user" OF "transaction_header" AS CHAR
+MODIFY FIELD "authorize_user" OF "transaction_header" AS character
   DESCRIPTION "User who authorized transaction"
   FORMAT "X(8)"
   INITIAL ""
@@ -120,15 +120,7 @@ MODIFY FIELD "authorize_date" OF "transaction_header" AS DATE
   ORDER 140
   
   
-MODIFY FIELD "hash" OF "transaction_header" AS CHAR
-  DESCRIPTION "Blockchain Hash"
-  FORMAT "X(32)"
-  INITIAL ""
-  POSITION 17
-  MAX-WIDTH 32
-  ORDER 130
-
-ADD FIELD "hash" OF "transaction_header" AS CHAR
+ADD FIELD "hash" OF "transaction_header" AS character
   DESCRIPTION "Blockchain Hash"
   FORMAT "X(32)"
   INITIAL ""

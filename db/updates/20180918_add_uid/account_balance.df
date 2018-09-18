@@ -132,7 +132,7 @@ MODIFY FIELD "total_credit" OF "account_balance" AS decimal
   ORDER 160
 
 
-ADD INDEX "uid" ON "payment_template_data" 
+ADD INDEX "uid" ON "account_balance" 
   AREA "Accounts Index"
   INDEX-FIELD "uid" ASCENDING 
  

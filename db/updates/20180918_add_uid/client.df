@@ -1,4 +1,4 @@
-ADD FIELD "uid" OF "client" AS char
+ADD FIELD "uid" OF "client" AS character
   DESCRIPTION "Unique id"
   FORMAT "X(36)"
   INITIAL "guid"
@@ -30,7 +30,7 @@ MODIFY FIELD "modify_date" OF "client" AS DATETIME
     MAX-WIDTH 4
     ORDER 40
 
-MODIFY FIELD "modify_user" OF "client" AS CHAR
+MODIFY FIELD "modify_user" OF "client" AS character
     DESCRIPTION "Record modification user"
     FORMAT "X(8)"
     INITIAL ""
@@ -46,7 +46,7 @@ MODIFY FIELD "create_date" OF "client" AS DATETIME
     MAX-WIDTH 4
     ORDER 60
 
-MODIFY FIELD "create_user" OF "client" AS CHAR
+MODIFY FIELD "create_user" OF "client" AS character
     DESCRIPTION "Record creation user"
     FORMAT "X(8)"
     INITIAL ""
@@ -59,7 +59,7 @@ MODIFY FIELD "create_user" OF "client" AS CHAR
     
 
 
-MODIFY FIELD "cif" OF "client" AS CHAR
+MODIFY FIELD "cif" OF "client" AS character
     DESCRIPTION "Client code"
     FORMAT "X(8)"
     INITIAL ""
@@ -67,7 +67,7 @@ MODIFY FIELD "cif" OF "client" AS CHAR
     MAX-WIDTH 4
     ORDER 80    
     
-MODIFY FIELD "full_name" OF "client" AS CHAR
+MODIFY FIELD "full_name" OF "client" AS character
     DESCRIPTION "Full person or entity name"
     FORMAT "X(8)"
     INITIAL ""
@@ -75,7 +75,7 @@ MODIFY FIELD "full_name" OF "client" AS CHAR
     MAX-WIDTH 4
     ORDER 90
 
-MODIFY FIELD "first_name" OF "client" AS CHAR
+MODIFY FIELD "first_name" OF "client" AS character
     DESCRIPTION "Person first name"
     FORMAT "X(8)"
     INITIAL ""
@@ -83,7 +83,7 @@ MODIFY FIELD "first_name" OF "client" AS CHAR
     MAX-WIDTH 4
     ORDER 100
 
-MODIFY FIELD "last_name" OF "client" AS CHAR
+MODIFY FIELD "last_name" OF "client" AS character
     DESCRIPTION "Person last name"
     FORMAT "X(8)"
     INITIAL ""
@@ -91,7 +91,7 @@ MODIFY FIELD "last_name" OF "client" AS CHAR
     MAX-WIDTH 4
     ORDER 110
 
-MODIFY FIELD "middle_name" OF "client" AS CHAR
+MODIFY FIELD "middle_name" OF "client" AS character
     DESCRIPTION "Person last name"
     FORMAT "X(8)"
     INITIAL ""
@@ -99,7 +99,7 @@ MODIFY FIELD "middle_name" OF "client" AS CHAR
     MAX-WIDTH 4
     ORDER 120
     
-MODIFY FIELD "client_group" OF "client" AS CHAR
+MODIFY FIELD "client_group" OF "client" AS character
     DESCRIPTION "Group of clients"
     FORMAT "X(5)"
     INITIAL ""
@@ -107,7 +107,7 @@ MODIFY FIELD "client_group" OF "client" AS CHAR
     MAX-WIDTH 4
     ORDER 130
     
-MODIFY FIELD "client_type" OF "client" AS CHAR
+MODIFY FIELD "client_type" OF "client" AS character
     DESCRIPTION "Type of client ([p]erson/[b]busines)"
     FORMAT "X(1)"
     INITIAL ""
@@ -123,7 +123,7 @@ MODIFY FIELD "birth_day" OF "client" AS DATE
     MAX-WIDTH 10
     ORDER 150
 
-MODIFY FIELD "sex" OF "client" AS CHAR
+MODIFY FIELD "sex" OF "client" AS character
     DESCRIPTION "F-eminum/M-uskulinum/N-eutral/E-ntity"
     FORMAT "X"
     INITIAL "N"
@@ -132,7 +132,7 @@ MODIFY FIELD "sex" OF "client" AS CHAR
     ORDER 160
 
     
-MODIFY FIELD "registration_number" OF "client" AS CHAR
+MODIFY FIELD "registration_number" OF "client" AS character
     DESCRIPTION "User's registration number/person code"
     FORMAT "X(20)"
     INITIAL ""
@@ -140,7 +140,7 @@ MODIFY FIELD "registration_number" OF "client" AS CHAR
     MAX-WIDTH 4
     ORDER 170
 
-MODIFY FIELD "client_status" OF "client" AS CHAR
+MODIFY FIELD "client_status" OF "client" AS character
     DESCRIPTION "[N]ew, [A]ctive, [R]estricted, [C]losed"
     FORMAT "X(10)"
     INITIAL ""
@@ -156,7 +156,7 @@ MODIFY FIELD "registration_date" OF "client" AS date
     MAX-WIDTH 10
     ORDER 190
 
-MODIFY FIELD "registration_user" OF "client" AS char
+MODIFY FIELD "registration_user" OF "client" AS character
     DESCRIPTION "Who registered client in the system"
     FORMAT "X(8)"
     INITIAL ""
@@ -173,7 +173,7 @@ MODIFY FIELD "activation_date" OF "client" AS date
     MAX-WIDTH 10
     ORDER 210
 
-MODIFY FIELD "activation_user" OF "client" AS char
+MODIFY FIELD "activation_user" OF "client" AS character
     DESCRIPTION "Who activated client in the system"
     FORMAT "X(8)"
     INITIAL ""
@@ -189,7 +189,7 @@ MODIFY FIELD "close_date" OF "client" AS date
     MAX-WIDTH 10
     ORDER 230
 
-MODIFY FIELD "close_user" OF "client" AS char
+MODIFY FIELD "close_user" OF "client" AS character
     DESCRIPTION "Who closed client in the system"
     FORMAT "X(8)"
     INITIAL ""
@@ -197,7 +197,7 @@ MODIFY FIELD "close_user" OF "client" AS char
     MAX-WIDTH 8
     ORDER 240
 
-MODIFY FIELD "residence_country" OF "client" AS CHAR
+MODIFY FIELD "residence_country" OF "client" AS character
     DESCRIPTION "ISO residence country code"
     FORMAT "X(2)"
     INITIAL ""
@@ -205,7 +205,7 @@ MODIFY FIELD "residence_country" OF "client" AS CHAR
     MAX-WIDTH 2
     ORDER 250
 
-MODIFY FIELD "ext_client_id" OF "client" AS CHAR
+MODIFY FIELD "ext_client_id" OF "client" AS character
     DESCRIPTION "External system client id connection"
     FORMAT "X(16)"
     INITIAL ""
@@ -213,7 +213,7 @@ MODIFY FIELD "ext_client_id" OF "client" AS CHAR
     MAX-WIDTH 16
     ORDER 260
     
-MODIFY FIELD "scoring_risk_group" OF "client" AS CHAR
+MODIFY FIELD "scoring_risk_group" OF "client" AS character
     DESCRIPTION "Client AML scoring group"
     FORMAT "X(16)"
     INITIAL ""
@@ -221,7 +221,7 @@ MODIFY FIELD "scoring_risk_group" OF "client" AS CHAR
     MAX-WIDTH 16
     ORDER 270    
 
-MODIFY FIELD "scoring_points" OF "client" AS INT
+MODIFY FIELD "scoring_points" OF "client" AS INTEGER
     DESCRIPTION "Client AML scoring point"
     FORMAT "zz9"
     INITIAL ""
@@ -232,7 +232,7 @@ MODIFY FIELD "scoring_points" OF "client" AS INT
     
  
 
-ADD INDEX "uid" ON "payment_template_data" 
+ADD INDEX "uid" ON "client" 
   AREA "Accounts Index"
   INDEX-FIELD "uid" ASCENDING 
    

@@ -11,7 +11,7 @@ ADD FIELD "id" OF "client" AS INT64
     MAX-WIDTH 4
     ORDER 10
 
-ADD FIELD "uid" OF "client" AS char
+ADD FIELD "uid" OF "client" AS character
   DESCRIPTION "Unique id"
   FORMAT "X(36)"
   INITIAL "guid"
@@ -43,7 +43,7 @@ ADD FIELD "modify_date" OF "client" AS DATETIME
     MAX-WIDTH 4
     ORDER 40
 
-ADD FIELD "modify_user" OF "client" AS CHAR
+ADD FIELD "modify_user" OF "client" AS character
     DESCRIPTION "Record modification user"
     FORMAT "X(8)"
     INITIAL ""
@@ -59,7 +59,7 @@ ADD FIELD "create_date" OF "client" AS DATETIME
     MAX-WIDTH 4
     ORDER 60
 
-ADD FIELD "create_user" OF "client" AS CHAR
+ADD FIELD "create_user" OF "client" AS character
     DESCRIPTION "Record creation user"
     FORMAT "X(8)"
     INITIAL ""
@@ -72,7 +72,7 @@ ADD FIELD "create_user" OF "client" AS CHAR
     
 
 
-ADD FIELD "cif" OF "client" AS CHAR
+ADD FIELD "cif" OF "client" AS character
     DESCRIPTION "Client code"
     FORMAT "X(8)"
     INITIAL ""
@@ -80,7 +80,7 @@ ADD FIELD "cif" OF "client" AS CHAR
     MAX-WIDTH 4
     ORDER 80    
     
-ADD FIELD "full_name" OF "client" AS CHAR
+ADD FIELD "full_name" OF "client" AS character
     DESCRIPTION "Full person or entity name"
     FORMAT "X(8)"
     INITIAL ""
@@ -88,7 +88,7 @@ ADD FIELD "full_name" OF "client" AS CHAR
     MAX-WIDTH 4
     ORDER 90
 
-ADD FIELD "first_name" OF "client" AS CHAR
+ADD FIELD "first_name" OF "client" AS character
     DESCRIPTION "Person first name"
     FORMAT "X(8)"
     INITIAL ""
@@ -96,7 +96,7 @@ ADD FIELD "first_name" OF "client" AS CHAR
     MAX-WIDTH 4
     ORDER 100
 
-ADD FIELD "last_name" OF "client" AS CHAR
+ADD FIELD "last_name" OF "client" AS character
     DESCRIPTION "Person last name"
     FORMAT "X(8)"
     INITIAL ""
@@ -104,7 +104,7 @@ ADD FIELD "last_name" OF "client" AS CHAR
     MAX-WIDTH 4
     ORDER 110
 
-ADD FIELD "middle_name" OF "client" AS CHAR
+ADD FIELD "middle_name" OF "client" AS character
     DESCRIPTION "Person last name"
     FORMAT "X(8)"
     INITIAL ""
@@ -112,7 +112,7 @@ ADD FIELD "middle_name" OF "client" AS CHAR
     MAX-WIDTH 4
     ORDER 120
     
-ADD FIELD "client_group" OF "client" AS CHAR
+ADD FIELD "client_group" OF "client" AS character
     DESCRIPTION "Group of clients"
     FORMAT "X(5)"
     INITIAL ""
@@ -120,7 +120,7 @@ ADD FIELD "client_group" OF "client" AS CHAR
     MAX-WIDTH 4
     ORDER 130
     
-ADD FIELD "client_type" OF "client" AS CHAR
+ADD FIELD "client_type" OF "client" AS character
     DESCRIPTION "Type of client ([p]erson/[b]busines)"
     FORMAT "X(1)"
     INITIAL ""
@@ -136,7 +136,7 @@ ADD FIELD "birth_day" OF "client" AS DATE
     MAX-WIDTH 10
     ORDER 150
 
-ADD FIELD "sex" OF "client" AS CHAR
+ADD FIELD "sex" OF "client" AS character
     DESCRIPTION "F-eminum/M-uskulinum/N-eutral/E-ntity"
     FORMAT "X"
     INITIAL "N"
@@ -145,7 +145,7 @@ ADD FIELD "sex" OF "client" AS CHAR
     ORDER 160
 
     
-ADD FIELD "registration_number" OF "client" AS CHAR
+ADD FIELD "registration_number" OF "client" AS character
     DESCRIPTION "User's registration number/person code"
     FORMAT "X(20)"
     INITIAL ""
@@ -153,7 +153,7 @@ ADD FIELD "registration_number" OF "client" AS CHAR
     MAX-WIDTH 4
     ORDER 170
 
-ADD FIELD "client_status" OF "client" AS CHAR
+ADD FIELD "client_status" OF "client" AS character
     DESCRIPTION "[N]ew, [A]ctive, [R]estricted, [C]losed"
     FORMAT "X(10)"
     INITIAL ""
@@ -169,7 +169,7 @@ ADD FIELD "registration_date" OF "client" AS date
     MAX-WIDTH 10
     ORDER 190
 
-ADD FIELD "registration_user" OF "client" AS char
+ADD FIELD "registration_user" OF "client" AS character
     DESCRIPTION "Who registered client in the system"
     FORMAT "X(8)"
     INITIAL ""
@@ -186,7 +186,7 @@ ADD FIELD "activation_date" OF "client" AS date
     MAX-WIDTH 10
     ORDER 210
 
-ADD FIELD "activation_user" OF "client" AS char
+ADD FIELD "activation_user" OF "client" AS character
     DESCRIPTION "Who activated client in the system"
     FORMAT "X(8)"
     INITIAL ""
@@ -202,7 +202,7 @@ ADD FIELD "close_date" OF "client" AS date
     MAX-WIDTH 10
     ORDER 230
 
-ADD FIELD "close_user" OF "client" AS char
+ADD FIELD "close_user" OF "client" AS character
     DESCRIPTION "Who closed client in the system"
     FORMAT "X(8)"
     INITIAL ""
@@ -210,7 +210,7 @@ ADD FIELD "close_user" OF "client" AS char
     MAX-WIDTH 8
     ORDER 240
 
-ADD FIELD "residence_country" OF "client" AS CHAR
+ADD FIELD "residence_country" OF "client" AS character
     DESCRIPTION "ISO residence country code"
     FORMAT "X(2)"
     INITIAL ""
@@ -218,7 +218,7 @@ ADD FIELD "residence_country" OF "client" AS CHAR
     MAX-WIDTH 2
     ORDER 250
 
-ADD FIELD "ext_client_id" OF "client" AS CHAR
+ADD FIELD "ext_client_id" OF "client" AS character
     DESCRIPTION "External system client id connection"
     FORMAT "X(16)"
     INITIAL ""
@@ -226,7 +226,7 @@ ADD FIELD "ext_client_id" OF "client" AS CHAR
     MAX-WIDTH 16
     ORDER 260
     
-ADD FIELD "scoring_risk_group" OF "client" AS CHAR
+ADD FIELD "scoring_risk_group" OF "client" AS character
     DESCRIPTION "Client AML scoring group"
     FORMAT "X(16)"
     INITIAL ""
@@ -234,7 +234,7 @@ ADD FIELD "scoring_risk_group" OF "client" AS CHAR
     MAX-WIDTH 16
     ORDER 270    
 
-ADD FIELD "scoring_points" OF "client" AS INT
+ADD FIELD "scoring_points" OF "client" AS INTEGER
     DESCRIPTION "Client AML scoring point"
     FORMAT "zz9"
     INITIAL ""
@@ -251,7 +251,7 @@ ADD INDEX "id" ON "client"
   PRIMARY
   INDEX-FIELD "id" ASCENDING 
 
-ADD INDEX "uid" ON "payment_template_data" 
+ADD INDEX "uid" ON "client" 
   AREA "Accounts Index"
   INDEX-FIELD "uid" ASCENDING 
   

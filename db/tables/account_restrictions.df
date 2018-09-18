@@ -104,7 +104,7 @@ ADD INDEX "id" ON "account_restrictions"
   PRIMARY
   INDEX-FIELD "id" ASCENDING 
 
-ADD INDEX "uid" ON "payment_template_data" 
+ADD INDEX "uid" ON "account_restrictions" 
   AREA "Accounts Index"
   INDEX-FIELD "uid" ASCENDING 
   

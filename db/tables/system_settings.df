@@ -10,7 +10,7 @@ ADD FIELD "id" OF "system_settings" AS INT64
     MAX-WIDTH 4
     ORDER 10
 
-ADD FIELD "uid" OF "payment_template" AS char
+ADD FIELD "uid" OF "system_settings" AS character
   DESCRIPTION "Unique id"
   FORMAT "X(36)"
   INITIAL "guid"
@@ -39,7 +39,7 @@ ADD FIELD "modify_date" OF "system_settings" AS DATETIME
     MAX-WIDTH 4
     ORDER 40
 
-ADD FIELD "modify_user" OF "system_settings" AS CHAR
+ADD FIELD "modify_user" OF "system_settings" AS character
     FORMAT "X(8)"
     INITIAL ""
     POSITION 7
@@ -53,7 +53,7 @@ ADD FIELD "create_date" OF "system_settings" AS DATETIME
     MAX-WIDTH 4
     ORDER 60
 
-ADD FIELD "create_user" OF "system_settings" AS CHAR
+ADD FIELD "create_user" OF "system_settings" AS character
     FORMAT "X(8)"
     INITIAL ""
     POSITION 9
@@ -69,14 +69,14 @@ ADD FIELD "parent_id" OF "system_settings" AS INT64
     MAX-WIDTH 4
     ORDER 80
 
-ADD FIELD "field_name" OF "system_settings" AS CHAR
+ADD FIELD "field_name" OF "system_settings" AS character
     FORMAT "X(8)"
     INITIAL ""
     POSITION 11
     MAX-WIDTH 4
     ORDER 90
 
-ADD FIELD "field_value" OF "system_settings" AS CHAR
+ADD FIELD "field_value" OF "system_settings" AS character
     FORMAT "X(8)"
     INITIAL ""
     POSITION 12

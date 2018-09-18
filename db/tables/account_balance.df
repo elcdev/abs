@@ -151,7 +151,7 @@ ADD INDEX "id" ON "account_balance"
   PRIMARY
   INDEX-FIELD "id" ASCENDING 
 
-ADD INDEX "uid" ON "payment_template_data" 
+ADD INDEX "uid" ON "account_balance" 
   AREA "Accounts Index"
   INDEX-FIELD "uid" ASCENDING 
   
