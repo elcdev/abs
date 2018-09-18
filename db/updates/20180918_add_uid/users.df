@@ -1,0 +1,134 @@
+
+
+ADD FIELD "uid" OF "users" AS char
+  DESCRIPTION "Unique id"
+  FORMAT "X(36)"
+  INITIAL "guid"
+  POSITION 3
+  MAX-WIDTH 36
+  ORDER 15
+
+MODIFY FIELD "version" OF "users" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  POSITION 4
+  MAX-WIDTH 4
+  ORDER 20
+
+MODIFY FIELD "state" OF "users" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  POSITION 5
+  MAX-WIDTH 4
+  ORDER 30
+
+MODIFY FIELD "modify_date" OF "users" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  POSITION 6
+  MAX-WIDTH 4
+  ORDER 40
+
+MODIFY FIELD "modify_user" OF "users" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 7
+  MAX-WIDTH 4
+  ORDER 50
+
+MODIFY FIELD "create_date" OF "users" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  POSITION 8
+  MAX-WIDTH 4
+  ORDER 60
+
+MODIFY FIELD "create_user" OF "users" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 9
+  MAX-WIDTH 4
+  ORDER 70
+
+MODIFY FIELD "login" OF "users" AS character 
+  DESCRIPTION "User login name"
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 10
+  MAX-WIDTH 4
+  ORDER 80
+
+MODIFY FIELD "first_name" OF "users" AS character 
+  DESCRIPTION "User's first name"
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 11
+  MAX-WIDTH 4
+  ORDER 90
+
+MODIFY FIELD "last_name" OF "users" AS character 
+  DESCRIPTION "User's last name"
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 12
+  MAX-WIDTH 4
+  ORDER 102
+
+MODIFY FIELD "roles" OF "users" AS character 
+  DESCRIPTION "User's security roles separeted by coma [,]"
+  FORMAT "X(50)"
+  INITIAL ""
+  POSITION 13
+  MAX-WIDTH 4
+  ORDER 110
+
+MODIFY FIELD "email" OF "users" AS character 
+  DESCRIPTION "User's email"
+  FORMAT "X(50)"
+  INITIAL ""
+  POSITION 14
+  MAX-WIDTH 4
+  ORDER 120
+
+MODIFY FIELD "password" OF "users" AS character 
+  DESCRIPTION "Password hash value"
+  FORMAT "X(50)"
+  INITIAL ""
+  POSITION 15
+  MAX-WIDTH 4
+  ORDER 130
+
+MODIFY FIELD "registration_number" OF "users" AS character 
+  DESCRIPTION "User's registration number/person code"
+  FORMAT "X(20)"
+  INITIAL ""
+  POSITION 16
+  MAX-WIDTH 4
+  ORDER 101
+
+MODIFY FIELD "client_id" OF "users" AS int64 
+  DESCRIPTION "User relation with clients table"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  POSITION 17
+  MAX-WIDTH 4
+  ORDER 100
+
+
+
+ADD INDEX "uid" ON "users" 
+  AREA "Accounts Index"
+  INDEX-FIELD "uid" ASCENDING 
+
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000003590

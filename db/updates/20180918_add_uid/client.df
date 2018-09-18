@@ -1,0 +1,247 @@
+ADD FIELD "uid" OF "client" AS char
+  DESCRIPTION "Unique id"
+  FORMAT "X(36)"
+  INITIAL "guid"
+  POSITION 3
+  MAX-WIDTH 36
+  ORDER 15
+
+MODIFY FIELD "version" OF "client" AS INT64
+    DESCRIPTION "Record version for replication"
+    FORMAT ">>>>>>>>>>>9"
+    INITIAL "0"
+    POSITION 4
+    MAX-WIDTH 4
+    ORDER 20
+
+MODIFY FIELD "state" OF "client" AS INT64
+    DESCRIPTION "Record state for replication"
+    FORMAT ">>>9"
+    INITIAL "0"
+    POSITION 5
+    MAX-WIDTH 4
+    ORDER 30
+
+MODIFY FIELD "modify_date" OF "client" AS DATETIME
+    DESCRIPTION "Record modification date"
+    FORMAT "99.99.99 hh:mm:ss"
+    INITIAL "now"
+    POSITION 6
+    MAX-WIDTH 4
+    ORDER 40
+
+MODIFY FIELD "modify_user" OF "client" AS CHAR
+    DESCRIPTION "Record modification user"
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 7
+    MAX-WIDTH 8
+    ORDER 50
+
+MODIFY FIELD "create_date" OF "client" AS DATETIME
+    DESCRIPTION "Record creation date"
+    FORMAT "99.99.99 hh:mm:ss"
+    INITIAL "now"
+    POSITION 8
+    MAX-WIDTH 4
+    ORDER 60
+
+MODIFY FIELD "create_user" OF "client" AS CHAR
+    DESCRIPTION "Record creation user"
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 9
+    MAX-WIDTH 8
+    ORDER 70
+
+    
+
+    
+
+
+MODIFY FIELD "cif" OF "client" AS CHAR
+    DESCRIPTION "Client code"
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 10
+    MAX-WIDTH 4
+    ORDER 80    
+    
+MODIFY FIELD "full_name" OF "client" AS CHAR
+    DESCRIPTION "Full person or entity name"
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 11
+    MAX-WIDTH 4
+    ORDER 90
+
+MODIFY FIELD "first_name" OF "client" AS CHAR
+    DESCRIPTION "Person first name"
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 12
+    MAX-WIDTH 4
+    ORDER 100
+
+MODIFY FIELD "last_name" OF "client" AS CHAR
+    DESCRIPTION "Person last name"
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 13
+    MAX-WIDTH 4
+    ORDER 110
+
+MODIFY FIELD "middle_name" OF "client" AS CHAR
+    DESCRIPTION "Person last name"
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 14
+    MAX-WIDTH 4
+    ORDER 120
+    
+MODIFY FIELD "client_group" OF "client" AS CHAR
+    DESCRIPTION "Group of clients"
+    FORMAT "X(5)"
+    INITIAL ""
+    POSITION 15
+    MAX-WIDTH 4
+    ORDER 130
+    
+MODIFY FIELD "client_type" OF "client" AS CHAR
+    DESCRIPTION "Type of client ([p]erson/[b]busines)"
+    FORMAT "X(1)"
+    INITIAL ""
+    POSITION 16
+    MAX-WIDTH 1
+    ORDER 140
+
+MODIFY FIELD "birth_day" OF "client" AS DATE
+    DESCRIPTION "Person birth day or Busynes registration date"
+    FORMAT "99/99/9999"
+    INITIAL ?
+    POSITION 17
+    MAX-WIDTH 10
+    ORDER 150
+
+MODIFY FIELD "sex" OF "client" AS CHAR
+    DESCRIPTION "F-eminum/M-uskulinum/N-eutral/E-ntity"
+    FORMAT "X"
+    INITIAL "N"
+    POSITION 18
+    MAX-WIDTH 1
+    ORDER 160
+
+    
+MODIFY FIELD "registration_number" OF "client" AS CHAR
+    DESCRIPTION "User's registration number/person code"
+    FORMAT "X(20)"
+    INITIAL ""
+    POSITION 19
+    MAX-WIDTH 4
+    ORDER 170
+
+MODIFY FIELD "client_status" OF "client" AS CHAR
+    DESCRIPTION "[N]ew, [A]ctive, [R]estricted, [C]losed"
+    FORMAT "X(10)"
+    INITIAL ""
+    POSITION 20
+    MAX-WIDTH 10
+    ORDER 180
+
+MODIFY FIELD "registration_date" OF "client" AS date
+    DESCRIPTION "Client registration date in system"
+    FORMAT "99/99/9999"
+    INITIAL ?
+    POSITION 21
+    MAX-WIDTH 10
+    ORDER 190
+
+MODIFY FIELD "registration_user" OF "client" AS char
+    DESCRIPTION "Who registered client in the system"
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 22
+    MAX-WIDTH 8
+    ORDER 200
+
+    
+MODIFY FIELD "activation_date" OF "client" AS date
+    DESCRIPTION "Client activation date in the system"
+    FORMAT "99/99/9999"
+    INITIAL ?
+    POSITION 23
+    MAX-WIDTH 10
+    ORDER 210
+
+MODIFY FIELD "activation_user" OF "client" AS char
+    DESCRIPTION "Who activated client in the system"
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 24
+    MAX-WIDTH 8
+    ORDER 220
+
+MODIFY FIELD "close_date" OF "client" AS date
+    DESCRIPTION "Client close date in the system"
+    FORMAT "99/99/9999"
+    INITIAL ""
+    POSITION 25
+    MAX-WIDTH 10
+    ORDER 230
+
+MODIFY FIELD "close_user" OF "client" AS char
+    DESCRIPTION "Who closed client in the system"
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 26
+    MAX-WIDTH 8
+    ORDER 240
+
+MODIFY FIELD "residence_country" OF "client" AS CHAR
+    DESCRIPTION "ISO residence country code"
+    FORMAT "X(2)"
+    INITIAL ""
+    POSITION 27
+    MAX-WIDTH 2
+    ORDER 250
+
+MODIFY FIELD "ext_client_id" OF "client" AS CHAR
+    DESCRIPTION "External system client id connection"
+    FORMAT "X(16)"
+    INITIAL ""
+    POSITION 28
+    MAX-WIDTH 16
+    ORDER 260
+    
+MODIFY FIELD "scoring_risk_group" OF "client" AS CHAR
+    DESCRIPTION "Client AML scoring group"
+    FORMAT "X(16)"
+    INITIAL ""
+    POSITION 29
+    MAX-WIDTH 16
+    ORDER 270    
+
+MODIFY FIELD "scoring_points" OF "client" AS INT
+    DESCRIPTION "Client AML scoring point"
+    FORMAT "zz9"
+    INITIAL ""
+    POSITION 30
+    MAX-WIDTH 3
+    ORDER 280    
+    
+    
+ 
+
+ADD INDEX "uid" ON "payment_template_data" 
+  AREA "Accounts Index"
+  INDEX-FIELD "uid" ASCENDING 
+   
+
+  
+.
+PSC
+cpstream=UTF-8
+.
+0000001662
+
+

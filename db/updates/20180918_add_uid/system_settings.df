@@ -1,0 +1,91 @@
+
+ADD FIELD "uid" OF "payment_template" AS char
+  DESCRIPTION "Unique id"
+  FORMAT "X(36)"
+  INITIAL "guid"
+  POSITION 3
+  MAX-WIDTH 36
+  ORDER 15
+
+MODIFY FIELD "version" OF "system_settings" AS INT64
+    FORMAT ">>>>>>>>>>>9"
+    INITIAL "0"
+    POSITION 4
+    MAX-WIDTH 4
+    ORDER 20
+
+MODIFY FIELD "state" OF "system_settings" AS INT64
+    FORMAT ">>>9"
+    INITIAL "0"
+    POSITION 5
+    MAX-WIDTH 4
+    ORDER 30
+
+MODIFY FIELD "modify_date" OF "system_settings" AS DATETIME
+    FORMAT "99.99.99 hh:mm:ss"
+    INITIAL "now"
+    POSITION 6
+    MAX-WIDTH 4
+    ORDER 40
+
+MODIFY FIELD "modify_user" OF "system_settings" AS CHAR
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 7
+    MAX-WIDTH 4
+    ORDER 50
+
+MODIFY FIELD "create_date" OF "system_settings" AS DATETIME
+    FORMAT "99.99.99 hh:mm:ss"
+    INITIAL "now"
+    POSITION 8
+    MAX-WIDTH 4
+    ORDER 60
+
+MODIFY FIELD "create_user" OF "system_settings" AS CHAR
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 9
+    MAX-WIDTH 4
+    ORDER 70
+
+
+    
+MODIFY FIELD "parent_id" OF "system_settings" AS INT64
+    FORMAT ">>>>>>>>>>>9"
+    INITIAL ""
+    POSITION 10
+    MAX-WIDTH 4
+    ORDER 80
+
+MODIFY FIELD "field_name" OF "system_settings" AS CHAR
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 11
+    MAX-WIDTH 4
+    ORDER 90
+
+MODIFY FIELD "field_value" OF "system_settings" AS CHAR
+    FORMAT "X(8)"
+    INITIAL ""
+    POSITION 12
+    MAX-WIDTH 4
+    ORDER 100
+
+
+    
+
+
+ADD INDEX "uid" ON "system_settings" 
+  AREA "Accounts Index"
+  INDEX-FIELD "uid" ASCENDING 
+
+
+  
+.
+PSC
+cpstream=UTF-8
+.
+0000001662
+
+

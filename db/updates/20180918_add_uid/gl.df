@@ -1,0 +1,152 @@
+ADD FIELD "uid" OF "gl" AS CHARACTER
+  DESCRIPTION "Unique Record Id"
+  FORMAT "X(36)"
+  INITIAL guid
+  POSITION 3
+  MAX-WIDTH 4
+  ORDER 15
+  
+MODIFY FIELD "version" OF "gl" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  POSITION 4
+  MAX-WIDTH 4
+  ORDER 20
+
+MODIFY FIELD "state" OF "gl" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  POSITION 5
+  MAX-WIDTH 4
+  ORDER 30
+
+MODIFY FIELD "modify_date" OF "gl" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  POSITION 6
+  MAX-WIDTH 4
+  ORDER 40
+
+MODIFY FIELD "modify_user" OF "gl" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 7
+  MAX-WIDTH 4
+  ORDER 50
+
+MODIFY FIELD "create_date" OF "gl" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  POSITION 8
+  MAX-WIDTH 4
+  ORDER 60
+
+MODIFY FIELD "create_user" OF "gl" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 9
+  MAX-WIDTH 4
+  ORDER 70
+
+MODIFY FIELD "gl" OF "gl" AS int64 
+  DESCRIPTION "General ledger account number"
+  FORMAT "zzzzzzzzz9"
+  INITIAL "0"
+  POSITION 10
+  MAX-WIDTH 10
+  ORDER 80
+
+MODIFY FIELD "parent_gl" OF "gl" AS int64 
+  DESCRIPTION "General ledger account number"
+  FORMAT "zzzzzzzzz9"
+  INITIAL "0"
+  POSITION 11
+  MAX-WIDTH 10
+  ORDER 90
+
+MODIFY FIELD "description" OF "gl" AS character 
+  DESCRIPTION "Sub type (dfbForClients, dfbForElcoin)"
+  FORMAT "X(50)"
+  INITIAL ""
+  POSITION 12
+  MAX-WIDTH 50
+  ORDER 100
+
+MODIFY FIELD "gl_type" OF "gl" AS character 
+  DESCRIPTION "Account type [a]ctive/[p]assive/[r]evenu/[e]xpencies/[o]wnership"
+  FORMAT "X(10)"
+  INITIAL ""
+  POSITION 13
+  MAX-WIDTH 10
+  VALEXP "index(""ALORE"", gl_type) > 0"
+  VALMSG "Invalid gl_type value ([A,L,O,R,E])"
+  HELP "[A,L,O,R,E]"
+  ORDER 110
+
+MODIFY FIELD "subledger_type" OF "gl" AS character 
+  DESCRIPTION "account type (aaa, dfb, arp, fun)"
+  FORMAT "X(5)"
+  INITIAL ""
+  POSITION 14
+  MAX-WIDTH 5
+  ORDER 120
+
+MODIFY FIELD "gl_status" OF "gl" AS character 
+  DESCRIPTION "Gl account satus: [active]-active, [closed]-closed"
+  FORMAT "X(10)"
+  INITIAL ""
+  POSITION 15
+  MAX-WIDTH 10
+  ORDER 130
+
+MODIFY FIELD "level" OF "gl" AS integer 
+  DESCRIPTION "Gl account display structure level (summarizing level)"
+  FORMAT ">9"
+  INITIAL "1"
+  POSITION 16
+  MAX-WIDTH 2
+  ORDER 140
+
+MODIFY FIELD "total_acc" OF "gl" AS logical 
+  DESCRIPTION "Summarized account yes/no"
+  FORMAT "yes/no"
+  INITIAL "no"
+  POSITION 17
+  MAX-WIDTH 3
+  ORDER 150
+
+MODIFY FIELD "restrict_operation" OF "gl" AS logical 
+  DESCRIPTION "Yes - disable operations with account, No - enable operations"
+  FORMAT "yes/no"
+  INITIAL "no"
+  POSITION 18
+  MAX-WIDTH 3
+  ORDER 160
+
+MODIFY FIELD "short_name" OF "gl" AS character 
+  DESCRIPTION "GL short name"
+  FORMAT "x(50)"
+  INITIAL ""
+  LABEL "Short Name"
+  POSITION 19
+  MAX-WIDTH 100
+  ORDER 170
+
+  
+
+ADD INDEX "uid" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "uid" ASCENDING 
+ 
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000004059

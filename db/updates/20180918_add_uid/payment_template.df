@@ -1,0 +1,120 @@
+
+ADD FIELD "uid" OF "payment_template" AS char
+  DESCRIPTION "Unique id"
+  FORMAT "X(36)"
+  INITIAL "guid"
+  POSITION 3
+  MAX-WIDTH 4
+  ORDER 15
+  
+MODIFY FIELD "version" OF "payment_template" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  POSITION 4
+  MAX-WIDTH 4
+  ORDER 20
+
+MODIFY FIELD "state" OF "payment_template" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  POSITION 5
+  MAX-WIDTH 4
+  ORDER 30
+
+MODIFY FIELD "modify_date" OF "payment_template" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  POSITION 6
+  MAX-WIDTH 4
+  ORDER 40
+
+MODIFY FIELD "modify_user" OF "payment_template" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 7
+  MAX-WIDTH 8
+  ORDER 50
+
+MODIFY FIELD "create_date" OF "payment_template" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  POSITION 8
+  MAX-WIDTH 4
+  ORDER 60
+
+MODIFY FIELD "create_user" OF "payment_template" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 9
+  MAX-WIDTH 8
+  ORDER 70
+
+  
+MODIFY FIELD "name" OF "payment_template" AS character 
+  DESCRIPTION "Pyment name"
+  FORMAT "X(10)"
+  INITIAL ""
+  POSITION 10
+  MAX-WIDTH 12
+  ORDER 80
+
+MODIFY FIELD "description" OF "payment_template" AS character 
+  DESCRIPTION "Pyment description"
+  FORMAT "X(30)"
+  INITIAL ""
+  POSITION 11
+  MAX-WIDTH 12
+  ORDER 90
+
+MODIFY FIELD "template_status" OF "payment_template" AS character 
+  DESCRIPTION "Payment template status"
+  FORMAT "X(10)"
+  INITIAL ""
+  POSITION 12
+  MAX-WIDTH 12
+  ORDER 100
+
+MODIFY FIELD "payment_subtype" OF "payment_template" AS character 
+  DESCRIPTION "Transaction number"
+  FORMAT "X(10)"
+  INITIAL ""
+  POSITION 13
+  MAX-WIDTH 12
+  ORDER 110
+
+MODIFY FIELD "edit_form" OF "payment_template" AS character 
+  DESCRIPTION "Temlate editor form"
+  FORMAT "X(20)"
+  INITIAL ""
+  POSITION 14
+  MAX-WIDTH 3
+  ORDER 120
+
+MODIFY FIELD "payment_type" OF "payment_template" AS character 
+  DESCRIPTION "Transaction number"
+  FORMAT "X(10)"
+  INITIAL ""
+  POSITION 15
+  MAX-WIDTH 12
+  ORDER 130
+
+
+
+
+
+ADD INDEX "uid" ON "payment_template" 
+  AREA "Accounts Index"
+  INDEX-FIELD "uid" ASCENDING 
+
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000003405

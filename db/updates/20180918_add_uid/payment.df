@@ -1,0 +1,281 @@
+ADD FIELD "uid" OF "payment" AS char
+  DESCRIPTION "Unique id"
+  FORMAT "X(36)"
+  INITIAL "0"
+  POSITION 3
+  MAX-WIDTH 4
+  ORDER 15
+  
+MODIFY FIELD "version" OF "payment" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  POSITION 4
+  MAX-WIDTH 4
+  ORDER 20
+
+MODIFY FIELD "state" OF "payment" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  POSITION 5
+  MAX-WIDTH 4
+  ORDER 30
+
+MODIFY FIELD "modify_date" OF "payment" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  POSITION 6
+  MAX-WIDTH 4
+  ORDER 40
+
+MODIFY FIELD "modify_user" OF "payment" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 7
+  MAX-WIDTH 8
+  ORDER 50
+
+MODIFY FIELD "create_date" OF "payment" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.99 hh:mm:ss"
+  INITIAL "now"
+  POSITION 8
+  MAX-WIDTH 4
+  ORDER 60
+
+MODIFY FIELD "create_user" OF "payment" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 9
+  MAX-WIDTH 8
+  ORDER 70
+
+  
+  
+  
+  
+MODIFY FIELD "payment_type" OF "payment" AS char 
+  DESCRIPTION "Transaction number"
+  FORMAT "X(10)"
+  INITIAL "0"
+  POSITION 10
+  MAX-WIDTH 12
+  ORDER 80
+
+MODIFY FIELD "payment_date" OF "payment" AS date 
+  DESCRIPTION "Payment registration date"
+  FORMAT "99.99.9999"
+  INITIAL ?
+  POSITION 11
+  MAX-WIDTH 4
+  ORDER 90
+
+MODIFY FIELD "amount" OF "payment" AS decimal 
+  DESCRIPTION "Amount"
+  FORMAT "-z,zzz,zzz,zz9.99"
+  INITIAL "0"
+  POSITION 12
+  MAX-WIDTH 1
+  ORDER 100
+
+MODIFY FIELD "currency" OF "payment" AS character 
+  DESCRIPTION "Currency"
+  FORMAT "X(3)"
+  INITIAL ""
+  POSITION 13
+  MAX-WIDTH 3
+  ORDER 110
+  
+MODIFY FIELD "details" OF "payment" AS character 
+  DESCRIPTION "Transation details in residence country national language"
+  FORMAT "X(80)"
+  INITIAL ""
+  POSITION 14
+  MAX-WIDTH 80
+  ORDER 120
+  
+MODIFY FIELD "urgency" OF "payment" AS character 
+  DESCRIPTION "Urgency: statdart/express"
+  FORMAT "X(10)"
+  INITIAL ""
+  POSITION 15
+  MAX-WIDTH 10
+  ORDER 130
+
+MODIFY FIELD "value_date" OF "payment" AS date 
+  DESCRIPTION "Value date"
+  FORMAT "99.99.9999"
+  INITIAL ?
+  POSITION 16
+  MAX-WIDTH 10
+  ORDER 140
+
+  
+  
+  
+MODIFY FIELD "sender_name" OF "payment" AS character 
+  DESCRIPTION "Sender name"
+  FORMAT "X(25)"
+  INITIAL ""
+  POSITION 17
+  MAX-WIDTH 4
+  ORDER 150
+
+MODIFY FIELD "sender_account" OF "payment" AS character 
+  DESCRIPTION "Sender account"
+  FORMAT "X(12)"
+  INITIAL ""
+  POSITION 18
+  MAX-WIDTH 10
+  ORDER 160
+
+MODIFY FIELD "sender_bank_name" OF "payment" AS character 
+  DESCRIPTION "Sender bank name"
+  FORMAT "X(25)"
+  INITIAL ""
+  POSITION 19
+  MAX-WIDTH 1
+  ORDER 170
+  
+MODIFY FIELD "sender_bank_address" OF "payment" AS character 
+  DESCRIPTION "Sender bank address"
+  FORMAT "X(30)"
+  INITIAL ""
+  POSITION 20
+  MAX-WIDTH 1
+  ORDER 180
+
+MODIFY FIELD "sender_bank_swift" OF "payment" AS character 
+  DESCRIPTION "Sender bank swift"
+  FORMAT "X(12)"
+  INITIAL ""
+  POSITION 21
+  MAX-WIDTH 1
+  ORDER 190
+  
+  
+  
+  
+  
+  
+MODIFY FIELD "beneficiary_name" OF "payment" AS character 
+  DESCRIPTION "Beneficiary name"
+  FORMAT "X(25)"
+  INITIAL ""
+  POSITION 22
+  MAX-WIDTH 4
+  ORDER 200
+
+MODIFY FIELD "beneficiary_account" OF "payment" AS character 
+  DESCRIPTION "Beneficiary account"
+  FORMAT "X(12)"
+  INITIAL ?
+  POSITION 23
+  MAX-WIDTH 10
+  ORDER 210
+
+MODIFY FIELD "beneficiary_bank_name" OF "payment" AS character 
+  DESCRIPTION "Beneficiary bank name"
+  FORMAT "X(12)"
+  INITIAL ""
+  POSITION 24
+  MAX-WIDTH 1
+  ORDER 220
+  
+MODIFY FIELD "beneficiary_bank_address" OF "payment" AS character 
+  DESCRIPTION "Beneficiary bank address"
+  FORMAT "X(30)"
+  INITIAL ""
+  POSITION 25
+  MAX-WIDTH 1
+  ORDER 230
+
+MODIFY FIELD "beneficiary_bank_swift" OF "payment" AS character 
+  DESCRIPTION "Beneficiary bank swift"
+  FORMAT "X(12)"
+  INITIAL ""
+  POSITION 26
+  MAX-WIDTH 1
+  ORDER 240
+  
+  
+  
+  
+  
+MODIFY FIELD "nostro_account" OF "payment" AS character 
+  DESCRIPTION "Nostro account"
+  FORMAT "X(12)"
+  INITIAL ""
+  POSITION 27
+  MAX-WIDTH 1
+  ORDER 250
+  
+MODIFY FIELD "intermediary_bank_name" OF "payment" AS character 
+  DESCRIPTION "Intermediary bank name"
+  FORMAT "X(25)"
+  INITIAL ""
+  POSITION 28
+  MAX-WIDTH 1
+  ORDER 260
+  
+MODIFY FIELD "intermediary_bank_swift" OF "payment" AS character 
+  DESCRIPTION "Intermediary bank swift"
+  FORMAT "X(12)"
+  INITIAL ""
+  POSITION 29
+  MAX-WIDTH 1
+  ORDER 270
+  
+MODIFY FIELD "intermediary_bank_address" OF "payment" AS character 
+  DESCRIPTION "Intermediary bank address"
+  FORMAT "X(30)"
+  INITIAL ""
+  POSITION 30
+  MAX-WIDTH 1
+  ORDER 280
+  
+
+  
+  
+MODIFY FIELD "fee_amount" OF "payment" AS decimal 
+  DESCRIPTION "Fee amount"
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  POSITION 31
+  MAX-WIDTH 1
+  ORDER 290
+  
+MODIFY FIELD "fee_currency" OF "payment" AS character 
+  DESCRIPTION "Fee currency"
+  FORMAT "X(3)"
+  INITIAL ""
+  POSITION 32
+  MAX-WIDTH 3
+  ORDER 300
+  
+MODIFY FIELD "fee_account" OF "payment" AS character 
+  DESCRIPTION "Fee account"
+  FORMAT "X(12)"
+  INITIAL ""
+  POSITION 33
+  MAX-WIDTH 1
+  ORDER 310
+  
+  
+  
+ 
+
+ADD INDEX "uid" ON "payment" 
+  AREA "Accounts Index"
+  INDEX-FIELD "uid" ASCENDING 
+   
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000007150

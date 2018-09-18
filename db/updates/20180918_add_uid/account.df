@@ -1,0 +1,252 @@
+ADD FIELD"uid" OF "account" AS char
+  DESCRIPTION "Unique id"
+  FORMAT "X(36)"
+  INITIAL "guid"
+  POSITION 3
+  MAX-WIDTH 4
+  ORDER 15
+
+MODIFY FIELD"version" OF "account" AS int64 
+  DESCRIPTION "Record version for replication"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  POSITION 4
+  MAX-WIDTH 4
+  ORDER 20
+
+MODIFY FIELD"state" OF "account" AS int64 
+  DESCRIPTION "Record state for replication"
+  FORMAT ">>>9"
+  INITIAL "0"
+  POSITION 5
+  MAX-WIDTH 4
+  ORDER 30
+
+MODIFY FIELD"modify_date" OF "account" AS datetime 
+  DESCRIPTION "Record modification date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  POSITION 6
+  MAX-WIDTH 4
+  ORDER 40
+
+MODIFY FIELD"modify_user" OF "account" AS character 
+  DESCRIPTION "Record modification user"
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 7
+  MAX-WIDTH 8
+  ORDER 50
+
+MODIFY FIELD"create_date" OF "account" AS datetime 
+  DESCRIPTION "Record creation date"
+  FORMAT "99.99.9999 hh:mm:ss"
+  INITIAL "now"
+  POSITION 8
+  MAX-WIDTH 4
+  ORDER 60
+
+MODIFY FIELD"create_user" OF "account" AS character 
+  DESCRIPTION "Record creation user"
+  FORMAT "X(8)"
+  INITIAL ""
+  POSITION 9
+  MAX-WIDTH 8
+  ORDER 70
+
+MODIFY FIELD"gl" OF "account" AS int64 
+  DESCRIPTION "General ledger account number"
+  FORMAT "zzzzzzzzz9"
+  INITIAL "0"
+  POSITION 10
+  MAX-WIDTH 10
+  ORDER 80
+
+MODIFY FIELD"iban" OF "account" AS character 
+  DESCRIPTION "account number"
+  FORMAT "X(35)"
+  INITIAL ""
+  POSITION 11
+  MAX-WIDTH 35
+  ORDER 90
+
+MODIFY FIELD"account" OF "account" AS character 
+  DESCRIPTION "account number"
+  FORMAT "X(12)"
+  INITIAL ""
+  POSITION 12
+  MAX-WIDTH 4
+  ORDER 100
+
+MODIFY FIELD"base_account" OF "account" AS character 
+  DESCRIPTION "Base multicurrency account"
+  FORMAT "X(12)"
+  INITIAL ""
+  POSITION 13
+  MAX-WIDTH 4
+  ORDER 110
+
+MODIFY FIELD"overdraft_account" OF "account" AS character 
+  DESCRIPTION "Overdraft account for current account"
+  FORMAT "X(12)"
+  INITIAL ""
+  POSITION 14
+  MAX-WIDTH 12
+  ORDER 120
+
+MODIFY FIELD"currency" OF "account" AS character 
+  DESCRIPTION "Currency"
+  FORMAT "X(3)"
+  INITIAL ""
+  POSITION 15
+  MAX-WIDTH 3
+  ORDER 130
+
+MODIFY FIELD"account_group" OF "account" AS character 
+  DESCRIPTION "Account group"
+  FORMAT "X(7)"
+  INITIAL ""
+  POSITION 16
+  MAX-WIDTH 7
+  ORDER 140
+
+MODIFY FIELD"subledger_type" OF "account" AS character 
+  DESCRIPTION "account type (aaa, dfb, arp, fun)"
+  FORMAT "X(5)"
+  INITIAL ""
+  POSITION 17
+  MAX-WIDTH 5
+  ORDER 150
+
+MODIFY FIELD"account_subtype" OF "account" AS character 
+  DESCRIPTION "Sub type (dfbForClients, dfbForElcoin)"
+  FORMAT "X(7)"
+  INITIAL ""
+  POSITION 18
+  MAX-WIDTH 7
+  ORDER 160
+
+MODIFY FIELD"product_code" OF "account" AS character 
+  DESCRIPTION "Product code"
+  FORMAT "X(7)"
+  INITIAL ""
+  POSITION 19
+  MAX-WIDTH 7
+  ORDER 170
+
+MODIFY FIELD"branch" OF "account" AS character 
+  DESCRIPTION "Branch of account"
+  FORMAT "X(5)"
+  INITIAL ""
+  POSITION 20
+  MAX-WIDTH 5
+  ORDER 180
+
+MODIFY FIELD"cif" OF "account" AS character 
+  DESCRIPTION "Relation withs clients table"
+  FORMAT "X(12)"
+  INITIAL "0"
+  POSITION 21
+  MAX-WIDTH 12
+  ORDER 190
+
+MODIFY FIELD"client_id" OF "account" AS int64 
+  DESCRIPTION "Relation withs clients table"
+  FORMAT ">>>>>>>>>>>9"
+  INITIAL "0"
+  POSITION 22
+  MAX-WIDTH 12
+  ORDER 200
+
+MODIFY FIELD"account_status" OF "account" AS character 
+  DESCRIPTION "Account satus: [new]-new, [active]-active, [closed]-closed"
+  FORMAT "X(10)"
+  INITIAL ""
+  POSITION 23
+  MAX-WIDTH 10
+  ORDER 210
+
+MODIFY FIELD"description" OF "account" AS character 
+  DESCRIPTION "Sub type (dfbForClients, dfbForElcoin)"
+  FORMAT "X(50)"
+  INITIAL ""
+  POSITION 24
+  MAX-WIDTH 50
+  ORDER 220
+
+MODIFY FIELD"open_date" OF "account" AS date 
+  DESCRIPTION "Account open date"
+  FORMAT "99.99.9999"
+  INITIAL ?
+  POSITION 25
+  MAX-WIDTH 10
+  ORDER 230
+
+MODIFY FIELD"close_date" OF "account" AS date 
+  DESCRIPTION "Account close date"
+  FORMAT "99.99.9999"
+  INITIAL ?
+  POSITION 26
+  MAX-WIDTH 10
+  ORDER 240
+
+MODIFY FIELD"open_amount" OF "account" AS decimal 
+  DESCRIPTION "Account open amount (for overdraft/deposit) move to data"
+  FORMAT "-z,zzz,zzz,zz9.99"
+  INITIAL "0.00"
+  POSITION 27
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 250
+
+MODIFY FIELD"last_operation_date" OF "account" AS date 
+  DESCRIPTION "Last operation date"
+  FORMAT "99.99.9999"
+  INITIAL ?
+  POSITION 28
+  MAX-WIDTH 19
+  ORDER 260
+
+MODIFY FIELD"last_credit_date" OF "account" AS date 
+  DESCRIPTION "Last credit operation date"
+  FORMAT "99.99.9999"
+  INITIAL ?
+  POSITION 29
+  MAX-WIDTH 4
+  ORDER 290
+
+MODIFY FIELD"last_debet_amount" OF "account" AS decimal 
+  DESCRIPTION "Last debet operation amount"
+  FORMAT "-z,zzz,zzz,zz9.99"
+  INITIAL "0.00"
+  POSITION 30
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 280
+
+MODIFY FIELD"last_debet_date" OF "account" AS date 
+  DESCRIPTION "Last debet operation date"
+  FORMAT "99.99.9999"
+  INITIAL ?
+  POSITION 31
+  MAX-WIDTH 19
+  ORDER 270
+
+MODIFY FIELD"last_credit_amount" OF "account" AS decimal 
+  DESCRIPTION "Last credit operation date"
+  FORMAT "-z,zzz,zzz,zz9.99"
+  INITIAL "0.00"
+  POSITION 32
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 300
+
+ADD INDEX "uid" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "uid" ASCENDING 
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000007561
