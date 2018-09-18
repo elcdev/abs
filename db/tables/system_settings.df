@@ -10,45 +10,53 @@ ADD FIELD "id" OF "system_settings" AS INT64
     MAX-WIDTH 4
     ORDER 10
 
+ADD FIELD "uid" OF "payment_template" AS char
+  DESCRIPTION "Unique id"
+  FORMAT "X(36)"
+  INITIAL "guid"
+  POSITION 3
+  MAX-WIDTH 36
+  ORDER 15
+
 ADD FIELD "version" OF "system_settings" AS INT64
     FORMAT ">>>>>>>>>>>9"
     INITIAL "0"
-    POSITION 3
+    POSITION 4
     MAX-WIDTH 4
     ORDER 20
 
 ADD FIELD "state" OF "system_settings" AS INT64
     FORMAT ">>>9"
     INITIAL "0"
-    POSITION 4
+    POSITION 5
     MAX-WIDTH 4
     ORDER 30
 
 ADD FIELD "modify_date" OF "system_settings" AS DATETIME
     FORMAT "99.99.99 hh:mm:ss"
     INITIAL "now"
-    POSITION 5
+    POSITION 6
     MAX-WIDTH 4
     ORDER 40
 
 ADD FIELD "modify_user" OF "system_settings" AS CHAR
     FORMAT "X(8)"
     INITIAL ""
-    POSITION 6
+    POSITION 7
     MAX-WIDTH 4
     ORDER 50
 
 ADD FIELD "create_date" OF "system_settings" AS DATETIME
     FORMAT "99.99.99 hh:mm:ss"
     INITIAL "now"
-    POSITION 7
+    POSITION 8
     MAX-WIDTH 4
     ORDER 60
 
 ADD FIELD "create_user" OF "system_settings" AS CHAR
     FORMAT "X(8)"
     INITIAL ""
-    POSITION 8
+    POSITION 9
     MAX-WIDTH 4
     ORDER 70
 
@@ -57,21 +65,21 @@ ADD FIELD "create_user" OF "system_settings" AS CHAR
 ADD FIELD "parent_id" OF "system_settings" AS INT64
     FORMAT ">>>>>>>>>>>9"
     INITIAL ""
-    POSITION 9
+    POSITION 10
     MAX-WIDTH 4
     ORDER 80
 
 ADD FIELD "field_name" OF "system_settings" AS CHAR
     FORMAT "X(8)"
     INITIAL ""
-    POSITION 10
+    POSITION 11
     MAX-WIDTH 4
     ORDER 90
 
 ADD FIELD "field_value" OF "system_settings" AS CHAR
     FORMAT "X(8)"
     INITIAL ""
-    POSITION 11
+    POSITION 12
     MAX-WIDTH 4
     ORDER 100
 
@@ -83,6 +91,10 @@ ADD INDEX "id" ON "system_settings"
   PRIMARY
   INDEX-FIELD "id" ASCENDING 
 
+ADD INDEX "uid" ON "system_settings" 
+  AREA "Accounts Index"
+  INDEX-FIELD "uid" ASCENDING 
+  
 ADD INDEX "modify_date" ON "system_settings" 
   AREA "System Index"
   INDEX-FIELD "modify_date" ASCENDING 

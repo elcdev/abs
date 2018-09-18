@@ -12,11 +12,19 @@ ADD FIELD "id" OF "currency_rates" AS int64
   MAX-WIDTH 4
   ORDER 10
 
+ADD FIELD "uid" OF "currency" AS char
+  DESCRIPTION "Unique id"
+  FORMAT "X(36)"
+  INITIAL "guid"
+  POSITION 3
+  MAX-WIDTH 4
+  ORDER 15
+
 ADD FIELD "version" OF "currency_rates" AS int64 
   DESCRIPTION "Record version for replication"
   FORMAT ">>>>>>>>>>>9"
   INITIAL "0"
-  POSITION 3
+  POSITION 4
   MAX-WIDTH 4
   ORDER 20
 
@@ -24,7 +32,7 @@ ADD FIELD "state" OF "currency_rates" AS int64
   DESCRIPTION "Record state for replication"
   FORMAT ">>>9"
   INITIAL "0"
-  POSITION 4
+  POSITION 5
   MAX-WIDTH 4
   ORDER 30
 
@@ -32,7 +40,7 @@ ADD FIELD "modify_date" OF "currency_rates" AS datetime
   DESCRIPTION "Record modification date"
   FORMAT "99.99.9999 hh:mm:ss"
   INITIAL "now"
-  POSITION 5
+  POSITION 6
   MAX-WIDTH 4
   ORDER 40
 
@@ -40,7 +48,7 @@ ADD FIELD "modify_user" OF "currency_rates" AS character
   DESCRIPTION "Record modification user"
   FORMAT "X(8)"
   INITIAL ""
-  POSITION 6
+  POSITION 7
   MAX-WIDTH 4
   ORDER 50
 
@@ -48,7 +56,7 @@ ADD FIELD "create_date" OF "currency_rates" AS datetime
   DESCRIPTION "Record creation date"
   FORMAT "99.99.9999 hh:mm:ss"
   INITIAL "now"
-  POSITION 7
+  POSITION 8
   MAX-WIDTH 4
   ORDER 60
 
@@ -56,14 +64,14 @@ ADD FIELD "create_user" OF "currency_rates" AS character
   DESCRIPTION "Record creation user"
   FORMAT "X(8)"
   INITIAL ""
-  POSITION 8
+  POSITION 9
   MAX-WIDTH 4
   ORDER 70
 
 ADD FIELD "balance_date" OF "currency_rates" AS date 
   FORMAT "99.99.9999"
   INITIAL ?
-  POSITION 9
+  POSITION 10
   MAX-WIDTH 4
   ORDER 81
 
@@ -71,7 +79,7 @@ ADD FIELD "rate_type" OF "currency_rates" AS character
   DESCRIPTION "ECB_BUY/ECB_SELL/ELC_BUY/ELC_SELL"
   FORMAT "X(50)"
   INITIAL ""
-  POSITION 10
+  POSITION 11
   MAX-WIDTH 50
   ORDER 90
 
@@ -79,7 +87,7 @@ ADD FIELD "rate" OF "currency_rates" AS decimal
   DESCRIPTION "Currency rate"
   FORMAT ">>>>>9.99999999"
   INITIAL "0"
-  POSITION 11
+  POSITION 12
   MAX-WIDTH 3
   DECIMALS 8
   ORDER 100
@@ -88,7 +96,7 @@ ADD FIELD "count" OF "currency_rates" AS decimal
   DESCRIPTION "Currency order for reports"
   FORMAT "zzzz9"
   INITIAL "0"
-  POSITION 12
+  POSITION 13
   MAX-WIDTH 5
   ORDER 110
 
@@ -96,7 +104,7 @@ ADD FIELD "currency" OF "currency_rates" AS character
   DESCRIPTION "Currency iso code"
   FORMAT "X(3)"
   INITIAL ""
-  POSITION 13
+  POSITION 14
   MAX-WIDTH 3
   ORDER 80
 
@@ -106,6 +114,10 @@ ADD INDEX "id" ON "currency_rates"
   PRIMARY
   INDEX-FIELD "id" ASCENDING 
 
+ADD INDEX "uid" ON "currency_rates" 
+  AREA "Accounts Index"
+  INDEX-FIELD "uid" ASCENDING 
+  
 ADD INDEX "balance_date" ON "currency_rates" 
   AREA "Accounts Index"
   INDEX-FIELD "balance_date" ASCENDING 

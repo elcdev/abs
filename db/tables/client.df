@@ -11,11 +11,19 @@ ADD FIELD "id" OF "client" AS INT64
     MAX-WIDTH 4
     ORDER 10
 
+ADD FIELD "uid" OF "client" AS char
+  DESCRIPTION "Unique id"
+  FORMAT "X(36)"
+  INITIAL "guid"
+  POSITION 3
+  MAX-WIDTH 36
+  ORDER 15
+
 ADD FIELD "version" OF "client" AS INT64
     DESCRIPTION "Record version for replication"
     FORMAT ">>>>>>>>>>>9"
     INITIAL "0"
-    POSITION 3
+    POSITION 4
     MAX-WIDTH 4
     ORDER 20
 
@@ -23,7 +31,7 @@ ADD FIELD "state" OF "client" AS INT64
     DESCRIPTION "Record state for replication"
     FORMAT ">>>9"
     INITIAL "0"
-    POSITION 4
+    POSITION 5
     MAX-WIDTH 4
     ORDER 30
 
@@ -31,7 +39,7 @@ ADD FIELD "modify_date" OF "client" AS DATETIME
     DESCRIPTION "Record modification date"
     FORMAT "99.99.99 hh:mm:ss"
     INITIAL "now"
-    POSITION 5
+    POSITION 6
     MAX-WIDTH 4
     ORDER 40
 
@@ -39,7 +47,7 @@ ADD FIELD "modify_user" OF "client" AS CHAR
     DESCRIPTION "Record modification user"
     FORMAT "X(8)"
     INITIAL ""
-    POSITION 6
+    POSITION 7
     MAX-WIDTH 8
     ORDER 50
 
@@ -47,7 +55,7 @@ ADD FIELD "create_date" OF "client" AS DATETIME
     DESCRIPTION "Record creation date"
     FORMAT "99.99.99 hh:mm:ss"
     INITIAL "now"
-    POSITION 7
+    POSITION 8
     MAX-WIDTH 4
     ORDER 60
 
@@ -55,7 +63,7 @@ ADD FIELD "create_user" OF "client" AS CHAR
     DESCRIPTION "Record creation user"
     FORMAT "X(8)"
     INITIAL ""
-    POSITION 8
+    POSITION 9
     MAX-WIDTH 8
     ORDER 70
 
@@ -68,7 +76,7 @@ ADD FIELD "cif" OF "client" AS CHAR
     DESCRIPTION "Client code"
     FORMAT "X(8)"
     INITIAL ""
-    POSITION 9
+    POSITION 10
     MAX-WIDTH 4
     ORDER 80    
     
@@ -76,7 +84,7 @@ ADD FIELD "full_name" OF "client" AS CHAR
     DESCRIPTION "Full person or entity name"
     FORMAT "X(8)"
     INITIAL ""
-    POSITION 10
+    POSITION 11
     MAX-WIDTH 4
     ORDER 90
 
@@ -84,7 +92,7 @@ ADD FIELD "first_name" OF "client" AS CHAR
     DESCRIPTION "Person first name"
     FORMAT "X(8)"
     INITIAL ""
-    POSITION 11
+    POSITION 12
     MAX-WIDTH 4
     ORDER 100
 
@@ -92,7 +100,7 @@ ADD FIELD "last_name" OF "client" AS CHAR
     DESCRIPTION "Person last name"
     FORMAT "X(8)"
     INITIAL ""
-    POSITION 12
+    POSITION 13
     MAX-WIDTH 4
     ORDER 110
 
@@ -100,7 +108,7 @@ ADD FIELD "middle_name" OF "client" AS CHAR
     DESCRIPTION "Person last name"
     FORMAT "X(8)"
     INITIAL ""
-    POSITION 13
+    POSITION 14
     MAX-WIDTH 4
     ORDER 120
     
@@ -108,7 +116,7 @@ ADD FIELD "client_group" OF "client" AS CHAR
     DESCRIPTION "Group of clients"
     FORMAT "X(5)"
     INITIAL ""
-    POSITION 14
+    POSITION 15
     MAX-WIDTH 4
     ORDER 130
     
@@ -116,7 +124,7 @@ ADD FIELD "client_type" OF "client" AS CHAR
     DESCRIPTION "Type of client ([p]erson/[b]busines)"
     FORMAT "X(1)"
     INITIAL ""
-    POSITION 15
+    POSITION 16
     MAX-WIDTH 1
     ORDER 140
 
@@ -124,7 +132,7 @@ ADD FIELD "birth_day" OF "client" AS DATE
     DESCRIPTION "Person birth day or Busynes registration date"
     FORMAT "99/99/9999"
     INITIAL ?
-    POSITION 16
+    POSITION 17
     MAX-WIDTH 10
     ORDER 150
 
@@ -132,7 +140,7 @@ ADD FIELD "sex" OF "client" AS CHAR
     DESCRIPTION "F-eminum/M-uskulinum/N-eutral/E-ntity"
     FORMAT "X"
     INITIAL "N"
-    POSITION 17
+    POSITION 18
     MAX-WIDTH 1
     ORDER 160
 
@@ -141,7 +149,7 @@ ADD FIELD "registration_number" OF "client" AS CHAR
     DESCRIPTION "User's registration number/person code"
     FORMAT "X(20)"
     INITIAL ""
-    POSITION 18
+    POSITION 19
     MAX-WIDTH 4
     ORDER 170
 
@@ -149,7 +157,7 @@ ADD FIELD "client_status" OF "client" AS CHAR
     DESCRIPTION "[N]ew, [A]ctive, [R]estricted, [C]losed"
     FORMAT "X(10)"
     INITIAL ""
-    POSITION 19
+    POSITION 20
     MAX-WIDTH 10
     ORDER 180
 
@@ -157,7 +165,7 @@ ADD FIELD "registration_date" OF "client" AS date
     DESCRIPTION "Client registration date in system"
     FORMAT "99/99/9999"
     INITIAL ?
-    POSITION 20
+    POSITION 21
     MAX-WIDTH 10
     ORDER 190
 
@@ -165,7 +173,7 @@ ADD FIELD "registration_user" OF "client" AS char
     DESCRIPTION "Who registered client in the system"
     FORMAT "X(8)"
     INITIAL ""
-    POSITION 21
+    POSITION 22
     MAX-WIDTH 8
     ORDER 200
 
@@ -174,7 +182,7 @@ ADD FIELD "activation_date" OF "client" AS date
     DESCRIPTION "Client activation date in the system"
     FORMAT "99/99/9999"
     INITIAL ?
-    POSITION 22
+    POSITION 23
     MAX-WIDTH 10
     ORDER 210
 
@@ -182,7 +190,7 @@ ADD FIELD "activation_user" OF "client" AS char
     DESCRIPTION "Who activated client in the system"
     FORMAT "X(8)"
     INITIAL ""
-    POSITION 23
+    POSITION 24
     MAX-WIDTH 8
     ORDER 220
 
@@ -190,7 +198,7 @@ ADD FIELD "close_date" OF "client" AS date
     DESCRIPTION "Client close date in the system"
     FORMAT "99/99/9999"
     INITIAL ""
-    POSITION 24
+    POSITION 25
     MAX-WIDTH 10
     ORDER 230
 
@@ -198,7 +206,7 @@ ADD FIELD "close_user" OF "client" AS char
     DESCRIPTION "Who closed client in the system"
     FORMAT "X(8)"
     INITIAL ""
-    POSITION 25
+    POSITION 26
     MAX-WIDTH 8
     ORDER 240
 
@@ -206,7 +214,7 @@ ADD FIELD "residence_country" OF "client" AS CHAR
     DESCRIPTION "ISO residence country code"
     FORMAT "X(2)"
     INITIAL ""
-    POSITION 26
+    POSITION 27
     MAX-WIDTH 2
     ORDER 250
 
@@ -214,7 +222,7 @@ ADD FIELD "ext_client_id" OF "client" AS CHAR
     DESCRIPTION "External system client id connection"
     FORMAT "X(16)"
     INITIAL ""
-    POSITION 27
+    POSITION 28
     MAX-WIDTH 16
     ORDER 260
     
@@ -222,7 +230,7 @@ ADD FIELD "scoring_risk_group" OF "client" AS CHAR
     DESCRIPTION "Client AML scoring group"
     FORMAT "X(16)"
     INITIAL ""
-    POSITION 28
+    POSITION 29
     MAX-WIDTH 16
     ORDER 270    
 
@@ -230,7 +238,7 @@ ADD FIELD "scoring_points" OF "client" AS INT
     DESCRIPTION "Client AML scoring point"
     FORMAT "zz9"
     INITIAL ""
-    POSITION 29
+    POSITION 30
     MAX-WIDTH 3
     ORDER 280    
     
@@ -243,6 +251,10 @@ ADD INDEX "id" ON "client"
   PRIMARY
   INDEX-FIELD "id" ASCENDING 
 
+ADD INDEX "uid" ON "payment_template_data" 
+  AREA "Accounts Index"
+  INDEX-FIELD "uid" ASCENDING 
+  
 ADD INDEX "modify_date" ON "client" 
   AREA "Clients Index"
   INDEX-FIELD "modify_date" ASCENDING 

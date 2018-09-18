@@ -12,11 +12,19 @@ ADD FIELD "id" OF "gl_balance" AS int64
   MAX-WIDTH 12
   ORDER 10
 
+ADD FIELD "uid" OF "gl_balance" AS char
+  DESCRIPTION "Unique id"
+  FORMAT "X(36)"
+  INITIAL "guid"
+  POSITION 3
+  MAX-WIDTH 36
+  ORDER 15
+
 ADD FIELD "version" OF "gl_balance" AS int64 
   DESCRIPTION "Record version for replication"
   FORMAT ">>>>>>>>>>>9"
   INITIAL "0"
-  POSITION 3
+  POSITION 4
   MAX-WIDTH 12
   ORDER 20
 
@@ -24,7 +32,7 @@ ADD FIELD "state" OF "gl_balance" AS int64
   DESCRIPTION "Record state for replication"
   FORMAT ">>>9"
   INITIAL "0"
-  POSITION 4
+  POSITION 5
   MAX-WIDTH 4
   ORDER 30
 
@@ -32,7 +40,7 @@ ADD FIELD "modify_date" OF "gl_balance" AS datetime
   DESCRIPTION "Record modification date"
   FORMAT "99.99.9999 hh:mm:ss"
   INITIAL "now"
-  POSITION 5
+  POSITION 6
   MAX-WIDTH 19
   ORDER 40
 
@@ -40,7 +48,7 @@ ADD FIELD "modify_user" OF "gl_balance" AS character
   DESCRIPTION "Record modification user"
   FORMAT "X(8)"
   INITIAL ""
-  POSITION 6
+  POSITION 7
   MAX-WIDTH 8
   ORDER 50
 
@@ -48,7 +56,7 @@ ADD FIELD "create_date" OF "gl_balance" AS datetime
   DESCRIPTION "Record creation date"
   FORMAT "99.99.9999 hh:mm:ss"
   INITIAL "now"
-  POSITION 7
+  POSITION 8
   MAX-WIDTH 19
   ORDER 60
 
@@ -56,7 +64,7 @@ ADD FIELD "create_user" OF "gl_balance" AS character
   DESCRIPTION "Record creation user"
   FORMAT "X(8)"
   INITIAL ""
-  POSITION 8
+  POSITION 9
   MAX-WIDTH 8
   ORDER 70
 
@@ -64,7 +72,7 @@ ADD FIELD "gl" OF "gl_balance" AS int64
   DESCRIPTION "General ledger account number"
   FORMAT "zzzzzzzzz9"
   INITIAL "0"
-  POSITION 9
+  POSITION 10
   MAX-WIDTH 10
   ORDER 80
 
@@ -72,7 +80,7 @@ ADD FIELD "balance_date" OF "gl_balance" AS date
   DESCRIPTION "Balance date"
   FORMAT "99.99.9999"
   INITIAL "?"
-  POSITION 10
+  POSITION 11
   MAX-WIDTH 10
   ORDER 90
 
@@ -80,7 +88,7 @@ ADD FIELD "currency" OF "gl_balance" AS character
   DESCRIPTION "Currency"
   FORMAT "X(3)"
   INITIAL ""
-  POSITION 11
+  POSITION 12
   MAX-WIDTH 3
   ORDER 100
 
@@ -88,7 +96,7 @@ ADD FIELD "balance" OF "gl_balance" AS decimal
   DESCRIPTION "Account balnce for date"
   FORMAT "-z,zzz,zzz,zz9.99"
   INITIAL "0.00"
-  POSITION 12
+  POSITION 13
   MAX-WIDTH 17
   DECIMALS 2
   ORDER 110
@@ -97,7 +105,7 @@ ADD FIELD "total_debet" OF "gl_balance" AS decimal
   DESCRIPTION "Account total debet turnover from open date"
   FORMAT "-z,zzz,zzz,zz9.99"
   INITIAL "0.00"
-  POSITION 13
+  POSITION 14
   MAX-WIDTH 17
   DECIMALS 2
   ORDER 120
@@ -106,7 +114,7 @@ ADD FIELD "total_credit" OF "gl_balance" AS decimal
   DESCRIPTION "Account total credit turnover from open date"
   FORMAT "-z,zzz,zzz,zz9.99"
   INITIAL "0.00"
-  POSITION 14
+  POSITION 15
   MAX-WIDTH 17
   DECIMALS 2
   ORDER 130
@@ -117,6 +125,10 @@ ADD INDEX "id" ON "gl_balance"
   PRIMARY
   INDEX-FIELD "id" ASCENDING 
 
+ADD INDEX "uid" ON "gl_balance" 
+  AREA "Accounts Index"
+  INDEX-FIELD "uid" ASCENDING 
+  
 ADD INDEX "balance_date" ON "gl_balance" 
   AREA "Accounts Index"
   INDEX-FIELD "balance_date" ASCENDING 

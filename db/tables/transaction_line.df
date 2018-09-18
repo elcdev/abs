@@ -12,11 +12,19 @@ ADD FIELD "id" OF "transaction_line" AS int64
   MAX-WIDTH 4
   ORDER 10
 
+ADD FIELD "uid" OF "transaction_line" AS char
+  DESCRIPTION "Unique id"
+  FORMAT "X(36)"
+  INITIAL "guid"
+  POSITION 3
+  MAX-WIDTH 4
+  ORDER 15
+  
 ADD FIELD "version" OF "transaction_line" AS int64 
   DESCRIPTION "Record version for replication"
   FORMAT ">>>>>>>>>>>9"
   INITIAL "0"
-  POSITION 3
+  POSITION 4
   MAX-WIDTH 4
   ORDER 20
 
@@ -24,7 +32,7 @@ ADD FIELD "state" OF "transaction_line" AS int64
   DESCRIPTION "Record state for replication"
   FORMAT ">>>9"
   INITIAL "0"
-  POSITION 4
+  POSITION 5
   MAX-WIDTH 4
   ORDER 30
 
@@ -32,7 +40,7 @@ ADD FIELD "modify_date" OF "transaction_line" AS datetime
   DESCRIPTION "Record modification date"
   FORMAT "99.99.99 hh:mm:ss"
   INITIAL "now"
-  POSITION 5
+  POSITION 6
   MAX-WIDTH 4
   ORDER 40
 
@@ -40,7 +48,7 @@ ADD FIELD "modify_user" OF "transaction_line" AS character
   DESCRIPTION "Record modification user"
   FORMAT "X(8)"
   INITIAL ""
-  POSITION 6
+  POSITION 7
   MAX-WIDTH 8
   ORDER 50
 
@@ -48,7 +56,7 @@ ADD FIELD "create_date" OF "transaction_line" AS datetime
   DESCRIPTION "Record creation date"
   FORMAT "99.99.99 hh:mm:ss"
   INITIAL "now"
-  POSITION 7
+  POSITION 8
   MAX-WIDTH 4
   ORDER 60
 
@@ -56,7 +64,7 @@ ADD FIELD "create_user" OF "transaction_line" AS character
   DESCRIPTION "Record creation user"
   FORMAT "X(8)"
   INITIAL ""
-  POSITION 8
+  POSITION 9
   MAX-WIDTH 8
   ORDER 70
 
@@ -64,7 +72,7 @@ ADD FIELD "header_id" OF "transaction_line" AS int64
   DESCRIPTION "Transaction number"
   FORMAT "zzzzzzzzzzz9"
   INITIAL "0"
-  POSITION 9
+  POSITION 10
   MAX-WIDTH 12
   ORDER 80
 
@@ -72,7 +80,7 @@ ADD FIELD "line" OF "transaction_line" AS integer
   DESCRIPTION "Line number in transaction"
   FORMAT "zzz9"
   INITIAL "0"
-  POSITION 10
+  POSITION 11
   MAX-WIDTH 4
   ORDER 90
 
@@ -80,7 +88,7 @@ ADD FIELD "line_status" OF "transaction_line" AS integer
   DESCRIPTION "0-New,6-Approved,"
   FORMAT "9"
   INITIAL "0"
-  POSITION 11
+  POSITION 12
   MAX-WIDTH 1
   ORDER 100
 
@@ -88,7 +96,7 @@ ADD FIELD "line_type" OF "transaction_line" AS character
   DESCRIPTION "Line operation type (cash/transfer/...)"
   FORMAT "X(10)"
   INITIAL ""
-  POSITION 12
+  POSITION 13
   MAX-WIDTH 10
   ORDER 110
 
@@ -96,7 +104,7 @@ ADD FIELD "gl" OF "transaction_line" AS int64
   DESCRIPTION "General ledger account number"
   FORMAT "zzzzzzzzz9"
   INITIAL "0"
-  POSITION 13
+  POSITION 14
   MAX-WIDTH 10
   ORDER 120
 
@@ -104,7 +112,7 @@ ADD FIELD "account" OF "transaction_line" AS character
   DESCRIPTION "account number"
   FORMAT "X(12)"
   INITIAL ""
-  POSITION 14
+  POSITION 15
   MAX-WIDTH 4
   ORDER 130
 
@@ -112,7 +120,7 @@ ADD FIELD "balance_date" OF "transaction_line" AS date
   DESCRIPTION "Balance date"
   FORMAT "99.99.9999"
   INITIAL "?"
-  POSITION 15
+  POSITION 16
   MAX-WIDTH 10
   ORDER 140
 
@@ -120,7 +128,7 @@ ADD FIELD "currency" OF "transaction_line" AS character
   DESCRIPTION "Currency"
   FORMAT "X(3)"
   INITIAL ""
-  POSITION 16
+  POSITION 17
   MAX-WIDTH 3
   ORDER 150
 
@@ -128,7 +136,7 @@ ADD FIELD "dc" OF "transaction_line" AS character
   DESCRIPTION "[D]ebit/[C]redit"
   FORMAT "X"
   INITIAL ""
-  POSITION 17
+  POSITION 18
   MAX-WIDTH 1
   ORDER 160
 
@@ -136,7 +144,7 @@ ADD FIELD "debet" OF "transaction_line" AS decimal
   DESCRIPTION "Debet amount"
   FORMAT "z,zzz,zzz,zz9.99"
   INITIAL "0"
-  POSITION 18
+  POSITION 19
   MAX-WIDTH 16
   DECIMALS 2
   ORDER 170
@@ -145,7 +153,7 @@ ADD FIELD "credit" OF "transaction_line" AS decimal
   DESCRIPTION "Credit amount"
   FORMAT "z,zzz,zzz,zz9.99"
   INITIAL "0"
-  POSITION 19
+  POSITION 20
   MAX-WIDTH 16
   DECIMALS 2
   ORDER 180
@@ -154,7 +162,7 @@ ADD FIELD "details" OF "transaction_line" AS character
   DESCRIPTION "Transation details in residence country national language"
   FORMAT "X(80)"
   INITIAL ""
-  POSITION 20
+  POSITION 21
   MAX-WIDTH 80
   ORDER 190
 
@@ -162,7 +170,7 @@ ADD FIELD "details_template" OF "transaction_line" AS character
   DESCRIPTION "Transation details template for nation language translations"
   FORMAT "X(80)"
   INITIAL ""
-  POSITION 21
+  POSITION 22
   MAX-WIDTH 80
   ORDER 200
 
@@ -170,7 +178,7 @@ ADD FIELD "cif" OF "transaction_line" AS character
   DESCRIPTION "Client's code"
   FORMAT "X(12)"
   INITIAL ""
-  POSITION 22
+  POSITION 23
   MAX-WIDTH 12
   ORDER 210
 
@@ -178,7 +186,7 @@ ADD FIELD "client_id" OF "transaction_line" AS int64
   DESCRIPTION "Client's id"
   FORMAT "zzzzzzzzzzz9"
   INITIAL "0"
-  POSITION 23
+  POSITION 24
   MAX-WIDTH 12
   ORDER 220
 
@@ -186,7 +194,7 @@ ADD FIELD "hash_tags" OF "transaction_line" AS character
   DESCRIPTION "Tags for for transaction: #fuel#cash# "
   FORMAT "X(30)"
   INITIAL ""
-  POSITION 24
+  POSITION 25
   MAX-WIDTH 30
   ORDER 230
 
@@ -194,7 +202,7 @@ ADD FIELD "service_code" OF "transaction_line" AS character
   DESCRIPTION "Service code of line"
   FORMAT "X(5)"
   INITIAL ""
-  POSITION 25
+  POSITION 26
   MAX-WIDTH 5
   ORDER 240
 
@@ -202,7 +210,7 @@ ADD FIELD "authorize_user" OF "transaction_line" AS character
   DESCRIPTION "User who authorized transaction"
   FORMAT "X(8)"
   INITIAL ""
-  POSITION 26
+  POSITION 27
   MAX-WIDTH 8
   ORDER 250
 
@@ -210,7 +218,7 @@ ADD FIELD "authorize_date" OF "transaction_line" AS date
   DESCRIPTION "Transaction authorization date"
   FORMAT "99.99.9999"
   INITIAL ?
-  POSITION 27
+  POSITION 28
   MAX-WIDTH 10
   ORDER 260
 
@@ -218,7 +226,7 @@ ADD FIELD "is_processed" OF "transaction_line" AS logical
   DESCRIPTION "Line is applied to balance"
   FORMAT "yes/no"
   INITIAL "NO"
-  POSITION 28
+  POSITION 29
   MAX-WIDTH 3
   ORDER 270
 
@@ -226,9 +234,17 @@ ADD FIELD "created_by_programm" OF "transaction_line" AS logical
   DESCRIPTION "Programm which creted line"
   FORMAT "X(80)"
   INITIAL "NO"
-  POSITION 29
+  POSITION 30
   MAX-WIDTH 80
   ORDER 280
+
+ADD FIELD "hash" OF "transaction_line" AS CHAR
+  DESCRIPTION "Blockchain Hash"
+  FORMAT "X(32)"
+  INITIAL ""
+  POSITION 31
+  MAX-WIDTH 32
+  ORDER 290
 
 ADD INDEX "id" ON "transaction_line" 
   AREA "Accounts Index"
@@ -236,6 +252,10 @@ ADD INDEX "id" ON "transaction_line"
   PRIMARY
   INDEX-FIELD "id" ASCENDING 
 
+ADD INDEX "uid" ON "transaction_line" 
+  AREA "Accounts Index"
+  INDEX-FIELD "uid" ASCENDING 
+  
 ADD INDEX "account" ON "transaction_line" 
   AREA "Accounts Index"
   INDEX-FIELD "account" ASCENDING 

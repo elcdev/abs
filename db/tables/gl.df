@@ -160,6 +160,10 @@ ADD INDEX "id" ON "gl"
   PRIMARY
   INDEX-FIELD "id" ASCENDING 
 
+ADD INDEX "uid" ON "gl" 
+  AREA "Accounts Index"
+  INDEX-FIELD "uid" ASCENDING 
+  
 ADD INDEX "gl" ON "gl" 
   AREA "ACCOUNTS Index"
   INDEX-FIELD "gl" ASCENDING 

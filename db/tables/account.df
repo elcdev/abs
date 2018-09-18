@@ -12,11 +12,19 @@ ADD FIELD "id" OF "account" AS int64
   MAX-WIDTH 4
   ORDER 10
 
+ADD FIELD "uid" OF "account" AS char
+  DESCRIPTION "Unique id"
+  FORMAT "X(36)"
+  INITIAL "guid"
+  POSITION 3
+  MAX-WIDTH 4
+  ORDER 15
+
 ADD FIELD "version" OF "account" AS int64 
   DESCRIPTION "Record version for replication"
   FORMAT ">>>>>>>>>>>9"
   INITIAL "0"
-  POSITION 3
+  POSITION 4
   MAX-WIDTH 4
   ORDER 20
 
@@ -24,7 +32,7 @@ ADD FIELD "state" OF "account" AS int64
   DESCRIPTION "Record state for replication"
   FORMAT ">>>9"
   INITIAL "0"
-  POSITION 4
+  POSITION 5
   MAX-WIDTH 4
   ORDER 30
 
@@ -32,7 +40,7 @@ ADD FIELD "modify_date" OF "account" AS datetime
   DESCRIPTION "Record modification date"
   FORMAT "99.99.9999 hh:mm:ss"
   INITIAL "now"
-  POSITION 5
+  POSITION 6
   MAX-WIDTH 4
   ORDER 40
 
@@ -40,7 +48,7 @@ ADD FIELD "modify_user" OF "account" AS character
   DESCRIPTION "Record modification user"
   FORMAT "X(8)"
   INITIAL ""
-  POSITION 6
+  POSITION 7
   MAX-WIDTH 8
   ORDER 50
 
@@ -48,7 +56,7 @@ ADD FIELD "create_date" OF "account" AS datetime
   DESCRIPTION "Record creation date"
   FORMAT "99.99.9999 hh:mm:ss"
   INITIAL "now"
-  POSITION 7
+  POSITION 8
   MAX-WIDTH 4
   ORDER 60
 
@@ -56,7 +64,7 @@ ADD FIELD "create_user" OF "account" AS character
   DESCRIPTION "Record creation user"
   FORMAT "X(8)"
   INITIAL ""
-  POSITION 8
+  POSITION 9
   MAX-WIDTH 8
   ORDER 70
 
@@ -64,7 +72,7 @@ ADD FIELD "gl" OF "account" AS int64
   DESCRIPTION "General ledger account number"
   FORMAT "zzzzzzzzz9"
   INITIAL "0"
-  POSITION 9
+  POSITION 10
   MAX-WIDTH 10
   ORDER 80
 
@@ -72,7 +80,7 @@ ADD FIELD "iban" OF "account" AS character
   DESCRIPTION "account number"
   FORMAT "X(35)"
   INITIAL ""
-  POSITION 10
+  POSITION 11
   MAX-WIDTH 35
   ORDER 90
 
@@ -80,7 +88,7 @@ ADD FIELD "account" OF "account" AS character
   DESCRIPTION "account number"
   FORMAT "X(12)"
   INITIAL ""
-  POSITION 11
+  POSITION 12
   MAX-WIDTH 4
   ORDER 100
 
@@ -88,7 +96,7 @@ ADD FIELD "base_account" OF "account" AS character
   DESCRIPTION "Base multicurrency account"
   FORMAT "X(12)"
   INITIAL ""
-  POSITION 12
+  POSITION 13
   MAX-WIDTH 4
   ORDER 110
 
@@ -96,7 +104,7 @@ ADD FIELD "overdraft_account" OF "account" AS character
   DESCRIPTION "Overdraft account for current account"
   FORMAT "X(12)"
   INITIAL ""
-  POSITION 13
+  POSITION 14
   MAX-WIDTH 12
   ORDER 120
 
@@ -104,7 +112,7 @@ ADD FIELD "currency" OF "account" AS character
   DESCRIPTION "Currency"
   FORMAT "X(3)"
   INITIAL ""
-  POSITION 14
+  POSITION 15
   MAX-WIDTH 3
   ORDER 130
 
@@ -112,7 +120,7 @@ ADD FIELD "account_group" OF "account" AS character
   DESCRIPTION "Account group"
   FORMAT "X(7)"
   INITIAL ""
-  POSITION 15
+  POSITION 16
   MAX-WIDTH 7
   ORDER 140
 
@@ -120,7 +128,7 @@ ADD FIELD "subledger_type" OF "account" AS character
   DESCRIPTION "account type (aaa, dfb, arp, fun)"
   FORMAT "X(5)"
   INITIAL ""
-  POSITION 16
+  POSITION 17
   MAX-WIDTH 5
   ORDER 150
 
@@ -128,7 +136,7 @@ ADD FIELD "account_subtype" OF "account" AS character
   DESCRIPTION "Sub type (dfbForClients, dfbForElcoin)"
   FORMAT "X(7)"
   INITIAL ""
-  POSITION 17
+  POSITION 18
   MAX-WIDTH 7
   ORDER 160
 
@@ -136,7 +144,7 @@ ADD FIELD "product_code" OF "account" AS character
   DESCRIPTION "Product code"
   FORMAT "X(7)"
   INITIAL ""
-  POSITION 18
+  POSITION 19
   MAX-WIDTH 7
   ORDER 170
 
@@ -144,7 +152,7 @@ ADD FIELD "branch" OF "account" AS character
   DESCRIPTION "Branch of account"
   FORMAT "X(5)"
   INITIAL ""
-  POSITION 19
+  POSITION 20
   MAX-WIDTH 5
   ORDER 180
 
@@ -152,7 +160,7 @@ ADD FIELD "cif" OF "account" AS character
   DESCRIPTION "Relation withs clients table"
   FORMAT "X(12)"
   INITIAL "0"
-  POSITION 20
+  POSITION 21
   MAX-WIDTH 12
   ORDER 190
 
@@ -160,7 +168,7 @@ ADD FIELD "client_id" OF "account" AS int64
   DESCRIPTION "Relation withs clients table"
   FORMAT ">>>>>>>>>>>9"
   INITIAL "0"
-  POSITION 21
+  POSITION 22
   MAX-WIDTH 12
   ORDER 200
 
@@ -168,7 +176,7 @@ ADD FIELD "account_status" OF "account" AS character
   DESCRIPTION "Account satus: [new]-new, [active]-active, [closed]-closed"
   FORMAT "X(10)"
   INITIAL ""
-  POSITION 22
+  POSITION 23
   MAX-WIDTH 10
   ORDER 210
 
@@ -176,7 +184,7 @@ ADD FIELD "description" OF "account" AS character
   DESCRIPTION "Sub type (dfbForClients, dfbForElcoin)"
   FORMAT "X(50)"
   INITIAL ""
-  POSITION 23
+  POSITION 24
   MAX-WIDTH 50
   ORDER 220
 
@@ -184,7 +192,7 @@ ADD FIELD "open_date" OF "account" AS date
   DESCRIPTION "Account open date"
   FORMAT "99.99.9999"
   INITIAL ?
-  POSITION 24
+  POSITION 25
   MAX-WIDTH 10
   ORDER 230
 
@@ -192,7 +200,7 @@ ADD FIELD "close_date" OF "account" AS date
   DESCRIPTION "Account close date"
   FORMAT "99.99.9999"
   INITIAL ?
-  POSITION 25
+  POSITION 26
   MAX-WIDTH 10
   ORDER 240
 
@@ -200,7 +208,7 @@ ADD FIELD "open_amount" OF "account" AS decimal
   DESCRIPTION "Account open amount (for overdraft/deposit) move to data"
   FORMAT "-z,zzz,zzz,zz9.99"
   INITIAL "0.00"
-  POSITION 26
+  POSITION 27
   MAX-WIDTH 17
   DECIMALS 2
   ORDER 250
@@ -209,7 +217,7 @@ ADD FIELD "last_operation_date" OF "account" AS date
   DESCRIPTION "Last operation date"
   FORMAT "99.99.9999"
   INITIAL ?
-  POSITION 27
+  POSITION 28
   MAX-WIDTH 19
   ORDER 260
 
@@ -217,7 +225,7 @@ ADD FIELD "last_credit_date" OF "account" AS date
   DESCRIPTION "Last credit operation date"
   FORMAT "99.99.9999"
   INITIAL ?
-  POSITION 28
+  POSITION 29
   MAX-WIDTH 4
   ORDER 290
 
@@ -225,7 +233,7 @@ ADD FIELD "last_debet_amount" OF "account" AS decimal
   DESCRIPTION "Last debet operation amount"
   FORMAT "-z,zzz,zzz,zz9.99"
   INITIAL "0.00"
-  POSITION 29
+  POSITION 30
   MAX-WIDTH 17
   DECIMALS 2
   ORDER 280
@@ -234,7 +242,7 @@ ADD FIELD "last_debet_date" OF "account" AS date
   DESCRIPTION "Last debet operation date"
   FORMAT "99.99.9999"
   INITIAL ?
-  POSITION 30
+  POSITION 31
   MAX-WIDTH 19
   ORDER 270
 
@@ -242,7 +250,7 @@ ADD FIELD "last_credit_amount" OF "account" AS decimal
   DESCRIPTION "Last credit operation date"
   FORMAT "-z,zzz,zzz,zz9.99"
   INITIAL "0.00"
-  POSITION 31
+  POSITION 32
   MAX-WIDTH 17
   DECIMALS 2
   ORDER 300
@@ -252,6 +260,10 @@ ADD INDEX "id" ON "account"
   UNIQUE
   PRIMARY
   INDEX-FIELD "id" ASCENDING 
+
+ADD INDEX "uid" ON "account" 
+  AREA "Accounts Index"
+  INDEX-FIELD "uid" ASCENDING 
 
 ADD INDEX "account" ON "account" 
   AREA "Accounts Index"

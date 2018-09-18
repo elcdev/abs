@@ -12,11 +12,19 @@ ADD FIELD "id" OF "localization" AS int64
   MAX-WIDTH 4
   ORDER 10
 
+ADD FIELD "uid" OF "localization" AS char
+  DESCRIPTION "Unique id"
+  FORMAT "X(36)"
+  INITIAL "guid"
+  POSITION 3
+  MAX-WIDTH 36
+  ORDER 15
+
 ADD FIELD "version" OF "localization" AS int64 
   DESCRIPTION "Record version for replication"
   FORMAT ">>>>>>>>>>>9"
   INITIAL "0"
-  POSITION 3
+  POSITION 4
   MAX-WIDTH 4
   ORDER 20
 
@@ -24,7 +32,7 @@ ADD FIELD "state" OF "localization" AS int64
   DESCRIPTION "Record state for replication"
   FORMAT ">>>9"
   INITIAL "0"
-  POSITION 4
+  POSITION 5
   MAX-WIDTH 4
   ORDER 30
 
@@ -32,7 +40,7 @@ ADD FIELD "modify_date" OF "localization" AS datetime
   DESCRIPTION "Record modification date"
   FORMAT "99.99.99 hh:mm:ss"
   INITIAL "now"
-  POSITION 5
+  POSITION 6
   MAX-WIDTH 4
   ORDER 40
 
@@ -40,7 +48,7 @@ ADD FIELD "modify_user" OF "localization" AS character
   DESCRIPTION "Record modification user"
   FORMAT "X(8)"
   INITIAL ""
-  POSITION 6
+  POSITION 7
   MAX-WIDTH 8
   ORDER 50
 
@@ -48,7 +56,7 @@ ADD FIELD "create_date" OF "localization" AS datetime
   DESCRIPTION "Record creation date"
   FORMAT "99.99.99 hh:mm:ss"
   INITIAL "now"
-  POSITION 7
+  POSITION 8
   MAX-WIDTH 4
   ORDER 60
 
@@ -56,7 +64,7 @@ ADD FIELD "create_user" OF "localization" AS character
   DESCRIPTION "Record creation user"
   FORMAT "X(8)"
   INITIAL ""
-  POSITION 8
+  POSITION 9
   MAX-WIDTH 8
   ORDER 70
 
@@ -71,7 +79,7 @@ ADD FIELD "language" OF "localization" AS character
   DESCRIPTION "localization position in parent record set (en/lv/ru...)"
   FORMAT "X(2)"
   INITIAL ""
-  POSITION 9
+  POSITION 10
   MAX-WIDTH 4
   ORDER 80
 
@@ -79,7 +87,7 @@ ADD FIELD "category" OF "localization" AS character
   DESCRIPTION "Object category for national language translations"
   FORMAT "X(15)"
   INITIAL ""
-  POSITION 10
+  POSITION 11
   MAX-WIDTH 4
   ORDER 90
 
@@ -87,7 +95,7 @@ ADD FIELD "key" OF "localization" AS character
   DESCRIPTION "Key of translation to national language in english (used in programs)"
   FORMAT "X(30)"
   INITIAL ""
-  POSITION 11
+  POSITION 12
   MAX-WIDTH 4
   ORDER 100
 
@@ -95,7 +103,7 @@ ADD FIELD "description" OF "localization" AS character
   DESCRIPTION "Key value translated in national language "
   FORMAT "X(50)"
   INITIAL ""
-  POSITION 12
+  POSITION 13
   MAX-WIDTH 4
   ORDER 110
 
@@ -108,6 +116,10 @@ ADD INDEX "id" ON "localization"
   PRIMARY
   INDEX-FIELD "id" ASCENDING 
 
+ADD INDEX "uid" ON "localization" 
+  AREA "Accounts Index"
+  INDEX-FIELD "uid" ASCENDING 
+  
 ADD INDEX "modify_date" ON "localization" 
   AREA "System Index"
   INDEX-FIELD "modify_date" ASCENDING 

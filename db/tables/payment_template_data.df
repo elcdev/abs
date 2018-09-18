@@ -12,11 +12,19 @@ ADD FIELD "id" OF "payment_template_data" AS int64
   MAX-WIDTH 4
   ORDER 10
 
+ADD FIELD "uid" OF "payment_template_data" AS char
+  DESCRIPTION "Unique id"
+  FORMAT "X(36)"
+  INITIAL "guid"
+  POSITION 3
+  MAX-WIDTH 4
+  ORDER 15
+  
 ADD FIELD "version" OF "payment_template_data" AS int64 
   DESCRIPTION "Record version for replication"
   FORMAT ">>>>>>>>>>>9"
   INITIAL "0"
-  POSITION 3
+  POSITION 4
   MAX-WIDTH 4
   ORDER 20
 
@@ -24,7 +32,7 @@ ADD FIELD "state" OF "payment_template_data" AS int64
   DESCRIPTION "Record state for replication"
   FORMAT ">>>9"
   INITIAL "0"
-  POSITION 4
+  POSITION 5
   MAX-WIDTH 4
   ORDER 30
 
@@ -32,7 +40,7 @@ ADD FIELD "modify_date" OF "payment_template_data" AS datetime
   DESCRIPTION "Record modification date"
   FORMAT "99.99.99 hh:mm:ss"
   INITIAL "now"
-  POSITION 5
+  POSITION 6
   MAX-WIDTH 4
   ORDER 40
 
@@ -40,7 +48,7 @@ ADD FIELD "modify_user" OF "payment_template_data" AS character
   DESCRIPTION "Record modification user"
   FORMAT "X(8)"
   INITIAL ""
-  POSITION 6
+  POSITION 7
   MAX-WIDTH 8
   ORDER 50
 
@@ -48,7 +56,7 @@ ADD FIELD "create_date" OF "payment_template_data" AS datetime
   DESCRIPTION "Record creation date"
   FORMAT "99.99.99 hh:mm:ss"
   INITIAL "now"
-  POSITION 7
+  POSITION 8
   MAX-WIDTH 4
   ORDER 60
 
@@ -56,35 +64,32 @@ ADD FIELD "create_user" OF "payment_template_data" AS character
   DESCRIPTION "Record creation user"
   FORMAT "X(8)"
   INITIAL ""
-  POSITION 8
+  POSITION 9
   MAX-WIDTH 8
   ORDER 70
 
-  
-  
-  
   
 ADD FIELD "parent_id" OF "payment_template_data" AS int64 
   DESCRIPTION "Payment template id"
   FORMAT ">>>>>>>>>>>9"
   INITIAL "0"
-  POSITION 9
+  POSITION 10
   MAX-WIDTH 12
   ORDER 80
 
-ADD FIELD "field_name" OF "payment_template_data" AS CHARACTER  
+ADD FIELD "field_name" OF "payment_template_data" AS character 
   DESCRIPTION "Field template"
   FORMAT "X(15)"
   INITIAL ""
-  POSITION 10
+  POSITION 11
   MAX-WIDTH 4
   ORDER 90
 
-ADD FIELD "field_description" OF "payment_template_data" AS CHARACTER  
+ADD FIELD "field_description" OF "payment_template_data" AS character 
   DESCRIPTION "Field description"
   FORMAT "X(30)"
   INITIAL "0"
-  POSITION 11
+  POSITION 12
   MAX-WIDTH 1
   ORDER 100
 
@@ -92,51 +97,44 @@ ADD FIELD "field_type" OF "payment_template_data" AS character
   DESCRIPTION "Field data type"
   FORMAT "X(10)"
   INITIAL "CHAR"
-  POSITION 12
+  POSITION 13
   MAX-WIDTH 3
   ORDER 110
-  
+
 ADD FIELD "field_format" OF "payment_template_data" AS character 
   DESCRIPTION "Field display format"
   FORMAT "X(10)"
   INITIAL "X(10)"
-  POSITION 13
+  POSITION 14
   MAX-WIDTH 80
   ORDER 120
-  
+
 ADD FIELD "field_value" OF "payment_template_data" AS character 
   DESCRIPTION "Field value"
   FORMAT "X(20)"
   INITIAL ""
-  POSITION 14
+  POSITION 15
   MAX-WIDTH 10
   ORDER 130
 
-ADD FIELD "field_action" OF "payment_template_data" AS CHARACTER 
+ADD FIELD "field_action" OF "payment_template_data" AS character 
   DESCRIPTION "Field action"
   FORMAT "X(15)"
   INITIAL ""
-  POSITION 15
+  POSITION 16
   MAX-WIDTH 10
   ORDER 140
 
-  
-
-
-  
-  
 ADD INDEX "id" ON "payment_template_data" 
   AREA "Accounts Index"
   UNIQUE
   PRIMARY
   INDEX-FIELD "id" ASCENDING 
 
-ADD INDEX "parent_id" ON "payment_template_data" 
+ADD INDEX "uid" ON "payment_template_data" 
   AREA "Accounts Index"
-  INDEX-FIELD "parent_id" ASCENDING 
-  INDEX-FIELD "field_name" ASCENDING 
+  INDEX-FIELD "uid" ASCENDING 
   
-
 ADD INDEX "modify_date" ON "payment_template_data" 
   AREA "Accounts Index"
   INDEX-FIELD "modify_date" ASCENDING 
@@ -144,6 +142,11 @@ ADD INDEX "modify_date" ON "payment_template_data"
 ADD INDEX "modify_user" ON "payment_template_data" 
   AREA "Accounts Index"
   INDEX-FIELD "modify_user" ASCENDING 
+
+ADD INDEX "parent_id" ON "payment_template_data" 
+  AREA "Accounts Index"
+  INDEX-FIELD "parent_id" ASCENDING 
+  INDEX-FIELD "field_name" ASCENDING 
 
 ADD INDEX "state" ON "payment_template_data" 
   AREA "Accounts Index"
@@ -157,4 +160,4 @@ ADD INDEX "version" ON "payment_template_data"
 PSC
 cpstream=ISO8859-1
 .
-0000007150
+0000003501
