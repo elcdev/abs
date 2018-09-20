@@ -1,4 +1,6 @@
-CLASS currencyApi: 
+USING system.api.currency.*.
+
+CLASS system.api.currency.currencyApi: 
     {propertyGetSet.f &name="nationalCurrency" &type="CHARACTER" &static="static"}
     
     CONSTRUCTOR STATIC currencyApi():
