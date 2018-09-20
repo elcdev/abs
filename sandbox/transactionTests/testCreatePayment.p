@@ -11,7 +11,7 @@ DO:
     
     payment:amount              = 2.36.
     payment:currency            = "EUR".
-    payment:sender_account      = "123456789012".
+    payment:sender_account      = "123456789012". 
     payment:beneficiary_account = "C00000000003".
     payment:details             = "Test of internal payment".
     payment:urgency             = "standard".

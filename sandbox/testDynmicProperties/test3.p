@@ -6,6 +6,13 @@ end.
 */
 
 RUN startupSettings.p. 
+/* RUN create_gl_balance.p. */
+
+/*
+FOR EACH gl WHERE gl.gl = 11402600:
+    UPDATE gl.
+END. 
+*/
 /*
 MESSAGE SUBSTITUTE("[[Payment fee for &1]]", "gggg") VIEW-AS ALERT-BOX.
 */
@@ -13,11 +20,12 @@ MESSAGE SUBSTITUTE("[[Payment fee for &1]]", "gggg") VIEW-AS ALERT-BOX.
 DEFINE VARIABLE tAccount AS accountModel.
 tAccount = NEW accountModel().
 
-tAccount:getDb(2).
+tAccount:getDb(5).
 tAccount:id = 0.
-tAccount:account = "C00000000003".
+tAccount:account = "C00000000004".
+tAccount:currency = "USD".
 tAccount:base_account = tAccount:account.
-tAccount:description = "Test account for client 2".
+tAccount:description = "Test account in usd".
 MESSAGE tAccount:putDb() VIEW-AS ALERT-BOX.
 */
 
@@ -27,19 +35,21 @@ FOR EACH payments:
     PAUSE.
 END.
 */
- 
+/*
 FOR EACH transaction_line:
-    DISPLAY  transaction_line.header_id transaction_line.id gl account debet credit WITH WIDTH 300. /*WITH 1 COLUMN SIZE 80 BY 25.*/
+    DISPLAY  transaction_line.header_id  balance_date transaction_line.id gl account debet credit WITH WIDTH 300. /*WITH 1 COLUMN SIZE 80 BY 25.*/
 END.
 PAUSE.
 
-
-FOR EACH account_balance WHERE account = "123456789012":
+*/
+/*
+FOR EACH account_balance WHERE account = "C00000000004":
     DISPLAY account_balance WITH WIDTH 500 . /*1 COLUMN SIZE 80 BY 20.*/
     PAUSE.
 END.
-
+*/
 /*
+
 FOR EACH account_balance_future:
     DISPLAY account_balance_future  WITH 1 COLUMN SIZE 80 BY 20.
     PAUSE.
@@ -59,9 +69,9 @@ FOR EACH gl:
         
 END.
 */
-/*
-FOR EACH gl_balance:
+
+FOR EACH gl_balance WHERE balance_date = 09/12/2018
+    AND gl = 30311000:
     DISPLAY gl_balance WITH 1 COLUMN SIZE 80 BY 20.
     PAUSE.
 END.
-*/

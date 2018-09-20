@@ -57,7 +57,7 @@ CLASS transactionApi:
 
             oError = transactionCore:validateGlRestricted(tGlAccount).
             IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 406).
-            
+
             oError = transactionCore:validateGlBalance(iTransaction).
             IF oError <> "" THEN change_balance_sign = NO.
 
@@ -70,7 +70,6 @@ CLASS transactionApi:
                 iTransaction:debet  = round(iTransaction:debet,  currency.decimal_points).
                 iTransaction:credit = round(iTransaction:credit, currency.decimal_points).
                 
-                MESSAGE "debet: " iTransaction:debet SKIP "credit:" iTransaction:credit VIEW-AS ALERT-BOX.
             end.
 
            
@@ -92,8 +91,9 @@ CLASS transactionApi:
                  oError = iTransaction:putDb().
                 IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 502).
 
-                /* ьФП РТЙЪОБЛ ФПЗП, ЮФП ОБДП ОБЛБФЩЧБФШ ПУФБФПЛ УТБЪХ */
+                /* To change Account Balance immediately */
                 IF change_balance_sign = YES THEN DO:
+                
                     oError = transactionCore:changeGlBalance(iTransaction).
                     IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 503).
 

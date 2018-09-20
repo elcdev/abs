@@ -55,9 +55,11 @@ CLASS paymentModel INHERITS dbModel:
             oError = transactionCore:validateCurrency(currency).
             IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ", Payment currency", 1).
 
-            oError = transactionCore:validateCurrency(fee_currency).
-            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ", Fee currency", 1).
-            
+            IF payment_type <> 'CONVERTATION' THEN
+             DO:
+                oError = transactionCore:validateCurrency(fee_currency).
+                IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ", Fee currency", 1).
+             END.
             /* TODO! Skip account veryfication for non internal accounts */
             oError = transactionCore:validateAccount(sender_account).
             IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError + ", Sender account", 1).

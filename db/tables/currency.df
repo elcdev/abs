@@ -2,7 +2,7 @@ ADD TABLE "currency"
   AREA "Accounts Data"
   DESCRIPTION "ABS gls data tables"
   DUMP-NAME "currency"
-  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_currency_rw.p" CRC "?"
+  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_currency_rw.p" CRC "?" 
 
 ADD FIELD "id" OF "currency" AS int64 
   DESCRIPTION "Record Id"
@@ -12,19 +12,11 @@ ADD FIELD "id" OF "currency" AS int64
   MAX-WIDTH 4
   ORDER 10
 
-ADD FIELD "uid" OF "currency" AS character
-  DESCRIPTION "Unique id"
-  FORMAT "X(36)"
-  INITIAL "guid"
-  POSITION 3
-  MAX-WIDTH 4
-  ORDER 15
-
 ADD FIELD "version" OF "currency" AS int64 
   DESCRIPTION "Record version for replication"
   FORMAT ">>>>>>>>>>>9"
   INITIAL "0"
-  POSITION 4
+  POSITION 3
   MAX-WIDTH 4
   ORDER 20
 
@@ -32,7 +24,7 @@ ADD FIELD "state" OF "currency" AS int64
   DESCRIPTION "Record state for replication"
   FORMAT ">>>9"
   INITIAL "0"
-  POSITION 5
+  POSITION 4
   MAX-WIDTH 4
   ORDER 30
 
@@ -40,7 +32,7 @@ ADD FIELD "modify_date" OF "currency" AS datetime
   DESCRIPTION "Record modification date"
   FORMAT "99.99.9999 hh:mm:ss"
   INITIAL "now"
-  POSITION 6
+  POSITION 5
   MAX-WIDTH 4
   ORDER 40
 
@@ -48,15 +40,15 @@ ADD FIELD "modify_user" OF "currency" AS character
   DESCRIPTION "Record modification user"
   FORMAT "X(8)"
   INITIAL ""
-  POSITION 7
-  MAX-WIDTH 8
+  POSITION 6
+  MAX-WIDTH 4
   ORDER 50
 
 ADD FIELD "create_date" OF "currency" AS datetime 
   DESCRIPTION "Record creation date"
   FORMAT "99.99.9999 hh:mm:ss"
   INITIAL "now"
-  POSITION 8
+  POSITION 7
   MAX-WIDTH 4
   ORDER 60
 
@@ -64,55 +56,57 @@ ADD FIELD "create_user" OF "currency" AS character
   DESCRIPTION "Record creation user"
   FORMAT "X(8)"
   INITIAL ""
-  POSITION 9
-  MAX-WIDTH 8
+  POSITION 8
+  MAX-WIDTH 4
   ORDER 70
 
-
-  
-  
-ADD FIELD "currency" OF "currency" AS character
+ADD FIELD "currency" OF "currency" AS character 
   DESCRIPTION "Currency iso code"
   FORMAT "X(3)"
   INITIAL ""
-  POSITION 10
+  POSITION 9
   MAX-WIDTH 3
   ORDER 80
-  
+
 ADD FIELD "description" OF "currency" AS character 
   DESCRIPTION "Sub type (dfbForClients, dfbForElcoin)"
   FORMAT "X(50)"
   INITIAL ""
-  POSITION 11
+  POSITION 10
   MAX-WIDTH 50
   ORDER 90
-  
+
 ADD FIELD "decimal_points" OF "currency" AS integer 
   DESCRIPTION "Deciml points"
   FORMAT ">>9"
-  INITIAL ""
-  POSITION 12
+  INITIAL "0"
+  POSITION 11
   MAX-WIDTH 3
   ORDER 100
 
-ADD FIELD "currency_order" OF "currency" AS INTEGER
+ADD FIELD "currency_order" OF "currency" AS integer 
   DESCRIPTION "Currency order for reports"
   FORMAT "zzzz9"
-  INITIAL ""
-  POSITION 13
+  INITIAL "0"
+  POSITION 12
   MAX-WIDTH 5
   ORDER 110
-  
-ADD FIELD "currency_status" OF "currency" AS character
+
+ADD FIELD "currency_status" OF "currency" AS character 
   DESCRIPTION "Currency status [A]ctive-[C]losed "
   FORMAT "X(10)"
   INITIAL ""
-  POSITION 14
+  POSITION 13
   MAX-WIDTH 10
   ORDER 120
-  
 
-  
+ADD FIELD "unit" OF "currency" AS int64 
+  DESCRIPTION "Currency unit"
+  FORMAT "zzzzzz9"
+  INITIAL "1"
+  POSITION 14
+  MAX-WIDTH 8
+  ORDER 130
 
 ADD INDEX "id" ON "currency" 
   AREA "Accounts Index"
@@ -120,10 +114,19 @@ ADD INDEX "id" ON "currency"
   PRIMARY
   INDEX-FIELD "id" ASCENDING 
 
-ADD INDEX "uid" ON "currency" 
+ADD INDEX "currency" ON "currency" 
   AREA "Accounts Index"
-  INDEX-FIELD "uid" ASCENDING 
-  
+  INDEX-FIELD "currency" ASCENDING 
+
+ADD INDEX "currency_order" ON "currency" 
+  AREA "Accounts Index"
+  INDEX-FIELD "currency_order" ASCENDING 
+  INDEX-FIELD "currency" ASCENDING 
+
+ADD INDEX "currency_status" ON "currency" 
+  AREA "Accounts Index"
+  INDEX-FIELD "currency_status" ASCENDING 
+
 ADD INDEX "modify_date" ON "currency" 
   AREA "Accounts Index"
   INDEX-FIELD "modify_date" ASCENDING 
@@ -140,27 +143,8 @@ ADD INDEX "version" ON "currency"
   AREA "Accounts Index"
   INDEX-FIELD "version" ASCENDING 
 
-  
-
-  
-ADD INDEX "currency" ON "currency" 
-  AREA "Accounts Index"
-  INDEX-FIELD "currency" ASCENDING 
-  
-ADD INDEX "currency_order" ON "currency" 
-  AREA "Accounts Index"
-  INDEX-FIELD "currency_order" ASCENDING 
-  INDEX-FIELD "currency" ASCENDING 
-  
-ADD INDEX "currency_status" ON "currency" 
-  AREA "Accounts Index"
-  INDEX-FIELD "currency_status" ASCENDING 
-  
-
- 
-
 .
 PSC
-cpstream=utf-8
+cpstream=ISO8859-1
 .
-0000002533
+0000003298
