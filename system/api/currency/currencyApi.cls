@@ -36,9 +36,10 @@ CLASS system.api.currency.currencyApi:
         DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
         DEFINE VARIABLE oRate  AS DECIMAL   NO-UNDO.
         
+        /* !!!!!!!
         oRate = getRate(iBalanceDate, iCurrency, iRateType).
         IF oRate > 0 THEN RETURN oRate.
-        
+        */
         DO TRANSACTION ON ERROR UNDO, THROW:
             FIND LAST currency_rates NO-LOCK WHERE currency_rates.rate_type    = iRateType
                                                 AND currency_rates.currency     = iCurrency
@@ -58,7 +59,7 @@ CLASS system.api.currency.currencyApi:
             UNDO, THROW NEW Progress.Lang.AppError(oError, 501).
             
             FINALLY:
-                RETURN 0.
+                RETURN lastRate.
             END.
         END.
         
