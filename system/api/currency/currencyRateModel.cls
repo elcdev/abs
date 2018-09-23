@@ -20,8 +20,8 @@ CLASS currencyRateModel INHERITS dbModel:
         DEFINE VARIABLE iId AS INT64 NO-UNDO.
         DEFINE BUFFER currency_rates FOR currency_rates.
         
-        FIND FIRST currency_rates NO-LOCK WHERE currency_rates.currency     = iCurrency 
-                                            AND currency_rates.balance_date = iBalanceDay 
+        FIND LAST currency_rates NO-LOCK WHERE currency_rates.currency     = iCurrency 
+                                            AND currency_rates.balance_date LE iBalanceDay 
                                             AND currency_rates.rate_type    = iRateType
                                             NO-ERROR.
         IF AVAILABLE currency_rates THEN iId = currency_rates.id.

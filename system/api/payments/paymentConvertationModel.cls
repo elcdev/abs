@@ -27,8 +27,14 @@ CLASS paymentConvertationModel INHERITS paymentModel:
     END.
     
     METHOD PUBLIC CHARACTER calculate_revenue():
+        DEFINE VARIABLE currencyApi AS currencyApi.
+        currencyApi = NEW currencyApi().
         DEFINE VARIABLE oError          AS CHARACTER NO-UNDO.
-        
+        revenue = ROUND(amount * currencyApi:getBuyRate(globalSettings:balance_date,currency),2) - 
+        ROUND(sell_amount * currencyApi:getSellRate(globalSettings:balance_date,sell_currency),2).
+        DISPLAY revenue.
+        PAUSE.
+        /*
         FIND LAST currency_rates WHERE currency_rates.currency = currency AND 
         currency_rates.rate_type = "BUY" AND currency_rates.balance_date LE globalSettings:balance_date
         NO-LOCK NO-ERROR.
@@ -42,7 +48,7 @@ CLASS paymentConvertationModel INHERITS paymentModel:
         IF NOT AVAILABLE currency_rates THEN oError = "NO-RATES-SELL-CURRENCY".
         IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError, 1).
         revenue = revenue - ROUND(sell_amount * currency_rates.rate / currency_rates.unit,2).
-        
+        */
         RETURN oError.
     END.
     

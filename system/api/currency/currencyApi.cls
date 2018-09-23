@@ -40,16 +40,16 @@ CLASS system.api.currency.currencyApi:
         IF oRate > 0 THEN RETURN oRate.
         
         DO TRANSACTION ON ERROR UNDO, THROW:
-            FIND FIRST currency_rates NO-LOCK WHERE currency_rates.rate_type    = iRateType
+            FIND LAST currency_rates NO-LOCK WHERE currency_rates.rate_type    = iRateType
                                                 AND currency_rates.currency     = iCurrency
-                                                AND currency_rates.balance_date = iBalanceDate
+                                                AND currency_rates.balance_date LE iBalanceDate
                                                 NO-ERROR.
             IF AVAILABLE currency_rates THEN 
              DO:
                 lastType        = currency_rates.rate_type.
                 lastCurrency    = currency_rates.currency.
                 lastDate        = currency_rates.balance_date.
-                lastRate        = currency_rates.rate.
+                lastRate        = currency_rates.rate / currency_rates.unit.
                 
                 RETURN lastRate.
              END.
