@@ -1,0 +1,1779 @@
+2018-09-25T01:03:14.218+03:00 3 constructed
+2018-09-25T01:03:14.218+03:00 3 connect -H localhost -S 61613
+2018-09-25T01:03:14.241+03:00 3 Connection to localhost port 61613
+2018-09-25T01:03:14.241+03:00 3 Outbound
+CONNECT
+login: guest
+passcode:guest
+
+
+2018-09-25T01:03:14.250+03:00 4 Inbound pos:1 size:99
+CONNECTED
+server:RabbitMQ/3.7.8
+session:session-lt7XaPCzzWq0C5iY9I9Rag
+heart-beat:0,0
+version:1.0
+
+
+2018-09-25T01:03:14.250+03:00 3 Process 
+CONNECTED
+server:RabbitMQ/3.7.8
+session:session-lt7XaPCzzWq0C5iY9I9Rag
+heart-beat:0,0
+version:1.0
+2018-09-25T01:03:14.250+03:00 3 Outbound
+SUBSCRIBE
+destination: /queue/currencyUpdates
+ack:auto
+
+
+2018-09-25T01:03:20.930+03:00 4 Inbound pos:1 size:211
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@1
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 1 2018-09-25T01:03:20.928+03:00
+
+2018-09-25T01:03:20.930+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@1
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 1 2018-09-25T01:03:20.928+03:00
+2018-09-25T01:03:22.209+03:00 4 Inbound pos:1 size:961
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@2
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+
+
+2018-09-25T01:03:22.209+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@2
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+2018-09-25T01:03:23.963+03:00 4 Inbound pos:963 size:212
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@3
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 2 2018-09-25T01:03:20.934+03:00
+
+2018-09-25T01:03:23.963+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@3
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 2 2018-09-25T01:03:20.934+03:00
+2018-09-25T01:03:25.162+03:00 4 Inbound pos:1176 size:962
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@4
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+
+
+2018-09-25T01:03:25.162+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@4
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+2018-09-25T01:03:26.257+03:00 4 Inbound pos:2139 size:212
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@5
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 3 2018-09-25T01:03:20.941+03:00
+
+2018-09-25T01:03:26.258+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@5
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 3 2018-09-25T01:03:20.941+03:00
+2018-09-25T01:03:26.723+03:00 4 Inbound pos:2352 size:962
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@6
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+
+
+2018-09-25T01:03:26.723+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@6
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+2018-09-25T01:03:27.289+03:00 4 Inbound pos:3315 size:212
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@7
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 4 2018-09-25T01:03:20.946+03:00
+
+2018-09-25T01:03:27.289+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@7
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 4 2018-09-25T01:03:20.946+03:00
+2018-09-25T01:03:27.538+03:00 4 Inbound pos:3528 size:962
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@8
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+
+
+2018-09-25T01:03:27.538+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@8
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+2018-09-25T01:03:28.068+03:00 4 Inbound pos:4491 size:212
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@9
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 5 2018-09-25T01:03:20.951+03:00
+
+2018-09-25T01:03:28.068+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@9
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 5 2018-09-25T01:03:20.951+03:00
+2018-09-25T01:03:28.434+03:00 4 Inbound pos:4704 size:963
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@10
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+
+
+2018-09-25T01:03:28.434+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@10
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+2018-09-25T01:03:28.546+03:00 4 Inbound pos:5668 size:213
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@11
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 6 2018-09-25T01:03:20.956+03:00
+
+2018-09-25T01:03:28.546+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@11
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 6 2018-09-25T01:03:20.956+03:00
+2018-09-25T01:03:28.785+03:00 4 Inbound pos:5882 size:963
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@12
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+
+
+2018-09-25T01:03:28.785+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@12
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+2018-09-25T01:03:29.025+03:00 4 Inbound pos:6846 size:213
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@13
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 7 2018-09-25T01:03:20.961+03:00
+
+2018-09-25T01:03:29.025+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@13
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 7 2018-09-25T01:03:20.961+03:00
+2018-09-25T01:03:29.218+03:00 4 Inbound pos:7060 size:963
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@14
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+
+
+2018-09-25T01:03:29.218+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@14
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+2018-09-25T01:03:29.409+03:00 4 Inbound pos:8024 size:169
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@15
+redelivered:false
+persistent:true
+content-length:44
+
+
+2018-09-25T01:03:29.410+03:00 4 Inbound pos:1 size:44
+Hello world 8 2018-09-25T01:03:20.966+03:00
+
+2018-09-25T01:03:29.410+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@15
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 8 2018-09-25T01:03:20.966+03:00
+2018-09-25T01:03:29.569+03:00 4 Inbound pos:46 size:963
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@16
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+
+
+2018-09-25T01:03:29.569+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@16
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+2018-09-25T01:03:29.764+03:00 4 Inbound pos:1010 size:213
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@17
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 9 2018-09-25T01:03:20.970+03:00
+
+2018-09-25T01:03:29.764+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@17
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 9 2018-09-25T01:03:20.970+03:00
+2018-09-25T01:03:30.066+03:00 4 Inbound pos:1224 size:963
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@18
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+
+
+2018-09-25T01:03:30.066+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@18
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+2018-09-25T01:03:30.242+03:00 4 Inbound pos:2188 size:214
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@19
+redelivered:false
+persistent:true
+content-length:45
+
+Hello world 10 2018-09-25T01:03:20.977+03:00
+
+2018-09-25T01:03:30.242+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@19
+redelivered:false
+persistent:true
+content-length:45
+
+Hello world 10 2018-09-25T01:03:20.977+03:00
+2018-09-25T01:03:30.418+03:00 4 Inbound pos:2403 size:963
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@20
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+
+
+2018-09-25T01:03:30.419+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@20
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+2018-09-25T01:03:33.836+03:00 4 Inbound pos:1 size:212
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@21
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 1 2018-09-25T01:03:33.832+03:00
+
+2018-09-25T01:03:33.836+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@21
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 1 2018-09-25T01:03:33.832+03:00
+2018-09-25T01:03:39.747+03:00 4 Inbound pos:1 size:962
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@22
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+
+
+2018-09-25T01:03:39.747+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@22
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+2018-09-25T01:03:41.117+03:00 4 Inbound pos:964 size:213
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@23
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 2 2018-09-25T01:03:33.838+03:00
+
+2018-09-25T01:03:41.117+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@23
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 2 2018-09-25T01:03:33.838+03:00
+2018-09-25T01:03:41.746+03:00 4 Inbound pos:1178 size:963
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@24
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+
+
+2018-09-25T01:03:41.746+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@24
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+2018-09-25T01:03:42.082+03:00 4 Inbound pos:2142 size:213
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@25
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 3 2018-09-25T01:03:33.843+03:00
+
+2018-09-25T01:03:42.082+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@25
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 3 2018-09-25T01:03:33.843+03:00
+2018-09-25T01:03:42.322+03:00 4 Inbound pos:2356 size:963
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@26
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+
+
+2018-09-25T01:03:42.322+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@26
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+2018-09-25T01:03:42.547+03:00 4 Inbound pos:3320 size:213
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@27
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 4 2018-09-25T01:03:33.847+03:00
+
+2018-09-25T01:03:42.547+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@27
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 4 2018-09-25T01:03:33.847+03:00
+2018-09-25T01:03:42.786+03:00 4 Inbound pos:3534 size:963
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@28
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+
+
+2018-09-25T01:03:42.786+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@28
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+2018-09-25T01:03:42.994+03:00 4 Inbound pos:4498 size:213
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@29
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 5 2018-09-25T01:03:33.853+03:00
+
+2018-09-25T01:03:42.994+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@29
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 5 2018-09-25T01:03:33.853+03:00
+2018-09-25T01:03:43.186+03:00 4 Inbound pos:4712 size:963
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@30
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+
+
+2018-09-25T01:03:43.187+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@30
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+2018-09-25T01:03:43.378+03:00 4 Inbound pos:5676 size:213
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@31
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 6 2018-09-25T01:03:33.858+03:00
+
+2018-09-25T01:03:43.379+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@31
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 6 2018-09-25T01:03:33.858+03:00
+2018-09-25T01:03:43.665+03:00 4 Inbound pos:5890 size:963
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@32
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+
+
+2018-09-25T01:03:43.665+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@32
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+2018-09-25T01:03:43.857+03:00 4 Inbound pos:6854 size:213
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@33
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 7 2018-09-25T01:03:33.862+03:00
+
+2018-09-25T01:03:43.857+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@33
+redelivered:false
+persistent:true
+content-length:44
+
+Hello world 7 2018-09-25T01:03:33.862+03:00
+2018-09-25T01:03:44.033+03:00 4 Inbound pos:7068 size:963
+
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@34
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+
+
+2018-09-25T01:03:44.034+03:00 3 Process 
+MESSAGE
+destination:/queue/currencyUpdates
+message-id:Q_/queue/currencyUpdates@@session-lt7XaPCzzWq0C5iY9I9Rag@@34
+redelivered:false
+persistent:true
+content-length:793
+
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "system.api.balance.accountModel": {
+    "action": "",
+    "id": 1,
+    "version": 0,
+    "gl": 10212000,
+    "iban": "",
+    "account": "CBLT.EUR",
+    "base_account": "CBLT.EUR",
+    "overdraft_account": "",
+    "currency": "EUR",
+    "account_group": "",
+    "subledger_type": "DFB",
+    "account_subtype": "SCA",
+    "product_code": "",
+    "branch": "",
+    "cif": "0",
+    "client_id": 0,
+    "account_status": "ACTIVE",
+    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
+    "open_date": "2018-07-25",
+    "close_date": null,
+    "open_amount": 0.0,
+    "last_operation_date": "2018-07-25",
+    "last_debet_date": "2018-07-25",
+    "last_debet_amount": 500.0,
+    "last_credit_date": null,
+    "last_credit_amount": 0.0
+  }
+}
+2018-09-25T01:03:44.194+03:00 4 Inbou
