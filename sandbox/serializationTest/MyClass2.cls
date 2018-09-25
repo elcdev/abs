@@ -1,0 +1,9 @@
+USING Progress.Lang.*.
+
+CLASS MyClass2 SERIALIZABLE:
+    DEFINE PUBLIC VARIABLE vMyint2 AS INT NO-UNDO.
+    DEFINE PUBLIC PROPERTY myColors AS Colors 
+        GET. 
+        SET.
+END CLASS.
+
