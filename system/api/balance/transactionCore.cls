@@ -474,6 +474,7 @@ CLASS system.api.balance.transactionCore:
         
         RETURN "".
     END.
+    
     METHOD STATIC PUBLIC CHAR checkTransactionAmountForDelete (iTransactionLine AS transactionLineModel, forced_key AS LOG):
         DEFINE VARIABLE iAccountBalance AS DECIMAL        NO-UNDO.
         DEFINE VARIABLE oError          AS CHARACTER      NO-UNDO. 
@@ -505,6 +506,7 @@ CLASS system.api.balance.transactionCore:
         
         RETURN "ERROR-OUT-OF-BALANCE:Can't delete - Out of balance on Account " + iTransactionLine:account + "!".
     END.
+    
     METHOD STATIC PUBLIC CHARACTER changeAccountBalanceForDelete(iTransactionLine AS transactionLineModel):
         DEFINE VARIABLE oError          AS CHARACTER      NO-UNDO INITIAL "".
         DEFINE VARIABLE iGlAccount      AS glModel NO-UNDO.        
@@ -543,6 +545,7 @@ CLASS system.api.balance.transactionCore:
         
        RETURN "". 
     END.
+    
     METHOD STATIC PUBLIC CHAR changeGlBalanceForDelete(iTransactionLine AS transactionLineModel):
         DEFINE VARIABLE oError     AS CHARACTER      NO-UNDO INITIAL "". 
         DEFINE VARIABLE iGlAccount AS glModel NO-UNDO.
@@ -578,40 +581,59 @@ CLASS system.api.balance.transactionCore:
 
         RETURN oError.
     END.
+    
     METHOD STATIC PUBLIC CHAR deleteFutureAccountBalance(iTransactionLine AS transactionLineModel):
         DEFINE VARIABLE oError     AS CHARACTER      NO-UNDO INITIAL "".
         DEFINE BUFFER account_balance_future FOR account_balance_future.
         
         FIND FIRST account_balance_future WHERE account_balance_future.header_id = iTransactionLine:header_id 
-        AND account_balance_future.line = iTransactionLine:line EXCLUSIVE-LOCK NO-ERROR.
-        IF AVAILABLE account_balance_future THEN DO:
+                                            AND account_balance_future.line = iTransactionLine:line 
+                                 EXCLUSIVE-LOCK 
+                                 NO-ERROR.
+        IF AVAILABLE account_balance_future THEN 
+         DO:
             DELETE account_balance_future.
-        END.
-        ELSE oError = "CAN'T DELETE FUTURE BALANCE".
+         END.
+        ELSE 
+         DO:
+            oError = "CAN'T DELETE FUTURE BALANCE".
+         END.
+         
         RETURN oError.
     END.
+    
     METHOD STATIC PUBLIC LOG isFutureBalanceForLine(iTransactionLine AS transactionLineModel):
         DEFINE BUFFER account_balance_future FOR account_balance_future.
         
         FIND FIRST account_balance_future WHERE account_balance_future.header_id = iTransactionLine:header_id 
-        AND account_balance_future.line = iTransactionLine:line NO-LOCK NO-ERROR.
+                                            AND account_balance_future.line = iTransactionLine:line 
+                                        NO-LOCK 
+                                        NO-ERROR.
         IF AVAILABLE account_balance_future THEN RETURN YES.
-        ELSE RETURN NO.
+        RETURN NO.
     END. 
+    
     METHOD STATIC PUBLIC CHAR setDeletedStatus(iTransactionLine AS transactionLineModel):
-    /*
-    (iHeaderId AS INT64, iLine AS INT):
-    */
+        DEFINE BUFFER transaction_line FOR transaction_line.
         DEFINE VARIABLE oError     AS CHARACTER      NO-UNDO INITIAL "".
+        
         FIND FIRST transaction_line WHERE transaction_line.header_id = iTransactionLine:Header_Id 
-        AND transaction_line.line      = iTransactionLine:Line AND transaction_line.state <> 9 
-        USE-INDEX header_id EXCLUSIVE-LOCK NO-ERROR.
-        IF AVAILABLE transaction_line THEN DO:
+                                      AND transaction_line.line      = iTransactionLine:Line 
+                                      AND transaction_line.state <> 9 
+                                USE-INDEX header_id 
+                                EXCLUSIVE-LOCK 
+                                NO-ERROR.
+        IF AVAILABLE transaction_line THEN 
+         DO:
             ASSIGN
                 transaction_line.state = 9.
                 /* TODO if last deleted line, set deleted status to transaction_header */
-        END.
-        ELSE oError = "CAN'T SET DELETED STATUS".
+         END.
+        ELSE 
+         DO:
+            oError = "CAN'T SET DELETED STATUS".
+         END.
+         
         RETURN oError.
     END.
 END.    
