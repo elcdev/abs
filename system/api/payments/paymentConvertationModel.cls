@@ -5,7 +5,6 @@ USING system.api.balance.*.
 USING system.api.currency.*.
 
 CLASS system.api.payments.paymentConvertationModel SERIALIZABLE INHERITS paymentModel:
-    
     {propertyGetSet.f &name="rate"            &type="DECIMAL" &serializable="serializable"}
     {propertyGetSet.f &name="revenue"         &type="DECIMAL" &serializable="serializable"}
     {propertyGetSet.f &name="sell_currency"   &type="CHAR" &serializable="serializable"}
@@ -34,9 +33,10 @@ CLASS system.api.payments.paymentConvertationModel SERIALIZABLE INHERITS payment
     
     METHOD PUBLIC CHARACTER calculate_revenue():
         DEFINE VARIABLE oError          AS CHARACTER NO-UNDO.
+
         DO ON ERROR UNDO, THROW:
             revenue = ROUND(amount * currencyApi:getBuyRate(currency), 2).
-            revenue = revenue - ROUND(sell_amount * currencyApi:getSellRate(currency),2).
+                    - ROUND(sell_amount * currencyApi:getSellRate(currency),2).
             
             CATCH eAnyError AS Progress.Lang.Error:
                 RETURN eAnyError:GetMessage(1).

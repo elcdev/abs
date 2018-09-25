@@ -33,7 +33,7 @@ CLASS system.api.currency.currencyApi:
     DEFINE STATIC VARIABLE lastType     AS CHARACTER NO-UNDO.
     DEFINE STATIC VARIABLE lastRate     AS DECIMAL   NO-UNDO.
     
-    METHOD PRIVATE DECIMAL getChachedRate(iBalanceDate AS DATE, iCurrency AS CHARACTER, iRateType AS CHARACTER):
+    METHOD PRIVATE STATIC DECIMAL getChachedRate(iBalanceDate AS DATE, iCurrency AS CHARACTER, iRateType AS CHARACTER):
         IF     lastType     = iRateType
            AND lastCurrency = iCurrency
            AND lastDate     = iBalanceDate THEN RETURN lastRate.
@@ -45,10 +45,11 @@ CLASS system.api.currency.currencyApi:
         DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
         DEFINE VARIABLE oRate  AS DECIMAL   NO-UNDO.
         
-        oRate = getRate(iBalanceDate, iCurrency, iRateType).
+        oRate = getChachedRate(iBalanceDate, iCurrency, iRateType).
         IF oRate > 0 THEN RETURN oRate.
-        
+
         DO TRANSACTION ON ERROR UNDO, THROW:
+
             FIND LAST currency_rates NO-LOCK WHERE currency_rates.rate_type     = iRateType
                                                 AND currency_rates.currency     = iCurrency
                                                 AND currency_rates.balance_date <= iBalanceDate
@@ -67,11 +68,11 @@ CLASS system.api.currency.currencyApi:
             UNDO, THROW NEW Progress.Lang.AppError(oError, 501).
             
             FINALLY:
-                RETURN 0.
+                RETURN lastRate.
             END.
         END.
         
-        RETURN 0.
+        RETURN lastRate.
     END.
 
 END.
