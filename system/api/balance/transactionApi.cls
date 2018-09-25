@@ -34,7 +34,7 @@ CLASS system.api.balance.transactionApi:
         DEFINE BUFFER currency     FOR currency.
         
         DO TRANSACTION ON ERROR UNDO, THROW:
-            oError = transactionCore:validateTrnsactionNumber(iTransaction:Header_Id).
+            oError = transactionCore:validateTransactionNumber(iTransaction:Header_Id).
             IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 400).
 
             oError = validateLine(iTransaction).
@@ -54,7 +54,7 @@ CLASS system.api.balance.transactionApi:
              END.
 
                 
-            oError = transactionCore:validateTrnsactionNumber(iTransaction:header_id).
+            oError = transactionCore:validateTransactionNumber(iTransaction:header_id).
             IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 405).
 
             iTransaction:line = transactionCore:getValidTransactionLine(iTransaction:header_id, iTransaction:line).
@@ -177,6 +177,7 @@ CLASS system.api.balance.transactionApi:
     END.
     
     METHOD STATIC PUBLIC CHAR validateLine(iTransactionLine AS transactionLineModel):
+    
         DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
         
         oError = TransactionCore:validateTransactionAccount(iTransactionLine).
@@ -206,5 +207,92 @@ CLASS system.api.balance.transactionApi:
         
         RETURN oError.
     END.
-    
+    METHOD STATIC PUBLIC CHARACTER DeleteLine(iTransaction AS transactionLineModel, forced_key AS LOG):
+        DEFINE VARIABLE oError     AS CHARACTER      NO-UNDO.
+                
+        DO TRANSACTION ON ERROR UNDO, THROW:
+            oError = transactionCore:validateTransactionNumberLine(iTransaction:Header_Id,iTransaction:line).
+            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 400).
+
+            oError = transactionCore:validateBalanceDate(iTransaction:balance_date).
+            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 500).
+            
+            oError = TransactionCore:checkTransactionAmountForDelete(iTransaction, forced_key).
+            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 501).
+            
+            IF transactionCore:isFutureBalanceForLine(iTransaction) = NO THEN DO:   
+                IF iTransaction:account NE "" THEN DO:
+                    oError = transactionCore:changeAccountBalanceForDelete(iTransaction).
+                    IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 504).    
+                END.
+                oError = transactionCore:changeGlBalanceForDelete(iTransaction).
+                IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 503).
+            END.
+            ELSE DO:
+                oError = transactionCore:deleteFutureAccountBalance(iTransaction).   
+                IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 505). /*??? 505 */
+            END.
+            oError = transactionCore:SetDeletedStatus(iTransaction).
+            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 506). /*??? 506 */
+        END.    
+            
+           /* 
+            
+            IF tGlAccount:subledger_type NE "" THEN DO:
+                tAccount = iTransaction:getAccount.
+                oError = tAccount:getDbByAccount(iTransaction:account). /* TODO! Rewrite */
+                IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 402).
+                iTransaction:cif = tAccount:cif.    
+                
+                oError = TransactionCore:validateTransactionAccount(iTransaction). 
+                IF oError <> "" THEN RETURN oError.
+
+                IF nocheckbalance = NO THEN 
+                 DO:
+                    oError = TransactionCore:checkTransactionAmount(iTransaction).
+                    IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 501).
+                 END.
+
+                 oError = iTransaction:putDb().
+                IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 502).
+
+                /* To change Account Balance immediately */
+                IF change_balance_sign = YES THEN DO:
+                
+                    oError = transactionCore:changeGlBalance(iTransaction).
+                    IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 503).
+
+                    oError = transactionCore:changeAccountBalance(iTransaction).
+                    IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 504).
+
+                    oError = transactionCore:setAccountLastOperationData(iTransaction).
+                END.
+                ELSE DO:
+                    oError = transactionCore:createFutureAccountBalance(iTransaction).
+                END.  
+            END.
+            ELSE DO:
+                 oError = iTransaction:putDb().
+                IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 502).
+
+                IF change_balance_sign = YES THEN 
+                    oError = transactionCore:changeGlBalance(iTransaction).
+                ELSE
+                 DO:
+                    oError = transactionCore:createFutureAccountBalance(iTransaction).
+                 END.
+            END.
+            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 505).
+        END.
+        */
+        
+        CATCH eAnyError AS Progress.Lang.Error:
+            /*oError =  oError + ":" + eAnyError:GetMessage(1).*/
+            RETURN oError.
+        END CATCH.
+
+        FINALLY:
+            RETURN oError.
+        END.
+    END.
 END.

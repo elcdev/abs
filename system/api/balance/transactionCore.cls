@@ -127,15 +127,33 @@ CLASS system.api.balance.transactionCore:
         RETURN "ERROR-GL-RESTRICTED:Balance account " + string(iGlAccount:Gl) + " is closed for operations!".
     END.
     
-    METHOD STATIC PUBLIC CHARACTER validateTrnsactionNumber(iHeaderId AS INT64):
+    METHOD STATIC PUBLIC CHARACTER validateTransactionNumber(iHeaderId AS INT64):
         DEFINE BUFFER transaction_header FOR transaction_header.
         
-        FIND FIRST transaction_header WHERE transaction_header.header_id = iHeaderId no-lock no-error.
+        FIND FIRST transaction_header WHERE transaction_header.header_id = iHeaderId 
+        AND transaction_header.state <> 9 no-lock no-error.
         IF NOT AVAILABLE transaction_header THEN 
          DO:
             RETURN "ERROR-INCORRECT-HEADER:Incorrect Transaction Number " + string(iHeaderId) + " !".
          END.
 
+         RETURN "".
+    END.
+    METHOD STATIC PUBLIC CHARACTER validateTransactionNumberLine(iHeaderId AS INT64, iLine AS INT):
+        DEFINE BUFFER transaction_line FOR transaction_line.
+         
+        FIND FIRST transaction_line WHERE transaction_line.header_id = iHeaderId 
+                                      AND transaction_line.line      = iLine 
+                                      AND transaction_line.state     <> 9
+                                      USE-INDEX header_id 
+                                      NO-LOCK NO-ERROR.
+        
+        IF NOT AVAILABLE transaction_line THEN 
+         DO:
+            RETURN "ERROR-INCORRECT-TRX-LINE:Incorrect Transaction Line " + string(iHeaderId) + 
+            " " + STRING(iLine) +  " !".
+         END.
+        
          RETURN "".
     END.
     
@@ -144,12 +162,14 @@ CLASS system.api.balance.transactionCore:
         
         FIND FIRST transaction_line WHERE transaction_line.header_id = iHeaderId 
                                       AND transaction_line.line      = iLine 
+                                      AND transaction_line.state     <> 9
                                 USE-INDEX header_id 
                                 NO-LOCK NO-ERROR.
         
         IF AVAILABLE transaction_line THEN 
          DO:
-            FIND LAST transaction_line WHERE transaction_line.header_id = iHeaderId USE-INDEX header_id NO-LOCK NO-ERROR.
+            FIND LAST transaction_line WHERE transaction_line.header_id = iHeaderId 
+            AND transaction_line.state <> 9 USE-INDEX header_id NO-LOCK NO-ERROR.
             IF AVAILABLE transaction_line THEN iLine = transaction_line.line + 1.
          END.
          
@@ -454,4 +474,144 @@ CLASS system.api.balance.transactionCore:
         
         RETURN "".
     END.
-END.
+    METHOD STATIC PUBLIC CHAR checkTransactionAmountForDelete (iTransactionLine AS transactionLineModel, forced_key AS LOG):
+        DEFINE VARIABLE iAccountBalance AS DECIMAL        NO-UNDO.
+        DEFINE VARIABLE oError          AS CHARACTER      NO-UNDO. 
+        DEFINE VARIABLE iGlAccount      AS glModel NO-UNDO.
+        DEFINE VARIABLE iAccount        AS accountModel   NO-UNDO.
+        
+        iGlAccount = iTransactionLine:getGlAccount.
+        iAccount   = iTransactionLine:getAccount.
+        
+        IF forced_key = YES THEN DO:
+            RETURN "".   
+        END.
+        oError = getAccountBalance(iGlAccount, iAccount, iTransactionLine:Balance_Date, OUTPUT iAccountBalance). 
+        IF oError <> "" THEN RETURN oError.
+        
+        IF ((iGlAccount:gl_type = "A" OR iGlAccount:gl_type = "E") AND iTransactionLine:dc = "C") 
+           OR 
+           ((iGlAccount:gl_type = "L" OR iGlAccount:gl_type = "O" OR iGlAccount:gl_type = "R") AND iTransactionLine:dc = "D") THEN 
+         DO:
+            RETURN "".
+         END.
+        
+        IF ((iGlAccount:gl_type = "A" OR iGlAccount:gl_type = "E") AND iTransactionLine:dc = "D" AND iAccountBalance GE iTransactionLine:credit) 
+           OR
+           ((iGlAccount:gl_type = "L" OR iGlAccount:gl_type = "O" OR iGlAccount:gl_type = "R") AND iTransactionLine:dc = "C" AND iAccountBalance GE iTransactionLine:debet) THEN 
+         DO:
+           RETURN "".
+         END.  
+        
+        RETURN "ERROR-OUT-OF-BALANCE:Can't delete - Out of balance on Account " + iTransactionLine:account + "!".
+    END.
+    METHOD STATIC PUBLIC CHARACTER changeAccountBalanceForDelete(iTransactionLine AS transactionLineModel):
+        DEFINE VARIABLE oError          AS CHARACTER      NO-UNDO INITIAL "".
+        DEFINE VARIABLE iGlAccount      AS glModel NO-UNDO.        
+        
+        DEFINE BUFFER account_balance FOR account_balance.
+
+        iGlAccount = iTransactionLine:GetGlAccount.
+        
+        /* Otkat ostatka ot dati operaciji do poslednej otkritoj dati */
+        FOR EACH account_balance WHERE account_balance.account      = iTransactionLine:account 
+                                   AND account_balance.balance_date >= iTransactionLine:balance_date 
+                                   AND account_balance.currency      = iTransactionLine:currency 
+                        EXCLUSIVE-LOCK:
+            
+
+            assign
+                account_balance.total_debet  = account_balance.total_debet  - iTransactionLine:debet
+                account_balance.total_credit = account_balance.total_credit - iTransactionLine:credit.
+          
+            IF iTransactionLine:dc = "D" THEN 
+             DO:
+                IF (iGlAccount:gl_type = "A" OR iGlAccount:gl_type = "E") THEN 
+                    account_balance.balance = account_balance.balance - iTransactionLine:debet.
+                ELSE IF (iGlAccount:gl_type = "L" OR iGlAccount:gl_type = "O" OR iGlAccount:gl_type = "R") THEN 
+                    account_balance.balance = account_balance.balance + iTransactionLine:debet.
+             END. 
+            ELSE IF iTransactionLine:dc = "C" THEN 
+             DO:
+                IF (iGlAccount:gl_type = "A" OR iGlAccount:gl_type = "E") THEN 
+                    account_balance.balance = account_balance.balance + iTransactionLine:credit.
+                ELSE IF (iGlAccount:gl_type = "L" OR iGlAccount:gl_type = "O" OR iGlAccount:gl_type = "R" ) THEN 
+                    account_balance.balance = account_balance.balance - iTransactionLine:credit.
+             END.        
+            account_balance.available_balance = account_balance.balance - account_balance.hold_balance.
+        END.    
+        
+       RETURN "". 
+    END.
+    METHOD STATIC PUBLIC CHAR changeGlBalanceForDelete(iTransactionLine AS transactionLineModel):
+        DEFINE VARIABLE oError     AS CHARACTER      NO-UNDO INITIAL "". 
+        DEFINE VARIABLE iGlAccount AS glModel NO-UNDO.
+        
+        DEFINE BUFFER gl_balance FOR gl_balance.
+        
+        iGlAccount = iTransactionLine:GetGlAccount.
+        
+        /* Otkat ostatka ot dati operaciji do poslednej otkritoj dati */
+        FOR EACH gl_balance WHERE gl_balance.gl            = iTransactionLine:gl 
+                              AND gl_balance.balance_date >= iTransactionLine:balance_date 
+                              AND gl_balance.currency      = iTransactionLine:currency 
+                   EXCLUSIVE-LOCK:
+            ASSIGN 
+                gl_balance.total_debet  = gl_balance.total_debet - iTransactionLine:debet
+                gl_balance.total_credit = gl_balance.total_credit - iTransactionLine:credit.
+            
+            IF iTransactionLine:dc = "D" THEN 
+             DO:
+                IF (iGlAccount:gl_type = "A" OR iGlAccount:gl_type = "E") THEN 
+                    gl_balance.balance = gl_balance.balance - iTransactionLine:debet.
+                ELSE IF (iGlAccount:gl_type = "L" OR iGlAccount:gl_type = "O" OR iGlAccount:gl_type = "R") THEN
+                    gl_balance.balance = gl_balance.balance + iTransactionLine:debet.
+             END. 
+            ELSE IF iTransactionLine:dc = "C" THEN 
+             DO:
+                IF (iGlAccount:gl_type = "A" OR iGlAccount:gl_type = "E") THEN 
+                    gl_balance.balance = gl_balance.balance + iTransactionLine:credit.
+                ELSE IF (iGlAccount:gl_type = "L" OR iGlAccount:gl_type = "O" OR iGlAccount:gl_type = "R") THEN 
+                    gl_balance.balance = gl_balance.balance - iTransactionLine:credit.
+             END.        
+        END.    
+
+        RETURN oError.
+    END.
+    METHOD STATIC PUBLIC CHAR deleteFutureAccountBalance(iTransactionLine AS transactionLineModel):
+        DEFINE VARIABLE oError     AS CHARACTER      NO-UNDO INITIAL "".
+        DEFINE BUFFER account_balance_future FOR account_balance_future.
+        
+        FIND FIRST account_balance_future WHERE account_balance_future.header_id = iTransactionLine:header_id 
+        AND account_balance_future.line = iTransactionLine:line EXCLUSIVE-LOCK NO-ERROR.
+        IF AVAILABLE account_balance_future THEN DO:
+            DELETE account_balance_future.
+        END.
+        ELSE oError = "CAN'T DELETE FUTURE BALANCE".
+        RETURN oError.
+    END.
+    METHOD STATIC PUBLIC LOG isFutureBalanceForLine(iTransactionLine AS transactionLineModel):
+        DEFINE BUFFER account_balance_future FOR account_balance_future.
+        
+        FIND FIRST account_balance_future WHERE account_balance_future.header_id = iTransactionLine:header_id 
+        AND account_balance_future.line = iTransactionLine:line NO-LOCK NO-ERROR.
+        IF AVAILABLE account_balance_future THEN RETURN YES.
+        ELSE RETURN NO.
+    END. 
+    METHOD STATIC PUBLIC CHAR setDeletedStatus(iTransactionLine AS transactionLineModel):
+    /*
+    (iHeaderId AS INT64, iLine AS INT):
+    */
+        DEFINE VARIABLE oError     AS CHARACTER      NO-UNDO INITIAL "".
+        FIND FIRST transaction_line WHERE transaction_line.header_id = iTransactionLine:Header_Id 
+        AND transaction_line.line      = iTransactionLine:Line AND transaction_line.state <> 9 
+        USE-INDEX header_id EXCLUSIVE-LOCK NO-ERROR.
+        IF AVAILABLE transaction_line THEN DO:
+            ASSIGN
+                transaction_line.state = 9.
+                /* TODO if last deleted line, set deleted status to transaction_header */
+        END.
+        ELSE oError = "CAN'T SET DELETED STATUS".
+        RETURN oError.
+    END.
+END.    
