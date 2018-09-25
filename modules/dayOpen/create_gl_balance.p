@@ -1,3 +1,5 @@
+USING system.api.systemSettings.*.
+
 /*
     Ceate balances for current open date
     Warning! Not supports new currency addition in already opened day.

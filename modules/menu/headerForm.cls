@@ -1,17 +1,10 @@
-/*
-********************************************************************************
-********************************************************************************
-12.07.2018 22:48   ABS SYSTEM                                       Alan Meister
---------------------------------------------------------------------------------
-POS FUNCTION DESCRIPTION                                                 SUBMENU
-================================================================================
-1   CLIENTS  Clients main menu                                                 >
-================================================================================
-Find menu         [************************************************************]
-*/
+USING system.api.systemSettings.*.
+USING system.api.core.*.
+USING system.ui.*.
+USING modules.menu.*.
 
-CLASS headerForm INHERITS baseForm:
-DEFINE VARIABLE Settings      AS CLASS globalSettingsApi.
+
+CLASS modules.menu.headerForm INHERITS baseForm:
 
 DEFINE VARIABLE g-today       AS DATE NO-UNDO.
 DEFINE VARIABLE companyName   AS CHARACTER NO-UNDO.
@@ -26,17 +19,15 @@ DEFINE FRAME headerFrame
   WITH NO-LABELS NO-BOX SIZE 80 BY 1 ROW 1.
   
 CONSTRUCTOR headerForm():
-    Settings = NEW globalSettingsApi().
-    
-    g-today     = Settings:g-today.
-    companyName = Settings:companyName.
-    loginName   = SUBSTRING(Settings:loginName, 1, 10).
+    g-today     = globalSettings:g-today.
+    companyName = globalSettings:companyName.
+    loginName   = SUBSTRING(globalSettings:loginName, 1, 10).
     loginName   = STRING(FILL(" ",10 - LENGTH (loginName)) + loginName, "X(10)").
     FRAME headerFrame:SCROLLABLE = FALSE.
 END.
 
 DESTRUCTOR headerForm():
-    DELETE OBJECT Settings NO-ERROR.
+    
 END.
 
 METHOD PUBLIC OVERRIDE CHARACTER showHeader():

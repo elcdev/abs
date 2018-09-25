@@ -1,4 +1,7 @@
-CLASS transactionCore:
+USING system.api.systemSettings.*.
+USING system.api.balance.*.
+
+CLASS system.api.balance.transactionCore:
     DEFINE STATIC VARIABLE ENABLE-STOP-DEBET-CHECK    AS LOGICAL NO-UNDO INIT YES.
     DEFINE STATIC VARIABLE ENABLE-STOP-CREDIT-CHECK   AS LOGICAL NO-UNDO INIT YES.
     

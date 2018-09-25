@@ -1,4 +1,6 @@
-CLASS paymentConstants:
+USING system.api.payments.*.
+
+CLASS system.api.payments.paymentConstants:
     {propertyGetSet.f &name="payment_internal_fee_gl"           &type="INT64"        &static=static}
     {propertyGetSet.f &name="payment_internal_fee_details"      &type="CHARACTER"    &static=static}
 

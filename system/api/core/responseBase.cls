@@ -1,4 +1,6 @@
-CLASS responseBase IMPLEMENTS responseInterface:
+USING system.api.core.*.
+
+CLASS system.api.core.responseBase SERIALIZABLE IMPLEMENTS responseInterface:
     DEFINE PUBLIC VARIABLE state            AS CHARACTER   NO-UNDO.
 
     DEFINE PUBLIC VARIABLE errorDescription AS CHARACTER   NO-UNDO.

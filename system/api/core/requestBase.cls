@@ -1,4 +1,6 @@
-CLASS requestBase IMPLEMENTS requestInterface:
+USING system.api.core.*.
+
+CLASS system.api.core.requestBase SERIALIZABLE IMPLEMENTS requestInterface:
     DEFINE PUBLIC VARIABLE action  AS CHARACTER NO-UNDO.
     DEFINE PUBLIC VARIABLE id      AS INTEGER   NO-UNDO.
 	DEFINE PUBLIC VARIABLE version AS INTEGER   NO-UNDO.

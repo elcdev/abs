@@ -1,16 +1,9 @@
-/*
-********************************************************************************
-********************************************************************************
-12.07.2018 22:48   ABS SYSTEM                                       Alan Meister
---------------------------------------------------------------------------------
-POS FUNCTION DESCRIPTION                                                 SUBMENU
-================================================================================
-1   CLIENTS  Clients main menu                                                 >
-================================================================================
-Find menu         [************************************************************]
-*/
+USING system.ui.*.
+USING modules.menu.*.
+USING system.api.menu.*.
+USING system.api.systemSettings.*.
 
-CLASS menuEditForm INHERITS baseForm:
+CLASS modules.menu.menuEditForm INHERITS baseForm:
     {menuEditTable.i }
     
     DEFINE VARIABLE cMenuApi    AS menuApi NO-UNDO.

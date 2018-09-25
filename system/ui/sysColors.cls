@@ -1,6 +1,8 @@
-CLASS sysColors:
+USING system.ui.*.
 
-    METHOD PUBLIC INT64 getColorNumber(iColor AS CHAR):
+CLASS system.ui.sysColors:
+
+    METHOD STATIC PUBLIC INT64 getColorNumber(iColor AS CHAR):
         CASE iColor:
             WHEN "RED/BLACK"        THEN RETURN 5.
             WHEN "GREEN/BLACK"      THEN RETURN 6. 

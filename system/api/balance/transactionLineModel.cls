@@ -1,25 +1,29 @@
-CLASS transactionLineModel INHERITS dbModel:
-    {propertyGetSet.f &name="header_id"        &type="int64"}
-    {propertyGetSet.f &name="line"             &type="INTEGER"}
-    {propertyGetSet.f &name="line_status"      &type="INTEGER"}
-    {propertyGetSet.f &name="line_type"        &type="CHARACTER"}
-    {propertyGetSet.f &name="gl"               &type="INT64"}
-    {propertyGetSet.f &name="account"          &type="CHARACTER"}
-    {propertyGetSet.f &name="balance_date"     &type="DATE"}
-    {propertyGetSet.f &name="currency"         &type="CHARACTER"}
-    {propertyGetSet.f &name="cif"              &type="CHARACTER"}
+USING system.api.core.*.
+USING system.api.balance.*.
+USING system.api.systemSettings.*.
+
+CLASS system.api.balance.transactionLineModel SERIALIZABLE INHERITS dbModel:
+    {propertyGetSet.f &name="header_id"        &type="int64" &serializable="serializable"}
+    {propertyGetSet.f &name="line"             &type="INTEGER" &serializable="serializable"}
+    {propertyGetSet.f &name="line_status"      &type="INTEGER" &serializable="serializable"}
+    {propertyGetSet.f &name="line_type"        &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="gl"               &type="INT64" &serializable="serializable"}
+    {propertyGetSet.f &name="account"          &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="balance_date"     &type="DATE" &serializable="serializable"}
+    {propertyGetSet.f &name="currency"         &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="cif"              &type="CHARACTER" &serializable="serializable"}
     
-    {propertyGetSet.f &name="dc"               &type="CHAR"}
-    {propertyGetSet.f &name="debet"            &type="DECIMAL"}
-    {propertyGetSet.f &name="credit"           &type="DECIMAL"}
-    {propertyGetSet.f &name="details"          &type="CHARACTER"}
-    {propertyGetSet.f &name="details_template" &type="CHARACTER"}
-    {propertyGetSet.f &name="create_user"      &type="CHARACTER"}
-    {propertyGetSet.f &name="authorize_user"   &type="CHARACTER"}
-    {propertyGetSet.f &name="authorize_date"   &type="DATE"}
+    {propertyGetSet.f &name="dc"               &type="CHAR" &serializable="serializable"}
+    {propertyGetSet.f &name="debet"            &type="DECIMAL" &serializable="serializable"}
+    {propertyGetSet.f &name="credit"           &type="DECIMAL" &serializable="serializable"}
+    {propertyGetSet.f &name="details"          &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="details_template" &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="create_user"      &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="authorize_user"   &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="authorize_date"   &type="DATE" &serializable="serializable"}
 
     DEFINE VARIABLE tAccount   AS accountModel           NO-UNDO.
-    DEFINE VARIABLE tGlAccount AS glModel         NO-UNDO.
+    DEFINE VARIABLE tGlAccount AS glModel                NO-UNDO.
     DEFINE VARIABLE tHeader    AS transactionHeaderModel NO-UNDO.
     DEFINE VARIABLE initDone   AS LOGICAL                NO-UNDO INITIAL FALSE.
     

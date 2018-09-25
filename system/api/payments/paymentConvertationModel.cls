@@ -1,9 +1,15 @@
-CLASS paymentConvertationModel INHERITS paymentModel:
+USING system.api.core.*.
+USING system.api.payments.*.
+USING system.api.systemSettings.*.
+USING system.api.balance.*.
+USING system.api.currency.*.
+
+CLASS system.api.payments.paymentConvertationModel SERIALIZABLE INHERITS paymentModel:
     
-    {propertyGetSet.f &name="rate"            &type="DECIMAL"}
-    {propertyGetSet.f &name="revenue"         &type="DECIMAL"}
-    {propertyGetSet.f &name="sell_currency"   &type="CHAR"}
-    {propertyGetSet.f &name="sell_amount"     &type="DECIMAL"}
+    {propertyGetSet.f &name="rate"            &type="DECIMAL" &serializable="serializable"}
+    {propertyGetSet.f &name="revenue"         &type="DECIMAL" &serializable="serializable"}
+    {propertyGetSet.f &name="sell_currency"   &type="CHAR" &serializable="serializable"}
+    {propertyGetSet.f &name="sell_amount"     &type="DECIMAL" &serializable="serializable"}
        
        
     CONSTRUCTOR paymentConvertationModel():
@@ -28,20 +34,14 @@ CLASS paymentConvertationModel INHERITS paymentModel:
     
     METHOD PUBLIC CHARACTER calculate_revenue():
         DEFINE VARIABLE oError          AS CHARACTER NO-UNDO.
-        
-        FIND LAST currency_rates WHERE currency_rates.currency = currency AND 
-        currency_rates.rate_type = "BUY" AND currency_rates.balance_date LE globalSettings:balance_date
-        NO-LOCK NO-ERROR.
-        IF NOT AVAILABLE currency_rates THEN oError = "NO-RATES-BUY-CURRENCY".
-        IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError, 1).
-        
-        revenue = ROUND(amount * currency_rates.rate / currency_rates.unit,2).
-        FIND LAST currency_rates WHERE currency_rates.currency = sell_currency AND 
-        currency_rates.rate_type = "SELL" AND currency_rates.balance_date LE globalSettings:balance_date
-        NO-LOCK NO-ERROR.
-        IF NOT AVAILABLE currency_rates THEN oError = "NO-RATES-SELL-CURRENCY".
-        IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError, 1).
-        revenue = revenue - ROUND(sell_amount * currency_rates.rate / currency_rates.unit,2).
+        DO ON ERROR UNDO, THROW:
+            revenue = ROUND(amount * currencyApi:getBuyRate(currency), 2).
+            revenue = revenue - ROUND(sell_amount * currencyApi:getSellRate(currency),2).
+            
+            CATCH eAnyError AS Progress.Lang.Error:
+                RETURN eAnyError:GetMessage(1).
+            END CATCH.
+        END.
         
         RETURN oError.
     END.

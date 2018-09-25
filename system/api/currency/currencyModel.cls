@@ -1,9 +1,13 @@
-CLASS currencyModel INHERITS dbModel:
-    {propertyGetSet.f &name="currency"            &type="CHAR"}
-    {propertyGetSet.f &name="description"         &type="CHAR"}
-    {propertyGetSet.f &name="decimal_points"      &type="DEC"}
-    {propertyGetSet.f &name="currency_order"      &type="INT"}
-    {propertyGetSet.f &name="currency_status"     &type="CHAR"}
+USING system.api.currency.*.
+USING system.api.core.*.
+USING system.api.systemSettings.*.
+
+CLASS system.api.currency.currencyModel SERIALIZABLE INHERITS dbModel:
+    {propertyGetSet.f &name="currency"            &type="CHAR" &serializable="serializable"}
+    {propertyGetSet.f &name="description"         &type="CHAR" &serializable="serializable"}
+    {propertyGetSet.f &name="decimal_points"      &type="DEC"  &serializable="serializable"}
+    {propertyGetSet.f &name="currency_order"      &type="INT"  &serializable="serializable"}
+    {propertyGetSet.f &name="currency_status"     &type="CHAR" &serializable="serializable"}
 
     
 	METHOD PUBLIC OVERRIDE CHARACTER putDb():

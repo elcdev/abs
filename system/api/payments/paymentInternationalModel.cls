@@ -1,4 +1,6 @@
-CLASS paymentInternationalModel INHERITS paymentModel:
+USING system.api.payments.*.
+
+CLASS system.api.payments.paymentInternationalModel INHERITS paymentModel:
     
     CONSTRUCTOR paymentInternationalModel():
         payment_type = "INTERNATIONAL".

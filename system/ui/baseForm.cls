@@ -1,7 +1,8 @@
+USING system.ui.*.
 /*
     By ABS GURU group
 */
-CLASS baseForm:
+CLASS system.ui.baseForm:
 
     METHOD PUBLIC CHARACTER showHeader():
 

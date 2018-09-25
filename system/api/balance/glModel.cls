@@ -1,13 +1,17 @@
-CLASS glModel INHERITS dbModel:
-    {propertyGetSet.f &name="gl"                  &type="INT64"}
-    {propertyGetSet.f &name="parent_gl"           &type="INT64"}
-    {propertyGetSet.f &name="description"         &type="CHAR"}
-    {propertyGetSet.f &name="gl_type"             &type="CHAR"}
-    {propertyGetSet.f &name="subledger_type"      &type="CHAR"}
-    {propertyGetSet.f &name="gl_status"           &type="CHAR"}
-    {propertyGetSet.f &name="level"               &type="INT"}
-    {propertyGetSet.f &name="total_action"        &type="LOGICAL"}
-    {propertyGetSet.f &name="restrict_operation"  &type="LOGICAL"}
+USING system.api.core.*.
+USING system.api.balance.*.
+USING system.api.systemSettings.*.
+
+CLASS system.api.balance.glModel SERIALIZABLE INHERITS dbModel:
+    {propertyGetSet.f &name="gl"                  &type="INT64"   &serializable="serializable"}
+    {propertyGetSet.f &name="parent_gl"           &type="INT64"   &serializable="serializable"}
+    {propertyGetSet.f &name="description"         &type="CHAR"    &serializable="serializable"}
+    {propertyGetSet.f &name="gl_type"             &type="CHAR"    &serializable="serializable"}
+    {propertyGetSet.f &name="subledger_type"      &type="CHAR"    &serializable="serializable"}
+    {propertyGetSet.f &name="gl_status"           &type="CHAR"    &serializable="serializable"}
+    {propertyGetSet.f &name="level"               &type="INT"     &serializable="serializable"}
+    {propertyGetSet.f &name="total_action"        &type="LOGICAL" &serializable="serializable"}
+    {propertyGetSet.f &name="restrict_operation"  &type="LOGICAL" &serializable="serializable"}
     
 	METHOD PUBLIC OVERRIDE CHARACTER putDb():
         {requestItemPutDb.f &TABLE="gl"}

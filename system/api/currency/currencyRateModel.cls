@@ -1,20 +1,16 @@
-CLASS currencyRateModel INHERITS dbModel:
-    {propertyGetSet.f &name="currency"            &type="CHAR"}
-    {propertyGetSet.f &name="balance_date"        &type="DATE"}
-    {propertyGetSet.f &name="rate_type"           &type="CHAR"}
-    {propertyGetSet.f &name="rate"                &type="DEC"}
-    {propertyGetSet.f &name="count"               &type="DEC"}
+USING system.api.currency.*.
+USING system.api.core.*.
+USING system.api.systemSettings.*.
 
-    
-	METHOD PUBLIC OVERRIDE CHARACTER putDb():
-        {requestItemPutDb.f &TABLE="currency_rates"}
-        RETURN setValuesToBuffer(BUFFER currency_rates:handle).
-	END.
-    
-    METHOD PUBLIC OVERRIDE CHARACTER getDb(iId AS INT64):
-        {requestItemGetDbByField.f &table="currency_rates" &field="id"}
-        RETURN super:getValuesFromBuffer(BUFFER currency_rates:handle).
-	END.
+CLASS system.api.currency.currencyRateModel SERIALIZABLE INHERITS dbModel:
+    {propertyGetSet.f &name="currency"            &type="CHAR" &serializable="serializable"}
+    {propertyGetSet.f &name="balance_date"        &type="DATE" &serializable="serializable"}
+    {propertyGetSet.f &name="rate_type"           &type="CHAR" &serializable="serializable"}
+    {propertyGetSet.f &name="rate"                &type="DEC"  &serializable="serializable"}
+    {propertyGetSet.f &name="count"               &type="DEC"  &serializable="serializable"}
+
+    {dbModelJsonParser.f &class="system.api.currency.currencyRateModel"}
+    {dbModelPutGetMethods.f &TABLE="currency_rates"}
 
     METHOD PUBLIC CHARACTER getDbByCurrency(iCurrency AS CHARACTER, iBalanceDay AS DATE, iRateType AS CHARACTER):
         DEFINE VARIABLE iId AS INT64 NO-UNDO.

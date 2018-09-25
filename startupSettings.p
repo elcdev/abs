@@ -1,3 +1,9 @@
+USING modules.*.
+USING system.core.*.
+USING system.ui.*.
+USING system.api.core.*.
+USING system.api.systemSetins.*.
+
 /*
     Set startup global settings and parameneters
 */

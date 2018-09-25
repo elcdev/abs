@@ -1,11 +1,15 @@
-CLASS transactionHeaderModel INHERITS dbModel:
-    {propertyGetSet.f &name="header_id"        &type="INT64"}
-    {propertyGetSet.f &name="balance_date"     &type="DATE"}
-    {propertyGetSet.f &name="document_id"      &type="INT64"}
-    {propertyGetSet.f &name="deal_number"      &type="CHARACTER"}
-    {propertyGetSet.f &name="head_status"      &type="INTEGER"}
-    {propertyGetSet.f &name="authorize_user"   &type="CHARACTER"}
-    {propertyGetSet.f &name="authorize_date"   &type="DATE"}
+USING system.api.core.*.
+USING system.api.balance.*.
+USING system.api.systemSettings.*.
+
+CLASS system.api.balance.transactionHeaderModel SERIALIZABLE INHERITS dbModel:
+    {propertyGetSet.f &name="header_id"        &type="INT64" &serializable="serializable"}
+    {propertyGetSet.f &name="balance_date"     &type="DATE" &serializable="serializable"}
+    {propertyGetSet.f &name="document_id"      &type="INT64" &serializable="serializable"}
+    {propertyGetSet.f &name="deal_number"      &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="head_status"      &type="INTEGER" &serializable="serializable"}
+    {propertyGetSet.f &name="authorize_user"   &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="authorize_date"   &type="DATE" &serializable="serializable"}
 
     METHOD PUBLIC OVERRIDE CHARACTER putDb():
         {requestItemPutDb.f &TABLE="transaction_header"}

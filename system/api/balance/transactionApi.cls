@@ -1,4 +1,8 @@
-CLASS transactionApi:
+USING system.api.core.*.
+USING system.api.balance.*.
+USING system.api.systemSettings.*.
+
+CLASS system.api.balance.transactionApi:
     DEFINE STATIC VARIABLE garbage      AS garbageCollectorType.
     
     CONSTRUCTOR transactionApi():

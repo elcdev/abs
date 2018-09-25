@@ -1,3 +1,6 @@
+USING system.api.payments.*.
+USING system.api.systemSettings.*.
+
 DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
 DEF VAR payment AS paymentInternalModel.
 

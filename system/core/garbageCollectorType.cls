@@ -1,4 +1,4 @@
-CLASS garbageCollectorType:
+CLASS garbageCollectorType SERIALIZABLE:
     DEFINE TEMP-TABLE tmpObjects NO-UNDO
         FIELD objectReference   AS CLASS Progress.Lang.Object
         .

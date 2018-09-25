@@ -1,4 +1,4 @@
-    DEFINE PUBLIC PROPERTY {&name} AS {&type} NO-UNDO
+    DEFINE PUBLIC {&serializable} PROPERTY {&name} AS {&type} NO-UNDO
         PUBLIC GET():
             RETURN {&field}.
         END GET.

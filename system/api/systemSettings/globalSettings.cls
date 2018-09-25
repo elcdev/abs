@@ -1,4 +1,8 @@
-CLASS globalSettings INHERITS systemSettingsApi:
+USING system.api.systemSettings.*.
+USING system.api.core.*.
+USING system.api.balance.*.
+
+CLASS system.api.systemSettings.globalSettings INHERITS systemSettingsApi:
     DEFINE STATIC VARIABLE tUser         AS CHARACTER NO-UNDO.
     DEFINE STATIC VARIABLE tCompanyName  AS CHARACTER NO-UNDO.
     DEFINE STATIC VARIABLE tcompanyRegNr AS CHARACTER NO-UNDO.

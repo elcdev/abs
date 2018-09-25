@@ -1,4 +1,9 @@
-CLASS fieldEditForm: /* INHERITS baseForm:*/
+USING system.ui.*.
+USING modules.menu.*.
+USING system.api.menu.*.
+USING system.api.systemSettings.*.
+
+CLASS modules.menu.fieldEditForm: /* INHERITS baseForm:*/
     DEFINE VARIABLE fieldValue        AS CHARACTER NO-UNDO.
     DEFINE VARIABLE fieldDefaultValue AS CHARACTER NO-UNDO INITIAL "".
     DEFINE VARIABLE fieldType         AS CHARACTER NO-UNDO INITIAL "CHAR".
@@ -14,9 +19,7 @@ CLASS fieldEditForm: /* INHERITS baseForm:*/
     DEFINE VARIABLE editorMode    AS CHARACTER NO-UNDO INITIAL "". /* = "ReadOnly"*/
     DEFINE VARIABLE hWidget       AS HANDLE    NO-UNDO.
     
-    DEFINE VARIABLE systemSettings AS systemSettingsApi NO-UNDO.
     DEFINE VARIABLE cStr           AS stringApi NO-UNDO.
-    DEFINE VARIABLE cClr           AS sysColors NO-UNDO. 
     DEFINE VARIABLE cFso           AS fileSystemObject NO-UNDO.
     
     DEF VAR Field_Delimiter AS CHAR INIT "|".
@@ -38,9 +41,17 @@ CLASS fieldEditForm: /* INHERITS baseForm:*/
     DEF VAR HELP-PROC-HEIGHT AS INT64.
     DEF VAR HELP-PROC-WIDTH  AS INT64.
     DEF VAR HELP-PROC-LTYPE  AS INT64.
-    DEF VAR ENABLE-SHADOW   AS LOG INITIAL FALSE.
+    DEF VAR ENABLE-SHADOW    AS LOG INITIAL FALSE.
     DEF VAR IsOk             AS LOG.
     DEF VAR Prg_Ex           AS INT64.
+    
+    {propertyGetSetForField.f &name="width"  &type="dec"  &field="fieldWidth"}
+    {propertyGetSetForField.f &name="height" &type="dec"  &field="fieldHeight"}
+    {propertyGetSetForField.f &name="top"    &type="dec"  &field="fieldTop"}
+    {propertyGetSetForField.f &name="left"   &type="dec"  &field="fieldLeft"}
+    {propertyGetSetForField.f &name="value"  &type="char" &field="fieldValue"}
+    {propertyGetSetForField.f &name="state"  &type="char" &field="fieldState"}
+
     
     DEFINE FRAME formFrame
       WITH NO-LABEL SIZE 10 BY 1 OVERLAY NO-BOX COL 1 ROW 1.
@@ -50,25 +61,15 @@ CLASS fieldEditForm: /* INHERITS baseForm:*/
     
     
     CONSTRUCTOR fieldEditForm():
-        systemSettings = NEW systemSettingsApi().
         cStr           = NEW stringApi().
-        cClr           = NEW sysColors().
         cFso           = NEW fileSystemObject().
     END.
     
     DESTRUCTOR fieldEditForm():
-        DELETE OBJECT systemSettings NO-ERROR.
         DELETE OBJECT cStr           NO-ERROR.
-        DELETE OBJECT cClr           NO-ERROR.
         DELETE OBJECT cFso           NO-ERROR.
     END.
     
-    {propertyGetSetForField.f &name="width" &type="dec" &field="fieldWidth"}
-    {propertyGetSetForField.f &name="height" &type="dec" &field="fieldHeight"}
-    {propertyGetSetForField.f &name="top" &type="dec" &field="fieldTop"}
-    {propertyGetSetForField.f &name="left" &type="dec" &field="fieldLeft"}
-    {propertyGetSetForField.f &name="value" &type="char" &field="fieldValue"}
-    {propertyGetSetForField.f &name="state" &type="char" &field="fieldState"}
 
         
     METHOD PUBLIC CHARACTER InitForm():
@@ -85,19 +86,19 @@ CLASS fieldEditForm: /* INHERITS baseForm:*/
         
         /* Initialize window position */
         IF fieldType = "" THEN fieldType = "CHAR".
-        f_Prp_ID = systemSettings:getKeyId(settingsKey + fieldType).
+        f_Prp_ID = globalSettings:getKeyId(settingsKey + fieldType).
         
         If f_Prp_Id > 0 THEN
          DO:
             IF fieldWidth = 0 THEN
              DO:
                 fieldWidth = 8.
-                fieldWidth = systemSettings:getValueInt64(f_Prp_ID, "WIDTH").
+                fieldWidth = globalSettings:getValueInt64(f_Prp_ID, "WIDTH").
              END.
             IF fieldHeight = 0 THEN
              DO:
                 fieldHeight = 1.
-                fieldHeight = systemSettings:getValueInt64(f_Prp_ID, "HEIGHT").
+                fieldHeight = globalSettings:getValueInt64(f_Prp_ID, "HEIGHT").
              END.
 
             IF fieldHeight <= 0 THEN fieldHeight = 1.
@@ -119,43 +120,43 @@ CLASS fieldEditForm: /* INHERITS baseForm:*/
         If f_Prp_Id > 0 THEN
          DO:
             IF fieldPfColor = 0 AND OPSYS = "unix" THEN
-                  fieldPfColor = cclr:getColorNumber(systemSettings:getValueChar(f_Prp_ID,
+                  fieldPfColor = sysColors:getColorNumber(globalSettings:getValueChar(f_Prp_ID,
                                                  "HELP-PROC-SLCLR")).
-            HELP-PROC-NAME = systemSettings:getValueChar(f_Prp_ID, "HELP-PROC-NAME").
+            HELP-PROC-NAME = globalSettings:getValueChar(f_Prp_ID, "HELP-PROC-NAME").
             IF HELP-PROC-NAME <> "" THEN 
              DO:
-                HELP-PROC-AUTO = systemSettings:getValueInt64(f_Prp_ID, "HELP-PROC-AUTO").
+                HELP-PROC-AUTO = globalSettings:getValueInt64(f_Prp_ID, "HELP-PROC-AUTO").
                 
                 /* Задаем список значений по полю */
                 IF fieldDataList = "" THEN
-                    HELP-PROC-DATA = systemSettings:getValueChar(f_Prp_ID, "HELP-PROC-DATA").
+                    HELP-PROC-DATA = globalSettings:getValueChar(f_Prp_ID, "HELP-PROC-DATA").
                 ELSE
                     HELP-PROC-DATA = fieldDataList.
                 
                 /* Цвет фона */
                 HELP-PROC-BGCLR = 
-                 cclr:getColorNumber(systemSettings:getValueChar(f_Prp_ID, "HELP-PROC-BGCLR")).
+                 sysColors:getColorNumber(globalSettings:getValueChar(f_Prp_ID, "HELP-PROC-BGCLR")).
                 /* Цвет рамки */
                 HELP-PROC-BXCLR = 
-                 cclr:getColorNumber(systemSettings:getValueChar(f_Prp_ID, "HELP-PROC-BXCLR")).
+                 sysColors:getColorNumber(globalSettings:getValueChar(f_Prp_ID, "HELP-PROC-BXCLR")).
                 /* Цвет тени окна */
                 HELP-PROC-SHCLR = 
-                 cclr:getColorNumber(systemSettings:getValueChar(f_Prp_ID, "HELP-PROC-SHCLR")).
+                 sysColors:getColorNumber(globalSettings:getValueChar(f_Prp_ID, "HELP-PROC-SHCLR")).
                 /* Цвет курсора */
                 HELP-PROC-SLCLR = fieldPfColor.
                 /* Позиция окна Y */
-                HELP-PROC-TOP    = systemSettings:getValueInt64(f_Prp_ID, "HELP-PROC-TOP").
+                HELP-PROC-TOP    = globalSettings:getValueInt64(f_Prp_ID, "HELP-PROC-TOP").
                 IF HELP-PROC-TOP = 0 THEN HELP-PROC-TOP = fieldTop.
                 /* Позиция окна X */
-                HELP-PROC-LEFT   = systemSettings:getValueInt(f_Prp_ID, "HELP-PROC-LEFT").
+                HELP-PROC-LEFT   = globalSettings:getValueInt(f_Prp_ID, "HELP-PROC-LEFT").
                 IF HELP-PROC-LEFT = 0 THEN HELP-PROC-LEFT = fieldLeft.
                 /* Высота окна */
-                HELP-PROC-HEIGHT = systemSettings:getValueInt(f_Prp_ID, "HELP-PROC-HEIGHT").
+                HELP-PROC-HEIGHT = globalSettings:getValueInt(f_Prp_ID, "HELP-PROC-HEIGHT").
                 IF HELP-PROC-HEIGHT = 0 THEN HELP-PROC-HEIGHT = mf_Height.
                 /* Ширина окна */
-                HELP-PROC-WIDTH  = systemSettings:getValueInt(f_Prp_ID, "HELP-PROC-WIDTH").
+                HELP-PROC-WIDTH  = globalSettings:getValueInt(f_Prp_ID, "HELP-PROC-WIDTH").
                 HELP-PROC-LTYPE  = 1.
-                HELP-PROC-LTYPE  = systemSettings:getValueInt(f_Prp_ID, "HELP-PROC-LTYPE").
+                HELP-PROC-LTYPE  = globalSettings:getValueInt(f_Prp_ID, "HELP-PROC-LTYPE").
                                     
                 IF HELP-PROC-WIDTH = 0 THEN HELP-PROC-WIDTH = mf_Width.
 
@@ -221,7 +222,7 @@ CLASS fieldEditForm: /* INHERITS baseForm:*/
                     RETURN "".
                  END.
              END.
-            /*systemSettings:EnableSystemWarnings().*/
+            /*globalSettings:EnableSystemWarnings().*/
          END.
         ELSE
          DO:
@@ -358,27 +359,27 @@ CLASS fieldEditForm: /* INHERITS baseForm:*/
         
         f_Value  = f_Vl.
         IF fieldType = "" THEN fieldType = "CHAR".
-        f_Prp_ID = systemSettings:getKeyId(settingsKey + fieldType).
+        f_Prp_ID = globalSettings:getKeyId(settingsKey + fieldType).
         If f_Prp_Id > 0 THEN
          DO:
-            /*systemSettings:DisableSystemWarnings().*/
-            f_Str = systemSettings:getValueChar(f_Prp_ID, "DATA-TYPE").
+            /*globalSettings:DisableSystemWarnings().*/
+            f_Str = globalSettings:getValueChar(f_Prp_ID, "DATA-TYPE").
             IF f_Str <> "" THEN f_Data_Type = f_Str.
-            f_Str = systemSettings:getValueChar(f_Prp_ID, "AUTO-FORMAT").
+            f_Str = globalSettings:getValueChar(f_Prp_ID, "AUTO-FORMAT").
             IF f_Str <> "" THEN f_Auto_Format = int64(f_Str) NO-ERROR.
-            f_Str = systemSettings:getValueChar(f_Prp_ID, "FORMAT").
+            f_Str = globalSettings:getValueChar(f_Prp_ID, "FORMAT").
             IF f_Str <> "" THEN f_Format = f_Str.
-            f_Str = systemSettings:getValueChar(f_Prp_ID, "WIDTH").
+            f_Str = globalSettings:getValueChar(f_Prp_ID, "WIDTH").
             IF f_Str <> "" THEN f_WIDTH  = int64(f_Str) NO-ERROR.
-            f_Str = systemSettings:getValueChar(f_Prp_ID, "HEIGHT").
+            f_Str = globalSettings:getValueChar(f_Prp_ID, "HEIGHT").
             IF f_Str <> "" THEN f_HEIGHT = int64(f_Str) NO-ERROR.
-            f_Str = systemSettings:getValueChar(f_Prp_ID, "COL").
+            f_Str = globalSettings:getValueChar(f_Prp_ID, "COL").
             IF f_Str <> "" THEN f_COL    = int64(f_Str) NO-ERROR.
-            f_Str = systemSettings:getValueChar(f_Prp_ID, "ROW").
+            f_Str = globalSettings:getValueChar(f_Prp_ID, "ROW").
             IF f_Str <> "" THEN f_ROW    = int64(f_Str) NO-ERROR.
-            f_Str = systemSettings:getValueChar(f_Prp_ID, "HELP").
+            f_Str = globalSettings:getValueChar(f_Prp_ID, "HELP").
             IF f_Str <> "" THEN f_HELP    = f_Str NO-ERROR.
-            f_Str = systemSettings:getValueChar(f_Prp_ID, "DEFAULT").
+            f_Str = globalSettings:getValueChar(f_Prp_ID, "DEFAULT").
 
             IF SUBSTRING(f_Str,1,1) = "=" AND f_Vl = "" THEN
              DO:
@@ -388,7 +389,7 @@ CLASS fieldEditForm: /* INHERITS baseForm:*/
                 f_Str = SUBSTRING(f_Str,2).
              END.
             IF f_Str <> "" AND f_Vl = "" THEN f_Value   = f_Str.
-            /*systemSettings:EnableSystemWarnings().*/
+            /*globalSettings:EnableSystemWarnings().*/
          END.
         IF f_C > 0 THEN f_Col   = f_C.
         IF f_R > 0 THEN f_Row   = f_R.

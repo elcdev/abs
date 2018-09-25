@@ -1,4 +1,7 @@
-CLASS menuFilterData INHERITS menuItemModel:
+USING system.api.core.*.
+USING system.api.menu.*.
+
+CLASS system.api.menu.menuFilterData INHERITS menuItemModel:
 /*
     DEF VAR position      AS INTEGER NO-UNDO.
 	DEF VAR functionName  AS CHAR NO-UNDO.

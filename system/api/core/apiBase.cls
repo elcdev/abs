@@ -1,6 +1,6 @@
-USING abs.system.core.*.
+USING system.api.core.*.
 
-CLASS apiBase IMPLEMENTS apiInterface:
+CLASS system.api.core.apiBase IMPLEMENTS apiInterface:
      DEFINE PUBLIC VARIABLE response AS CLASS responseBase.
      DEFINE PUBLIC VARIABLE garbage  AS CLASS garbageCollectorType.
      

@@ -1,4 +1,6 @@
-CLASS paymentInternalModel INHERITS paymentModel:
+USING system.api.payments.*.
+
+CLASS system.api.payments.paymentInternalModel INHERITS paymentModel:
     
     CONSTRUCTOR paymentInternalModel():
         payment_type = "INTERNAL".

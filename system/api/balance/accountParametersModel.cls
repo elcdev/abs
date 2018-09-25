@@ -1,3 +1,7 @@
+USING system.api.core.*.
+USING system.api.balance.*.
+USING system.api.systemSettings.*.
+
 CLASS accountParametersModel INHERITS dbModel:
     {propertyGetSet.f &name="gl"                  &type="int64"}
     {propertyGetSet.f &name="iban"                &type="CHAR"}

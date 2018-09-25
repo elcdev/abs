@@ -1,3 +1,8 @@
+USING system.api.systemSettings.*.
+USING system.api.core.*.
+USING system.api.menu.*.
+USING modules.menu.*.
+
 /*
 ********************************************************************************
 ********************************************************************************
@@ -10,7 +15,7 @@ POS FUNCTION DESCRIPTION                                                 SUBMENU
 Find menu         [************************************************************]
 */
 
-CLASS menuForm INHERITS headerForm:
+CLASS modules.menu.menuForm INHERITS headerForm:
     DEFINE VARIABLE cMenuApi AS menuApi NO-UNDO.
     {menuTable.i}
     DEFINE VARIABLE parentId      AS INT64     NO-UNDO INITIAL 0.

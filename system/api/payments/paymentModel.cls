@@ -1,33 +1,39 @@
-CLASS paymentModel INHERITS dbModel:
-    {propertyGetSet.f &name="payment_type"              &type="CHARACTER"}
+USING system.api.core.*.
+USING system.api.payments.*.
+USING system.api.systemSettings.*.
+USING system.api.balance.*.
+
+
+CLASS system.api.payments.paymentModel SERIALIZABLE INHERITS dbModel:
+    {propertyGetSet.f &name="payment_type"              &type="CHARACTER" &serializable="serializable"}
     
-    {propertyGetSet.f &name="payment_date"              &type="DATE"}
-    {propertyGetSet.f &name="amount"                    &type="DECIMAL"}
-    {propertyGetSet.f &name="currency"                  &type="CHARACTER"}
-    {propertyGetSet.f &name="details"                   &type="CHARACTER"}
-    {propertyGetSet.f &name="urgency"                   &type="CHARACTER"}
-    {propertyGetSet.f &name="value_date"                &type="DATE"}
+    {propertyGetSet.f &name="payment_date"              &type="DATE" &serializable="serializable"}
+    {propertyGetSet.f &name="amount"                    &type="DECIMAL" &serializable="serializable"}
+    {propertyGetSet.f &name="currency"                  &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="details"                   &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="urgency"                   &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="value_date"                &type="DATE" &serializable="serializable"}
     
-    {propertyGetSet.f &name="sender_name"               &type="CHARACTER"}
-    {propertyGetSet.f &name="sender_account"            &type="CHARACTER"}
-    {propertyGetSet.f &name="sender_bank_name"          &type="CHARACTER"}
-    {propertyGetSet.f &name="sender_bank_address"       &type="CHARACTER"}
-    {propertyGetSet.f &name="sender_bank_swift"         &type="CHARACTER"}
+    {propertyGetSet.f &name="sender_name"               &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="sender_account"            &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="sender_bank_name"          &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="sender_bank_address"       &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="sender_bank_swift"         &type="CHARACTER" &serializable="serializable"}
     
-    {propertyGetSet.f &name="beneficiary_name"          &type="CHARACTER"}
-    {propertyGetSet.f &name="beneficiary_account"       &type="CHARACTER"}
-    {propertyGetSet.f &name="beneficiary_bank_name"     &type="CHARACTER"}
-    {propertyGetSet.f &name="beneficiary_bank_address"  &type="CHARACTER"}
-    {propertyGetSet.f &name="beneficiary_bank_swift"    &type="CHARACTER"}    
+    {propertyGetSet.f &name="beneficiary_name"          &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="beneficiary_account"       &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="beneficiary_bank_name"     &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="beneficiary_bank_address"  &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="beneficiary_bank_swift"    &type="CHARACTER" &serializable="serializable"}    
     
-    {propertyGetSet.f &name="nostro_account"            &type="CHARACTER"}
-    {propertyGetSet.f &name="intermediary_bank_name"    &type="CHARACTER"}
-    {propertyGetSet.f &name="intermediary_bank_swift"   &type="CHARACTER"}
-    {propertyGetSet.f &name="intermediary_bank_address" &type="CHARACTER"}
+    {propertyGetSet.f &name="nostro_account"            &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="intermediary_bank_name"    &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="intermediary_bank_swift"   &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="intermediary_bank_address" &type="CHARACTER" &serializable="serializable"}
     
-    {propertyGetSet.f &name="fee_account"               &type="CHARACTER"}
-    {propertyGetSet.f &name="fee_amount"                &type="DECIMAL"}
-    {propertyGetSet.f &name="fee_currency"              &type="CHARACTER"}
+    {propertyGetSet.f &name="fee_account"               &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="fee_amount"                &type="DECIMAL" &serializable="serializable"}
+    {propertyGetSet.f &name="fee_currency"              &type="CHARACTER" &serializable="serializable"}
     
     METHOD PUBLIC OVERRIDE CHARACTER putDb():
         DEFINE VARIABLE oError          AS CHARACTER NO-UNDO.

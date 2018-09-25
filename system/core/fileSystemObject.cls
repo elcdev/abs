@@ -1,4 +1,4 @@
-CLASS fileSystemObject: 
+CLASS fileSystemObject SERIALIZABLE: 
 
     METHOD PUBLIC CHARACTER FindFile(INPUT-OUTPUT fileNameAndLocation AS CHARACTER ):
         DEFINE VARIABLE tFile AS CHARACTER NO-UNDO.

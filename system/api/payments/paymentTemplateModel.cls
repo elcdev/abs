@@ -1,4 +1,8 @@
-CLASS paymentTemplateModel INHERITS dbMode:
+USING system.api.core.*.
+USING system.api.payments.*.
+USING system.api.systemSettings.*.
+
+CLASS system.api.payments.paymentTemplateModel SERIALIZABLE INHERITS dbModel:
     {propertyGetSet.f &name="name"                &type="CHAR"}
     {propertyGetSet.f &name="description"         &type="CHAR"}
     {propertyGetSet.f &name="payment_type"        &type="CHAR"}
@@ -18,7 +22,7 @@ CLASS paymentTemplateModel INHERITS dbMode:
     
 	DEF VAR transactionLineGeneratorClassName AS CHAR /* = TemplateRemitance*/.
 	
-    DEF TEMPL-TABLE template_fields LIKE payment_template_data.
+    DEF TEMP-TABLE template_fields LIKE payment_template_data.
     
     /*
     table template_header

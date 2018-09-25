@@ -1,7 +1,9 @@
-CLASS dbModel IMPLEMENTS dbInterface:
-    {propertyGetSet.f &name="action"  &type="char"}
-    {propertyGetSet.f &name="id"      &type="int64"}
-    {propertyGetSet.f &name="version" &type="int64"}
+USING system.api.core.*.
+
+CLASS system.api.core.dbModel SERIALIZABLE IMPLEMENTS dbInterface:
+    {propertyGetSet.f &name="action"  &type="char" }
+    {propertyGetSet.f &name="id"      &type="int64" &serializable="serializable"}
+    {propertyGetSet.f &name="version" &type="int64" &serializable="serializable"}
 
     METHOD PUBLIC CHARACTER getDb(iId AS INT64):
         RETURN "NOT-EMPLEMENTED".
@@ -104,5 +106,51 @@ CLASS dbModel IMPLEMENTS dbInterface:
         RETURN  "".
     END.
 
+    METHOD PUBLIC LONGCHAR toJson():
+        DEFINE VARIABLE mySerializer   AS Progress.IO.JsonSerializer.
+        DEFINE VARIABLE myStringStream AS StringOutputStream. 
+        DEFINE VARIABLE myJSON         AS LONGCHAR NO-UNDO.
+
+        myStringStream = NEW StringOutputStream().
+        mySerializer = NEW Progress.IO.JsonSerializer (TRUE).
+        
+        mySerializer:Serialize(THIS-OBJECT, myStringStream).
+        myStringStream:Close().
+        myJSON = myStringStream:lcVar.
+        
+        DELETE OBJECT mySerializer   NO-ERROR.
+        DELETE OBJECT myStringStream NO-ERROR.
+        
+        RETURN myJSON. 
+    END.
     
+    METHOD STATIC PUBLIC Progress.Lang.Object fromJson(iJson AS LONGCHAR, iObjectType AS CHARACTER):
+        DEFINE VARIABLE tmpFile         AS CHARACTER .
+        DEFINE VARIABLE myObj           AS Progress.Lang.Object.
+        
+        tmpFile = GUID + ".json".
+        COPY-LOB iJson TO FILE tmpFile.
+        myObj = fromJsonFile(tmpFile, iObjectType).
+        OS-DELETE tmpFile.
+        
+        RETURN myObj.
+    END.
+    
+    METHOD STATIC PUBLIC Progress.Lang.Object fromJsonFile(iJsonFile AS CHARACTER, iObjectType AS CHARACTER):
+        DEFINE VARIABLE myStringStream  AS Progress.IO.FileInputStream. 
+        DEFINE VARIABLE mySerializer    AS Progress.IO.JsonSerializer.
+        DEFINE VARIABLE myObj           AS Progress.Lang.Object.
+
+        mySerializer = NEW Progress.IO.JsonSerializer(FALSE).
+
+        /* Deserialize object */
+        myStringStream = NEW Progress.IO.FileInputStream (iJsonFile).
+        myObj = DYNAMIC-CAST(mySerializer:Deserialize(myStringStream), iObjectType).
+        myStringStream:Close().
+
+        DELETE OBJECT mySerializer   NO-ERROR.
+        DELETE OBJECT myStringStream NO-ERROR.
+
+        RETURN myObj.
+    END.
 END CLASS.

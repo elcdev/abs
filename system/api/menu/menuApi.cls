@@ -1,5 +1,8 @@
-CLASS menuApi INHERITS apiBase:
-    {menuTable.i &formTable="formTable"}
+USING system.api.core.*.
+USING system.api.menu.*.
+
+CLASS system.api.menu.menuApi INHERITS apiBase:
+    {menuTable.i     &formTable="formTable"}
     {menuEditTable.i &formTable="formEditTable" /*&reference = "REFERENCE-ONLY"*/}
 
     METHOD PUBLIC CHARACTER getData (parent_id AS INT64, INPUT-OUTPUT TABLE formTable):

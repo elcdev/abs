@@ -1,4 +1,5 @@
 USING system.api.currency.*.
+USING system.api.systemSettings.*.
 
 CLASS system.api.currency.currencyApi: 
     {propertyGetSet.f &name="nationalCurrency" &type="CHARACTER" &static="static"}
@@ -6,9 +7,17 @@ CLASS system.api.currency.currencyApi:
     CONSTRUCTOR STATIC currencyApi():
         nationalCurrency = "EUR".
     END.
+
+    METHOD PUBLIC STATIC DECIMAL getBuyRate(iCurrency AS CHARACTER):
+        RETURN getRate(globalSettings:balance_date, iCurrency, "BUY").
+    END.
     
     METHOD PUBLIC STATIC DECIMAL getBuyRate(iBalanceDate AS DATE, iCurrency AS CHARACTER):
         RETURN getRate(iBalanceDate, iCurrency, "BUY").
+    END.
+    
+    METHOD PUBLIC STATIC DECIMAL getSellRate(iCurrency AS CHARACTER):
+        RETURN getRate(globalSettings:balance_date, iCurrency, "SELL").
     END.
     
     METHOD PUBLIC STATIC DECIMAL getSellRate(iBalanceDate AS DATE, iCurrency AS CHARACTER):
@@ -40,16 +49,16 @@ CLASS system.api.currency.currencyApi:
         IF oRate > 0 THEN RETURN oRate.
         
         DO TRANSACTION ON ERROR UNDO, THROW:
-            FIND FIRST currency_rates NO-LOCK WHERE currency_rates.rate_type    = iRateType
+            FIND LAST currency_rates NO-LOCK WHERE currency_rates.rate_type     = iRateType
                                                 AND currency_rates.currency     = iCurrency
-                                                AND currency_rates.balance_date = iBalanceDate
+                                                AND currency_rates.balance_date <= iBalanceDate
                                                 NO-ERROR.
             IF AVAILABLE currency_rates THEN 
              DO:
                 lastType        = currency_rates.rate_type.
                 lastCurrency    = currency_rates.currency.
                 lastDate        = currency_rates.balance_date.
-                lastRate        = currency_rates.rate.
+                lastRate        = currency_rates.rate / currency_rates.unit.
                 
                 RETURN lastRate.
              END.

@@ -1,3 +1,5 @@
+USING system.api.systemSettings.*.
+
 /* Main procedure for creating jl */
 
 define input parameter jl_header    AS int64.
@@ -27,10 +29,10 @@ DEFINE VARIABLE overdraft_account AS CHARACTER.
 DEFINE VARIABLE isok AS LOG.
 DEFINE VARIABLE account_balance AS DECIMAL.
 
-{global.i}
 
-if g-fname ne "" then do: 
-    find first unicat where unicat.catid eq "NOSDCHECK-FNAME" and unicat.field1 eq g-fname no-lock no-error.
+
+if globalSettings:currentMenuFunction ne "" then do: 
+    find first unicat where unicat.catid eq "NOSDCHECK-FNAME" and unicat.field1 eq globalSettings:currentMenuFunction no-lock no-error.
     if available unicat then checkSD = false.
 end.
 if g-fname ne "" then do: 

@@ -1,10 +1,14 @@
-CLASS menuItemModel inherits dbModel:
-    {propertyGetSet.f &name="parent_id"      &type="int64"}
-    {propertyGetSet.f &name="position"       &type="INTEGER"}
-    {propertyGetSet.f &name="function_name"  &type="CHARACTER"}
-    {propertyGetSet.f &name="procedure_name" &type="CHARACTER"}
-    {propertyGetSet.f &name="slug"           &type="CHARACTER"}
-    {propertyGetSet.f &name="description"    &type="CHARACTER"}
+USING system.api.systemSettings.*.
+USING system.api.core.*.
+USING system.api.menu.*.
+
+CLASS system.api.menu.menuItemModel SERIALIZABLE inherits dbModel:
+    {propertyGetSet.f &name="parent_id"      &type="int64" &serializable="serializable"}
+    {propertyGetSet.f &name="position"       &type="INTEGER" &serializable="serializable"}
+    {propertyGetSet.f &name="function_name"  &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="procedure_name" &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="slug"           &type="CHARACTER" &serializable="serializable"}
+    {propertyGetSet.f &name="description"    &type="CHARACTER" &serializable="serializable"}
     
 	METHOD PUBLIC OVERRIDE CHARACTER putDb():
         {requestItemPutDb.f &TABLE="menu"}

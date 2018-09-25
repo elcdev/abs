@@ -1,4 +1,7 @@
-CLASS systemSettingsApi INHERITS apiBase:
+USING system.api.systemSettings.*.
+USING system.api.core.*.
+
+CLASS system.api.systemSettings.systemSettingsApi INHERITS apiBase:
 
      METHOD PUBLIC OVERRIDE responseBase invoke(request AS requestBase).
         CASE request:action:

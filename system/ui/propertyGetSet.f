@@ -1,3 +1,3 @@
-    DEFINE {&static} PUBLIC PROPERTY {&name} AS {&type} NO-UNDO
+    DEFINE {&static} PUBLIC {&serializable} PROPERTY {&name} AS {&type} NO-UNDO
         GET.
 		SET.
