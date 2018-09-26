@@ -1,6 +1,6 @@
 USING system.api.*.
 USING system.api.balance.*.
-USING system.api.curency.*.
+USING system.api.currency.*.
 USING system.api.menu.*.
 USING system.api.payments.*.
 USING system.api.core.*.
@@ -12,11 +12,11 @@ CLASS system.api.apiHelper:
         CASE iApiCall:
             WHEN "update.account"                THEN RETURN "system.api.balance.accountModel".
             WHEN "update.gl"                     THEN RETURN "system.api.balance.glModel".
-            WHEN "update.transactionHeader"      THEN RETURN "system.api.balance.transactionHeaderModel".
-            WHEN "update.transactionLineModel"   THEN RETURN "system.api.balance.transactionLineModel".
-            WHEN "update.currency"               THEN RETURN "system.api.curency.currencyModel".
-            WHEN "update.currencyRate"           THEN RETURN "system.api.curency.currencyRateModel".
-            WHEN "update.menuItem"               THEN RETURN "system.api.menu.menuItemModel".
+            WHEN "update.transaction.header"     THEN RETURN "system.api.balance.transactionHeaderModel".
+            WHEN "update.transaction.line"       THEN RETURN "system.api.balance.transactionLineModel".
+            WHEN "update.currency"               THEN RETURN "system.api.currency.currencyModel".
+            WHEN "update.currency.rate"          THEN RETURN "system.api.currency.currencyRateModel".
+            WHEN "update.menu.item"              THEN RETURN "system.api.menu.menuItemModel".
             WHEN "payment.convertation"          THEN RETURN "system.api.payments.paymentConvertationModel".
             WHEN "payment.internal"              THEN RETURN "system.api.payments.paymentInternalModel".
             WHEN "payment.template"              THEN RETURN "system.api.payments.paymentTemplateModel".

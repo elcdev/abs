@@ -1,0 +1,14 @@
+{
+  "prods:version": 1,
+  "prods:objId": 1,
+  "update.currency": {
+    "action": "",
+    "id": 1,
+    "version": 2,
+    "currency": "EUR",
+    "description": "Euro",
+    "decimal_points": 2.0,
+    "currency_order": 1,
+    "currency_status": ""
+  }
+}
