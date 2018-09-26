@@ -20,7 +20,8 @@ CLASS system.api.balance.transactionLineModel SERIALIZABLE INHERITS dbModel:
     {propertyGetSet.f &name="details_template" &type="CHARACTER" &serializable="serializable"}
     {propertyGetSet.f &name="create_user"      &type="CHARACTER" &serializable="serializable"}
     {propertyGetSet.f &name="authorize_user"   &type="CHARACTER" &serializable="serializable"}
-    {propertyGetSet.f &name="authorize_date"   &type="DATE" &serializable="serializable"}
+    {propertyGetSet.f &name="state"            &type="int" &serializable="serializable"}
+    
 
     DEFINE VARIABLE tAccount   AS accountModel           NO-UNDO.
     DEFINE VARIABLE tGlAccount AS glModel                NO-UNDO.
@@ -65,7 +66,12 @@ CLASS system.api.balance.transactionLineModel SERIALIZABLE INHERITS dbModel:
 
     METHOD PUBLIC CHARACTER getDbByHeader(iHeader_id AS INT64):
         {requestItemGetDbByField.f &table="transaction_line" &field="header_id"}
-        RETURN getValuesFromBuffer(BUFFER gl:handle).
+        RETURN getValuesFromBuffer(BUFFER transaction_line:handle). /* ispravil s gl na transaction_line */
+    END.
+    
+    METHOD PUBLIC CHARACTER getDbByHeaderLine(iHeader_id AS INT64 , iLine AS integer):
+        {requestItemGetDbByTwoField.f &table="transaction_line" &field="header_id"  &field2="line"}
+        RETURN getValuesFromBuffer(BUFFER transaction_line:handle). /* ispravil s gl na transaction_line */
     END.
     
     METHOD PUBLIC OVERRIDE CHARACTER empty():
