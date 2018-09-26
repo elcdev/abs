@@ -9,17 +9,9 @@ CLASS system.api.currency.currencyModel SERIALIZABLE INHERITS dbModel:
     {propertyGetSet.f &name="currency_order"      &type="INT"  &serializable="serializable"}
     {propertyGetSet.f &name="currency_status"     &type="CHAR" &serializable="serializable"}
 
+    {dbModelJsonParser.f &class="system.api.currency.currencyModel"}
+    {dbModelPutGetMethods.f &TABLE="currency"}
     
-	METHOD PUBLIC OVERRIDE CHARACTER putDb():
-        {requestItemPutDb.f &TABLE="currency"}
-        RETURN setValuesToBuffer(BUFFER currency:handle).
-	END.
-    
-    METHOD PUBLIC OVERRIDE CHARACTER getDb(iId AS INT64):
-        {requestItemGetDbByField.f &table="currency" &field="id"}
-        RETURN super:getValuesFromBuffer(BUFFER currency:handle).
-	END.
-
     METHOD PUBLIC CHARACTER getDbByCurrency(iCurrency AS CHAR):
         {requestItemGetDbByField.f &table="currency" &field="currency"}
         RETURN getValuesFromBuffer(BUFFER currency:handle).

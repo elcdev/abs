@@ -35,6 +35,8 @@ CLASS system.api.payments.paymentModel SERIALIZABLE INHERITS dbModel:
     {propertyGetSet.f &name="fee_amount"                &type="DECIMAL" &serializable="serializable"}
     {propertyGetSet.f &name="fee_currency"              &type="CHARACTER" &serializable="serializable"}
     
+    {dbModelJsonParser.f &class="system.api.payments.paymentModel"}
+    
     METHOD PUBLIC OVERRIDE CHARACTER putDb():
         DEFINE VARIABLE oError          AS CHARACTER NO-UNDO.
         {requestItemPutDb.f &TABLE="payments"}
