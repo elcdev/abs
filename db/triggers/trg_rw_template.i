@@ -1,3 +1,5 @@
+USING system.api.systemSettings.*.
+
 TRIGGER PROCEDURE FOR REPLICATION-WRITE OF {&table}.
 
 IF {&table}.id = 0 THEN

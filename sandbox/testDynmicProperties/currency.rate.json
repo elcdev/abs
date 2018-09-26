@@ -1,0 +1,12 @@
+{
+  "update.currency.rate": {
+    "action": "",
+    "id": 0,
+    "version": 44035,
+    "currency": "XAU",
+    "balance_date": "2018-09-01",
+    "rate_type": "ECB",
+    "rate": 1050.23,
+    "count": 0.0
+  }
+}

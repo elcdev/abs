@@ -478,7 +478,7 @@ CLASS system.api.balance.transactionCore:
     METHOD STATIC PUBLIC CHAR checkTransactionAmountForDelete (iTransactionLine AS transactionLineModel, forced_key AS LOG):
         DEFINE VARIABLE iAccountBalance AS DECIMAL        NO-UNDO.
         DEFINE VARIABLE oError          AS CHARACTER      NO-UNDO. 
-        DEFINE VARIABLE iGlAccount      AS glModel NO-UNDO.
+        DEFINE VARIABLE iGlAccount      AS glModel        NO-UNDO.
         DEFINE VARIABLE iAccount        AS accountModel   NO-UNDO.
         
         iGlAccount = iTransactionLine:getGlAccount.
@@ -516,7 +516,7 @@ CLASS system.api.balance.transactionCore:
         iGlAccount = iTransactionLine:GetGlAccount.
         
         /* Otkat ostatka ot dati operaciji do poslednej otkritoj dati */
-        FOR EACH account_balance WHERE account_balance.account      = iTransactionLine:account 
+        FOR EACH account_balance WHERE account_balance.account       = iTransactionLine:account 
                                    AND account_balance.balance_date >= iTransactionLine:balance_date 
                                    AND account_balance.currency      = iTransactionLine:currency 
                         EXCLUSIVE-LOCK:
@@ -547,8 +547,8 @@ CLASS system.api.balance.transactionCore:
     END.
     
     METHOD STATIC PUBLIC CHAR changeGlBalanceForDelete(iTransactionLine AS transactionLineModel):
-        DEFINE VARIABLE oError     AS CHARACTER      NO-UNDO INITIAL "". 
-        DEFINE VARIABLE iGlAccount AS glModel NO-UNDO.
+        DEFINE VARIABLE oError     AS CHARACTER NO-UNDO INITIAL "". 
+        DEFINE VARIABLE iGlAccount AS glModel   NO-UNDO.
         
         DEFINE BUFFER gl_balance FOR gl_balance.
         
@@ -610,6 +610,7 @@ CLASS system.api.balance.transactionCore:
                                         NO-LOCK 
                                         NO-ERROR.
         IF AVAILABLE account_balance_future THEN RETURN YES.
+        
         RETURN NO.
     END. 
     

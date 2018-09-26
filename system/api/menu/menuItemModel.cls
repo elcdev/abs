@@ -10,16 +10,9 @@ CLASS system.api.menu.menuItemModel SERIALIZABLE inherits dbModel:
     {propertyGetSet.f &name="slug"           &type="CHARACTER" &serializable="serializable"}
     {propertyGetSet.f &name="description"    &type="CHARACTER" &serializable="serializable"}
     
-	METHOD PUBLIC OVERRIDE CHARACTER putDb():
-        {requestItemPutDb.f &TABLE="menu"}
-        RETURN setValuesToBuffer(BUFFER menu:handle).
-	END.
-	
-    METHOD PUBLIC OVERRIDE CHARACTER getDb(iId AS INT64):
-        {requestItemGetDbByField.f &table="menu" &field="id"}
-        RETURN super:getValuesFromBuffer(BUFFER menu:handle).
-	END.
-
+    {dbModelJsonParser.f &class="system.api.menu.menuItemModel"}
+    {dbModelPutGetMethods.f &TABLE="menu"}
+    
     METHOD PUBLIC INT64 getIdByFunctionName(iFunction AS CHAR):
         DEFINE BUFFER menu FOR menu.
 
