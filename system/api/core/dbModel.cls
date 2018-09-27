@@ -8,14 +8,19 @@ CLASS system.api.core.dbModel SERIALIZABLE IMPLEMENTS dbInterface:
     METHOD PUBLIC CHARACTER getDb(iId AS INT64):
         RETURN "NOT-EMPLEMENTED".
     END.
+
     METHOD PUBLIC CHARACTER putDb():
         RETURN "NOT-EMPLEMENTED".
     END.
+
     METHOD PUBLIC CHARACTER getJson():
         RETURN "NOT-EMPLEMENTED".
     END.
-    
 
+    METHOD PUBLIC CHARACTER prepare():
+        RETURN "".
+    END.
+    
     METHOD PUBLIC CHARACTER getValuesFromBuffer(hBuffer AS HANDLE):
         DEFINE VARIABLE oProperties AS Progress.Reflect.Property NO-UNDO EXTENT.
         DEFINE VARIABLE hField      AS HANDLE NO-UNDO.

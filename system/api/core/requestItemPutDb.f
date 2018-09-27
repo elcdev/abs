@@ -1,5 +1,9 @@
-        DEFINE BUFFER {&table} FOR {&table}.
+        DEF VAR oError AS CHAR NO-UNDO.
+		DEFINE BUFFER {&table} FOR {&table}.
         
+		oError = prepare().
+		IF oError <> "" THEN RETURN oError.
+		
 		IF id > 0 THEN
 		 DO:
 			FIND FIRST {&table} NO-LOCK WHERE {&table}.id = id NO-ERROR.

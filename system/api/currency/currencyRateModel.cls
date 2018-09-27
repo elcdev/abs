@@ -11,7 +11,16 @@ CLASS system.api.currency.currencyRateModel SERIALIZABLE INHERITS dbModel:
 
     {dbModelJsonParser.f &class="system.api.currency.currencyRateModel"}
     {dbModelPutGetMethods.f &TABLE="currency_rates"}
-
+    
+    METHOD PUBLIC OVERRIDE CHARACTER prepare():
+        DEFINE VARIABLE tId    AS INT64 NO-UNDO.
+        
+        tId = currencyApi:getCurrencyRateId(balance_date, currency, rate_type).
+        IF tId > 0 AND id = 0 THEN id = tId. /* TODO! */
+        
+        RETURN "".
+    END.
+    
     METHOD PUBLIC CHARACTER getDbByCurrency(iCurrency AS CHARACTER, iBalanceDay AS DATE, iRateType AS CHARACTER):
         DEFINE VARIABLE iId AS INT64 NO-UNDO.
         DEFINE BUFFER currency_rates FOR currency_rates.

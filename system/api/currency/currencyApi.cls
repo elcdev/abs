@@ -40,6 +40,28 @@ CLASS system.api.currency.currencyApi:
         RETURN 0.
     END.
     
+    METHOD PUBLIC STATIC INT64 getCurrencyId(iCurrency AS CHARACTER):
+        DEFINE BUFFER currency FOR currency.
+        
+        FIND FIRST currency NO-LOCK WHERE currency.currency     = iCurrency
+                                 NO-ERROR.
+        IF AVAILABLE currency THEN RETURN currency.id.
+        
+        RETURN 0.
+    END.
+    
+    METHOD PUBLIC STATIC INT64 getCurrencyRateId(iBalanceDate AS DATE, iCurrency AS CHARACTER, iRateType AS CHARACTER):
+        DEFINE BUFFER currency_rates FOR currency_rates.
+        
+        FIND LAST currency_rates NO-LOCK WHERE currency_rates.rate_type         = iRateType
+                                                AND currency_rates.currency     = iCurrency
+                                                AND currency_rates.balance_date = iBalanceDate
+                                                NO-ERROR.
+        IF AVAILABLE currency_rates THEN  RETURN currency_rates.id.
+        
+        RETURN 0.
+    END.
+    
     METHOD PUBLIC STATIC DECIMAL getRate(iBalanceDate AS DATE, iCurrency AS CHARACTER, iRateType AS CHARACTER):
         DEFINE BUFFER currency_rates FOR  currency_rates.
         DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
