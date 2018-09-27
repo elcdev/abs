@@ -21,6 +21,10 @@ CLASS system.api.core.dbModel SERIALIZABLE IMPLEMENTS dbInterface:
         RETURN "".
     END.
     
+    METHOD PUBLIC CHARACTER validate():
+        RETURN "".
+    END.
+        
     METHOD PUBLIC CHARACTER getValuesFromBuffer(hBuffer AS HANDLE):
         DEFINE VARIABLE oProperties AS Progress.Reflect.Property NO-UNDO EXTENT.
         DEFINE VARIABLE hField      AS HANDLE NO-UNDO.

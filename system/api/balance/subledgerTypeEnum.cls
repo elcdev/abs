@@ -1,0 +1,13 @@
+USING system.api.balance.*.
+
+CLASS system.api.balance.subledgerTypeEnum:
+    DEFINE PUBLIC STATIC PROPERTY default        AS CHARACTER GET: RETURN "CLA". END.
+    DEFINE PUBLIC STATIC PROPERTY overdraft      AS CHARACTER GET: RETURN "ODA". END.
+    DEFINE PUBLIC STATIC PROPERTY checking       AS CHARACTER GET: RETURN "CLA". END.
+    DEFINE PUBLIC STATIC PROPERTY deposit        AS CHARACTER GET: RETURN "DDA". END.
+  
+    METHOD PUBLIC STATIC LOG isValid (iSubledgerType AS CHARACTER):
+        IF INDEX("ODA,DDA,CLA,", iSubledgerType + ",") > 0 THEN RETURN TRUE.
+        RETURN FALSE.
+    END.
+END CLASS.
