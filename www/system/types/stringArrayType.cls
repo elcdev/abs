@@ -1,4 +1,6 @@
-CLASS stringArrayType:
+USING system.types.*.
+
+CLASS www.system.types.stringArrayType:
     DEF PUBLIC VAR parameterDelimiter AS CHAR INIT "&".
     DEF PUBLIC VAR disableUrlEncode   AS LOG  INIT FALSE.
 

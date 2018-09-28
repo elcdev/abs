@@ -22,7 +22,7 @@ CLASS system.api.apiHelper:
             WHEN "payment.template"              THEN RETURN "system.api.payments.paymentTemplateModel".
         END CASE.
         
-        RETURN "system.api.core.dbModel".
+        RETURN "".
     END.
     
     /* Create model by class name */

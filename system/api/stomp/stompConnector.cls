@@ -1,4 +1,5 @@
 USING system.api.stomp.*.
+USING www.system.types.*.
 
 CLASS system.api.stomp.stompConnector:
     DEFINE PRIVATE VARIABLE pSocketHandle AS HANDLE NO-UNDO.
@@ -13,8 +14,11 @@ CLASS system.api.stomp.stompConnector:
     DEFINE VARIABLE Logfile          AS system.api.stomp.Logger.
     DEFINE VARIABLE pEnableListener  AS LOG INITIAL TRUE.
     DEFINE VARIABLE Settings         AS stompSettings.
+    DEFINE VARIABLE garbage          AS garbageCollectorType.
+    
     
     CONSTRUCTOR PUBLIC stompConnector( ): 
+        garbage  = NEW garbageCollectorType().
         Settings = stompSettings:getStompSettings().
         Logfile = new system.api.stomp.logger("stomp").
         Logfile:WriteMessage(3, "constructed").
@@ -33,6 +37,7 @@ CLASS system.api.stomp.stompConnector:
         Logfile:WriteMessage(3, "destructed").
         
         DELETE OBJECT Settings NO-ERROR.
+        DELETE OBJECT garbage  NO-ERROR.
     END DESTRUCTOR.
 
     METHOD PUBLIC VOID connect():
@@ -63,7 +68,7 @@ CLASS system.api.stomp.stompConnector:
 
         case entry(1, iData, chr(10)):
             when "CONNECTED" then processConnected(iSocket, iData).
-            when "MESSAGE" then processMessage(iSocket, iData).
+            when "MESSAGE"   then processMessage(iSocket, iData).
         end case.
     end method.
     
@@ -80,20 +85,33 @@ CLASS system.api.stomp.stompConnector:
             then ConnectionId = substring(lLine, 12).
         end.
 
-    end method.
-
-    method private void processMessage(
-            input iSocket as handle, 
-            input iData   as char
+    END METHOD.
+    
+    METHOD PRIVATE CHARACTER decodeString(iString AS CHARACTER):
+        iString = REPLACE(iString, "\c", ":").
+        RETURN iString.
+    END METHOD.
+    
+    METHOD PRIVATE VOID processMessage(
+            input iSocket   AS HANDLE,
+            input iData     AS LONGCHAR
             ):
-        def var lLine      as char no-undo.
-        def var lCnt       as int no-undo.
-        def var lQueue     as char no-undo.
-        def var lTimeStamp as char no-undo.
-        def var lPriority  as int  no-undo.
-        def var lInMessage as log  no-undo.
-        def var lMessage   as char no-undo.
+        DEFINE VARIABLE lLine      AS CHARACTER no-undo.
+        DEFINE VARIABLE lCnt       AS INTEGER   no-undo.
+        DEFINE VARIABLE lQueue     AS CHARACTER no-undo.
+        DEFINE VARIABLE lTimeStamp AS CHARACTER no-undo.
+        DEFINE VARIABLE lPriority  AS INTEGER   no-undo.
+        DEFINE VARIABLE lInMessage AS LOG       no-undo.
+        DEFINE VARIABLE lMessage   AS LONGCHAR  no-undo.
+        DEFINE VARIABLE oHeaders   AS stringArrayType NO-UNDO.
+        DEFINE VARIABLE tName      AS CHARACTER NO-UNDO.
+        DEFINE VARIABLE tValue     AS CHARACTER NO-UNDO.
+        DEFINE VARIABLE oError     AS CHARACTER NO-UNDO.
+
+        oHeaders = NEW stringArrayType().
         
+        /*MESSAGE STRING(iData) VIEW-AS ALERT-BOX.*/
+
         DO lCnt = 1 TO NUM-ENTRIES(iData, chr(10)):
             lLine = entry(lCnt, iData, chr(10)).
             
@@ -101,14 +119,25 @@ CLASS system.api.stomp.stompConnector:
             THEN lMessage = lMessage + "~n" + lLine.
             
             ELSE DO:
-                if lLine begins "destination:" 
-                then lQueue = substring(lLine, 13).
-                else if lLine = "" then lInMessage = yes.
+                IF lLine = "" 
+                THEN DO:
+                    lInMessage = yes.
+                    NEXT.
+                END.
+                
+                tName  = "".
+                tValue = "".
+                tName  = ENTRY(1, lLine, ":") NO-ERROR.
+                tValue = ENTRY(2, lLine, ":") NO-ERROR.
+                tValue = decodeString(tValue).
+                
+                IF tName = "destination" THEN lQueue = tValue.
+                oHeaders:addItem(tName, tValue).
             END.
         END.
         
-        IF VALID-HANDLE(msghndhnd) THEN RUN VALUE(msghndproc) in msghndhnd (lQueue, lMessage).
-        
+        IF VALID-HANDLE(msghndhnd) THEN RUN VALUE(msghndproc) in msghndhnd (oHeaders, lMessage, OUTPUT oError).
+        DELETE OBJECT oHeaders NO-ERROR.
     END METHOD.
 
     METHOD PRIVATE VOID sendFrame(
@@ -253,11 +282,11 @@ CLASS system.api.stomp.stompConnector:
 
     METHOD PUBLIC VOID EnableListener():
         pEnableListener = TRUE.
-    END.
+    END METHOD.
     
     METHOD PUBLIC VOID DisableListener():
         pEnableListener = FALSE.
-    END.
+    END METHOD.
     
     METHOD PUBLIC CHARACTER listenForMessages():
         DEFINE VARIABLE startdt AS DATETIME NO-UNDO.
@@ -271,5 +300,18 @@ CLASS system.api.stomp.stompConnector:
         END.
         
         RETURN "".
-    END.
-end class.
+    END METHOD.
+    
+    METHOD PUBLIC CHARACTER startQueueListener( iQueue      AS CHARACTER, 
+                                                iProcName   AS CHARACTER,
+                                                iProcHandle AS HANDLE):
+        THIS-OBJECT:connect().
+        THIS-OBJECT:SetMessageHandlerProcedure(iProcName, iProcHandle).
+        THIS-OBJECT:doSubscribe(iQueue).
+        THIS-OBJECT:listenForMessages().
+        THIS-OBJECT:disconnect(ConnectionId).
+        
+        RETURN "".
+    END METHOD.
+    
+END CLASS.
