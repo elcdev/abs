@@ -255,6 +255,7 @@ CLASS system.api.balance.transactionApi:
             oError = transactionCore:validateTransactionNumberLine(iHeader_Id,iLine).
             IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 400).
             oError = iTransaction:getDbByHeaderLine(iHeader_Id , iLine).
+            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 400).
             /* Kak zapolnitj iTransaction ????????? 
             oError = iTransaction:getDb().
             iTransaction = getdb(transaction_line.id).*/

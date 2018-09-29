@@ -7,7 +7,9 @@ CLASS system.api.balance.transactionLineModel SERIALIZABLE INHERITS dbModel:
     {propertyGetSet.f &name="line"             &type="INTEGER" &serializable="serializable"}
     {propertyGetSet.f &name="line_status"      &type="INTEGER" &serializable="serializable"}
     {propertyGetSet.f &name="line_type"        &type="CHARACTER" &serializable="serializable"}
+    
     {propertyGetSet.f &name="gl"               &type="INT64" &serializable="serializable"}
+    
     {propertyGetSet.f &name="account"          &type="CHARACTER" &serializable="serializable"}
     {propertyGetSet.f &name="balance_date"     &type="DATE" &serializable="serializable"}
     {propertyGetSet.f &name="currency"         &type="CHARACTER" &serializable="serializable"}
