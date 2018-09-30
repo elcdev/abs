@@ -123,23 +123,38 @@ CLASS system.api.balance.transactionLineModel SERIALIZABLE INHERITS dbModel:
         
         RETURN oError.
     END.
-
     METHOD PUBLIC CHARACTER setLineData(iGl AS INT64, iDC AS CHARACTER, iAmount AS DECIMAL, iCurrency AS CHARACTER, iDetails AS CHAR):
-        RETURN setLineData(iGl, "", iDC, iAmount, iCurrency, iDetails).
+        RETURN setLineData(?, iGl, "", iDC, iAmount, iCurrency, iDetails).
+    END.
+    
+    METHOD PUBLIC CHARACTER setLineData(iDate AS DATE, iGl AS INT64, iDC AS CHARACTER, iAmount AS DECIMAL, iCurrency AS CHARACTER, iDetails AS CHAR):
+        RETURN setLineData(iDate, iGl, "", iDC, iAmount, iCurrency, iDetails).
     END.
     
     METHOD PUBLIC CHARACTER setLineData(iAccount AS CHARACTER, iDC AS CHARACTER, iAmount AS DECIMAL, iCurrency AS CHARACTER, iDetails AS CHAR):
-        RETURN setLineData(0, iAccount, iDC, iAmount, iCurrency, iDetails).
+        RETURN setLineData(?, 0, iAccount, iDC, iAmount, iCurrency, iDetails).
     END.
     
-    METHOD PUBLIC CHARACTER setLineData(iGl AS INT64, iAccount AS CHARACTER, iDC AS CHARACTER, iAmount AS DECIMAL, iCurrency AS CHARACTER, iDetails AS CHAR):
+    METHOD PUBLIC CHARACTER setLineData(iDate AS DATE, iAccount AS CHARACTER, iDC AS CHARACTER, iAmount AS DECIMAL, iCurrency AS CHARACTER, iDetails AS CHAR):
+        RETURN setLineData(iDate, 0, iAccount, iDC, iAmount, iCurrency, iDetails).
+    END.
+    
+    METHOD PUBLIC CHARACTER setLineData(iGl AS int64, iAccount AS CHARACTER, iDC AS CHARACTER, iAmount AS DECIMAL, iCurrency AS CHARACTER, iDetails AS CHAR):
+        RETURN setLineData(?, iGl, iAccount, iDC, iAmount, iCurrency, iDetails).
+    END.
+    
+    METHOD PUBLIC CHARACTER setLineData(iDate AS DATE, iGl AS INT64, iAccount AS CHARACTER, iDC AS CHARACTER, iAmount AS DECIMAL, iCurrency AS CHARACTER, iDetails AS CHAR):
         DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
         
         oError = InitObjects().
         IF oError <> "" THEN RETURN oError.
-        
-        balance_date = globalSettings:balance_date.
-
+        IF iDate = ? THEN balance_date = globalSettings:balance_date.
+        ELSE DO:
+            IF iDate > TODAY THEN RETURN "ERROR-TRANSACTION-DATE".
+            oError = closedDaysApi:validBalanceDate(iDate).
+            IF oError <> "" THEN RETURN oError.
+            balance_date = iDate.
+        END.    
         IF iAccount <> "" THEN 
          DO:
             oError = setAccount(iAccount).

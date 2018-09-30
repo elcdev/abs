@@ -8,6 +8,7 @@ CLASS system.api.currency.currencyModel SERIALIZABLE INHERITS dbModel:
     {propertyGetSet.f &name="decimal_points"      &type="DEC"  &serializable="serializable"}
     {propertyGetSet.f &name="currency_order"      &type="INT"  &serializable="serializable"}
     {propertyGetSet.f &name="currency_status"     &type="CHAR" &serializable="serializable"}
+    {propertyGetSet.f &name="unit"                &type="INT64" &serializable="serializable"}
 
     {dbModelJsonParser.f &class="system.api.currency.currencyModel"}
 
