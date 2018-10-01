@@ -24,7 +24,7 @@ CLASS system.api.balance.transactionApi:
     END.
     
     METHOD STATIC PUBLIC CHARACTER createLine(iTransaction AS transactionLineModel):
-        RETURN createLine(iTransaction, FALSE, FALSE).
+        RETURN createLine(iTransaction, FALSE, TRUE).
     END.
     
     METHOD STATIC PUBLIC CHARACTER createLine(iTransaction AS transactionLineModel, nocheckbalance AS LOG, change_balance_sign AS LOG):
@@ -53,9 +53,6 @@ CLASS system.api.balance.transactionApi:
                 UNDO, THROW NEW Progress.Lang.AppError(oError, 404).
              END.
 
-                
-            oError = transactionCore:validateTransactionNumber(iTransaction:header_id).
-            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 405).
 
             iTransaction:line = transactionCore:getValidTransactionLine(iTransaction:header_id, iTransaction:line).
 
@@ -192,9 +189,9 @@ CLASS system.api.balance.transactionApi:
         DEFINE BUFFER transaction_line FOR transaction_line.
         
         IF NOT VALID-OBJECT(iTransactionHeader) THEN RETURN "ERROR-HEADER-UNDEFINED".
-        
-        DO TRANSACTION:
-            FOR EACH transaction_line:
+         DO TRANSACTION:
+            FOR EACH transaction_line WHERE transaction_line.header_id = iTransactionHeader:header_id AND  
+                transaction_line.state <> 9 :
                 transaction_line.authorize_user = globalSettings:loginName.
                 transaction_line.authorize_date = today.
             END.
@@ -207,7 +204,7 @@ CLASS system.api.balance.transactionApi:
         
         RETURN oError.
     END.
-    METHOD STATIC PUBLIC CHARACTER DeleteLine(iTransaction AS transactionLineModel, forced_key AS LOG):
+    METHOD STATIC PUBLIC CHARACTER DeleteLine(iTransaction AS transactionLineModel, forced_key AS LOG, delete_header AS LOG):
         DEFINE VARIABLE oError     AS CHARACTER      NO-UNDO.
                 
         DO TRANSACTION ON ERROR UNDO, THROW:
@@ -232,60 +229,40 @@ CLASS system.api.balance.transactionApi:
                 oError = transactionCore:deleteFutureAccountBalance(iTransaction).   
                 IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 505). /*??? 505 */
             END.
-            oError = transactionCore:SetDeletedStatus(iTransaction).
+            oError = transactionCore:SetDeletedStatus(iTransaction, delete_header).
             IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 506). /*??? 506 */
         END.    
             
-           /* 
-            
-            IF tGlAccount:subledger_type NE "" THEN DO:
-                tAccount = iTransaction:getAccount.
-                oError = tAccount:getDbByAccount(iTransaction:account). /* TODO! Rewrite */
-                IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 402).
-                iTransaction:cif = tAccount:cif.    
-                
-                oError = TransactionCore:validateTransactionAccount(iTransaction). 
-                IF oError <> "" THEN RETURN oError.
-
-                IF nocheckbalance = NO THEN 
-                 DO:
-                    oError = TransactionCore:checkTransactionAmount(iTransaction).
-                    IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 501).
-                 END.
-
-                 oError = iTransaction:putDb().
-                IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 502).
-
-                /* To change Account Balance immediately */
-                IF change_balance_sign = YES THEN DO:
-                
-                    oError = transactionCore:changeGlBalance(iTransaction).
-                    IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 503).
-
-                    oError = transactionCore:changeAccountBalance(iTransaction).
-                    IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 504).
-
-                    oError = transactionCore:setAccountLastOperationData(iTransaction).
-                END.
-                ELSE DO:
-                    oError = transactionCore:createFutureAccountBalance(iTransaction).
-                END.  
-            END.
-            ELSE DO:
-                 oError = iTransaction:putDb().
-                IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 502).
-
-                IF change_balance_sign = YES THEN 
-                    oError = transactionCore:changeGlBalance(iTransaction).
-                ELSE
-                 DO:
-                    oError = transactionCore:createFutureAccountBalance(iTransaction).
-                 END.
-            END.
-            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 505).
-        END.
-        */
+           
         
+        CATCH eAnyError AS Progress.Lang.Error:
+            /*oError =  oError + ":" + eAnyError:GetMessage(1).*/
+            RETURN oError.
+        END CATCH.
+
+        FINALLY:
+            RETURN oError.
+        END.
+    END.
+    METHOD STATIC PUBLIC CHARACTER DeleteLine(iHeader_Id AS INT64, iLine AS INT, forced_key AS LOG, delete_header AS LOG):
+        DEFINE VARIABLE oError     AS CHARACTER      NO-UNDO.
+        DEFINE VARIABLE iTransaction AS transactionLineModel.
+                
+        iTransaction = NEW transactionLineModel().
+                
+        DO TRANSACTION ON ERROR UNDO, THROW:
+        
+            oError = transactionCore:validateTransactionNumberLine(iHeader_Id,iLine).
+            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 400).
+            oError = iTransaction:getDbByHeaderLine(iHeader_Id , iLine).
+            IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError(oError, 400).
+            /* Kak zapolnitj iTransaction ????????? 
+            oError = iTransaction:getDb().
+            iTransaction = getdb(transaction_line.id).*/
+            RETURN DeleteLine(iTransaction,forced_key,delete_header).
+               
+        END.    
+       
         CATCH eAnyError AS Progress.Lang.Error:
             /*oError =  oError + ":" + eAnyError:GetMessage(1).*/
             RETURN oError.

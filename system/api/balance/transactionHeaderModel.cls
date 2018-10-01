@@ -27,6 +27,11 @@ CLASS system.api.balance.transactionHeaderModel SERIALIZABLE INHERITS dbModel:
         RETURN getValuesFromBuffer(BUFFER gl:handle).
     END.
     
+    METHOD PUBLIC OVERRIDE CHARACTER prepare():
+        IF balance_date  = ? THEN balance_date = globalSettings:balance_date.
+        IF header_id = 0     THEN header_id = NEXT-VALUE(transaction_header_id).
+    END.
+    
     METHOD PUBLIC CHARACTER initDefaultSettings():
         IF header_id = 0 THEN header_id = NEXT-VALUE(transaction_header_id).
         balance_date = globalSettings:balance_date.

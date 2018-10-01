@@ -7,7 +7,9 @@ CLASS system.api.balance.transactionLineModel SERIALIZABLE INHERITS dbModel:
     {propertyGetSet.f &name="line"             &type="INTEGER" &serializable="serializable"}
     {propertyGetSet.f &name="line_status"      &type="INTEGER" &serializable="serializable"}
     {propertyGetSet.f &name="line_type"        &type="CHARACTER" &serializable="serializable"}
+    
     {propertyGetSet.f &name="gl"               &type="INT64" &serializable="serializable"}
+    
     {propertyGetSet.f &name="account"          &type="CHARACTER" &serializable="serializable"}
     {propertyGetSet.f &name="balance_date"     &type="DATE" &serializable="serializable"}
     {propertyGetSet.f &name="currency"         &type="CHARACTER" &serializable="serializable"}
@@ -20,7 +22,8 @@ CLASS system.api.balance.transactionLineModel SERIALIZABLE INHERITS dbModel:
     {propertyGetSet.f &name="details_template" &type="CHARACTER" &serializable="serializable"}
     {propertyGetSet.f &name="create_user"      &type="CHARACTER" &serializable="serializable"}
     {propertyGetSet.f &name="authorize_user"   &type="CHARACTER" &serializable="serializable"}
-    {propertyGetSet.f &name="authorize_date"   &type="DATE" &serializable="serializable"}
+    {propertyGetSet.f &name="state"            &type="int" &serializable="serializable"}
+    
 
     DEFINE VARIABLE tAccount   AS accountModel           NO-UNDO.
     DEFINE VARIABLE tGlAccount AS glModel                NO-UNDO.
@@ -65,7 +68,12 @@ CLASS system.api.balance.transactionLineModel SERIALIZABLE INHERITS dbModel:
 
     METHOD PUBLIC CHARACTER getDbByHeader(iHeader_id AS INT64):
         {requestItemGetDbByField.f &table="transaction_line" &field="header_id"}
-        RETURN getValuesFromBuffer(BUFFER gl:handle).
+        RETURN getValuesFromBuffer(BUFFER transaction_line:handle). /* ispravil s gl na transaction_line */
+    END.
+    
+    METHOD PUBLIC CHARACTER getDbByHeaderLine(iHeader_id AS INT64 , iLine AS integer):
+        {requestItemGetDbByTwoField.f &table="transaction_line" &field="header_id"  &field2="line"}
+        RETURN getValuesFromBuffer(BUFFER transaction_line:handle). /* ispravil s gl na transaction_line */
     END.
     
     METHOD PUBLIC OVERRIDE CHARACTER empty():
@@ -115,23 +123,38 @@ CLASS system.api.balance.transactionLineModel SERIALIZABLE INHERITS dbModel:
         
         RETURN oError.
     END.
-
     METHOD PUBLIC CHARACTER setLineData(iGl AS INT64, iDC AS CHARACTER, iAmount AS DECIMAL, iCurrency AS CHARACTER, iDetails AS CHAR):
-        RETURN setLineData(iGl, "", iDC, iAmount, iCurrency, iDetails).
+        RETURN setLineData(?, iGl, "", iDC, iAmount, iCurrency, iDetails).
+    END.
+    
+    METHOD PUBLIC CHARACTER setLineData(iDate AS DATE, iGl AS INT64, iDC AS CHARACTER, iAmount AS DECIMAL, iCurrency AS CHARACTER, iDetails AS CHAR):
+        RETURN setLineData(iDate, iGl, "", iDC, iAmount, iCurrency, iDetails).
     END.
     
     METHOD PUBLIC CHARACTER setLineData(iAccount AS CHARACTER, iDC AS CHARACTER, iAmount AS DECIMAL, iCurrency AS CHARACTER, iDetails AS CHAR):
-        RETURN setLineData(0, iAccount, iDC, iAmount, iCurrency, iDetails).
+        RETURN setLineData(?, 0, iAccount, iDC, iAmount, iCurrency, iDetails).
     END.
     
-    METHOD PUBLIC CHARACTER setLineData(iGl AS INT64, iAccount AS CHARACTER, iDC AS CHARACTER, iAmount AS DECIMAL, iCurrency AS CHARACTER, iDetails AS CHAR):
+    METHOD PUBLIC CHARACTER setLineData(iDate AS DATE, iAccount AS CHARACTER, iDC AS CHARACTER, iAmount AS DECIMAL, iCurrency AS CHARACTER, iDetails AS CHAR):
+        RETURN setLineData(iDate, 0, iAccount, iDC, iAmount, iCurrency, iDetails).
+    END.
+    
+    METHOD PUBLIC CHARACTER setLineData(iGl AS int64, iAccount AS CHARACTER, iDC AS CHARACTER, iAmount AS DECIMAL, iCurrency AS CHARACTER, iDetails AS CHAR):
+        RETURN setLineData(?, iGl, iAccount, iDC, iAmount, iCurrency, iDetails).
+    END.
+    
+    METHOD PUBLIC CHARACTER setLineData(iDate AS DATE, iGl AS INT64, iAccount AS CHARACTER, iDC AS CHARACTER, iAmount AS DECIMAL, iCurrency AS CHARACTER, iDetails AS CHAR):
         DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
         
         oError = InitObjects().
         IF oError <> "" THEN RETURN oError.
-        
-        balance_date = globalSettings:balance_date.
-
+        IF iDate = ? THEN balance_date = globalSettings:balance_date.
+        ELSE DO:
+            IF iDate > TODAY THEN RETURN "ERROR-TRANSACTION-DATE".
+            oError = closedDaysApi:validBalanceDate(iDate).
+            IF oError <> "" THEN RETURN oError.
+            balance_date = iDate.
+        END.    
         IF iAccount <> "" THEN 
          DO:
             oError = setAccount(iAccount).

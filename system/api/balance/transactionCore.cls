@@ -102,7 +102,7 @@ CLASS system.api.balance.transactionCore:
  
  
     METHOD STATIC PUBLIC CHARACTER validateDc(iDC AS CHAR):
-        IF INDEX("D,C,", iDC + ",") < 1 THEN RETURN "ERROR-INVALID-DC-VALUE".
+        IF INDEX("D,C, ", iDC + ",") < 1 THEN RETURN "ERROR-INVALID-DC-VALUE".
         RETURN "".
     END.
     
@@ -614,8 +614,9 @@ CLASS system.api.balance.transactionCore:
         RETURN NO.
     END. 
     
-    METHOD STATIC PUBLIC CHAR setDeletedStatus(iTransactionLine AS transactionLineModel):
-        DEFINE BUFFER transaction_line FOR transaction_line.
+    METHOD STATIC PUBLIC CHAR setDeletedStatus(iTransactionLine AS transactionLineModel,delete_header AS LOG):
+        DEFINE BUFFER transaction_line FOR transaction_line. 
+        DEFINE BUFFER transaction_header FOR transaction_line.
         DEFINE VARIABLE oError     AS CHARACTER      NO-UNDO INITIAL "".
         
         FIND FIRST transaction_line WHERE transaction_line.header_id = iTransactionLine:Header_Id 
@@ -628,7 +629,18 @@ CLASS system.api.balance.transactionCore:
          DO:
             ASSIGN
                 transaction_line.state = 9.
-                /* TODO if last deleted line, set deleted status to transaction_header */
+            IF delete_header = YES THEN DO:
+                FIND FIRST transaction_line WHERE transaction_line.header_id = iTransactionLine:Header_Id 
+                       AND transaction_line.state <> 9 USE-INDEX header_id NO-LOCK NO-ERROR.
+                IF NOT AVAILABLE transaction_line THEN DO:
+                    FIND FIRST transaction_header WHERE transaction_header.header_id = iTransactionLine:Header_Id 
+                    USE-INDEX header_id  EXCLUSIVE-LOCK NO-ERROR.
+                    IF AVAILABLE transaction_header THEN 
+                    ASSIGN
+                        transaction_header.state = 9.
+                END.
+            END.    
+                 
          END.
         ELSE 
          DO:
