@@ -159,7 +159,7 @@ CLASS system.api.balance.transactionCore:
     
     METHOD STATIC PUBLIC INT getValidTransactionLine(iHeaderId AS INT64, iLine AS INT):
         DEFINE BUFFER transaction_line FOR transaction_line.
-        
+
         FIND FIRST transaction_line WHERE transaction_line.header_id = iHeaderId 
                                       AND transaction_line.line      = iLine 
                                       AND transaction_line.state     <> 9
@@ -172,8 +172,9 @@ CLASS system.api.balance.transactionCore:
             AND transaction_line.state <> 9 USE-INDEX header_id NO-LOCK NO-ERROR.
             IF AVAILABLE transaction_line THEN iLine = transaction_line.line + 1.
          END.
-         
-        RETURN iLine.
+         ELSE iLine = 1.
+
+         RETURN iLine.
     END.
  
     METHOD STATIC PUBLIC CHARACTER validateBalanceDate(iBalanceDate AS DATE):

@@ -50,10 +50,11 @@ CLASS system.api.balance.transactionLineModel SERIALIZABLE INHERITS dbModel:
         
     CONSTRUCTOR transactionLineModel(iTransactionHeader AS transactionHeaderModel):
         tHeader = iTransactionHeader.
+        empty().
     END.
 
     CONSTRUCTOR transactionLineModel():
-        
+        empty().
     END.
     
     METHOD PUBLIC OVERRIDE CHARACTER putDb():
@@ -77,13 +78,28 @@ CLASS system.api.balance.transactionLineModel SERIALIZABLE INHERITS dbModel:
     END.
     
     METHOD PUBLIC OVERRIDE CHARACTER empty():
-        RETURN super:empty().
+        super:empty().
+
+        gl           = 0.
+        account      = "".
+        currency = "".
+        details = "".
+        debet = 0.0.
+        credit = 0.0.
+        
+        IF VALID-OBJECT(tHeader) 
+        THEN DO:
+            header_id    = tHeader:header_id.
+            balance_date = tHeader:balance_date.
+        END.
+        
+        RETURN "".
     END.
     
     METHOD PRIVATE CHARACTER setAccount(iAccount AS CHAR):
         DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
-
-        oError = tAccount:getDbByAccount(iAccount).
+        IF account <> tAccount:account THEN
+            oError = tAccount:getDbByAccount(iAccount).
         IF oError <> "" THEN RETURN "ERROR-ACCOUNT-" + oError.
         
         gl       = tAccount:gl.
@@ -154,7 +170,8 @@ CLASS system.api.balance.transactionLineModel SERIALIZABLE INHERITS dbModel:
             oError = closedDaysApi:validBalanceDate(iDate).
             IF oError <> "" THEN RETURN oError.
             balance_date = iDate.
-        END.    
+        END.  
+       
         IF iAccount <> "" THEN 
          DO:
             oError = setAccount(iAccount).

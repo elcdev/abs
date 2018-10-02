@@ -13,7 +13,6 @@ CLASS system.api.balance.transactionHeaderModel SERIALIZABLE INHERITS dbModel:
 
     METHOD PUBLIC OVERRIDE CHARACTER putDb():
         {requestItemPutDb.f &TABLE="transaction_header"}
-        IF header_id = 0 THEN header_id = NEXT-VALUE(transaction_header_id).
         RETURN setValuesToBuffer(BUFFER transaction_header:handle).
 	END.
 
@@ -30,11 +29,13 @@ CLASS system.api.balance.transactionHeaderModel SERIALIZABLE INHERITS dbModel:
     METHOD PUBLIC OVERRIDE CHARACTER prepare():
         IF balance_date  = ? THEN balance_date = globalSettings:balance_date.
         IF header_id = 0     THEN header_id = NEXT-VALUE(transaction_header_id).
+        RETURN "".
     END.
     
     METHOD PUBLIC CHARACTER initDefaultSettings():
-        IF header_id = 0 THEN header_id = NEXT-VALUE(transaction_header_id).
+        prepare().
         balance_date = globalSettings:balance_date.
+        RETURN "".
     END.    
     
  END.

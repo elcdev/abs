@@ -60,9 +60,9 @@ CLASS system.api.core.dbModel SERIALIZABLE IMPLEMENTS dbInterface:
         DEFINE VARIABLE tString     AS CHARACTER NO-UNDO. 
         
         IF NOT VALID-HANDLE(hBuffer) THEN RETURN "ERROR-INVALID-BUFFER-HANDLE".
-        
+
         oProperties = THIS-OBJECT:GetClass():GetProperties() . 
-         
+        
         DO i = 1 TO EXTENT(oProperties):
             IF oProperties[i]:DataTypeName <> "Progress.Lang.Object" THEN
             DO:
