@@ -19,7 +19,7 @@ FORM    t_tot_balance   LABEL "BAL"      FORMAT "->,>>>,>>>,>>9.99"
         t_tot_credit    LABEL "TOTAL CR" FORMAT ">,>>>,>>>,>>9.99" 
     WITH FRAME balances_form OVERLAY ROW 5 SIDE-LABELS SIZE-CHARS 80 BY 3 NO-BOX.
     
-DEFINE VARIABLE t_details       AS CHARACTER FORMAT "x(65)".
+DEFINE VARIABLE t_details       AS CHARACTER FORMAT "x(65)" VIEW-AS EDITOR INNER-LINES 3 INNER-CHARS 70.
 DEFINE VARIABLE t_line          AS INTEGER   FORMAT "9999".
 DEFINE VARIABLE t_gl            AS INTEGER   FORMAT ">>>>>>>>".
 DEFINE VARIABLE t_account       AS CHARACTER FORMAT "x(12)" /*case-sensitive*/ .
@@ -41,7 +41,7 @@ FORM    t_line
     TITLE "Line G/L account                   CRC SubAccount    Debet             Credit".
     
 FORM    t_details LABEL "Details" AT 2 
-    with frame details_form OVERLAY ROW 16 SIDE-LABELS SIZE-CHARS 80 BY 2 NO-BOX.
+    with frame details_form OVERLAY ROW 16 SIDE-LABELS SIZE-CHARS 80 BY 3 NO-BOX.
 
     
 FUNCTION showHeaderForm CHARACTER ():
