@@ -58,7 +58,7 @@ CLASS system.api.balance.transactionLineModel SERIALIZABLE INHERITS dbModel:
     END.
     
     METHOD PUBLIC OVERRIDE CHARACTER putDb():
-        {requestItemPutDb.f &TABLE="transaction_line" &sequence_id="transaction_id"}
+        {requestItemPutDb.f &TABLE="transaction_line" &sequence_id="transaction_line_id"}
         RETURN setValuesToBuffer(BUFFER transaction_line:handle).
 	END.
 
