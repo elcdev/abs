@@ -28,16 +28,16 @@ CLASS modules.menu.menuForm INHERITS headerForm:
         formTable.function_name FORMAT "X(15)" LABEL "FUNCTION"
         "> "                    FORMAT "XX"    LABEL "SB"
         WITH 19 DOWN NO-LABELS NO-SCROLLBAR-VERTICAL
-        SIZE 80 BY 18 
+        SIZE 78 BY 18 
         .
         
     DEFINE FRAME formFrame
         formBrowse HELP " " SKIP
-      WITH NO-LABELS NO-BOX SIZE 80 BY 20 OVERLAY ROW 2 
+      WITH NO-LABELS NO-BOX SIZE 78 BY 20 OVERLAY ROW 2 
       CENTERED.
 
     DEFINE FRAME formShadow
-      WITH NO-LABELS NO-BOX SIZE 80 BY 20 OVERLAY ROW 2
+      WITH NO-LABELS NO-BOX SIZE 78 BY 20 OVERLAY ROW 2
       CENTERED.
 
     {formBrowserBaseMethods.f &formTable="formTable"}

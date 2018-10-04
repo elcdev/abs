@@ -16,7 +16,7 @@ DEFINE FRAME headerFrame
       companyName FORMAT "X(29)":L
       loginName   FORMAT "X(10)" AT 65
   
-  WITH NO-LABELS NO-BOX SIZE 80 BY 1 ROW 1.
+  WITH NO-LABELS NO-BOX SIZE 80 BY 1 ROW 1 CENTERED.
   
 CONSTRUCTOR headerForm():
     g-today     = globalSettings:g-today.

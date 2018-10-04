@@ -11,11 +11,12 @@ DEFINE VARIABLE vLine       AS CHARACTER NO-UNDO.
 DEFINE VARIABLE projectRoot AS CHARACTER NO-UNDO INIT "C:/Projects/abs/".
 
 session:date-format = "dmy".
-CURRENT-WINDOW:WIDTH-CHARS  = 120.
-CURRENT-WINDOW:HEIGHT-CHARS = 30.
-session:APPL-ALERT-BOXES = FALSE.
-session:SYSTEM-ALERT-BOXES  = FALSE.
-
+CURRENT-WINDOW:WIDTH         = 80 NO-ERROR. 
+CURRENT-WINDOW:HEIGHT        = 30 NO-ERROR.
+CURRENT-WINDOW:WIDTH-PIXELS  = 80 * 8 NO-ERROR. 
+CURRENT-WINDOW:HEIGHT-PIXELS = 30 * 16 NO-ERROR.
+session:APPL-ALERT-BOXES     = TRUE.
+session:SYSTEM-ALERT-BOXES   = FALSE.
 
 CASE OPSYS:
   WHEN "unix" THEN
@@ -29,7 +30,7 @@ CASE OPSYS:
     
     IF NOT CONNECTED ("sbsdb") THEN
     DO:
-        CONNECT absdb -H absdb.com -S 10000 NO-ERROR.    
+        /*CONNECT absdb -H absdb.com -S 10000 NO-ERROR.   */ 
     END.
 
     projectRoot = REPLACE(projectRoot, "/", CHR(92)).
