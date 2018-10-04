@@ -12,7 +12,7 @@ CLASS system.api.balance.transactionHeaderModel SERIALIZABLE INHERITS dbModel:
     {propertyGetSet.f &name="authorize_date"   &type="DATE" &serializable="serializable"}
 
     METHOD PUBLIC OVERRIDE CHARACTER putDb():
-        {requestItemPutDb.f &TABLE="transaction_header"}
+        {requestItemPutDb.f &TABLE="transaction_header" &sequence_id="transaction_id"}
         RETURN setValuesToBuffer(BUFFER transaction_header:handle).
 	END.
 

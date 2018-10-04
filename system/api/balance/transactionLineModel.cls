@@ -58,7 +58,7 @@ CLASS system.api.balance.transactionLineModel SERIALIZABLE INHERITS dbModel:
     END.
     
     METHOD PUBLIC OVERRIDE CHARACTER putDb():
-        {requestItemPutDb.f &TABLE="transaction_line"}
+        {requestItemPutDb.f &TABLE="transaction_line" &sequence_id="transaction_id"}
         RETURN setValuesToBuffer(BUFFER transaction_line:handle).
 	END.
 
@@ -80,12 +80,13 @@ CLASS system.api.balance.transactionLineModel SERIALIZABLE INHERITS dbModel:
     METHOD PUBLIC OVERRIDE CHARACTER empty():
         super:empty().
 
-        gl           = 0.
-        account      = "".
-        currency = "".
-        details = "".
-        debet = 0.0.
-        credit = 0.0.
+        gl          = 0.
+        account     = "".
+        currency    = "".
+        details     = "".
+        debet       = 0.0.
+        credit      = 0.0.
+        state       = 0.
         
         IF VALID-OBJECT(tHeader) 
         THEN DO:

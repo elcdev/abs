@@ -157,24 +157,33 @@ CLASS system.api.balance.transactionCore:
          RETURN "".
     END.
     
+    METHOD STATIC PUBLIC INTEGER getNextTransactionLine(iHeaderId AS INT64):
+        DEFINE BUFFER transaction_line FOR transaction_line.
+        
+        FIND LAST transaction_line WHERE transaction_line.header_id = iHeaderId 
+                                     AND transaction_line.state <> 9
+                               USE-INDEX header_id 
+                               NO-LOCK NO-ERROR.
+        IF AVAILABLE transaction_line THEN RETURN transaction_line.line + 1.
+        
+        RETURN 1.
+    END.
+    
     METHOD STATIC PUBLIC INT getValidTransactionLine(iHeaderId AS INT64, iLine AS INT):
         DEFINE BUFFER transaction_line FOR transaction_line.
 
-        FIND FIRST transaction_line WHERE transaction_line.header_id = iHeaderId 
-                                      AND transaction_line.line      = iLine 
-                                      AND transaction_line.state     <> 9
-                                USE-INDEX header_id 
+        IF iLine > 0 
+        THEN DO:
+            FIND FIRST transaction_line WHERE transaction_line.header_id = iHeaderId 
+                                          AND transaction_line.line      = iLine 
+                                          AND transaction_line.state     <> 9
+                                    USE-INDEX header_id 
                                 NO-LOCK NO-ERROR.
+        END.
         
-        IF AVAILABLE transaction_line THEN 
-         DO:
-            FIND LAST transaction_line WHERE transaction_line.header_id = iHeaderId 
-            AND transaction_line.state <> 9 USE-INDEX header_id NO-LOCK NO-ERROR.
-            IF AVAILABLE transaction_line THEN iLine = transaction_line.line + 1.
-         END.
-         ELSE iLine = 1.
+        IF NOT AVAILABLE transaction_line AND iLine > 1 AND iLine <> ? THEN RETURN iLine.
 
-         RETURN iLine.
+        RETURN getNextTransactionLine(iHeaderId).
     END.
  
     METHOD STATIC PUBLIC CHARACTER validateBalanceDate(iBalanceDate AS DATE):
