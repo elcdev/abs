@@ -181,6 +181,9 @@ REPEAT WHILE waitEditing = 0 ON ENDKEY UNDO, RETRY:
                 END.
                 ELSE DO:
                     t_line = transactionCore:getValidTransactionLine(t_Header_Id, t_line).
+
+MESSAGE t_line.
+PAUSE.
                     trLine:line = t_line.
                     ASSIGN sost2 = 1.
                 END.  
@@ -196,7 +199,13 @@ REPEAT WHILE waitEditing = 0 ON ENDKEY UNDO, RETRY:
                         trx_date  = trLine:balance_date.
                 
                 IF  t_currency = "" THEN t_currency = currencyApi:nationalCurrency.
-                    
+                
+                IF development 
+                THEN DO:
+                    t_gl = 10212000.
+                    t_account = "cblt.eur".
+                END.
+                
                 REPEAT WHILE m = 0 ON ENDKEY UNDO, LEAVE:
                     UPDATE t_gl 
                         VALIDATE(CAN-FIND(gl WHERE gl.gl = t_gl AND gl.gl_status NE "CLOSED"),
@@ -224,12 +233,13 @@ REPEAT WHILE waitEditing = 0 ON ENDKEY UNDO, RETRY:
                         find first currency where currency.currency eq t_currency no-lock no-error.
                         j2 = 1.
                     END.    
-                    if j2 = 0 then do :
+                    IF j2 = 0 
+                    THEN DO:
                         up with frame trline_form.
                         /********
                         LEAVE.
                         ********/
-                    end.
+                    END.
                     else j2 = 0.
                          
                     repeat while i = 0 on endkey undo ,leave :
@@ -299,32 +309,36 @@ REPEAT WHILE waitEditing = 0 ON ENDKEY UNDO, RETRY:
                 END.
                 
                 
-                        
+
                 IF m = 1 and m1 = 1 
                 THEN DO:
                     cr2:
                     DO TRANSACTION:   
-
-                        /*************/
-                        if sost2 = 1 and dop1 = 1 then do :
+                        IF sost2 = 1 and dop1 = 1 
+                        THEN DO:
                             oError = transactionApi:DeleteLine(t_header_id, t_line, NO, NO).
-                            IF oError <> "" THEN DO:
+                            IF oError <> "" 
+                            THEN DO:
                                 UP WITH FRAME trline_form.
                                 UNDO cr2, THROW NEW Progress.Lang.AppError (oError + ";CAN'T-DELETE-OLD-NAME", 1).
                             END.        
                         END. 
                     
                         oError = trLine:setLineData(trx_date, t_gl, t_account, t_dc, MAXIMUM(t_debet, t_credit), t_currency, t_details).
-                        IF oError <> "" THEN DO:
+                        IF oError <> "" 
+                        THEN DO:
                             UP WITH FRAME trline_form.
                             UNDO cr2, THROW NEW Progress.Lang.AppError (oError + ";IN-SET-LINE-DATA", 1).
                         END.    
 
                         oError = transactionApi:createLine(trLine, FALSE, TRUE).
-                        IF oError <> "" THEN DO:
+                        IF oError <> "" 
+                        THEN DO:
                             UP WITH FRAME trline_form.
                             UNDO cr2, THROW NEW Progress.Lang.AppError (oError + ";IN-CREATE-LINE;", 1).
-                        end.
+                        END.
+MESSAGE oError.
+PAUSE.
                     END.
                 END.
                 ELSE DO:
