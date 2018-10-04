@@ -5,7 +5,7 @@ USING system.api.systemSettings.*.
 DEFINE INPUT PARAMETER key AS INT64.
 
 {journal_forms.i}
-
+DEFINE VARIABLE devepment AS LOGICAL INITIAL TRUE. /* FALSE on prod - TODO. Move to global vars*/
 
 DEFINE VARIABLE oError AS CHARACTER.
 define variable j  as int64 format "9" initial 0.
@@ -28,7 +28,7 @@ define variable i as int64 initial 0.
 def var k2 as int64.
 def var debx as dec extent 50.
 def var krex as dec extent 50.
-define variable ques2 as logical format "Yes/No" initial no.
+define variable ques as logical format "Yes/No" initial no.
 
 
 define variable trx_date AS DATE. 
@@ -40,9 +40,9 @@ DEFINE VARIABLE id AS INT64.
 DEFINE VARIABLE trHeader  AS transactionHeaderModel.
 DEFINE VARIABLE trLine    AS transactionLineModel.
 
-IF key = 2 
+IF key = 2 /* View existing */
 THEN DO:
-     oError = transactionApi:createHeader(INPUT-OUTPUT trHeader). /* Make method with da~ta   */ 
+    oError = transactionApi:createHeader(INPUT-OUTPUT trHeader). /* Make method with da~ta   */ 
     
     UPDATE t_Header_Id VALIDATE (
         CAN-FIND(transaction_header WHERE transaction_header.header_id = t_Header_Id 
@@ -50,7 +50,7 @@ THEN DO:
         HELP "Transaction Number (F2 - HELP)" 
         WITH FRAME header_form.
     
-    FIND FIRST transaction_header where transaction_header.header_id = t_Header_Id no-error.
+    FIND FIRST transaction_header WHERE transaction_header.header_id = t_Header_Id NO-ERROR.
     
     showHeaderForm().
         
@@ -64,15 +64,14 @@ THEN DO:
         t_details   = transaction_line.details.
         t_debet     = transaction_line.debet.
         t_credit    = transaction_line.credit.
+        t_account_name = "".
         
+        /* TODO Move to core */
         FIND FIRST gl WHERE gl.gl = transaction_line.gl NO-LOCK NO-ERROR.
-        IF gl.subled <> "" 
-        THEN DO:
-            t_gl_name = gl.short_name.
-            FIND FIRST account WHERE account.account = transaction_line.account NO-LOCK NO-ERROR.
-            IF AVAILABLE account THEN t_account_name = account.description.
-        END.   
-        ELSE t_account_name = "".
+        IF AVAILABLE gl THEN  t_gl_name = gl.short_name.
+
+        FIND FIRST account WHERE account.account = transaction_line.account NO-LOCK NO-ERROR.
+        IF AVAILABLE account THEN t_account_name = account.description.
 
         t_tot_debet     = t_tot_debet  + transaction_line.debet.
         t_tot_credit    = t_tot_credit + transaction_line.credit.
@@ -89,7 +88,11 @@ IF key = 1
 THEN DO:
     /*************/
     oError = transactionApi:createHeader(INPUT-OUTPUT trHeader). /* Make method with data    */
-    MESSAGE ">>>" trHeader:putDb().
+    IF oError <> "" THEN UNDO, RETURN.
+    
+    oError = trHeader:putDb().
+    IF oError <> "" THEN UNDO, RETURN.
+    /* TODO revrite */
     t_Header_Id= trHeader:header_id.
     
     FIND FIRST transaction_header WHERE transaction_header.header_id = trHeader:header_id NO-ERROR.
@@ -100,7 +103,7 @@ THEN DO:
     showTrLineForm().
 END.
 
-PAUSE .
+
 REPEAT WHILE i2 = 0 ON ENDKEY UNDO, RETRY:
     REPEAT WHILE k = 0 ON ENDKEY UNDO, LEAVE:
     
@@ -112,7 +115,7 @@ REPEAT WHILE i2 = 0 ON ENDKEY UNDO, RETRY:
             oError = closedDaysApi:validBalanceDate(transaction_header.balance_date).
             IF oError <> "" THEN DO:
             ************/
-            IF transaction_header.balance_date le globalSettings:balance_date OR TRUE 
+            IF transaction_header.balance_date le globalSettings:balance_date OR devepment 
             THEN DO:
                 MESSAGE oError + " Can't edit transaction !".
                 PAUSE 3.
@@ -389,8 +392,8 @@ REPEAT WHILE i2 = 0 ON ENDKEY UNDO, RETRY:
             message "Unbalanced transaction!".
             pause 3.
             REPEAT WHILE i3 = 0 ON ENDKEY UNDO, LEAVE:
-                message "Keep it ?" update ques2.
-                IF ques2 = no THEN DO:
+                message "Keep it ?" update ques.
+                IF ques = no THEN DO:
                     i2 = 0.
                     i3 = 1.
                     k = 0.
