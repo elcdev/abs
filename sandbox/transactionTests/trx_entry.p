@@ -81,6 +81,7 @@ THEN DO:
         showDetailsForm().
         showBalancesForm().
         showTrLineForm().
+        DOWN WITH FRAME trline_form.
     END.
 END.
 
@@ -137,22 +138,16 @@ REPEAT WHILE waitEditing = 0 ON ENDKEY UNDO, RETRY:
                 END.
                 showBalancesForm().
                 
-                /* DOWN WITH FRAME trline_form. */
-                m1 = 0.
-                m = 0.
-                t_line = 0.
-                t_gl   = 0.
-                
-                /* Remained balance */
-                IF t_tot_balance > 0.0 
-                THEN DO:
-                    t_credit = t_tot_balance.
-                    t_debet  = 0.0.
-                END.
-                ELSE DO:
-                    t_debet  = - t_tot_balance.
-                    t_credit = 0.0.
-                END.
+                m1             = 0.
+                m              = 0.
+                t_line         = 0.
+                t_gl           = 0.
+                t_debet        = 0.
+                t_credit       = 0.
+                t_details      = "".
+                t_account      = "".
+                t_account_name = "".
+                t_gl_name      = "".
                 
                 IF chooseNewOld = 2 OR j1 <> 0 
                 THEN DO:
@@ -181,9 +176,7 @@ REPEAT WHILE waitEditing = 0 ON ENDKEY UNDO, RETRY:
                 END.
                 ELSE DO:
                     t_line = transactionCore:getValidTransactionLine(t_Header_Id, t_line).
-
-MESSAGE t_line.
-PAUSE.
+                    trLine:empty().
                     trLine:line = t_line.
                     ASSIGN sost2 = 1.
                 END.  
@@ -196,8 +189,23 @@ PAUSE.
                         t_details = trLine:details
                         t_debet   = trLine:debet
                         t_credit  = trLine:credit
-                        trx_date  = trLine:balance_date.
-                
+                        trx_date  = trLine:balance_date
+                        .
+                        
+                /* Remained balance */
+                IF t_debet = 0 AND t_credit = 0 
+                THEN DO:
+                    IF t_tot_balance > 0.0 
+                    THEN DO:
+                        t_credit = t_tot_balance.
+                        t_debet  = 0.0.
+                    END.
+                    ELSE DO:
+                        t_debet  = - t_tot_balance.
+                        t_credit = 0.0.
+                    END.
+                END.
+                    
                 IF  t_currency = "" THEN t_currency = currencyApi:nationalCurrency.
                 
                 IF development 
@@ -214,17 +222,11 @@ PAUSE.
                     
                     FIND gl WHERE gl.gl = t_gl NO-LOCK NO-ERROR.
                     IF AVAILABLE gl THEN m = 1.
-                    /*
-                    else do :
-                        up with frame trline_form.
-                    end.
-                    */
                 END.
                 
                 IF m = 1 
                 THEN DO:
                     showTrLineForm().
-                       
                     REPEAT WHILE j2 = 0 ON ENDKEY UNDO, LEAVE:
                         update t_currency
                         validate (can-find(currency where currency.currency = t_currency AND currency.state NE 9),
@@ -274,16 +276,21 @@ PAUSE.
                         leave.
                     end.
                     else j3 = 0.
-                                            
+
+                    
+
+                
                     blk:
                     repeat while m1 = 0 on endkey undo, leave :
+                        showTrLineForm().
                         update t_debet VALIDATE (t_debet ge 0.0 , "Must be > 0 !" )
                             with frame trline_form.
                             
                         t_debet = ROUND(t_debet, currency.decimal_points).
-                        showTrLineForm().
+                        
                         IF t_debet = 0.0 
                         THEN DO:
+                            showTrLineForm().
                             UPDATE t_credit
                                 VALIDATE (t_credit ge 0.0 ,"Must be > 0 !" )
                                 with frame trline_form.
@@ -337,8 +344,6 @@ PAUSE.
                             UP WITH FRAME trline_form.
                             UNDO cr2, THROW NEW Progress.Lang.AppError (oError + ";IN-CREATE-LINE;", 1).
                         END.
-MESSAGE oError.
-PAUSE.
                     END.
                 END.
                 ELSE DO:
@@ -363,7 +368,7 @@ PAUSE.
     
     IF waitEditLine <> 1  
     THEN DO:
-        IF NOT isBalancedTransaction(t_Header_Id) 
+        IF NOT transactionCore:isBalancedTransaction(t_Header_Id) 
         THEN DO:
             MESSAGE "Unbalanced transaction!".
             PAUSE 3.

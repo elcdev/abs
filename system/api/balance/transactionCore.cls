@@ -659,4 +659,41 @@ CLASS system.api.balance.transactionCore:
          
         RETURN oError.
     END.
+    
+    
+    
+    /* TODO Move to core */
+    DEFINE STATIC TEMP-TABLE totbal NO-UNDO
+        FIELD currency AS CHARACTER
+        FIELD debet AS DECIMAL
+        FIELD credit AS DECIMAL
+        INDEX currency currency ASC.
+        
+    METHOD PUBLIC STATIC LOG isBalancedTransaction(i_header_id AS INT64):
+        DEFINE BUFFER transaction_line FOR transaction_line.
+        DEFINE BUFFER gl               FOR gl.
+        
+        EMPTY TEMP-TABLE totbal.    
+        FOR EACH transaction_line WHERE transaction_line.header_id = i_header_id 
+                                    AND transaction_line.state     <> 9
+                            NO-LOCK:
+            FIND FIRST gl WHERE gl.gl = transaction_line.gl NO-LOCK NO-ERROR.
+            
+            IF gl.parent <> 300000 and gl.parent <> 600000 THEN DO:
+                FIND FIRST totbal WHERE totbal.currency = transaction_line.currency NO-ERROR.
+                IF NOT AVAILABLE totbal THEN DO:
+                    CREATE totbal.
+                    ASSIGN totbal.currency = transaction_line.currency.
+                END.    
+                totbal.debet  = totbal.debet  + transaction_line.debet.
+                totbal.credit = totbal.credit + transaction_line.credit.
+            END.    
+        END.
+        
+        FOR EACH totbal WHERE totbal.debet NE totbal.credit :
+            RETURN FALSE.
+        END.
+        
+        RETURN TRUE.
+    END.
 END.    

@@ -16,8 +16,14 @@
 			CREATE {&table}.
 			{&table}.create_user      = globalSettings:loginName. 
 			{&table}.create_date      = now.
+			
+			&IF DEFINED(sequence_id) &THEN
+				{&table}.id = NEXT-VALUE({&sequence_id}).
+			&ENDIF
+			
 			id                        = {&table}.id.
 			version                   = {&table}.version.
+			
 		 END.
 		
 		{&table}.modify_user = globalSettings:loginName. 

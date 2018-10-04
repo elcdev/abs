@@ -68,7 +68,7 @@ FUNCTION showBalancesForm CHARACTER ():
     t_tot_balance = t_tot_debet - t_tot_credit.
     
     DISPLAY t_tot_balance t_tot_debet t_tot_credit 
-        WITH FRAME balances_form.
+        WITH FRAME balances_form SIZE-CHARS 80 BY 1.
     PAUSE 0.
 END.
 
@@ -111,33 +111,3 @@ FUNCTION clearAllForms CHARACTER ():
 END.
 
 
-/* TODO Move to core */
-DEFINE TEMP-TABLE totbal NO-UNDO
-    FIELD currency AS CHARACTER
-    FIELD debet AS DECIMAL
-    FIELD credit AS DECIMAL
-    INDEX currency currency ASC.
-    
-FUNCTION isBalancedTransaction  LOG(i_header_id AS INT64):
-    DEFINE BUFFER transaction_line FOR transaction_line.
-    
-    EMPTY TEMP-TABLE totbal.    
-    FOR EACH transaction_line WHERE transaction_line.header_id = header_id no-lock :
-        find first gl where gl.gl = transaction_line.gl no-lock no-error.
-        if gl.parent <> 300000 and gl.parent <> 600000 then do :
-            find first totbal where totbal.currency = transaction_line.currency NO-ERROR.
-            IF NOT AVAILABLE totbal THEN DO:
-                CREATE totbal.
-                ASSIGN totbal.currency = transaction_line.currency.
-            END.    
-            totbal.debet  = totbal.debet  + transaction_line.debet.
-            totbal.credit = totbal.credit + transaction_line.credit.
-        END.    
-    END.
-    
-    FOR EACH totbal WHERE totbal.debet NE totbal.credit :
-        RETURN FALSE.
-    END.
-    
-    RETURN TRUE.
-END.

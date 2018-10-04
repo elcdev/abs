@@ -37,7 +37,7 @@ MESSAGE STRING(tAccount:toJson()) VIEW-AS ALERT-BOX.
 
 /*cAccount = accountModel:parseJson(json).*/
 /*cAccount:SERIALIZE-NAME = "account".*/
-cAccount = accountModel:parseJsonFile("test.json").
+/*cAccount = accountModel:parseJsonFile("test.json").*/
 /*
 
 MESSAGE STRING(cAccount:toJson()) VIEW-AS ALERT-BOX.
@@ -57,13 +57,13 @@ FOR EACH payments:
     PAUSE.
 END.
 */
-/*
-FOR EACH transaction_line:
-    DISPLAY  transaction_line.header_id  balance_date transaction_line.id gl account debet credit WITH WIDTH 300. /*WITH 1 COLUMN SIZE 80 BY 25.*/
+
+FOR EACH transaction_line WHERE transaction_line.header_id = 197:
+    DISPLAY  transaction_line.header_id LINE state balance_date transaction_line.id gl account debet credit WITH WIDTH 300. /*WITH 1 COLUMN SIZE 80 BY 25.*/
 END.
 PAUSE.
 
-*/
+
 /*
 FOR EACH account_balance WHERE account = "C00000000004":
     DISPLAY account_balance WITH WIDTH 500 . /*1 COLUMN SIZE 80 BY 20.*/
