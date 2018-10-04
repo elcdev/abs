@@ -5,7 +5,7 @@ USING system.api.systemSettings.*.
 DEFINE INPUT PARAMETER key AS INT64.
 
 {journal_forms.i}
-DEFINE VARIABLE devepment AS LOGICAL INITIAL TRUE. /* FALSE on prod - TODO. Move to global vars*/
+DEFINE VARIABLE development AS LOGICAL INITIAL TRUE. /* FALSE on prod - TODO. Move to global vars*/
 
 DEFINE VARIABLE oError AS CHARACTER.
 define variable j  as int64 format "9" initial 0.
@@ -115,7 +115,7 @@ REPEAT WHILE i2 = 0 ON ENDKEY UNDO, RETRY:
             oError = closedDaysApi:validBalanceDate(transaction_header.balance_date).
             IF oError <> "" THEN DO:
             ************/
-            IF transaction_header.balance_date le globalSettings:balance_date OR devepment 
+            IF transaction_header.balance_date le globalSettings:balance_date OR development 
             THEN DO:
                 MESSAGE oError + " Can't edit transaction !".
                 PAUSE 3.
