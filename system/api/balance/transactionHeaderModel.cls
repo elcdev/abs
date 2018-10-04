@@ -23,7 +23,7 @@ CLASS system.api.balance.transactionHeaderModel SERIALIZABLE INHERITS dbModel:
 
     METHOD PUBLIC CHARACTER getDbByHeader(iHeader_id AS INT64):
         {requestItemGetDbByField.f &table="transaction_header" &field="header_id"}
-        RETURN getValuesFromBuffer(BUFFER gl:handle).
+        RETURN getValuesFromBuffer(BUFFER transaction_header:handle).
     END.
     
     METHOD PUBLIC OVERRIDE CHARACTER prepare():

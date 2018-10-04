@@ -44,14 +44,14 @@ DEFINE VARIABLE trLine    AS transactionLineModel.
 
 IF chooseNewOld = 2 /* View existing */
 THEN DO:
-    oError = transactionApi:createHeader(INPUT-OUTPUT trHeader). /* Make method with da~ta   */ 
-    
     UPDATE t_Header_Id VALIDATE (
         CAN-FIND(transaction_header WHERE transaction_header.header_id = t_Header_Id 
                                       AND transaction_header.state NE 9 ), "Incorrect transaction Number !") 
         HELP "Transaction Number (F2 - HELP)" 
         WITH FRAME header_form.
     
+    oError = transactionApi:getHeader(INPUT-OUTPUT trHeader, t_Header_Id).
+
     FIND FIRST transaction_header WHERE transaction_header.header_id = t_Header_Id NO-ERROR.
     
     showHeaderForm().

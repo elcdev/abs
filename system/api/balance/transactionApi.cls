@@ -159,6 +159,17 @@ CLASS system.api.balance.transactionApi:
         RETURN createHeader(INPUT-OUTPUT iTransactionHeader, 0).
     END.
     
+    METHOD STATIC PUBLIC CHAR getHeader(INPUT-OUTPUT iTransactionHeader AS transactionHeaderModel, i_header_id AS INT64):
+        IF NOT VALID-OBJECT(iTransactionHeader) 
+        THEN DO:
+            initCore(""). /* TODO! */
+            iTransactionHeader = NEW transactionHeaderModel().
+            garbage:addItem(iTransactionHeader).
+        END.
+        RETURN iTransactionHeader:getDbByHeader(i_header_id).
+        
+    END.
+    
     METHOD STATIC PUBLIC CHAR createHeader(INPUT-OUTPUT iTransactionHeader AS transactionHeaderModel, iDocumentId AS INT64):
         DEFINE VARIABLE oError AS CHARACTER NO-UNDO.
         

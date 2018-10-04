@@ -43,7 +43,7 @@ CLASS system.api.core.dbModel SERIALIZABLE IMPLEMENTS dbInterface:
                     DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME) = hField:BUFFER-VALUE().
 
                     CATCH eAnyError AS Progress.Lang.Error:
-                        RETURN "ERROR-SET-VALUE-FROM-BUFFER:" + eAnyError:GetMessage(1).
+                        RETURN "ERROR-SET-VALUE-FROM-BUFFER:" + eAnyError:GetMessage(1) + " in property [" + oProperties[i]:NAME + "]".
                     END CATCH.
 
                  END.

@@ -58,7 +58,7 @@ FOR EACH payments:
 END.
 */
 
-FOR EACH transaction_line WHERE transaction_line.header_id = 197:
+FOR EACH transaction_line WHERE transaction_line.header_id = 208:
     DISPLAY  transaction_line.header_id LINE state balance_date transaction_line.id gl account debet credit WITH WIDTH 300. /*WITH 1 COLUMN SIZE 80 BY 25.*/
 END.
 PAUSE.
