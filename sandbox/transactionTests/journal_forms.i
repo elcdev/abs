@@ -21,7 +21,7 @@ FORM    t_tot_balance   LABEL "BAL"      FORMAT "->,>>>,>>>,>>9.99"
     
 DEFINE VARIABLE t_details       AS CHARACTER FORMAT "x(65)".
 DEFINE VARIABLE t_line          AS INTEGER   FORMAT "9999".
-DEFINE VARIABLE t_gl            AS INTEGER   FORMAT ">>>>>>".
+DEFINE VARIABLE t_gl            AS INTEGER   FORMAT ">>>>>>>>".
 DEFINE VARIABLE t_account       AS CHARACTER FORMAT "x(12)" /*case-sensitive*/ .
 DEFINE VARIABLE t_currency      AS CHARACTER FORMAT "x(3)".
 DEFINE VARIABLE t_gl_name       AS CHARACTER FORMAT "X(16)".
@@ -73,7 +73,8 @@ FUNCTION showBalancesForm CHARACTER ():
 END.
 
 FUNCTION showTrLineForm CHARACTER ():
-    DISPLAY t_line AT 1
+    DISPLAY 
+        t_line 
         t_gl   
         t_gl_name  
         t_currency 
@@ -83,7 +84,6 @@ FUNCTION showTrLineForm CHARACTER ():
         t_credit  
         WITH FRAME trline_form.
     PAUSE 0.
-    DOWN WITH FRAME trline_form.
     
             /*
         display line glkon gl.short_name currency t_Account with frame cc3. 
