@@ -38,12 +38,13 @@ CLASS system.api.payments.paymentModel SERIALIZABLE INHERITS dbModel:
     {dbModelJsonParser.f &class="system.api.payments.paymentModel"}
     
     METHOD PUBLIC OVERRIDE CHARACTER putDb():
-        DEFINE VARIABLE oError          AS CHARACTER NO-UNDO.
         {requestItemPutDb.f &TABLE="payments"}
         oError = validate().
         IF oError <> "" THEN RETURN oError.
         
-        RETURN setValuesToBuffer(BUFFER payments:handle).
+        oError = setValuesToBuffer(BUFFER payments:handle).
+        
+        RETURN oError.
 	END.
     
     METHOD PUBLIC OVERRIDE CHARACTER getDb(iId AS INT64):
@@ -56,7 +57,7 @@ CLASS system.api.payments.paymentModel SERIALIZABLE INHERITS dbModel:
         RETURN "".
     END.
     
-    METHOD PUBLIC CHARACTER validate():
+    METHOD PUBLIC OVERRIDE CHARACTER validate():
         DEFINE VARIABLE oError          AS CHARACTER NO-UNDO.
         /* TODO */
         DO TRANSACTION ON ERROR UNDO, THROW:

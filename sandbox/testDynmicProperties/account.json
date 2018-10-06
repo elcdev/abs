@@ -1,12 +1,8 @@
-{"update.account":
-{
-    "action": "",
-    "id": 1,
-    "version": 0,
+  {
     "gl": 10212000,
     "iban": "",
-    "account": "C00000000124",
-    "base_account": "CBLT.EUR",
+    "account": "CBLV.USD",
+    "base_account": "CBLV.USD",
     "overdraft_account": "",
     "currency": "USD",
     "account_group": "",
@@ -17,14 +13,14 @@
     "cif": "0",
     "client_id": 0,
     "account_status": "ACTIVE",
-    "description": "CENTRAL BANK OF LITHUANIA (Clients Funds)",
-    "open_date": "2018-07-25",
+    "description": "CENTRAL BANK OF LATVIA (Clients Funds)",
+    "open_date": "2018-01-02",
     "close_date": null,
     "open_amount": 0.0,
-    "last_operation_date": "2018-07-25",
-    "last_debet_date": "2018-07-25",
-    "last_debet_amount": 500.0,
+    "last_operation_date": null,
+    "last_debet_date": null,
+    "last_debet_amount": 0.0,
     "last_credit_date": null,
     "last_credit_amount": 0.0
-}
-}
+  }
+

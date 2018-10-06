@@ -4,7 +4,7 @@ USING sandbox.transactionTests.*.
 DEFINE VARIABLE chooseNewOld  AS INT64   FORMAT "9"      INITIAL 0.
 DEFINE VARIABLE ques          AS LOGICAL FORMAT "Yes/No" INITIAL YES.
 
-{journal_forms.i}
+{sandbox/transactionTests/journal_forms.i}
 
 REPEAT WHILE chooseNewOld = 0 ON ENDKEY UNDO, RETURN:
     showHeaderForm().   
@@ -26,7 +26,7 @@ REPEAT WHILE chooseNewOld = 0 ON ENDKEY UNDO, RETURN:
     THEN DO:
         DO ON ERROR UNDO, THROW:
             clearAllForms().
-            run ./trx_entry.p(chooseNewOld).
+            run sandbox/transactionTests/journal_entry.p(chooseNewOld).
             
             CATCH eAnyError AS Progress.Lang.Error:
                 MESSAGE eAnyError:GetMessage(1).

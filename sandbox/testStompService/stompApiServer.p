@@ -31,7 +31,12 @@ PROCEDURE messagehandler:
         tObject = DYNAMIC-CAST(apiHelper:getApiModel(apiCall, iMessage), className).
         oError = tObject:putDb().
         IF oError <> "" THEN UNDO, THROW NEW Progress.Lang.AppError (oError, 1).
+                
+        CATCH eAnyError AS Progress.Lang.Error:
+            /*oError =  oError + ":" + eAnyError:GetMessage(1).*/
+            MESSAGE oError VIEW-AS ALERT-BOX.
+        END CATCH.
     END.
-    MESSAGE "apiCall:" apiCall SKIP "Executed!" SKIP PROGRAM-NAME(1) SKIP PROGRAM-NAME(2) VIEW-AS ALERT-BOX.
+    /* MESSAGE "apiCall:" apiCall SKIP "Executed!" SKIP PROGRAM-NAME(1) SKIP PROGRAM-NAME(2) VIEW-AS ALERT-BOX.*/
 END PROCEDURE. /* messagehandler */
 

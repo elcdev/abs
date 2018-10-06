@@ -7,6 +7,15 @@ USING system.api.core.*.
 
 CLASS system.api.apiHelper:
     
+    DEFINE TEMP-TABLE tmpApiSettings NO-UNDO
+        FIELD api_call   AS CHARACTER 
+        FIELD class_name AS CHARACTER 
+        
+        INDEX api_call api_call
+        INDEX class_name class_name
+        .
+        
+    
     /* Get model class name by apiCall name */
     METHOD PUBLIC STATIC CHARACTER getClassName(iApiCall AS CHARACTER):
         CASE iApiCall:

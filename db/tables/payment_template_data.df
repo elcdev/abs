@@ -69,7 +69,7 @@ ADD FIELD "create_user" OF "payment_template_data" AS character
   ORDER 70
 
   
-ADD FIELD "parent_id" OF "payment_template_data" AS int64 
+ADD FIELD "parent_template_id" OF "payment_template_data" AS int64 
   DESCRIPTION "Payment template id"
   FORMAT ">>>>>>>>>>>9"
   INITIAL "0"

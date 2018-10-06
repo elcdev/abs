@@ -3,7 +3,7 @@ USING system.api.core.*.
 USING system.api.systemSettings.*.
 
 CLASS system.api.currency.currencyModel SERIALIZABLE INHERITS dbModel:
-    {propertyGetSet.f &name="currency"            &type="CHAR" &serializable="serializable"}
+    {propertyGetSet.f &name="currency"            &type="CHARACTER" &serializable="serializable"}
     {propertyGetSet.f &name="description"         &type="CHAR" &serializable="serializable"}
     {propertyGetSet.f &name="decimal_points"      &type="DEC"  &serializable="serializable"}
     {propertyGetSet.f &name="currency_order"      &type="INT"  &serializable="serializable"}
