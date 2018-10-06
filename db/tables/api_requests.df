@@ -1,8 +1,8 @@
 ADD TABLE "api_requests"
-  AREA "Accounts Data"
+  AREA "System Data"
   DESCRIPTION "ABS Clients data tables"
   DUMP-NAME "api_requests"
-  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_payment_rw.p" CRC "?" 
+  TABLE-TRIGGER "REPLICATION-WRITE" NO-OVERRIDE PROCEDURE "trg_api_requests_rw.p" CRC "?" 
 
 ADD FIELD "id" OF "api_requests" AS int64 
   DESCRIPTION "Record Id"
@@ -12,14 +12,14 @@ ADD FIELD "id" OF "api_requests" AS int64
   MAX-WIDTH 4
   ORDER 10
 
-ADD FIELD "uid" OF "api_requests" AS character
+ADD FIELD "uid" OF "api_requests" AS character 
   DESCRIPTION "Unique id"
   FORMAT "X(36)"
   INITIAL "0"
   POSITION 3
   MAX-WIDTH 4
   ORDER 15
-  
+
 ADD FIELD "version" OF "api_requests" AS int64 
   DESCRIPTION "Record version for replication"
   FORMAT ">>>>>>>>>>>9"
@@ -68,10 +68,6 @@ ADD FIELD "create_user" OF "api_requests" AS character
   MAX-WIDTH 8
   ORDER 70
 
-  
-  
-  
-  
 ADD FIELD "api_call" OF "api_requests" AS character 
   DESCRIPTION "Api call function name"
   FORMAT "X(30)"
@@ -80,7 +76,7 @@ ADD FIELD "api_call" OF "api_requests" AS character
   MAX-WIDTH 12
   ORDER 80
 
-ADD FIELD "headers" OF "api_requests" AS CHARACTER 
+ADD FIELD "headers" OF "api_requests" AS character 
   DESCRIPTION "Api haders in json"
   FORMAT "X(50)"
   INITIAL ""
@@ -88,16 +84,19 @@ ADD FIELD "headers" OF "api_requests" AS CHARACTER
   MAX-WIDTH 4
   ORDER 90
 
-ADD FIELD "data" OF "api_requests" AS clobe
-  DESCRIPTION "Api request data"
-  FORMAT "X(80)"
-  INITIAL ""
+ADD FIELD "data" OF "api_requests" AS clob 
+  DESCRIPTION "Api request data (payload)"
+  FORMAT "x(8)"
+  INITIAL ?
   POSITION 12
-  MAX-WIDTH 1
+  LOB-AREA "System Data"
+  LOB-BYTES 104857600
+  LOB-SIZE 100M
+  CLOB-CODEPAGE "UTF-8"
+  CLOB-COLLATION "BASIC"
+  CLOB-TYPE 2
   ORDER 100
-
   
-
 ADD FIELD "request_queue" OF "api_requests" AS character 
   DESCRIPTION "Queue from which request is accepted"
   FORMAT "X(20)"
@@ -105,7 +104,7 @@ ADD FIELD "request_queue" OF "api_requests" AS character
   POSITION 13
   MAX-WIDTH 3
   ORDER 110
-  
+
 ADD FIELD "reply_queue" OF "api_requests" AS character 
   DESCRIPTION "Queue for output response"
   FORMAT "X(20)"
@@ -113,7 +112,7 @@ ADD FIELD "reply_queue" OF "api_requests" AS character
   POSITION 14
   MAX-WIDTH 80
   ORDER 120
-  
+
 ADD FIELD "error_queue" OF "api_requests" AS character 
   DESCRIPTION "Queue for failed requests"
   FORMAT "X(20)"
@@ -122,57 +121,53 @@ ADD FIELD "error_queue" OF "api_requests" AS character
   MAX-WIDTH 10
   ORDER 130
 
-  
-  
-  
+
   
 ADD INDEX "id" ON "api_requests" 
-  AREA "Accounts Index"
+  AREA "System Index"
   UNIQUE
   PRIMARY
   INDEX-FIELD "id" ASCENDING 
 
-ADD INDEX "uid" ON "api_requests" 
-  AREA "Accounts Index"
-  INDEX-FIELD "uid" ASCENDING 
-  
 ADD INDEX "api_call" ON "api_requests" 
-  AREA "Accounts Index"
+  AREA "System Index"
   INDEX-FIELD "api_call" ASCENDING 
 
-
-ADD INDEX "request_queue" ON "api_requests" 
-  AREA "Accounts Index"
-  INDEX-FIELD "request_queue" ASCENDING 
-  INDEX-FIELD "state" ASCENDING 
-  
-ADD INDEX "reply_queue" ON "api_requests" 
-  AREA "Accounts Index"
-  INDEX-FIELD "reply_queue" ASCENDING 
-
 ADD INDEX "error_queue" ON "api_requests" 
-  AREA "Accounts Index"
+  AREA "System Index"
   INDEX-FIELD "error_queue" ASCENDING 
-  
 
 ADD INDEX "modify_date" ON "api_requests" 
-  AREA "Accounts Index"
+  AREA "System Index"
   INDEX-FIELD "modify_date" ASCENDING 
 
 ADD INDEX "modify_user" ON "api_requests" 
-  AREA "Accounts Index"
+  AREA "System Index"
   INDEX-FIELD "modify_user" ASCENDING 
 
-ADD INDEX "state" ON "api_requests" 
-  AREA "Accounts Index"
+ADD INDEX "reply_queue" ON "api_requests" 
+  AREA "System Index"
+  INDEX-FIELD "reply_queue" ASCENDING 
+
+ADD INDEX "request_queue" ON "api_requests" 
+  AREA "System Index"
+  INDEX-FIELD "request_queue" ASCENDING 
   INDEX-FIELD "state" ASCENDING 
 
+ADD INDEX "state" ON "api_requests" 
+  AREA "System Index"
+  INDEX-FIELD "state" ASCENDING 
+
+ADD INDEX "uid" ON "api_requests" 
+  AREA "System Index"
+  INDEX-FIELD "uid" ASCENDING 
+
 ADD INDEX "version" ON "api_requests" 
-  AREA "Accounts Index"
+  AREA "System Index"
   INDEX-FIELD "version" ASCENDING 
 
 .
 PSC
 cpstream=ISO8859-1
 .
-0000007150
+0000003834
