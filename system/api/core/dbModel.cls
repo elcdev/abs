@@ -1,7 +1,7 @@
 USING system.api.core.*.
 
 CLASS system.api.core.dbModel SERIALIZABLE IMPLEMENTS dbInterface:
-    {propertyGetSet.f &name="action"  &type="char" }
+    {propertyGetSet.f &name="action"  &type="character" }
     {propertyGetSet.f &name="id"      &type="int64" &serializable="serializable"}
     {propertyGetSet.f &name="version" &type="int64" &serializable="serializable"}
 
@@ -92,9 +92,9 @@ CLASS system.api.core.dbModel SERIALIZABLE IMPLEMENTS dbInterface:
         oProperties = THIS-OBJECT:GetClass():GetProperties() . 
          
         DO i = 1 TO EXTENT(oProperties):
-            IF oProperties[i]:DataTypeName <> "Progress.Lang.Object" THEN
-             DO ON ERROR UNDO, THROW:
-                CASE oProperties[i]:DataTypeName:
+            IF oProperties[i]:DataTypeName <> "Progress.Lang.Object" 
+            THEN DO ON ERROR UNDO, THROW:
+                CASE oProperties[i]:DataType:ToString():
                     WHEN "INTEGER"   THEN DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME) = 0.
                     WHEN "INT64"     THEN DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME) = 0.
                     WHEN "DECIMAL"   THEN DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME) = 0.
@@ -104,7 +104,7 @@ CLASS system.api.core.dbModel SERIALIZABLE IMPLEMENTS dbInterface:
                     WHEN "DATE"      THEN DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME) = ?.
                     WHEN "DATETIME"  THEN DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME) = ?.
                     OTHERWISE             DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME) = ?.
-                 END.
+                END.
                 CATCH eAnyError AS Progress.Lang.Error:
                     tString = STRING(DYNAMIC-PROPERTY(THIS-OBJECT, oProperties[i]:NAME)).
                     RETURN "ERROR-IN-EMPTY-MODEL: Field=" + oProperties[i]:NAME + "; " + eAnyError:GetMessage(1).
